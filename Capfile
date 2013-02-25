@@ -114,7 +114,11 @@ namespace :db do
       run_locally "mkdir -p db"
       run "source /home/krondaco/.bash_profile && cd #{deploy_to}/current/webroot && #{wp} db export #{temp} && cd -"
       download("#{temp}", "db/#{filename}", :via=> :scp)
-      search = "#{application}-#{stage}.kronda.com"
+      if "#{stage}" == "prod"
+        search = "karveldigital.com"
+      else
+        search = "#{application}-#{stage}.kronda.com"
+      end
       replace = local_domain
       puts "searching (#{search}) and replacing (#{replace}) domain information"
       run_locally "sed -e 's/#{search}/#{replace}/g' -i .bak db/#{filename}"
@@ -136,7 +140,11 @@ namespace :db do
       filename = "#{domain}_#{stage}.sql"
       temp = "/tmp/#{release_name}_#{application}_#{filename}"
       run "touch #{temp} && chmod 600 #{temp}"
-      replace = "#{application}-#{stage}.kronda.com"
+      if "#{stage}" == "prod"
+        replace = "karveldigital.com"
+      else
+        replace = "#{application}-#{stage}.kronda.com"
+      end
       search = local_domain
       puts "searching (#{search}) and replacing (#{replace}) domain information"
       run_locally "sed -e 's/#{search}/#{replace}/g' -i .bak db/#{filename}"

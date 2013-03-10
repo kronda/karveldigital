@@ -25,5 +25,17 @@ Add styles inside the media query below that you only want to be applied to the 
 }
 
 #header .site-title {
-
 }
+
+#header .site-title embed {
+  float: left;
+}
+
+#header .site-title a {
+  border: 1px solid red;
+  color: transparent;
+  background: transparent url(images/karvel_digital_name-01.svg) no-repeat top left;
+  background-size: 200px 45px;
+}
+
+  

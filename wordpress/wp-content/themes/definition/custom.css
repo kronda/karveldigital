@@ -23,19 +23,33 @@ Add styles inside the media query below that you only want to be applied to the 
 @media only screen and (min-width: 768px) {
 	/* Desktop styles go here */
 }
+#header {
+  padding-top: 2.5em;
+}
+
+#header #navigation,
+#header .search_main {
+  margin-top: 25px;
+}
 
 #header .site-title {
+  padding-top: 27px;
 }
 
 #header .site-title embed {
+  position: absolute;
+}
+#header embed {
+  position: absolute;
   float: left;
 }
 
 #header .site-title a {
-  border: 1px solid red;
+  padding: 15px 41px 0px 0;
   color: transparent;
-  background: transparent url(images/karvel_digital_name-01.svg) no-repeat top left;
-  background-size: 200px 45px;
+  text-shadow:none;
+  background: transparent url(images/kd_logo-01.svg) no-repeat top left;
+  background-size: 240px;
 }
 
   

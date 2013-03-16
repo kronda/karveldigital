@@ -38,7 +38,6 @@ woo_head();
 	    	<hgroup>
 				<span class="nav-toggle"><a href="#navigation"><span><?php _e( 'Navigation', 'woothemes' ); ?></span></a></span>
 				<h1 class="site-title">
-					<embed src="<?php bloginfo('template_directory');?>/images/karvel_digital_logo.svg" width="80" height="80" type="image/svg+xml" />
 					<a href="<?php echo esc_url( home_url( '/' ) ); ?>"><?php bloginfo( 'name' ); ?></a></h1>
 				<h2 class="site-description"><?php bloginfo( 'description' ); ?></h2>
 			</hgroup>

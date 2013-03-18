@@ -28,11 +28,6 @@ if ( ! defined( 'ABSPATH' ) ) exit;
 	<footer id="footer">
 	
 		<?php
-	
-if (is_user_logged_in()) {
-	echo ' Template being used is '. get_template_name() ;
-}
-
 
 		if ( ( woo_active_sidebar( 'footer-1' ) ||
 			   woo_active_sidebar( 'footer-2' ) ||

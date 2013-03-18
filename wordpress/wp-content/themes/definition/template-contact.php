@@ -154,7 +154,7 @@ jQuery(document).ready(function() {
 						    	
 						    		<?php if ( isset( $woo_options['woo_contact_twitter'] ) && $woo_options['woo_contact_twitter'] != '' ) { ?>
 						    		<section id="twitter">
-						    			<h3>Twitter</h3>
+						    			<h3>Connect</h3>
 						    			<ul id="twitter_update_list_123"><li></li></ul>
 						    			<?php echo woo_twitter_script(123, $woo_options['woo_contact_twitter'],1); ?>
 						    		</section>

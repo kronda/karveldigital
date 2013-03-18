@@ -13,7 +13,14 @@ from style.css to this file, and modify it to your liking. */
 GLOBAL STYLES
 ----------------
 Add styles beneath this line that you want to be applied across your entire site */
-
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  color: #2F2F2F;
+}
 #header {
   padding-top: 2.5em;
 }

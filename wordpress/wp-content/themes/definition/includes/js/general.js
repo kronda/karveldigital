@@ -37,5 +37,10 @@ jQuery(document).ready(function(){
 	jQuery('.nav-toggle a').click(function(e) {
         e.preventDefault();
     });
-  	
+
+  // My custom code below:
+  jQuery('body.home #main').removeClass('col-left').addClass('fullwidth');
+  jQuery('body.home .page-content header').addClass('visuallyhidden');
+  jQuery('.features').children().eq(1).addClass('site-maintenance').prepend('<i class="icon-wrench icon-3x"></i>');
+  jQuery('.features div.last').prepend('<i class="icon-group icon-3x"></i>');
 });

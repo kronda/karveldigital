@@ -1,5 +1,5 @@
 # Set the deployment directory on the target hosts.
-set :deploy_to, "/home/username/sites/#{application}.com"
+set :deploy_to, "/home/krondaco/sites/#{application}.com"
 
 # Use the correct branch on github. Uncomment this if you have set up seperate branches for each staging area
 set :branch, "prod"

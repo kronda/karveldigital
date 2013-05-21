@@ -15,6 +15,7 @@ if ( ! defined( 'ABSPATH' ) ) exit;
 <html <?php language_attributes(); ?>>
 <head>
 <meta charset="<?php bloginfo( 'charset' ); ?>" />
+<meta name="google-site-verification" content="1Rsk-s23GfeB--U0NdJAQhWLR3dWXrmX12HJo-guC6Q" />
 <title><?php woo_title( '' ); ?></title>
 <?php woo_meta(); ?>
 <link rel="pingback" href="<?php echo esc_url( get_bloginfo( 'pingback_url' ) ); ?>" />

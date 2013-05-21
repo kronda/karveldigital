@@ -85,8 +85,16 @@ class WPCF_Evaluate
              * Filter meta values (switch them with $_POST values)
              * Used by Views, Types do not need it.
              */
-            add_filter( 'get_post_metadata',
-                    'wpcf_cd_meta_ajax_validation_filter', 10, 4 );
+
+            if ( $o->context == 'relationship' ) {
+                add_filter( 'get_post_metadata',
+                        'wpcf_relationship_custom_statement_meta_ajax_validation_filter',
+                        10, 4 );
+            } else {
+                add_filter( 'get_post_metadata',
+                        'wpcf_cd_meta_ajax_validation_filter', 10, 4 );
+            }
+            do_action( 'types_custom_conditional_statement', $o );
 
             /*
              * 
@@ -161,8 +169,14 @@ class WPCF_Evaluate
              * 
              * Remove filter meta values
              */
-            remove_filter( 'get_post_metadata',
-                    'wpcf_cd_meta_ajax_validation_filter', 10, 4 );
+            if ( $o->context == 'relationship' ) {
+                remove_filter( 'get_post_metadata',
+                        'wpcf_relationship_custom_statement_meta_ajax_validation_filter',
+                        10, 4 );
+            } else {
+                remove_filter( 'get_post_metadata',
+                        'wpcf_cd_meta_ajax_validation_filter', 10, 4 );
+            }
         } else {
             /*
              * 
@@ -222,8 +236,13 @@ class WPCF_Evaluate
                  * BREAKPOINT
                  * This is where values for evaluation are set.
                  * Please do not allow other places - use hooks.
+                 * 
+                 * TODO Monitor this
+                 * 1.3 Change use of $c->_get_meta( 'POST' )
+                 * to $c->get_submitted_data()
                  */
-                $value = defined( 'DOING_AJAX' ) ? $c->_get_meta( 'POST' ) : $c->__meta;
+//                $value = defined( 'DOING_AJAX' ) ? $c->_get_meta( 'POST' ) : $c->__meta;
+                $value = defined( 'DOING_AJAX' ) ? $c->get_submitted_data() : $c->__meta;
 
                 /*
                  * 
@@ -257,11 +276,10 @@ class WPCF_Evaluate
              * Check OR/AND relation
              */
             if ( $count > 1 ) {
-                if ( !$passed_all && $field['data']['conditional_display']['relation'] == 'AND' ) {
-                    $passed = false;
-                }
-                if ( !$passed_one && $field['data']['conditional_display']['relation'] == 'OR' ) {
-                    $passed = false;
+                if ( $field['data']['conditional_display']['relation'] == 'AND' ) {
+                    $passed = $passed_all;
+                } else if ( $field['data']['conditional_display']['relation'] == 'OR' ) {
+                    $passed = $passed_one;
                 }
             }
         }

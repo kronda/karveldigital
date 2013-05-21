@@ -32,8 +32,7 @@ function wpcf_repetitive_add_another_button( $field, $post ) {
             . md5( $field['id'] )
             . '&amp;post_id=' . $post->ID
             . '" class="wpcf-repetitive-add button-primary">'
-            . sprintf( __( 'Add Another %s', 'wpcf' ),
-                    rtrim( $field['name'], 's' ) ) . '</a>';
+            . sprintf( __( 'Add Another %s', 'wpcf' ), $field['name'] ) . '</a>';
     return $button;
 }
 
@@ -89,7 +88,7 @@ function wpcf_repetitive_delete_button( $field, $post, $meta_id ) {
             . '&amp;field_id_md5='
             . md5( $field['id'] )
             . '" class="wpcf-repetitive-delete button-secondary">'
-            . sprintf( __( 'Delete %s', 'wpcf' ), rtrim( $field['name'], 's' ) ) . '</a>';
+            . sprintf( __( 'Delete %s', 'wpcf' ), $field['name'] ) . '</a>';
 
 
     // Cache it
@@ -123,7 +122,7 @@ function wpcf_repetitive_delete_new_button( $field, $post ) {
 function wpcf_repetitive_form( $field, $post ) {
     // Add repetitive control buttons if not copied by WPML
     if ( isset( $field['wpml_action'] ) && $field['wpml_action'] == 'copy' ) {
-        return '';
+        return '<div style="clear:both;"></div>';
     }
     $repetitive_form = '';
     $repetitive_form .= '<div class="wpcf-repetitive-buttons">';
@@ -135,11 +134,13 @@ function wpcf_repetitive_form( $field, $post ) {
 /**
  * Returns HTML formatted drag button.
  * 
- * @param type $cf
+ * @param type $field
  * @param type $post
- * @param type $show
  * @return string 
  */
-function wpcf_repetitive_drag_button() {
+function wpcf_repetitive_drag_button( $field, $post ) {
+    if ( isset( $field['wpml_action'] ) && $field['wpml_action'] == 'copy' ) {
+        return '';
+    }
     return '<div class="wpcf-repetitive-drag">&nbsp;</div>';
 }

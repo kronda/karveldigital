@@ -5,11 +5,11 @@
   Description: Define custom post types, custom taxonomy and custom fields.
   Author: ICanLocalize
   Author URI: http://wp-types.com
-  Version: 1.2
+  Version: 1.3
  */
 // Added check because of activation hook and theme embedded code
 if ( !defined( 'WPCF_VERSION' ) ) {
-    define( 'WPCF_VERSION', '1.2' );
+    define( 'WPCF_VERSION', '1.3' );
 }
 
 define( 'WPCF_REPOSITORY', 'http://api.wp-types.com/' );
@@ -22,17 +22,22 @@ define( 'WPCF_RES_ABSPATH', WPCF_ABSPATH . '/resources' );
 define( 'WPCF_RES_RELPATH', WPCF_RELPATH . '/resources' );
 
 require_once WPCF_INC_ABSPATH . '/constants.php';
+/*
+ * Since Types 1.2 we load all embedded code without conflicts
+ */
+require_once WPCF_ABSPATH . '/embedded/types.php';
 
 if ( !defined( 'EDITOR_ADDON_RELPATH' ) ) {
     define( 'EDITOR_ADDON_RELPATH',
             WPCF_RELPATH . '/embedded/common/visual-editor' );
 }
 
-
+// Plugin mode only hooks
 add_action( 'plugins_loaded', 'wpcf_init' );
+
 // init hook for module manager
 add_action( 'init', 'wpcf_wp_init' );
-add_action( 'after_setup_theme', 'wpcf_init_embedded_code', 999 );
+
 register_activation_hook( __FILE__, 'wpcf_upgrade_init' );
 register_deactivation_hook( __FILE__, 'wpcf_deactivation_hook' );
 
@@ -78,21 +83,24 @@ function wpcf_wp_init() {
  * 
  * @todo Revise this!
  */
-function wpcf_init_embedded_code() {
-    if ( !defined( 'WPCF_EMBEDDED_ABSPATH' ) ) {
-        require_once WPCF_ABSPATH . '/embedded/types.php';
-    } else {
-        require_once WPCF_EMBEDDED_ABSPATH . '/types.php';
-    }
-
-    // TODO Better bootstrapping is ready to be added
-    // Make this check for now.
-    if ( did_action( 'init' ) > 0 ) {
-        wpcf_embedded_init();
-    } else {
-        add_action( 'init', 'wpcf_embedded_init' );
-    }
-}
+/*
+ * TODO 1.2.1 remove
+ */
+//function wpcf_init_embedded_code() {
+//    if ( !defined( 'WPCF_EMBEDDED_ABSPATH' ) ) {
+//        require_once WPCF_ABSPATH . '/embedded/types.php';
+//    } else {
+//        require_once WPCF_EMBEDDED_ABSPATH . '/types.php';
+//    }
+//
+//    // TODO Better bootstrapping is ready to be added
+//    // Make this check for now.
+//    if ( did_action( 'init' ) > 0 ) {
+//        wpcf_embedded_init();
+//    } else {
+//        add_action( 'init', 'wpcf_embedded_init' );
+//    }
+//}
 
 /**
  * Upgrade hook.
@@ -101,19 +109,6 @@ function wpcf_upgrade_init() {
     require_once WPCF_ABSPATH . '/upgrade.php';
     wpcf_upgrade();
     wpcf_types_plugin_activate();
-}
-
-// Local debug
-if ( ($_SERVER['SERVER_NAME'] == '192.168.1.2' || $_SERVER['SERVER_NAME'] == 'localhost') && !function_exists( 'debug' ) ) {
-
-    function debug( $data, $die = true ) {
-        echo '<pre>';
-        print_r( $data );
-        echo '</pre>';
-        if ( $die )
-            die();
-    }
-
 }
 
 function wpcf_types_plugin_activate() {
@@ -245,6 +240,7 @@ function wpcf_reserved_names() {
         'withcomments',
         'withoutcomments',
         'year',
+		'lang'
     );
 
     return apply_filters( 'wpcf_reserved_names', $reserved );

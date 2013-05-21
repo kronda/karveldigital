@@ -27,6 +27,8 @@ function add_custom_js() {
          '1.4');
     
     // enqueue the scripts
-    wp_enqueue_script('karvel');
+    wp_enqueue_script('karvel', $in_footer='TRUE');
   }
 } 
+
+add_action('init', 'add_custom_js');

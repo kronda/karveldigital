@@ -1,5 +1,28 @@
 *** Definition Changelog ***
 
+2013.04.25 - version 1.3.8 
+ * css/woocommerce.css - Removed bullets from "Order Details" page.
+ * includes/theme-functions.php - Fixed product search form in the header.
+ * includes/theme-options.php - Added separated option for the Post Title Link in the "Typography" options.
+ * includes/theme-actions.php - Added separated option for the Post Title Link in the "Typography" options.
+ * includes/js/featured-slider.js - Removed console.log as the slider was not loading in IE8.
+
+2013.03.25 - version 1.3.7
+ * /includes/theme-js.php - Fixed boolean options for slider settings
+ * /includes/js/featured-slider.js - Fixed boolean options for slider settings
+
+2013.03.11 - version 1.3.6
+ * /css/woocommerce.css - Fixed product review rating styling.
+ * /includes/theme-options.php - Add layout option for homepage blog posts / page content section.
+ * /includes/blog-posts.php - Add layout option for homepage blog posts / page content section.
+ * /includes/specific-page-content.php - Add layout option for homepage blog posts / page content section.
+
+2013.02.25 - version 1.3.5
+ * includes/theme-woocommerce.php - WooCommerce 2.0 pagination preparation
+
+2013.02.19 - version 1.3.4
+ * /css/layout.css - Full width slider desktop layout tweak
+
 2013.02.11 - version 1.3.3
  * style.css - Fixed nav toggle icon not displaying on Android devices.  (Use @font-face icon instead of ASCII char)
  			 - Adjusted slider arrow on mobile resolutions.

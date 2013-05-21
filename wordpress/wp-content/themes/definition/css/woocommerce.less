@@ -606,6 +606,7 @@ a.reset_variations {
 	margin-left: 0!important;
 	.border_radius(.327em);
 	li {
+		list-style: none;
 		float: left;
 		padding:1em 1.618em;
 		border-right:1px solid @border_main;
@@ -618,6 +619,14 @@ a.reset_variations {
 			text-transform: none;
 			color: darken(@color_body, 10%);
 			font-weight: normal;
+		}
+	}
+}
+.entry {
+	ul.order_details {
+		margin-left: 0 !important;
+		li {
+			list-style: none;
 		}
 	}
 }
@@ -730,8 +739,8 @@ table.cart {
 		.star-rating  {
 			margin: 0;
 			position: absolute;
-			top: 30px;
-			right: 20px;
+			top: 0;
+			right: 0;
 		}
 	}
 	.add_review  {

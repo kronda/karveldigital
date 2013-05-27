@@ -23,3 +23,9 @@ Version 0.1.0
   clip: rect(1px 1px 1px 1px); /* IE6, IE7 */
   clip: rect(1px, 1px, 1px, 1px); 
 }
+.home .features .icon-wrench {
+  margin-right: 17px;
+}
+.home .features .icon-group {
+  margin-right: 12px;
+}

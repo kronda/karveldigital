@@ -13,3 +13,13 @@ Version 0.1.0
 /* @import url("../definition/style.css"); */
 
 /* Your customizations go here */
+
+.feature .icon-2x {
+  font-size: 2.6em;
+}
+
+.visuallyhidden {
+  position: absolute !important;    
+  clip: rect(1px 1px 1px 1px); /* IE6, IE7 */
+  clip: rect(1px, 1px, 1px, 1px); 
+}

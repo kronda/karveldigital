@@ -3,8 +3,8 @@ Contributors: nico23
 Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=UNDSCARF3ZPBC
 Tags: responsive, embeds, embed, flash, iframe, minimal, lightweight, simple, simplicity, shortcodes, videos, youtube, blip, bliptv, dailymotion, videojug, collegehumor, veoh, break, movieweb, snotr, gametrailers, vimeo, viddler, funnyordie, myspace, liveleak, metacafe, googlevideo, myvideo, yahoo, spike,
 Requires at least: 3.3.1
-Tested up to: 3.6
-Stable tag: 2.6.1
+Tested up to: 3.8
+Stable tag: 3.1.0
 License: GPLv3 or later
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 
@@ -12,7 +12,7 @@ Embed videos with a click of a button from many providers with full responsive s
 
 == Description ==
 
-Simple lightweight plugin lets you embed videos from many providers with full responsive sizes with a click of a single button for all providers. Show videos as thumbnails and let them open in colorbox. Clean and easy shortcode syntax.
+Simple lightweight plugin lets you embed videos from many providers with full responsive sizes via URL or Shortcode. Show videos as thumbnails and let them open in Colorbox. Clean and easy shortcode syntax.
 
 [More info and demo](http://nextgenthemes.com/plugins/advanced-responsive-video-embedder/)
 
@@ -23,8 +23,10 @@ Simple lightweight plugin lets you embed videos from many providers with full re
 * CollegeHumor
 * Dailymotion (inc. playlists)
 * FunnyOrDie
-* Iframes (in general, every provider that supports iframe embed codes)
 * Gametrailers
+* Iframes (in general, every provider that supports iframe embed codes)
+* IGN
+* Kickstarter
 * Liveleak
 * Metacafe
 * Movieweb
@@ -34,6 +36,7 @@ Simple lightweight plugin lets you embed videos from many providers with full re
 * Spike
 * Ustream
 * Veoh
+* Vevo
 * Viddler
 * Videojug
 * Vimeo (starttime supported)
@@ -49,28 +52,87 @@ Simple lightweight plugin lets you embed videos from many providers with full re
 
 = Can you add a video provider? =
 
-Depends, but most likely yes.
+I have no plans on implementing providers that include videos via JavaScript such as http://www.nicovideo.jp. I also will not implement videos from mainstream media news organizations. For others, feel free to ask.
 
 == Screenshots ==
 
--
+1. In action
+2. Options page
 
 == Changelog ==
 
+= 3.1.0 (beta) =
+* New: Development versions now available via [Github Plugin Updater](https://github.com/afragen/github-updater) please install this to test cutting edge versions
+* New: Introducing 'Align Maximal Width' option
+* Fix: Invisible normal mode embeds with align
+* Fix: Yahoo detection
+* Fix: Kickstarter detection
+* Fix: Dailymoition Playlist
+* Fix: Colleghumor
+* Improved: Screenshots updated
+* Improved: Beginning process of provider based aspect ratios.
+* Improved: Daylimotion playlists/jukeboxes now show Native thumbnails 
+* Improved: Iframe embed code detection with with single quoted `src=''`
+
+= 3.0.4 (beta) =
+* Javascript Fix
+
+= 3.0.0 (beta) =
+* New: Support for embedding via simply pasting of URLs into posts (need to be on their own line, no button or shortcodes needed)
+* New: Thumbnails are now responsive
+* New: Vevo support
+* New: TED Talks support
+* New: IGN support
+* New: Kickstarter support
+* Improved: request large thumbnail from vimeo instead of medium
+* Improved: 'youtubelist' shortcode deprecated YouTube playlists are now handled via the normal youtube shortcode with support for starting video
+* Improved: 'bliptv' shortcode deprecated on favor of 'blip' that uses the ids from blip.tv URLs instead of the ones from embed codes
+* Improved: Moved code to newest Plugin Boilerplate
+* Improved: Massive code improvements
+
+= 2.7.4 =
+* Fix: Dropped mb_detect_encoding now using just preg_match to support rare php setups.
+
+= 2.7.3 =
+* New: Added French Translation from Karel - neo7.fr
+
+= 2.7.2 =
+* Fix: Permissions for the button, now authors who 
+
+= 2.7.0 =
+* Fix: Admin page capabilities
+* Improved: Reintroduced the manual provider and ID input to be used then not detected correctly.
+
+= 2.6.4 =
+* Fix: Black bar issue. (Dropped IE6 hacks/workarounds)
+
+= 2.6.3 =
+* Fix: Normal embeds not sizing correctly
+* New: Added scrolling="no" to Iframes
+* Improved: Init shortcodes at a late stage to dominate conflicts
+* Improved: Improved Iframe parameter handling
+* Improved: Metacafe, Myspace, Videojug are now handled via Iframe
+
+= 2.6.2 =
+* Fix: Objects open correctly in Colorbox
+* Fix: Iframe autoplay parameters startign with '&'
+* New: Added screenshot for options page
+* Improved: Youtube Videos with now me embedded with the same protocol your website is on, meaning if your website is https youtube embeds will be in https as well.
+
 = 2.6.1 =
-* Fix Colorbox args script not having colorbox in depenency array
-* Fix maxwidth shortcode generotor field now has default value=""
-* Fix blip.tv embed code detection
+* Fix: Colorbox args script not having colorbox in depenency array
+* Fix: Maxwidth shortcode generotor field now has default value=""
+* Fix: Blip embed code detection
 
 = 2.6.0 =
-* Move to a class structure with help of the great https://github.com/tommcfarlin/WordPress-Plugin-Boilerplate
-* Some smaller Improvements
-* Shortcode Dialog now has Autoplay option
-* Guessing of autoplay parameters for the Iframe shortcodes.
+* Improved: Move to a class structure with help of the great https://github.com/tommcfarlin/WordPress-Plugin-Boilerplate
+* Improved: Some smaller Improvements
+* New: Shortcode Dialog now has Autoplay option
+* New: Guessing of autoplay parameters for the Iframe shortcodes.
 * Hopefully fixed issues with other plugins and some themes, Javascript was messed up and is fine now.
 
 = 2.5 =
-* fix objects in Colorboxes, now always have width and height 100%
+* Fix: Objects in Colorboxes, now always have width and height 100%
 * new shortcode attribute 'autoplay' for single videos
 * support for start at given time for vimeo
 

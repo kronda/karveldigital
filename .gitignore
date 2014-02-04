@@ -5,6 +5,7 @@ wordpress/wp-content/w3tc
 wordpress/wp-content/avatars
 wordpress/wp-content/cache
 wordpress/local-config.php
+debug_log.txt
 .buildpath
 .project
 .settings

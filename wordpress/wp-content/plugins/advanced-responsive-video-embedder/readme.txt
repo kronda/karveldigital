@@ -1,54 +1,89 @@
 === Advanced Responsive Video Embedder ===
 Contributors: nico23
 Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=UNDSCARF3ZPBC
-Tags: responsive, embeds, embed, flash, iframe, minimal, lightweight, simple, simplicity, shortcodes, videos, youtube, blip, bliptv, dailymotion, videojug, collegehumor, veoh, break, movieweb, snotr, gametrailers, vimeo, viddler, funnyordie, myspace, liveleak, metacafe, googlevideo, myvideo, yahoo, spike,
+Tags: video, responsive, embed, video-embedder, iframe, minimal, lightweight, simplicity, shortcodes, Youtube, Blip, Dailymotion, Videojug, Collegehumor, Veoh, Break, Movieweb, Snotr, Gametrailers, Vimeo, Viddler, Funnyordie, Myspace, Liveleak, Metacafe, Myvideo, Yahoo Screen, Spike
 Requires at least: 3.3.1
 Tested up to: 3.8
-Stable tag: 3.5.0
-License: GPLv3 or later
+Stable tag: 4.0.0
+License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 
-Embed videos with a click of a button from many providers with full responsive sizes. Show videos as thumbnails and let them open in colorbox.
+Easy responsive video embeds via URL (like WordPress) or Shortcode. Optionally show them as thumbnails and open in Colorbox. Customize as you wish.
 
 == Description ==
 
 Simple lightweight plugin lets you embed videos from many providers with full responsive sizes via URL or Shortcode. Show videos as thumbnails and let them open in Colorbox. Clean and easy shortcode syntax.
 
-[More info and demo](http://nextgenthemes.com/plugins/advanced-responsive-video-embedder/)
+The Plugin has a set of customization options to embed the video exactly as you like, this includes custom URL parameters. Defaults to make the videos as unobtrusive as possible and keep your visitors on your site are already included.
+
+[Features](http://nextgenthemes.com/plugins/advanced-responsive-video-embedder/)
+
+[Quick introduction with demonstration](http://nextgenthemes.com/plugins/advanced-responsive-video-embedder/quick-introduction-and-demo)
+
+[Documentation](http://nextgenthemes.com/plugins/advanced-responsive-video-embedder/documentation) (For advanced usage)
+
+[How to report a problem](http://nextgenthemes.com/plugins/advanced-responsive-video-embedder/reporting-issues-for-advanced-responsive-video-embedder/)
 
 = Supported video sites: =
 
-* Blip
-* Break
-* CollegeHumor
-* Dailymotion (inc. playlists)
-* FunnyOrDie
-* Gametrailers
-* Iframes (in general, every provider that supports iframe embed codes)
-* IGN
-* Kickstarter
-* Liveleak
-* Metacafe
-* Movieweb
-* Myspace
-* Myvideo
-* Snotr
-* Spike
-* Ustream
-* Veoh
-* Vevo
-* Viddler
-* Videojug
-* Vimeo (starttime supported)
-* Yahoo!
-* YouTube (inc. playlists + starttime support)
-* More in future versions
+ * archive.org
+ * blip
+ * break
+ * CollegeHumor
+ * Comedy Central
+ * dailymotion
+ * flickr
+ * Funny or Die
+ * gametrailers
+ * iframe
+ * IGN
+ * kickstarter
+ * LiveLeak
+ * metacafe
+ * movieweb
+ * MPORA
+ * myspace
+ * MyVideo
+ * snotr
+ * spike
+ * TED Talks
+ * twitch
+ * USTREAM
+ * veoh
+ * vevo
+ * viddler
+ * videojug
+ * vimeo
+ * XTube
+ * Yahoo Screen
+ * YouTube
+
+= Roadmap  =
+
+Pull requests on Github to help me out with this would be great
+
+ * Check compatibility with Wordpress 3.9
+ * Move shortcode creator button out of the TinyMCE rich text editor button bar and put it after the add media icon to make it available to the code editor as well.
+ * Make objects lazyload (currently effects twitch only)
+ * The Jetpack 'Shortcode Embeds' module provides some useful shortcodes not related to video but currently breaks if activated. Figure out if its possible to make them work together.
+
+= Known limitations =
+
+ * At least some parts of the Plugin (youtube embeds via URL and maybe more) are broken if the 'Shortcode Embeds' Jetpack module is activated. Please deactivate this module if you want to use ARVE for now.
 
 == Installation ==
 
-[More info and demo](http://nextgenthemes.com/plugins/advanced-responsive-video-embedder/)
+The usual way.
 
 == Frequently Asked Questions ==
+
+= I have a problem ... =
+
+Please read: [Reporting Issues for Advanced Responsive Video Embedder](http://nextgenthemes.com/plugins/advanced-responsive-video-embedder/reporting-issues-for-advanced-responsive-video-embedder/)
+
+= Why are my videos not filling their container? =
+
+You are most likely use `align`, this plugin has a option for limiting video with with alignment. If you want your videos to fill their containers then you should not use the `align=left/right/center` shortcode attribute or the `arve-align=` URL parameter. This assumes that you left the 'Video Maximal Width' field on the options page empty (default + recommended)
 
 = Why are videos opening full window (provider URL) when I click on them? =
 
@@ -58,12 +93,70 @@ You most likely do not have the 'jQuery Colorbox' Plugin installed or JavaScript
 
 I have no plans on implementing providers that include videos via JavaScript such as www.nicovideo.jp. I also will not implement videos from mainstream media news organizations. For others, feel free to ask.
 
+= Why does my Youtube video not repeat/loop? =
+
+This plugins embed is considered as 'custom player' by YouTube so you have to pass the video ID as playlist parameters to make the loop work.
+
+`[youtube id="123456" parameters="loop=1 playlist=123456"]`
+
+= You dare to show this pure evil satanic blood drinking message on the admin. ( Fill in some lies here ). You suck and your entire plugins sucks because of this. You bastard stole 5 seconds of my life that I will never get back, FU! I am gonna delete this plugin now! =
+
+OK thanks, please do so silently.
+
 == Screenshots ==
 
 1. In action
 2. Options page
 
 == Changelog ==
+
+= 4.0.0 =
+* New: Trigger-able debug output.
+* Improved: The `[arve_tests]` shortcode now includes alignment and maxwidth tests
+* Fix: Thumbnail image now displayed when using lazyload with `maxwidth` parameter
+
+= 3.9.9 =
+* Improved: Allowing `maxwidth` parameter in `lazyload` mode
+
+= 3.9.8 =
+* Fix: Thumbnail not opening Colorbox
+
+= 3.9.7 ALPHA! =
+
+* **Do not upgrade just yet if you are not ready to downgrade manually if something fails! But please test if you can.**
+* New: I am proud to introduce the new 'lazyload' mode. ARVEs new default mode. Load Images only and load the Video only on click. Like Google+ without the title.
+* New: Added MPORA support
+* New: Added (real) thumbnail support for Collegehumor, Twitch, FunnyOrDie, MPORA
+* New: `[arve_tests]` shortcode that is used to test the plugin and provide examples.
+* New: `[arve_supported]` shortcode probably of no use for users. It will generate the a list of providers with supported features.
+* Improved: Enabled fake thumbnails for Comedycentral, Gametrailers and Spike
+* Improved: Remote API calls and handling their errors.
+* Improved: Get high resolution thumbnails from YouTube if available.
+* Improved: The evil admin message is now only shown once to users who can delete plugins (Admins and the like) and if the plugin was activated a week ago or longer.
+* Improved: Lots of smaller code improvements.
+
+= 3.6.1 =
+
+* Fix: Register link in changelog.
+
+= 3.6.0 =
+* New: Thanks to [Ilya Grishkov](http://ilyagrishkov.com) thumbnail URLs for Vimeo, Blip and Dailymotion Playlists are now cached (by default 24hours) this drastically reduces page loading times for thumbnail embeds from these providers because it bypasses calling their APIs for that period.
+* Fix: Thumbnails for YouTube playlists.
+* Fix: Shortcode creator ID detection for iframes (src URL)
+* Fix: Updated Dailymoton docs link on Options page
+* Improved: Error messages are now all ready to be translated. Current Translation status: German 50%, French 50%, Spanish 84%. Register at [nextgenthemes.com](http://nextgenthemes.com/wp-login.php?action=register) and then login to [translate.nextgenthemes.com](http://translate.nextgenthemes.com) to help translate.
+
+= 3.5.2 =
+* New: Twitch.tv support
+* New: Spanish Translation from Andrew Kurtis webhostinghub.com
+* Improved: Support for `http://new.ted.com/...` URLs
+* Improved: Some code improvements, among them IDs of hidden objects are now generated with a simple `static` counter instead of some random generated string.
+
+= 3.5.1 =
+* Fix: Bug causing the Shortcode Creator not detecting shortcode tags when customized
+* Improved how embeds `<object>` embed codes are generated.
+* Updated FAQ
+* New: Xtube support (On request)
 
 = 3.5.0 =
 * New: Custom parameters!
@@ -208,7 +301,7 @@ I have no plans on implementing providers that include videos via JavaScript suc
 
 = 1.4.2 =
 * Options dialog overhaul
-* replaced fancybox with colorbox
+* replaced Fancybox with Colorbox
 
 = 1.0 =
 * Removed Services that went down over the years

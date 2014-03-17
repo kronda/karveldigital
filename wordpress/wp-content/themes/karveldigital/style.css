@@ -29,3 +29,8 @@ Version 0.1.0
 .home .features .icon-group {
   margin-right: 12px;
 }
+.single-feature .post-meta,
+.single-feature #post-author,
+.single-feature #connect {
+  display: none;
+}

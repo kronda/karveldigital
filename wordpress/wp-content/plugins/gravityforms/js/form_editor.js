@@ -1769,7 +1769,7 @@ function InsertBulkChoices(choices){
     }
 
     LoadFieldChoices(field);
-    UpdateFieldChoices( GetInputType( field ) );
+    UpdateFieldChoices(field.type);
 }
 
 function InitBulkCustomPanel(){

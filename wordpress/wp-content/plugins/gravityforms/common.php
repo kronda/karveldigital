@@ -25,11 +25,6 @@ class GFCommon{
 
     public static function is_numeric($value, $number_format=""){
 
-        if($number_format == "currency"){
-
-            $number_format = self::is_currency_decimal_dot() ? "decimal_dot" : "decimal_comma";
-        }
-
         switch($number_format){
             case "decimal_dot" :
                 return preg_match("/^(-?[0-9]{1,3}(?:,?[0-9]{3})*(?:\.[0-9]+)?)$/", $value);
@@ -43,19 +38,6 @@ class GFCommon{
                 return preg_match("/^(-?[0-9]{1,3}(?:,?[0-9]{3})*(?:\.[0-9]{2})?)$/", $value) || preg_match("/^(-?[0-9]{1,3}(?:\.?[0-9]{3})*(?:,[0-9]{2})?)$/", $value);
 
         }
-    }
-
-    public static function is_currency_decimal_dot($currency = null){
-
-        if($currency == null){
-            $code = GFCommon::get_currency();
-            if(empty($code))
-                $code = "USD";
-
-            $currency = RGCurrency::get_currency($code);
-        }
-
-        return rgar($currency, "decimal_separator") == ".";
     }
 
     public static function trim_all($text){
@@ -663,12 +645,6 @@ class GFCommon{
 
                 switch(RGFormsModel::get_input_type($field)){
 
-                    case "number" :
-
-                        $value = GFCommon::format_number($value, rgar($field, "numberFormat"));
-
-                    break;
-
                     case "fileupload" :
                         if(rgar($field, "multipleFiles")){
                             $files = empty($value) ? array() : json_decode($value, true);
@@ -686,8 +662,8 @@ class GFCommon{
                     break;
 
                     case "post_image" :
-                        list( $url, $title, $caption, $description ) = array_pad( explode( '|:|', $value ), 4, false );
-                        $value = str_replace( ' ', '%20', $url );
+                        list($url, $title, $caption, $description) = explode("|:|", $value);
+                        $value = str_replace(" ", "%20", $url);
                     break;
 
                     case "checkbox" :
@@ -1142,7 +1118,7 @@ class GFCommon{
 
             default :
                 if(!empty($products["products"])){
-                    $field_data ='<table><tr bgcolor="#EAF2FA">
+                    $field_data ='<tr bgcolor="#EAF2FA">
                             <td colspan="2">
                                 <font style="font-family: sans-serif; font-size:12px;"><strong>' . $order_label . '</strong></font>
                             </td>
@@ -1213,7 +1189,7 @@ class GFCommon{
                                 </tfoot>
                                </table>
                             </td>
-                        </tr></table>';
+                        </tr>';
                 }
             break;
         }
@@ -1561,13 +1537,7 @@ class GFCommon{
             GFCommon::log_debug("Sending email via wp_mail()");
             GFCommon::log_debug(print_r(compact("to", "subject", "message", "headers", "attachments", "abort_email"), true));
             $is_success = wp_mail($to, $subject, $message, $headers, $attachments);
-            GFCommon::log_debug( "Result from wp_mail(): {$is_success}" );
-            if( $is_success ) {
-                GFCommon::log_debug( 'Mail was passed from WordPress to the mail server.' );
-            } else {
-                GFCommon::log_debug( 'The mail message was passed off to WordPress for processing, but WordPress was unable to send the message.' );
-            }
-
+            GFCommon::log_debug("Result from wp_mail(): {$is_success}");
         }
 
         self::add_emails_sent();
@@ -1788,10 +1758,6 @@ class GFCommon{
 
     public static function get_remote_post_params(){
         global $wpdb;
-
-        if(!function_exists('get_plugins')){
-            require_once(ABSPATH . 'wp-admin/includes/plugin.php');
-        }
         $plugin_list = get_plugins();
 		$site_url = get_bloginfo("url");
 		$plugins = array();
@@ -2149,7 +2115,6 @@ class GFCommon{
 
                     $onfocus = !IS_ADMIN ? 'jQuery(this).prev("input").attr("checked", true); if(jQuery(this).val() == "' . $other_default_value . '") { jQuery(this).val(""); }' : '';
                     $onblur = !IS_ADMIN ? 'if(jQuery(this).val().replace(" ", "") == "") { jQuery(this).val("' . $other_default_value . '"); }' : '';
-                    $onkeyup = self::get_logic_event($field, "keyup");
 
                     $input_focus = !IS_ADMIN ? "onfocus=\"jQuery(this).next('input').focus();\"" : "";
                     $value_exists = RGFormsModel::choices_value_match($field, $field["choices"], $value);
@@ -2163,7 +2128,7 @@ class GFCommon{
                     } else {
                         $other_value = $other_default_value;
                     }
-                    $label = "<input id='input_{$field["formId"]}_{$field["id"]}_other' name='input_{$field["id"]}_other' type='text' value='" . esc_attr($other_value) . "' onfocus='$onfocus' onblur='$onblur' $tabindex $onkeyup $disabled_text />";
+                    $label = "<input name='input_{$field["id"]}_other' type='text' value='" . esc_attr($other_value) . "' onfocus='$onfocus' onblur='$onblur' $tabindex $disabled_text />";
                 }
 
                 $choices .= sprintf("<li class='gchoice_$id'><input name='input_%d' type='radio' value='%s' %s id='choice_%s' $tabindex %s $logic_event %s />%s</li>", $field["id"], esc_attr($field_value), $checked, $id, $disabled_text, $input_focus, $label);
@@ -2823,9 +2788,8 @@ class GFCommon{
             return "<div class='ginput_container'>" . __("Donations are not editable", "gravityforms") . "</div>";
 
         // add categories as choices for Post Category field
-        if($field['type'] == 'post_category'){
+        if($field['type'] == 'post_category')
             $field = self::add_categories_as_choices($field, $value);
-		}
 
         $max_length = "";
         $html5_attributes = "";
@@ -3022,12 +2986,8 @@ class GFCommon{
                     }
 
                 }
-                else if( RG_CURRENT_VIEW == "entry" ){
-                    $value = GFCommon::format_number($value, rgar($field, "numberFormat"));
-                }
-
                 $is_html5 = RGFormsModel::is_html5_enabled();
-                $html_input_type = $is_html5 && !GFCommon::has_field_calculation($field) && ($field["numberFormat"] != "currency" && $field["numberFormat"] != "decimal_comma" ) ? "number" : "text"; // chrome does not allow number fields to have commas, calculations and currency values display numbers with commas
+                $html_input_type = $is_html5 && !GFCommon::has_field_calculation($field) && !$field["numberFormat"] == "currency" ? "number" : "text"; // chrome does not allow number fields to have commas, calculations and currency values display numbers with commas
                 $step_attr = $is_html5 ? "step='any'" : "";
 
                 $logic_event = self::get_logic_event($field, "keyup");
@@ -3559,11 +3519,8 @@ class GFCommon{
                     $preview .= sprintf("<div id='preview_existing_files_%d'>", $id);
 
                     foreach($file_urls as $file_index => $file_url){
-                        if(self::is_ssl() && strpos($file_url, "http:") !== false ){
-                            $file_url = str_replace("http:", "https:", $file_url);
-                        }
                         $file_url = esc_attr($file_url);
-                        $preview .= sprintf("<div id='preview_file_%d' class='ginput_preview'><a href='%s' target='_blank' alt='%s' title='%s'>%s</a><a href='%s' target='_blank' alt='" . __("Download file", "gravityforms") . "' title='" . __("Download file", "gravityforms") . "'><img src='%s' style='margin-left:10px;'/></a><a href='javascript:void(0);' alt='" . __("Delete file", "gravityforms") . "' title='" . __("Delete file", "gravityforms") . "' onclick='DeleteFile(%d,%d,this);' ><img src='%s' style='margin-left:10px;'/></a></div>", $file_index, $file_url, $file_url, $file_url, GFCommon::truncate_url($file_url), $file_url, GFCommon::get_base_url() . "/images/download.png", $lead_id, $id, GFCommon::get_base_url() . "/images/delete.png");
+                        $preview .= sprintf("<div id='preview_file_%d' class='ginput_preview'><a href='%s' target='_blank' alt='%s' title='%s'>%s</a><a href='%s' target='_blank' alt='" . __("Download file", "gravityforms") . "' title='" . __("Download file", "gravityforms") . "'><img src='%s' style='margin-left:10px;'/></a><a href='javascript:void(0);' alt='" . __("Delete file", "gravityforms") . "' title='" . __("Delete file", "gravityforms") . "' onclick='DeleteFile(%d,%d,this);' ><img src='%s' style='margin-left:10px;'/></a></div>", $file_index, $file_url, $file_url, $file_url, GFCommon::truncate_url($file_url), $file_url, GFCommon::get_base_url() . "/images/download.png", $lead_id, $id, GFCommon::get_base_url() . "/images/icon-delete.png");
                     }
 
                     $preview .="</div>";
@@ -3743,9 +3700,9 @@ class GFCommon{
 
                //security code field
                 $tabindex = self::get_tabindex();
-                $html5_output = GFFormsModel::is_html5_enabled() ? "pattern='[0-9]*' title='" . __("Only digits are allowed", "gravityforms") .  "'" : "";
+                $html_input_type = GFFormsModel::is_html5_enabled() ? "number" : "text";
                 $security_field =        "<span class='ginput_cardinfo_right{$class_suffix}' id='{$field_id}_2_cardinfo_right'>".
-                                            "<input type='text' name='input_{$id}.3' id='{$field_id}_3' {$tabindex} {$disabled_text} class='ginput_card_security_code' value='{$security_code}' {$autocomplete} {$html5_output} />".
+                                            "<input type='{$html_input_type}' name='input_{$id}.3' id='{$field_id}_3' {$tabindex} {$disabled_text} class='ginput_card_security_code' value='{$security_code}' {$autocomplete} />".
                 				            "<span class='ginput_card_security_code_icon'>&nbsp;</span>".
                                             "<label for='{$field_id}_3' >" . apply_filters("gform_card_security_code_{$form_id}", apply_filters("gform_card_security_code",__("Security Code", "gravityforms"), $form_id), $form_id) . "</label>".
                                          "</span>".
@@ -4380,21 +4337,18 @@ class GFCommon{
                 return $value;
 
             case "fileupload" :
-                $output = "";
+                $output =  $format == "text" ? "" : "<ul>";
                 if(!empty($value)){
                     $output_arr = array();
                     $file_paths = rgar($field,"multipleFiles") ? json_decode($value) : array($value);
                     foreach($file_paths as $file_path){
                         $info = pathinfo($file_path);
-                        if(self::is_ssl() && strpos($file_path, "http:") !== false ){
-                            $file_path = str_replace("http:", "https:", $file_path);
-                        }
                         $file_path = esc_attr(str_replace(" ", "%20", $file_path));
                         $output_arr[] = $format == "text" ? $file_path . PHP_EOL: "<li><a href='$file_path' target='_blank' title='" . __("Click to view", "gravityforms") . "'>" . $info["basename"] . "</a></li>";
                     }
                     $output = join(PHP_EOL, $output_arr);
                   }
-                $output = empty($output) || $format == "text" ? $output : sprintf("<ul>%s</ul>", $output);
+                $output .=  $format == "text" ? "" : "</ul>";
                 return $output;
             break;
 
@@ -5090,11 +5044,6 @@ class GFCommon{
 
         $field['choices'] = $choices;
 
-        $form_id = IS_ADMIN ? rgget("id") : rgar($field,"formId");
-
-        $field['choices'] = apply_filters("gform_post_category_choices", $field["choices"], $field, $form_id);
-        $field['choices'] = apply_filters("gform_post_category_choices_{$form_id}_{$field["id"]}", $field["choices"], $field, $form_id);
-
         if(RGFormsModel::get_input_type($field) == 'checkbox')
             $field['inputs'] = $inputs;
 
@@ -5139,26 +5088,21 @@ class GFCommon{
 
     public static function calculate($field, $form, $lead) {
 
-        $formula = (string) apply_filters( 'gform_calculation_formula', rgar( $field, 'calculationFormula' ), $field, $form, $lead );
+        $formula = apply_filters('gform_calculation_formula', rgar($field, 'calculationFormula'), $field, $form, $lead);
 
-        // replace multiple spaces and new lines with single space
-        // @props: http://stackoverflow.com/questions/3760816/remove-new-lines-from-string
-        $formula = trim( preg_replace( '/\s+/', ' ', $formula ) );
+        preg_match_all('/{[^{]*?:(\d+(\.\d+)?)(:(.*?))?}/mi', $formula, $matches, PREG_SET_ORDER);
 
-        preg_match_all( '/{[^{]*?:(\d+(\.\d+)?)(:(.*?))?}/mi', $formula, $matches, PREG_SET_ORDER );
+        if(is_array($matches)) {
+            foreach($matches as $match) {
 
-        if( is_array( $matches ) ) {
-            foreach( $matches as $match ) {
+                list($text, $input_id) = $match;
 
-                list( $text, $input_id ) = $match;
-                $value = self::get_calculation_value( $input_id, $form, $lead);
-                $formula = str_replace( $text, $value, $formula);
+                $value = self::get_calculation_value($match[1], $form, $lead);
+                $formula = str_replace($match[0], $value, $formula);
 
             }
         }
-
-        $result = preg_match( '/^[0-9 -\/*\(\)]+$/', $formula ) ? eval( "return {$formula};" ) : false;
-
+        $result = preg_match("/^[0-9 -\/*\(\)]+$/", $formula) ? eval("return {$formula};") : false;
         return $result;
     }
 
@@ -5528,7 +5472,7 @@ class GFCommon{
         $account_choices = array();
         if($get_users){
             $args    = apply_filters("gform_filters_get_users", array("number" => 200));
-            $accounts        = get_users($args);
+            $accounts        = get_users();
             $account_choices = array();
             foreach ($accounts as $account) {
                 $account_choices[] = array("text" => $account->user_login, "value" => $account->ID);

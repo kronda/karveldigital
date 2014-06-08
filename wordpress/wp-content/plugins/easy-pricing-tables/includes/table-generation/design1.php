@@ -44,13 +44,17 @@ function dh_ptp_simple_flat_css($id, $meta)
         border-top-right-radius: <?php echo $design1_rounded_corner_width; ?>;
         border-top-left-radius: <?php echo $design1_rounded_corner_width; ?>;
         font-size: <?php echo $design1_plan_name_font_size . $design1_plan_name_font_size_type; ?>;
+        padding: 0.9375em 1.25em;
     }
     #ptp-<?php echo $id ?> div.ptp-price{
         font-size: <?php echo $design1_price_font_size . $design1_price_font_size_type; ?>;
+        padding: 0.9375em 1.25em;
     }
     #ptp-<?php echo $id ?> div.ptp-cta{
         border-bottom-right-radius: <?php echo $design1_rounded_corner_width; ?>;
         border-top-left-radius: <?php echo $design1_rounded_corner_width; ?>;
+        padding-top: 1.25em;
+        padding-bottom: 1.25em;
     }
     #ptp-<?php echo $id ?> a.ptp-button{
         border-radius: <?php echo $design1_rounded_corner_width; ?>;
@@ -72,8 +76,9 @@ function dh_ptp_simple_flat_css($id, $meta)
     div#ptp-<?php echo $id ?> .ptp-highlight a.ptp-button:hover{
         background-color: <?php echo $design1_featured_button_hover_color; ?>;
     }
-    #ptp-<?php echo $id ?> li.ptp-bullet-item{
+    #ptp-<?php echo $id ?> div.ptp-bullet-item{
         font-size: <?php echo $design1_bullet_item_font_size . $design1_bullet_item_font_size_type; ?>;
+        padding: 0.9375em 0.5em 0.9375em 0.5em;
     }
     #ptp-<?php echo $id ?> div.ptp-most-popular{
         border-radius: <?php echo $design1_rounded_corner_width; ?>;
@@ -95,6 +100,7 @@ function dh_ptp_generate_simple_flat_pricing_table_html ($id)
     $meta = get_post_meta($id, $features_metabox->get_the_id(), TRUE);
 
     $loop_index = 0;
+    $pricing_table_css = dh_ptp_easy_pricing_table_dynamic_css( $id );
     $pricing_table_html = '<div id="ptp-'. $id .'" class="ptp-pricing-table">';
     
     foreach ($meta['column'] as $column) {
@@ -143,7 +149,7 @@ function dh_ptp_generate_simple_flat_pricing_table_html ($id)
 
     $pricing_table_html .= '</div>';
 
-    return $pricing_table_html;
+    return $pricing_table_css . $pricing_table_html;
 }
 
 /**

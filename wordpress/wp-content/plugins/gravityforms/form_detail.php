@@ -24,7 +24,6 @@ class GFFormDetail{
         }
         else if(!rgempty("gform_meta")){
             check_admin_referer("gforms_update_form_{$form_id}", 'gforms_update_form');
-
             $update_result = self::save_form_info($form_id, rgpost("gform_meta", false));
         }
 
@@ -171,7 +170,7 @@ class GFFormDetail{
 
             <?php // link to the google webfont library ?>
             <style type="text/css">
-                @import url('//fonts.googleapis.com/css?family=Shadows+Into+Light+Two');
+            	@import url('http://fonts.googleapis.com/css?family=Shadows+Into+Light+Two');
             </style>
 
             <form method="post" id="form_trash">
@@ -311,7 +310,7 @@ class GFFormDetail{
 
                             <?php // link to the google webfont library ?>
                             <style type="text/css">
-                                @import url('//fonts.googleapis.com/css?family=Shadows+Into+Light+Two');
+                                @import url('http://fonts.googleapis.com/css?family=Shadows+Into+Light+Two');
                             </style>
                             <li id="no-fields">
 
@@ -1889,8 +1888,7 @@ class GFFormDetail{
                                     do_action("gform_field_advanced_settings", 450, $form_id);
                                     ?>
                                     <li class="prepopulate_field_setting field_setting">
-                                        <input type="checkbox" id="field_prepopulate" onclick="SetFieldProperty('allowsPrepopulate', this.checked); ToggleInputName()"/>
-                                        <label for="field_prepopulate" class="inline"><?php _e("Allow field to be populated dynamically", "gravityforms") ?> <?php gform_tooltip("form_field_prepopulate") ?></label>
+                                        <input type="checkbox" id="field_prepopulate" onclick="SetFieldProperty('allowsPrepopulate', this.checked); ToggleInputName()"/> <label for="field_prepopulate" class="inline"><?php _e("Allow field to be populated dynamically", "gravityforms") ?> <?php gform_tooltip("form_field_prepopulate") ?></label>
                                         <br/>
                                         <div id="field_input_name_container" style="display:none; padding-top:10px;">
                                             <!-- content dynamically created from js.php -->
@@ -2239,9 +2237,8 @@ class GFFormDetail{
 
         require_once(GFCommon::get_base_path() . "/form_display.php");
         $field_html = GFFormDisplay::get_field($field, "", true);
-        $field_html_json = json_encode($field_html);
 
-        die("EndAddField($field_json, " . $field_html_json . ");");
+        die("EndAddField($field_json, \"$field_html\");");
     }
 
     public static function duplicate_field(){
@@ -2315,6 +2312,7 @@ class GFFormDetail{
             return array("status" => "invalid_json", "meta"=> null);
 
         $form_table_name =  $wpdb->prefix . "rg_form";
+        $meta_table_name =  $wpdb->prefix . "rg_form_meta";
 
         //Making sure title is not duplicate
         $forms = RGFormsModel::get_forms();
@@ -2323,7 +2321,6 @@ class GFFormDetail{
                 return array("status" => "duplicate_title", "meta" => $form_meta);
 
         if($id > 0){
-            $form_meta = GFFormsModel::trim_form_meta_values($form_meta);
             RGFormsModel::update_form_meta($id, $form_meta);
 
             //updating form title

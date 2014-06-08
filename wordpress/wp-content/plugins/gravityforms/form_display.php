@@ -690,7 +690,7 @@ class GFFormDisplay{
                 //return regular confirmation message
                 if($ajax)
                 {
-                    $progress_confirmation = apply_filters('gform_ajax_iframe_content', "<!DOCTYPE html><html><head><meta charset='UTF-8' /></head><body class='GF_AJAX_POSTBACK'>" . $confirmation_message . "</body></html>");
+                    $progress_confirmation = "<!DOCTYPE html><html><head><meta charset='UTF-8' /></head><body class='GF_AJAX_POSTBACK'>" . $confirmation_message . "</body></html>";
                 }
                 else
                 {
@@ -709,10 +709,7 @@ class GFFormDisplay{
         $form_string = self::get_form_init_scripts($form);
         $current_page = self::get_current_page($form_id);
         $form_string .= "<script type='text/javascript'>" . apply_filters("gform_cdata_open", "") . " jQuery(document).ready(function(){jQuery(document).trigger('gform_post_render', [{$form_id}, {$current_page}]) } ); " . apply_filters("gform_cdata_close", "") . "</script>";
-        
-        $form_string = apply_filters( 'gform_footer_init_scripts_filter', $form_string, $form, $current_page );
-        $form_string = apply_filters( 'gform_footer_init_scripts_filter_' . $form['id'], $form_string, $form, $current_page );
-        
+
         if(!isset($_init_forms[$form_id])){
             echo $form_string;
             if(!is_array($_init_forms))
@@ -1120,7 +1117,7 @@ class GFFormDisplay{
                     break;
                 }
 
-                $field["validation_message"] = apply_filters( "gform_duplicate_message_{$form["id"]}", apply_filters("gform_duplicate_message", $default_message, $form, $field, $value ), $form, $field, $value );
+                $field["validation_message"] =  apply_filters("gform_duplicate_message_{$form["id"]}", apply_filters("gform_duplicate_message", $default_message, $form), $form);
 
             }
             else{
@@ -1597,9 +1594,6 @@ class GFFormDisplay{
 
     public static function enqueue_form_scripts( $form, $ajax = false ){
 
-        // adding pre enqueue scripts hook so that scripts can be added first if a need exists
-        do_action("gform_pre_enqueue_scripts_{$form["id"]}", do_action("gform_pre_enqueue_scripts", $form, $ajax), $ajax);
-
         if(!get_option('rg_gforms_disable_css')){
 
             wp_enqueue_style("gforms_reset_css", GFCommon::get_base_url() . "/css/formreset.css", null, GFCommon::$version);
@@ -1721,9 +1715,8 @@ class GFFormDisplay{
 
         foreach( $scripts as $script ) {
             wp_enqueue_script( $script );
+            wp_print_scripts( array( $script ) );
         }
-        
-        wp_print_scripts( $scripts );
 
         if( wp_script_is( 'gform_gravityforms' ) ) {
             echo '<script type="text/javascript"> ' . GFCommon::gf_global( false ) . ' </script>';
@@ -2037,7 +2030,7 @@ class GFFormDisplay{
                 $currency_fields[] = "#input_{$form["id"]}_{$field["id"]}";
         }
 
-        return "gformInitCurrencyFormatFields('" . implode(",", $currency_fields) . "');";
+        return "gformInitCurrencyFormatFields('" . implode(",", $currency_fields) . "')";
     }
 
     public static function get_counter_init_script($form){

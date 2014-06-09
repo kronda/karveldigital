@@ -3,29 +3,10 @@
 //   Typography
 //   Element Styles
 
-
-h1 {
-  font-size: em($h1_size);
-}
-
-h2 {
-  
-}
-
-h3 {
-  
-}
-
-h4 {
-  
-}
-
-h5 {
-  
-}
-
-h6 {
-  
+h1, h2, h3, h4, h5, h6 {
+  a {
+    color: $primary !important;
+  }
 }
 
 .menu-toggle {

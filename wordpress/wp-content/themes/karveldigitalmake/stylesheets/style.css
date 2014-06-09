@@ -22,11 +22,11 @@
  * Header Sizes
 ******************/
 /* line 7, ../sass/base/_html.scss */
-h1 {
-  font-size: 1.875em;
+h1 a, h2 a, h3 a, h4 a, h5 a, h6 a {
+  color: #dd8f56 !important;
 }
 
-/* line 31, ../sass/base/_html.scss */
+/* line 12, ../sass/base/_html.scss */
 .menu-toggle {
   background-color: #DD8F56;
 }

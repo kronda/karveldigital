@@ -13,3 +13,23 @@
  */
 
 @import url( '../make/style.css' );
+
+.header-bar {
+  display: none;
+}
+/* Desktops and laptops ----------- */
+@media only screen and (min-width : 800px) {
+  .site-header-main {
+    2.4rem 0 1.4rem
+  }
+  .site-navigation {
+    max-width: 60%;
+  }
+  #menu-main-menu {
+    margin: 1.2rem 0 2.2rem 0;
+  }
+}
+
+.menu-toggle {
+  background-color: #DD8F56;
+}

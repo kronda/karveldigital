@@ -21,6 +21,70 @@
 /* ***************
  * Header Sizes
 ******************/
+/* Column Classes
+    Link: http://twitter.github.io/bootstrap/assets/css/bootstrap-responsive.css
+--------------------------------------------- */
+/* line 15, ../sass/base/_vendor.scss */
+.five-sixths,
+.four-sixths,
+.one-fourth,
+.one-half,
+.one-sixth,
+.one-third,
+.three-fourths,
+.three-sixths,
+.two-fourths,
+.two-sixths,
+.two-thirds {
+  float: left;
+  margin-left: 2.564102564102564%;
+}
+
+/* line 22, ../sass/base/_vendor.scss */
+.one-half,
+.three-sixths,
+.two-fourths {
+  width: 48.717948717948715%;
+}
+
+/* line 27, ../sass/base/_vendor.scss */
+.one-third,
+.two-sixths {
+  width: 31.623931623931625%;
+}
+
+/* line 32, ../sass/base/_vendor.scss */
+.four-sixths,
+.two-thirds {
+  width: 65.81196581196582%;
+}
+
+/* line 36, ../sass/base/_vendor.scss */
+.one-fourth {
+  width: 23.076923076923077%;
+}
+
+/* line 40, ../sass/base/_vendor.scss */
+.three-fourths {
+  width: 74.35897435897436%;
+}
+
+/* line 44, ../sass/base/_vendor.scss */
+.one-sixth {
+  width: 14.52991452991453%;
+}
+
+/* line 48, ../sass/base/_vendor.scss */
+.five-sixths {
+  width: 82.90598290598291%;
+}
+
+/* line 52, ../sass/base/_vendor.scss */
+.first {
+  clear: both;
+  margin-left: 0;
+}
+
 /* line 7, ../sass/base/_html.scss */
 h1 a, h2 a, h3 a, h4 a, h5 a, h6 a {
   color: #dd8f56 !important;
@@ -50,4 +114,27 @@ h1 a, h2 a, h3 a, h4 a, h5 a, h6 a {
 /* line 1, ../sass/component/_header.scss */
 .header-bar {
   display: none;
+}
+
+/* line 1, ../sass/component/_home.scss */
+#headline {
+  font-size: 36px;
+  font-size: 2em;
+}
+/* line 4, ../sass/component/_home.scss */
+#headline strong {
+  color: #6299da;
+}
+
+/* line 9, ../sass/component/_home.scss */
+.call-to-action {
+  font-size: 24px;
+  font-size: 1.25em;
+}
+@media screen and (max-width: 480px) {
+  /* line 9, ../sass/component/_home.scss */
+  .call-to-action {
+    font-size: 18px;
+    font-size: 1em;
+  }
 }

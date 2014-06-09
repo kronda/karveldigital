@@ -1,0 +1,17 @@
+#headline {
+  font-size: 36px;
+  font-size: 2em;
+  strong {
+    color: $secondary;
+  }
+}
+
+.call-to-action {
+  font-size: 24px;
+  font-size: 1.25em;
+
+  @include media($mobile) {
+    font-size: 18px;
+    font-size: 1em;
+  }
+}

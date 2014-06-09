@@ -16,6 +16,7 @@ docs/
 /.gitattributes
 *.sass-cache/
 *.sublime*
+*compass_app_log.txt*
 webroot
 backups
 

@@ -1,0 +1,11 @@
+@include media($tablet) {
+  .site-header-main {
+    padding: 2.4rem 0 1.4rem;
+  }
+  .site-navigation {
+    max-width: 60%;
+  }
+  #menu-main-menu {
+    margin: 1.2rem 0 2.2rem 0;
+  }
+}

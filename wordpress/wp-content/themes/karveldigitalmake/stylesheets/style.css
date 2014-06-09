@@ -1,0 +1,53 @@
+/* Welcome to Compass.
+ *
+ * A word about SASS (http://sass-lang.com/)
+ * --------------------------------------------------------------
+ * This stylesheet compiles to stylesheets/style.css
+ * The normal child theme stylesheet at cornerstone/style.css imports the sass-generated stylesheet. 
+ * 
+ * If you don't use SASS but want to make further modifications, do so in 
+ * wp-content/themes/cornerstone/style.css file AFTER the import statements. 
+*/
+/* line 2, ../sass/neat/grid/_grid.scss */
+* {
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+}
+
+/* ***********
+ * Colors
+**************/
+/* ***************
+ * Header Sizes
+******************/
+/* line 7, ../sass/base/_html.scss */
+h1 {
+  font-size: 1.875em;
+}
+
+/* line 31, ../sass/base/_html.scss */
+.menu-toggle {
+  background-color: #DD8F56;
+}
+
+@media screen and (min-width: 800px) {
+  /* line 2, ../sass/layout/_base.scss */
+  .site-header-main {
+    padding: 2.4rem 0 1.4rem;
+  }
+
+  /* line 5, ../sass/layout/_base.scss */
+  .site-navigation {
+    max-width: 60%;
+  }
+
+  /* line 8, ../sass/layout/_base.scss */
+  #menu-main-menu {
+    margin: 1.2rem 0 2.2rem 0;
+  }
+}
+/* line 1, ../sass/component/_header.scss */
+.header-bar {
+  display: none;
+}

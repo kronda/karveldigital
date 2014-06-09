@@ -1,0 +1,30 @@
+// Base
+$base-font-size: 16px;
+$base-line-height: 24px;
+$rembase: 16;
+$lineheight: 24;
+
+// Breakpoints: @include media ($breakpoint)
+$mobile: new-breakpoint(max-width 480px 4);
+$tablet: new-breakpoint(min-width 800px 12);
+$desktop: new-breakpoint(min-width 1024px 12);
+
+/* ***********
+ * Colors
+**************/
+$primary: #DD8F56;
+$secondary: #6299DA;
+$text: #444444;
+$background: #F9F9F9;
+$detail: #B9BCBF;
+
+/* ***************
+ * Header Sizes
+******************/
+
+$h1_size: 30; // 24pt
+$h2_size: 28; // 22pt
+$h3_size: 24; // 20pt
+$h4_size: 20; // 18pt
+$h5_size: 18; // 18pt
+$h6_size: 18; // 18pt

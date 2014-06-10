@@ -11,3 +11,19 @@ function karvel_exclude_category_from_blog( $query ) {
         $query->set( 'cat', '-31' ); // cat id #s
     }
 }
+
+/**
+ * Add body classes
+ */
+function karvel_add_body_class( $classes ) {
+  global $post;
+  if ( isset( $post ) ) {
+      $classes[] = $post->post_type . '-' . $post->post_name;
+  }
+  if ( !is_front_page() ) {
+  $classes[] = 'not-home';
+  }
+  return $classes;
+}
+
+add_filter( 'body_class', 'karvel_add_body_class' );

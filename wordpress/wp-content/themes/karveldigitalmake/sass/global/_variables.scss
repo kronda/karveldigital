@@ -6,6 +6,8 @@ $lineheight: 24;
 
 // Breakpoints: @include media ($breakpoint)
 $mobile: new-breakpoint(max-width 480px 4);
+$ipad: new-breakpoint(max-width 768px 12);
+
 $tablet: new-breakpoint(min-width 800px 12);
 $desktop: new-breakpoint(min-width 1024px 12);
 

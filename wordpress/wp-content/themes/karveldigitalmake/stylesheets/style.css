@@ -195,7 +195,7 @@ h1 a, h2 a, h3 a, h4 a, h5 a, h6 a {
   font-size: 18px;
   font-size: 1.125em;
 }
-@media screen and (max-width: 480px) {
+@media screen and (max-width: 768px) {
   /* line 49, ../sass/component/_home.scss */
   .testimonial blockquote p {
     font-size: 14px;

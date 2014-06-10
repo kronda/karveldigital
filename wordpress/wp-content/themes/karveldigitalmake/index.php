@@ -17,11 +17,13 @@ yoast_breadcrumb('<p id="breadcrumbs">','</p>');
 <?php if ( have_posts() ) : ?>
 
 	<?php while ( have_posts() ) : the_post(); ?>
-		<?php get_template_part( 'partials/content', 'single' ); ?>
-		<?php get_template_part( 'partials/nav', 'post' ); ?>
-		<?php get_template_part( 'partials/content', 'comments' ); ?>
+		<?php get_template_part( 'partials/content', 'archive' ); ?>
 	<?php endwhile; ?>
 
+	<?php get_template_part( 'partials/nav', 'paging' ); ?>
+
+<?php else : ?>
+	<?php get_template_part( 'partials/content', 'none' ); ?>
 <?php endif; ?>
 </main>
 

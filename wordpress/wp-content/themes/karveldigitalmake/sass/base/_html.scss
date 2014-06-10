@@ -13,12 +13,16 @@ h1, h2, h3, h4, h5, h6 {
   background-color: #DD8F56;
 }
 
+blockquote {
+  width: 80%;
+  border: 1px dashed $detail;
+  padding: 1.4em 1.4em 0;
+  margin: 0 auto 1em auto;
+  p {
+    font-size: inherit;
+  }  
+}
 
-// button,
-// input[type="button"],
-// input[type="submit"] {
-//   color: #FFF;
-//   background: $h3_color;
-// }
+
 
 

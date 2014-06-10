@@ -95,6 +95,18 @@ h1 a, h2 a, h3 a, h4 a, h5 a, h6 a {
   background-color: #DD8F56;
 }
 
+/* line 16, ../sass/base/_html.scss */
+blockquote {
+  width: 80%;
+  border: 1px dashed #b9bcbf;
+  padding: 1.4em 1.4em 0;
+  margin: 0 auto 1em auto;
+}
+/* line 21, ../sass/base/_html.scss */
+blockquote p {
+  font-size: inherit;
+}
+
 @media screen and (min-width: 800px) {
   /* line 2, ../sass/layout/_base.scss */
   .site-header-main {

@@ -107,6 +107,11 @@ blockquote p {
   font-size: inherit;
 }
 
+/* line 25, ../sass/base/_html.scss */
+a {
+  font-weight: normal;
+}
+
 @media screen and (min-width: 800px) {
   /* line 2, ../sass/layout/_base.scss */
   .site-header-main {
@@ -232,4 +237,10 @@ blockquote p {
 /* line 17, ../sass/component/_blog.scss */
 .single-post .post {
   border-bottom: none;
+}
+
+/* line 23, ../sass/component/_blog.scss */
+#social #reply-title,
+#social .social-nav .social-current-tab {
+  background-position: 0px -213px;
 }

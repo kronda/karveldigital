@@ -11,7 +11,49 @@
   font-size: 1.25em;
 
   @include media($mobile) {
-    font-size: 18px;
-    font-size: 1em;
+    font-size: 16px;
+    font-size: 0.9em;
+  }
+}
+#builder-section-1402358124454 {
+  background-color: $secondary;
+  padding: 3em 0;
+  color: #FFF;
+}
+.testimonial {
+  @include clearfix();
+  
+  a {
+    color: $header_bg;
+  }
+  .left.one-third {
+    float: right;
+    margin-left: 0;
+
+    @include media($mobile) {
+      float: none;
+      width: 100%;
+    }
+  }
+  .two-thirds {
+    margin-left: 0;
+
+    @include media($mobile) {
+      float: none;
+      width: 100%;
+    }
+  }
+  blockquote {
+    margin-top: 0;
+
+    p {
+      font-size: 18px;
+      font-size: 1.125em;
+      @include media($mobile) {
+        font-size: 14px;
+        font-size: 1em;
+      }
+    }
+
   }
 }

@@ -134,7 +134,71 @@ h1 a, h2 a, h3 a, h4 a, h5 a, h6 a {
 @media screen and (max-width: 480px) {
   /* line 9, ../sass/component/_home.scss */
   .call-to-action {
-    font-size: 18px;
+    font-size: 16px;
+    font-size: 0.9em;
+  }
+}
+
+/* line 18, ../sass/component/_home.scss */
+#builder-section-1402358124454 {
+  background-color: #6299da;
+  padding: 3em 0;
+  color: #FFF;
+}
+
+/* line 23, ../sass/component/_home.scss */
+.testimonial {
+  *zoom: 1;
+}
+/* line 18, ../sass/bourbon/addons/_clearfix.scss */
+.testimonial:before, .testimonial:after {
+  content: " ";
+  display: table;
+}
+/* line 23, ../sass/bourbon/addons/_clearfix.scss */
+.testimonial:after {
+  clear: both;
+}
+/* line 26, ../sass/component/_home.scss */
+.testimonial a {
+  color: #422d0f;
+}
+/* line 29, ../sass/component/_home.scss */
+.testimonial .left.one-third {
+  float: right;
+  margin-left: 0;
+}
+@media screen and (max-width: 480px) {
+  /* line 29, ../sass/component/_home.scss */
+  .testimonial .left.one-third {
+    float: none;
+    width: 100%;
+  }
+}
+/* line 38, ../sass/component/_home.scss */
+.testimonial .two-thirds {
+  margin-left: 0;
+}
+@media screen and (max-width: 480px) {
+  /* line 38, ../sass/component/_home.scss */
+  .testimonial .two-thirds {
+    float: none;
+    width: 100%;
+  }
+}
+/* line 46, ../sass/component/_home.scss */
+.testimonial blockquote {
+  margin-top: 0;
+}
+/* line 49, ../sass/component/_home.scss */
+.testimonial blockquote p {
+  font-size: 18px;
+  font-size: 1.125em;
+}
+@media screen and (max-width: 480px) {
+  /* line 49, ../sass/component/_home.scss */
+  .testimonial blockquote p {
+    font-size: 14px;
     font-size: 1em;
   }
 }

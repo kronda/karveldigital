@@ -164,6 +164,18 @@ textarea {
     margin: 1.2rem 0 2.2rem 0;
   }
 }
+@media screen and (min-width: 800px) {
+  /* line 1, ../sass/layout/_components.scss */
+  .tribe-events-before-html {
+    width: 65.812%;
+  }
+}
+
+/* line 7, ../sass/layout/_components.scss */
+#rpwe_widget-2 {
+  padding: 1em;
+}
+
 /* line 1, ../sass/component/_header.scss */
 .header-bar {
   display: none;

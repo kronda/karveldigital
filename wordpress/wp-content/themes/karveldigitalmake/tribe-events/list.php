@@ -14,6 +14,8 @@
 
 if ( !defined('ABSPATH') ) { die('-1'); } ?>
 
+<main id="site-main" class="site-main first two-thirds" role="main">
+
 <?php do_action( 'tribe_events_before_template' ); ?>
 
 <!-- Tribe Bar -->
@@ -25,3 +27,10 @@ if ( !defined('ABSPATH') ) { die('-1'); } ?>
 <div class="tribe-clear"></div>
 
 <?php do_action( 'tribe_events_after_template' ) ?>
+
+</main>
+
+<section id="sidebar-right" class="widget-area sidebar-right active one-third" role="complementary">
+  <?php if ( dynamic_sidebar('Right Sidebar') ) : ?>
+  <?php endif; ?>
+</section>

@@ -98,16 +98,44 @@ h1 a, h2 a, h3 a, h4 a, h5 a, h6 a {
 
 /* line 16, ../sass/base/_html.scss */
 blockquote {
+  position: relative;
   border: 1px dashed #b9bcbf;
   padding: 1.4em 1.4em 0;
   margin: 0 auto 1em auto;
 }
-/* line 20, ../sass/base/_html.scss */
+/* line 21, ../sass/base/_html.scss */
 blockquote p {
   font-size: inherit;
 }
-
 /* line 25, ../sass/base/_html.scss */
+blockquote:before {
+  position: absolute;
+  font-family: FontAwesome;
+  top: -20px;
+  left: -25px;
+  content: "\f10d";
+  font-size: 2.5em;
+}
+/* line 33, ../sass/base/_html.scss */
+blockquote:after {
+  position: absolute;
+  font-family: FontAwesome;
+  bottom: -20px;
+  right: -25px;
+  content: "\f10e";
+  font-size: 2.5em;
+}
+
+/* line 46, ../sass/base/_html.scss */
+.builder-text-columns-2 blockquote:before {
+  content: "";
+}
+/* line 49, ../sass/base/_html.scss */
+.builder-text-columns-2 blockquote:after {
+  content: "";
+}
+
+/* line 54, ../sass/base/_html.scss */
 a {
   font-weight: normal;
 }

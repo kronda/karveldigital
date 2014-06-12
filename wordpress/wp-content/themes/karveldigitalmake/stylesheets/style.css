@@ -282,3 +282,8 @@ a {
 #social .social-nav .social-current-tab {
   background-position: 0px -213px;
 }
+
+/* line 1, ../sass/component/_ui.scss */
+.builder-gallery-item {
+  box-shadow: 0px 0px 5px #333333;
+}

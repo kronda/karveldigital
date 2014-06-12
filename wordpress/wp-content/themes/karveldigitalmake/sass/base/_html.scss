@@ -55,5 +55,10 @@ a {
   font-weight: normal;
 }
 
-
+input[type="text"],
+input[type="tel"],
+input[type="email"],
+textarea {
+  font-size: 0.9em !important;
+}
 

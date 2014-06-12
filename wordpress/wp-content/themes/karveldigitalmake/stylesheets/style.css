@@ -140,6 +140,14 @@ a {
   font-weight: normal;
 }
 
+/* line 61, ../sass/base/_html.scss */
+input[type="text"],
+input[type="tel"],
+input[type="email"],
+textarea {
+  font-size: 0.9em !important;
+}
+
 @media screen and (min-width: 800px) {
   /* line 2, ../sass/layout/_base.scss */
   .site-header-main {

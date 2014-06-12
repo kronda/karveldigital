@@ -12,11 +12,18 @@
     margin-bottom: 5px;
   }
 }
+.single .post {
+  margin-bottom: 1em;
+}
 
 .single-post {
+
   .post {
     border-bottom: none;
   }
+}
+#social {
+  margin: 0;
 }
 
 #social #reply-title,

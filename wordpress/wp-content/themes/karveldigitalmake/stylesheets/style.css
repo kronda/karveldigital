@@ -234,12 +234,22 @@ a {
   margin-bottom: 5px;
 }
 
-/* line 17, ../sass/component/_blog.scss */
+/* line 15, ../sass/component/_blog.scss */
+.single .post {
+  margin-bottom: 1em;
+}
+
+/* line 21, ../sass/component/_blog.scss */
 .single-post .post {
   border-bottom: none;
 }
 
-/* line 23, ../sass/component/_blog.scss */
+/* line 25, ../sass/component/_blog.scss */
+#social {
+  margin: 0;
+}
+
+/* line 30, ../sass/component/_blog.scss */
 #social #reply-title,
 #social .social-nav .social-current-tab {
   background-position: 0px -213px;

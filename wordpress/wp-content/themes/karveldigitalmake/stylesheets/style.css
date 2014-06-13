@@ -176,6 +176,21 @@ textarea {
   padding: 1em;
 }
 
+/* line 11, ../sass/layout/_components.scss */
+.events-archive #breadcrumbs br {
+  display: none;
+}
+
+/* line 1, ../sass/layout/_home.scss */
+.home .builder-section {
+  margin-bottom: 0;
+}
+
+/* line 5, ../sass/layout/_home.scss */
+#builder-section-1402309351919 {
+  padding: 2em 0;
+}
+
 /* line 1, ../sass/component/_header.scss */
 .header-bar {
   display: none;

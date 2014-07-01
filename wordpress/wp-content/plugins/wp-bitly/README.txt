@@ -3,7 +3,7 @@ Contributors: delayedinsanity, chipbennett
 Tags: shortlink, short, link, bitly, url, shortener, social, media, twitter, share
 Requires at least: 3.9
 Tested up to: 3.9
-Stable tag: 2.3.0
+Stable tag: 2.3.1
 
 Use Bitly generated shortlinks for all your WordPress posts and pages, including custom post types.
 
@@ -68,7 +68,8 @@ Sure can! Just use our handy dandy shortcode `[wpbitly]` and shazam! The shortco
 
 == Changelog ==
 
-= 2.3.0 =
+= 2.3.1 =
+* Fix a bug in post type checking
 * Trimmed excess bloat from `wp_get_shortlink()`
 * Tightened up error checking in `wp_generate_shortlink()`
 = 2.2.6 =

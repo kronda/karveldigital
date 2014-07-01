@@ -14,20 +14,20 @@
  */
 function wpbitly_debug_log( $towrite, $message, $bypass = true ) {
 
-    $wpbitly = wpbitly();
+	$wpbitly = wpbitly();
 
-    if ( !$wpbitly->get_option( 'debug' ) || !$bypass )
-        return;
+	if ( !$wpbitly->get_option( 'debug' ) || !$bypass )
+		return;
 
 
-    $log = fopen( WPBITLY_LOG, 'a' );
+	$log = fopen( WPBITLY_LOG, 'a' );
 
-    fwrite( $log, '# [ ' . date( 'F j, Y, g:i a' ) . " ]\n" );
-    fwrite( $log, '# [ ' . $message . " ]\n\n" );
-    fwrite( $log, ( is_array( $towrite ) ? print_r( $towrite, true ) : var_dump( $towrite ) ) );
-    fwrite( $log, "\n\n\n" );
+	fwrite( $log, '# [ ' . date( 'F j, Y, g:i a' ) . " ]\n" );
+	fwrite( $log, '# [ ' . $message . " ]\n\n" );
+	fwrite( $log, ( is_array( $towrite ) ? print_r( $towrite, true ) : var_dump( $towrite ) ) );
+	fwrite( $log, "\n\n\n" );
 
-    fclose( $log );
+	fclose( $log );
 
 }
 
@@ -41,18 +41,18 @@ function wpbitly_debug_log( $towrite, $message, $bypass = true ) {
  */
 function wpbitly_api( $api_call ) {
 
-    $api_links  = array(
-        'shorten'       => '/v3/shorten?access_token=%1$s&longUrl=%2$s',
-        'expand'        => '/v3/expand?access_token=%1$s&shortUrl=%2$s',
-        'link/clicks'   => '/v3/link/clicks?access_token=%1$s&link=%2$s',
-        'link/refer'    => '/v3/link/referring_domains?access_token=%1$s&link=%2$s',
-        'user/info'     => '/v3/user/info?access_token=%1$s',
-    );
+	$api_links  = array(
+		'shorten'       => '/v3/shorten?access_token=%1$s&longUrl=%2$s',
+		'expand'        => '/v3/expand?access_token=%1$s&shortUrl=%2$s',
+		'link/clicks'   => '/v3/link/clicks?access_token=%1$s&link=%2$s',
+		'link/refer'    => '/v3/link/referring_domains?access_token=%1$s&link=%2$s',
+		'user/info'     => '/v3/user/info?access_token=%1$s',
+	);
 
-    if ( !array_key_exists( $api_call, $api_links ) )
-        trigger_error( __( 'WP Bitly Error: No such API endpoint.', 'wp-bitly' ) );
+	if ( !array_key_exists( $api_call, $api_links ) )
+		trigger_error( __( 'WP Bitly Error: No such API endpoint.', 'wp-bitly' ) );
 
-    return WPBITLY_BITLY_API . $api_links[ $api_call ];
+	return WPBITLY_BITLY_API . $api_links[ $api_call ];
 }
 
 
@@ -68,10 +68,10 @@ function wpbitly_api( $api_call ) {
 
 function wpbitly_get( $url ) {
 
-    $the = wp_remote_get( $url, array( 'timeout' => '30', ) );
+	$the = wp_remote_get( $url, array( 'timeout' => '30', ) );
 
-    if ( is_array( $the ) && '200' == $the['response']['code'] )
-        return json_decode( $the['body'], true );
+	if ( is_array( $the ) && '200' == $the['response']['code'] )
+		return json_decode( $the['body'], true );
 }
 
 
@@ -85,54 +85,51 @@ function wpbitly_get( $url ) {
 
 function wpbitly_generate_shortlink( $post_id ) {
 
-    $wpbitly = wpbitly();
+	$wpbitly = wpbitly();
 
 	// Avoid creating shortlinks during an autosave
-    if ( ( defined( 'DOING_AUTOSAVE' ) && DOING_AUTOSAVE ) )
-        return;
+	if ( defined( 'DOING_AUTOSAVE' ) && DOING_AUTOSAVE )
+		return;
 
 	// or for revisions
-	$parent = wp_is_post_revision( $post_id );
-	if ( false !== $parent )
-		$post_id = $parent;
+	if ( wp_is_post_revision( $post_id ) )
+		return;
 
 	// Token hasn't been verified, bail
 	if ( !$wpbitly->get_option( 'authorized' ) )
 		return;
 
-	$post_type   = get_post_type( $post_id );
-	$post_types = $wpbitly->get_option( 'post_types' );
-	$post_status = get_post_status( $post_id );
-	if ( !in_array( $post_type, $post_types ) && !in_array( $post_status, array( 'publish', 'future', 'private') ) )
-        return;
+	// Verify this is a post we want to generate short links for
+	if ( !in_array( get_post_type( $post_id ), $wpbitly->get_option( 'post_types' ) ) || !in_array( get_post_status( $post_id ), array( 'publish', 'future', 'private' ) ) )
+		return;
 
 
 	// We made it this far? Let's get a shortlink
 	$permalink = get_permalink( $post_id );
-    $shortlink = get_post_meta( $post_id, '_wpbitly', true );
+	$shortlink = get_post_meta( $post_id, '_wpbitly', true );
 	$token     = $wpbitly->get_option( 'oauth_token' );
 
-    if ( !empty( $shortlink ) ) {
-	    $url = sprintf( wpbitly_api( 'expand' ), $token, $shortlink );
-        $response = wpbitly_get( $url );
+	if ( !empty( $shortlink ) ) {
+		$url = sprintf( wpbitly_api( 'expand' ), $token, $shortlink );
+		$response = wpbitly_get( $url );
 
-        wpbitly_debug_log( $response, '/expand/' );
+		wpbitly_debug_log( $response, '/expand/' );
 
-        if ( $permalink == $response['data']['expand'][0]['long_url'] )
-            return $shortlink;
-    }
+		if ( $permalink == $response['data']['expand'][0]['long_url'] )
+			return $shortlink;
+	}
 
-    $url = sprintf( wpbitly_api( 'shorten' ), $token, urlencode( $permalink ) );
-    $response = wpbitly_get( $url );
+	$url = sprintf( wpbitly_api( 'shorten' ), $token, urlencode( $permalink ) );
+	$response = wpbitly_get( $url );
 
-    wpbitly_debug_log( $response, '/shorten/' );
+	wpbitly_debug_log( $response, '/shorten/' );
 
-    if ( is_array( $response ) ) {
-        $shortlink = $response['data']['url'];
-        update_post_meta( $post_id, '_wpbitly', $shortlink );
-    }
+	if ( is_array( $response ) ) {
+		$shortlink = $response['data']['url'];
+		update_post_meta( $post_id, '_wpbitly', $shortlink );
+	}
 
-    return $shortlink;
+	return $shortlink;
 }
 
 
@@ -168,33 +165,33 @@ function wpbitly_get_shortlink( $original, $post_id ) {
  */
 function wpbitly_shortlink( $atts = array() ) {
 
-    $post = get_post();
+	$post = get_post();
 
-    $defaults = array(
-        'text'      => '',
-        'title'     => '',
-        'before'    => '',
-        'after'     => '',
-        'post_id'   => $post->ID, // Use the current post by default, or pass an ID
-    );
+	$defaults = array(
+		'text'      => '',
+		'title'     => '',
+		'before'    => '',
+		'after'     => '',
+		'post_id'   => $post->ID, // Use the current post by default, or pass an ID
+	);
 
-    extract( shortcode_atts( $defaults, $atts ) );
+	extract( shortcode_atts( $defaults, $atts ) );
 
 	$permalink = get_permalink( $post_id );
 	$shortlink = wp_get_shortlink( $permalink, $post_id );
 
-    if ( empty( $text ) )
-        $text = $shortlink;
+	if ( empty( $text ) )
+		$text = $shortlink;
 
-    if ( empty( $title ) )
-        $title = the_title_attribute( array( 'echo' => false ) );
+	if ( empty( $title ) )
+		$title = the_title_attribute( array( 'echo' => false ) );
 
 	$output = '';
 
-    if ( !empty( $shortlink ) ) {
-        $output = apply_filters( 'the_shortlink', '<a rel="shortlink" href="' . esc_url( $shortlink ) . '" title="' . $title . '">' . $text . '</a>', $shortlink, $text, $title );
-        $output = $before . $output . $after;
-    }
+	if ( !empty( $shortlink ) ) {
+		$output = apply_filters( 'the_shortlink', '<a rel="shortlink" href="' . esc_url( $shortlink ) . '" title="' . $title . '">' . $text . '</a>', $shortlink, $text, $title );
+		$output = $before . $output . $after;
+	}
 
-    return $output;
+	return $output;
 }

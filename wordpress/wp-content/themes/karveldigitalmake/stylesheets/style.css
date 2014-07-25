@@ -181,6 +181,14 @@ textarea {
   display: none;
 }
 
+@media screen and (min-width: 800px) {
+  /* line 18, ../sass/layout/_components.scss */
+  #post-670 .builder-text-columns-1 .builder-text-column {
+    width: 70%;
+    margin: 0px auto;
+    float: none;
+  }
+}
 /* line 1, ../sass/layout/_home.scss */
 .home .builder-section {
   margin-bottom: 0;

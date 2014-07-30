@@ -3,7 +3,7 @@
 Plugin Name: Widget Context
 Plugin URI: http://wordpress.org/extend/plugins/widget-context/
 Description: Show or hide widgets depending on the section of the site that is being viewed.
-Version: 1.0
+Version: 1.0.2
 Author: Kaspars Dambis
 Author URI: http://kaspars.net
 Text Domain: widget-context
@@ -54,7 +54,7 @@ class widget_context {
 		
 		// Append Widget Context settings to widget controls
 		add_action( 'in_widget_form', array( $this, 'widget_context_controls' ), 10, 3 );
-		
+
 		// Add admin menu for config
 		add_action( 'admin_enqueue_scripts', array( $this, 'admin_scripts' ) );
 
@@ -167,8 +167,12 @@ class widget_context {
 	}
 		
 	
-	function admin_scripts() {
-		
+	function admin_scripts( $page ) {
+
+		// Enqueue only on widgets and customizer view
+		if ( ! in_array( $page, array( 'widgets.php', 'settings_page_widget_context_settings' ) ) )
+			return;
+
 		wp_enqueue_style( 
 			'widget-context-css', 
 			plugins_url( 'css/admin.css', plugin_basename( __FILE__ ) ) 
@@ -242,8 +246,9 @@ class widget_context {
 
 	function maybe_unset_widgets_by_context( $sidebars_widgets ) {
 
-		// Don't run this on the backend
-		if ( is_admin() )
+		// Don't run this at the backend or before
+		// post query has been run
+		if ( is_admin() || ! did_action( 'parse_query' ) )
 			return $sidebars_widgets;
 
 		// Return from cache if we have done the context checks already

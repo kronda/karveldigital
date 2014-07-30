@@ -110,15 +110,18 @@ function dh_ptp_generate_simple_flat_pricing_table_html ($id)
         $plan_price = isset($column['planprice'])?$column['planprice']:'';
         $plan_features = isset($column['planfeatures'])?$column['planfeatures']:'';
         $button_text = isset($column['buttontext'])?$column['buttontext']:'';
-        
-        // Get button url / custom shortcode button
-        $custom_button = false;
         $button_url = isset($column['buttonurl'])?$column['buttonurl']:'';
-        $btn_url_trim = trim($button_url);
-        if (substr($btn_url_trim, 0, 11) == '[shortcode]') {
-            $shortcode = substr($btn_url_trim, 11);
-            $shortcode = substr($shortcode, 0, -12);
-            $custom_button = $shortcode; 
+        $button_url = trim($button_url);
+        
+        // Get custom shortcode if any
+        $custom_button = false;
+        $shortcode_pattern = '|^\[shortcode\](?P<custom_button>.*)\[/shortcode\]$|';
+        if ( 
+            preg_match( $shortcode_pattern, $button_text, $matches) 
+            ||
+            preg_match( $shortcode_pattern, $button_url, $matches) 
+        ) {
+            $custom_button = $matches[ 'custom_button' ];
         }
 
         // Featured column
@@ -222,4 +225,28 @@ function dh_ptp_features_to_html_simple_flat ($plan_features, $max_number_of_fea
     }
 
     return $html;
+}
+
+function tt_ptp_enable_column_match_height_script_dg1() {
+    ?>
+        <script type="text/javascript">
+         jQuery(document).ready(function($) {    
+           
+          $('.ptp-plan').matchHeight(false); 
+          $('.ptp-cta').matchHeight(false); 
+          $('.ptp-price').matchHeight(false);
+          $('.ptp-button').matchHeight(false);
+          
+          $('.ptp-bullet-item').each(function( index ){
+              $('.ptp-row-id-'+index).matchHeight(false);
+             
+            });
+          
+           
+          
+         });
+      </script>
+      
+        <?php
+      
 }

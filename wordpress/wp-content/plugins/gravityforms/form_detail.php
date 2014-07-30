@@ -1,9 +1,5 @@
 <?php
 
-if(!class_exists('GFForms')){
-    die();
-}
-
 class GFFormDetail{
 
     public static function forms_page($form_id){
@@ -28,7 +24,6 @@ class GFFormDetail{
         }
         else if(!rgempty("gform_meta")){
             check_admin_referer("gforms_update_form_{$form_id}", 'gforms_update_form');
-
             $update_result = self::save_form_info($form_id, rgpost("gform_meta", false));
         }
 
@@ -175,7 +170,7 @@ class GFFormDetail{
 
             <?php // link to the google webfont library ?>
             <style type="text/css">
-                @import url('//fonts.googleapis.com/css?family=Shadows+Into+Light+Two');
+            	@import url('http://fonts.googleapis.com/css?family=Shadows+Into+Light+Two');
             </style>
 
             <form method="post" id="form_trash">
@@ -315,7 +310,7 @@ class GFFormDetail{
 
                             <?php // link to the google webfont library ?>
                             <style type="text/css">
-                                @import url('//fonts.googleapis.com/css?family=Shadows+Into+Light+Two');
+                                @import url('http://fonts.googleapis.com/css?family=Shadows+Into+Light+Two');
                             </style>
                             <li id="no-fields">
 
@@ -1372,7 +1367,7 @@ class GFFormDetail{
                                                 foreach(array_keys($predefined_choices) as $name){
                                                     $key = str_replace("'", "\'", $name);
                                                 ?>
-                                                    <li><a href="javascript:void(0);" onclick="SelectPredefinedChoice('<?php echo $key ?>');" class="bulk-choice"><?php echo $name ?></a>
+                                                    <li><a href="#" onclick="SelectPredefinedChoice('<?php echo $key ?>');" class="bulk-choice"><?php echo $name ?></a>
                                                 <?php
                                                 }
                                                 ?>
@@ -1387,12 +1382,12 @@ class GFFormDetail{
                                             </div>
 
                                             <div class="panel-custom" style="">
-                                                <a href="javascript:void(0);" onclick="LoadCustomChoicesPanel(true, 'slow');" id="bulk_save_as"><?php _e("Save as new custom choice", "gravityforms") ?></a>
+                                                <a href="#" onclick="LoadCustomChoicesPanel(true, 'slow');" id="bulk_save_as"><?php _e("Save as new custom choice", "gravityforms") ?></a>
                                                 <div id="bulk_custom_edit" style="display:none;">
                                                     <?php _e("Save as", "gravityforms"); ?> <input type="text" id="custom_choice_name" value="<?php _e("Enter name", "gravityforms"); ?>" onfocus="if(this.value == '<?php _e("enter name", "gravityforms"); ?>') this.value='';">&nbsp;&nbsp;
-                                                    <a href="javascript:void(0);" onclick="SaveCustomChoices();" class="button" id="bulk_save_button"><?php _e("Save", "gravityforms") ?></a>&nbsp;
-                                                    <a href="javascript:void(0);" onclick="CloseCustomChoicesPanel('slow');" id="bulk_cancel_link"><?php _e("Cancel", "gravityforms") ?></a>
-                                                    <a href="javascript:void(0);" onclick="DeleteCustomChoice();" id="bulk_delete_link"><?php _e("Delete", "gravityforms") ?></a>
+                                                    <a href="#" onclick="SaveCustomChoices();" class="button" id="bulk_save_button"><?php _e("Save", "gravityforms") ?></a>&nbsp;
+                                                    <a href="#" onclick="CloseCustomChoicesPanel('slow');" id="bulk_cancel_link"><?php _e("Cancel", "gravityforms") ?></a>
+                                                    <a href="#" onclick="DeleteCustomChoice();" id="bulk_delete_link"><?php _e("Delete", "gravityforms") ?></a>
                                                 </div>
                                                 <div id="bulk_custom_message" class="alert_yellow" style="display:none; margin-top:8px; padding: 8px;">
                                                     <!--Message will be added via javascript-->
@@ -1560,7 +1555,7 @@ class GFFormDetail{
                                         <input type="text" id="field_mask_text" size="35" onkeyup="SetFieldProperty('inputMaskValue', this.value);" />
                                         <p class="mask_text_description" style="margin:5px 0 0;">
                                             <?php _e("Enter a custom mask", "gravityforms") ?>.
-                                            <a href="javascript:void(0);" onclick="tb_show('<?php _e("Custom Mask Instructions", "gravityforms"); ?>', '#TB_inline?width=350&amp;inlineId=custom_mask_instructions', '');"><?php _e("Help", "gravityforms") ?></a>
+                                            <a href="#" onclick="tb_show('<?php _e("Custom Mask Instructions", "gravityforms"); ?>', '#TB_inline?width=350&amp;inlineId=custom_mask_instructions', '');"><?php _e("Help", "gravityforms") ?></a>
                                         </p>
                                         <div id="custom_mask_instructions" style="display:none;">
                                             <div class="custom_mask_instructions">
@@ -1893,8 +1888,7 @@ class GFFormDetail{
                                     do_action("gform_field_advanced_settings", 450, $form_id);
                                     ?>
                                     <li class="prepopulate_field_setting field_setting">
-                                        <input type="checkbox" id="field_prepopulate" onclick="SetFieldProperty('allowsPrepopulate', this.checked); ToggleInputName()"/>
-                                        <label for="field_prepopulate" class="inline"><?php _e("Allow field to be populated dynamically", "gravityforms") ?> <?php gform_tooltip("form_field_prepopulate") ?></label>
+                                        <input type="checkbox" id="field_prepopulate" onclick="SetFieldProperty('allowsPrepopulate', this.checked); ToggleInputName()"/> <label for="field_prepopulate" class="inline"><?php _e("Allow field to be populated dynamically", "gravityforms") ?> <?php gform_tooltip("form_field_prepopulate") ?></label>
                                         <br/>
                                         <div id="field_input_name_container" style="display:none; padding-top:10px;">
                                             <!-- content dynamically created from js.php -->
@@ -2243,9 +2237,8 @@ class GFFormDetail{
 
         require_once(GFCommon::get_base_path() . "/form_display.php");
         $field_html = GFFormDisplay::get_field($field, "", true);
-        $field_html_json = json_encode($field_html);
 
-        die("EndAddField($field_json, " . $field_html_json . ");");
+        die("EndAddField($field_json, \"$field_html\");");
     }
 
     public static function duplicate_field(){
@@ -2319,6 +2312,7 @@ class GFFormDetail{
             return array("status" => "invalid_json", "meta"=> null);
 
         $form_table_name =  $wpdb->prefix . "rg_form";
+        $meta_table_name =  $wpdb->prefix . "rg_form_meta";
 
         //Making sure title is not duplicate
         $forms = RGFormsModel::get_forms();
@@ -2327,7 +2321,6 @@ class GFFormDetail{
                 return array("status" => "duplicate_title", "meta" => $form_meta);
 
         if($id > 0){
-            $form_meta = GFFormsModel::trim_form_meta_values($form_meta);
             RGFormsModel::update_form_meta($id, $form_meta);
 
             //updating form title

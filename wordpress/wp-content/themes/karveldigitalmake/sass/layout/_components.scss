@@ -11,13 +11,3 @@
 .events-archive #breadcrumbs br {
   display: none;
 }
-
-// One Column Testimonials 
-
-@include media($tablet) {
-  #post-670 .builder-text-columns-1 .builder-text-column {
-    width: 70%;
-    margin: 0px auto;
-    float: none;
-  }
-}

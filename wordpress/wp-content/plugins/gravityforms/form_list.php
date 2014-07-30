@@ -1,9 +1,4 @@
 <?php
-
-if(!class_exists('GFForms')){
-    die();
-}
-
 class GFFormList{
 
     public static function form_list_page(){
@@ -35,13 +30,8 @@ class GFFormList{
         {
             check_admin_referer('gforms_update_forms', 'gforms_update_forms');
             $form_id = RGForms::post("action_argument");
-            if(GFCommon::current_user_can_any("gravityforms_delete_forms")){
-                RGFormsModel::delete_form($form_id);
-                $message = __('Form deleted.', 'gravityforms');
-            } else {
-                $message = __("You don't have adequate permissions to delete forms.", 'gravityforms');
-            }
-
+            RGFormsModel::delete_form($form_id);
+            $message = __('Form deleted.', 'gravityforms');
         }
         else if($action == "duplicate"){
             check_admin_referer('gforms_update_forms', 'gforms_update_forms');
@@ -66,12 +56,8 @@ class GFFormList{
                 $message = _n('%s form restored.', '%s forms restored.', $form_count, 'gravityforms');
                 break;
             case 'delete':
-                if(GFCommon::current_user_can_any("gravityforms_delete_forms")){
-                    GFFormsModel::delete_forms($form_ids);
-                    $message = _n('%s form deleted.', '%s forms deleted.', $form_count, 'gravityforms');
-                } else {
-                    $message = __("You don't have adequate permissions to delete forms.", 'gravityforms');
-                }
+                GFFormsModel::delete_forms($form_ids);
+                $message = _n('%s form deleted.', '%s forms deleted.', $form_count, 'gravityforms');
                 break;
             case 'reset_views':
                 foreach($form_ids as $form_id){
@@ -80,15 +66,10 @@ class GFFormList{
                 $message = _n('Views for %s form have been reset.', 'Views for %s forms have been reset.', $form_count, 'gravityforms');
                 break;
             case 'delete_entries':
-                if(GFCommon::current_user_can_any("gravityforms_delete_entries")){
-                    foreach($form_ids as $form_id){
-                        GFFormsModel::delete_leads_by_form($form_id);
-                    }
-                    $message = _n('Entries for %s form have been deleted.', 'Entries for %s forms have been deleted.', $form_count, 'gravityforms');
-                } else {
-                    $message = __("You don't have adequate permissions to delete entries.", "gravityforms");
+                foreach($form_ids as $form_id){
+                    GFFormsModel::delete_leads_by_form($form_id);
                 }
-
+                $message = _n('Entries for %s form have been deleted.', 'Entries for %s forms have been deleted.', $form_count, 'gravityforms');
                 break;
             case 'activate':
                 foreach($form_ids as $form_id){
@@ -406,7 +387,7 @@ class GFFormList{
                                 $dir = $sort_column == "title" && $sort_direction == "ASC" ? "DESC" : "ASC";
                                 $url_title = admin_url("admin.php?page=gf_edit_forms&sort=title&dir=$dir&trash=$trash");
                                 ?>
-                            <th width="410" scope="col" id="title" class="manage-column column-title" style="cursor:pointer;" onclick="document.location='<?php echo $url_title; ?>'"><?php _e("Title", "gravityforms"); ?></th>
+                            <th width="360" scope="col" id="title" class="manage-column column-title" style="cursor:pointer;" onclick="document.location='<?php echo $url_title; ?>'"><?php _e("Title", "gravityforms"); ?></th>
                             <th scope="col" id="author" class="manage-column column-author" style=""><?php _e("Views", "gravityforms") ?></th>
                             <th scope="col" id="template" class="manage-column" style=""><?php _e("Entries", "gravityforms") ?></th>
                             <th scope="col" id="template" class="manage-column" style=""><?php _e("Conversion", "gravityforms") ?> <?php gform_tooltip("entries_conversion", "tooltip_left") ?> </th>
@@ -424,7 +405,7 @@ class GFFormList{
                             ?>
                             <th scope="col" id="active" class="manage-column column-cb check-column"></th>
                             <th scope="col" id="id" class="manage-column" style="cursor:pointer;" onclick="document.location='<?php echo $url_id; ?>'"><?php _e("Id", "gravityforms") ?></th>
-                            <th width="410" scope="col" id="title" style="cursor:pointer;" class="manage-column column-title" onclick="document.location='<?php echo $url_title; ?>'"><?php _e("Title", "gravityforms") ?></th>
+                            <th width="350" scope="col" id="title" style="cursor:pointer;" class="manage-column column-title" onclick="document.location='<?php echo $url_title; ?>'"><?php _e("Title", "gravityforms") ?></th>
                             <th scope="col" id="author" class="manage-column column-author" style=""><?php _e("Views", "gravityforms") ?></th>
                             <th scope="col" id="template" class="manage-column" style=""><?php _e("Entries", "gravityforms") ?></th>
                             <th scope="col" id="template" class="manage-column" style=""><?php _e("Conversion", "gravityforms") ?></th>
@@ -511,11 +492,8 @@ class GFFormList{
                                                     'menu_class'    => 'trash',
                                                     'priority'		=> 500
                                                 );
-
+                                                $form_actions = apply_filters("gform_form_actions", $form_actions, $form->id);
                                             }
-
-                                            $form_actions = apply_filters("gform_form_actions", $form_actions, $form->id);
-
 											echo GFForms::format_toolbar_menu_items($form_actions, true);
 
                                             ?>
@@ -638,3 +616,5 @@ class GFFormList{
     }
 
 }
+
+?>

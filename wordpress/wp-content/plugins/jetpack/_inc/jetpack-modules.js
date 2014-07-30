@@ -110,7 +110,7 @@
 		modules.trigger( 'change' );
 	} );
 
-	$the_search.on( 'keyup search', function() {
+	$the_search.on( 'keyup', function() {
 		modules.trigger( 'change' );
 	} );
 

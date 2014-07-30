@@ -2,7 +2,7 @@
 # This file is distributed under the same license as the 3.0 package.
 msgid ""
 msgstr ""
-"PO-Revision-Date: 2014-06-13 07:20:14+0000\n"
+"PO-Revision-Date: 2014-05-15 06:50:58+0000\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -15,7 +15,7 @@ msgstr ""
 
 #: class.jetpack-admin.php:261
 msgid "View all Jetpack features"
-msgstr "Zie alle Jetpack-extensies"
+msgstr ""
 
 #: class.jetpack-admin.php:262
 msgid "Sorry, no modules were found for the search term \"%s\""
@@ -36,98 +36,98 @@ msgstr ""
 
 #: class.jetpack-debugger.php:141
 msgid "Some themes and plugins have <a href=\"%1$s\">known conflicts</a> with Jetpack – check the <a href=\"%2$s\">list</a>. (You can also browse the <a href=\"%3$s\">Jetpack support pages</a> or <a href=\"%4$s\">Jetpack support forum</a> to see if others have experienced and solved the problem.)"
-msgstr "Enkele thema's en plugins hebben <a href=\"%1$s\">bekende conflicten</a> met Jetpack – bekijk de <a href=\"%2$s\">lijst</a>. (Je kunt ook de <a href=\"%3$s\">Jetpack support pagina's doorbladeren</a> of <a href=\"%4$s\">Jetpack support forum</a> om te zien of anderen het probleem ook hadden en opgelost hebben.)"
+msgstr ""
 
 #: node_modules/grunt-wp-i18n/test/fixtures/basic-theme/exclude/file.php:3
 msgid "Exclude"
-msgstr "Uitsluiten"
+msgstr ""
 
 msgid "Check your spelling, style, and grammar with the After the Deadline proofreading service."
-msgstr "Controleer je spelling, stijl en grammatica met de Na de Deadline proofreading service"
+msgstr ""
 
 msgid "Insert a contact form anywhere on your site."
-msgstr "Voer een contactformulier in waar dan ook op je website"
+msgstr ""
 
 msgid "Customize your site’s CSS without modifying your theme."
-msgstr "Pas de CSS van je website aan zonder je thema te wijzigen"
+msgstr ""
 
 msgid "Share your public posts and comments to search engines and other services."
-msgstr "Deel je publieke posts en commentaar met zoekmachines en andere diensten"
+msgstr ""
 
 msgid "Give users the ability to share posts to Google+, and add your site link to your Google+ profile."
-msgstr "Geef gebruikers de mogelijkheid om posts te delen op Google+ en voeg je website link toe aan je Google+ profiel."
+msgstr ""
 
 msgid "Enable pop-up business cards over commenters’ Gravatars."
-msgstr "Schakel pop-up visitekaartjes in voor Gravatars van commentaargevers"
+msgstr ""
 
 msgid "Add support for infinite scroll to your theme."
-msgstr "Ondersteuning toevoegen voor oneindig scrollen aan je thema."
+msgstr ""
 
 msgid "Use LaTeX markup language in posts and pages for complex equations and other geekery."
-msgstr "Gebruik LaTeX markup taal in posts en pagina's voor ingewikkelde vergelijkingen en andere geekery."
+msgstr ""
 
 msgid "Give visitors an easy way to show their appreciation for your content."
-msgstr "Maak het bezoekers makkelijk omhun waardering voor je content te tonen."
+msgstr ""
 
 msgid "Write posts or pages in plain-text Markdown syntax."
-msgstr "Schrijf posts of pagina's in gewone tekst Markdown syntax"
+msgstr ""
 
 msgid "Optimize your site with a mobile-friendly theme for tablets and phones."
-msgstr "Optimaliseer je website met een mobielvriendelijk thema voor tabletten en telefoons"
+msgstr ""
 
 msgid "Receive notifications from Jetpack if your site goes offline — and when it it returns."
-msgstr "Ontvang berichten van Jetpack als je website offline gaat - en wanneer hij terugkomt."
+msgstr ""
 
 msgid "Search your entire database from a single field in your Dashboard."
-msgstr "Doorzoek je hele gegevensbestand vanaf een enkel veld in je Dashboard"
+msgstr ""
 
 msgid "Accelerate your site by loading images from the WordPress.com CDN."
-msgstr "Versnel je website door afbeeldingen van de WordPress.com CDN te laden"
+msgstr ""
 
 msgid "Publish posts by email, using any device and email client."
-msgstr "Publiceer posts per e-mail, met gebruik van een willekeurig apparaat en e-mail client."
+msgstr ""
 
 msgid "Share new posts on social media networks automatically."
-msgstr "Deel nieuwe posts automatisch op sociale media en netwerken."
+msgstr ""
 
 msgid "Display links to your related content under posts and pages."
-msgstr "Toon links naar je gerelateerde content onder posts en pagina's"
+msgstr ""
 
 msgid "Allow visitors to share your content on Facebook, Twitter, and more with a click."
-msgstr "Laat bezoekers met een klik je content delen op Facebook, Twitter en nog meer."
+msgstr ""
 
 msgid "Embed content from YouTube, Vimeo, SlideShare, and more, no coding necessary."
-msgstr "Embed content van YouTube, Vimeo, SlideShare en meer, geen codering nodig."
+msgstr ""
 
 msgid "Enable WP.me-powered shortlinks for all posts and pages."
-msgstr "Schakel WP.me-powered shortlinks in voor alle posts en pagina's"
+msgstr ""
 
 msgid "Allow your users to log in using their WordPress.com accounts."
-msgstr "Laat je gebruikers zich inloggen via hun WordPress.com accounts."
+msgstr ""
 
 msgid "Monitor your stats with clear, concise reports and no additional load on your server."
-msgstr "Controleer je stats met duidelijke, nauwkeurige rapporten en geen extra lading op je server."
+msgstr ""
 
 msgid "Allow users to subscribe to your posts and comments and receive notifications via email."
-msgstr "Laat gebruikers zich op je posts en commentaar abonneren en berichten via e-mail ontvangen."
+msgstr ""
 
 msgid "Display your image galleries in a variety of sleek, graphic arrangements."
-msgstr "Toon je fotogalerijen in een verschillende mooie, grafische opstellingen."
+msgstr ""
 
 msgid "Protect your site with automatic backups and security scans. (Subscription required.)"
-msgstr "Bescherm je website  met automatische backups en beveiligingsscans (Abonnement vereist.)"
+msgstr ""
 
 msgid "Site Verification"
-msgstr "Website Verificatie"
+msgstr ""
 
 msgid "Verify your site or domain with Google Webmaster Tools, Pinterest, and others."
-msgstr "Verifieer je webseit of domein met Google Webmaster Tools, Pinterest en overige."
+msgstr ""
 
 msgid "Upload and host video right on your site. (Subscription required.)"
-msgstr "Upload video rechten en toon ze op je website (Abonnement vereist)."
+msgstr ""
 
 msgid "Specify which widgets appear on which pages of your site."
-msgstr "Geef aan welke widgets op welke pagina's van je website verschijnen."
+msgstr ""
 
 #: modules/module-info.php:950
 msgid "Verifying your site allows you to access advanced features on these other services (e.g. Webmaster tools, or getting a verified badge). We'll just add an invisible %s tag to the source code of your homepage."
@@ -147,7 +147,7 @@ msgstr "Soortgelijke post"
 
 #: modules/sso.php:353
 msgid "Cannot deal with cookie redirects, as headers are already sent."
-msgstr "Kan cookie doorverwijzingen niet behandelen, omdat headers al verzonden zijn."
+msgstr ""
 
 #: modules/verification-tools/blog-verification-tools.php:90
 msgid "Example:"
@@ -155,11 +155,11 @@ msgstr "Voorbeeld:"
 
 #: modules/verification-tools/blog-verification-tools.php:116
 msgid "Website Verification Services"
-msgstr "Website Verificaatie Services"
+msgstr ""
 
 #: modules/verification-tools/blog-verification-tools.php:117
 msgid "Enter your meta key \"content\" value to verify your blog with %s"
-msgstr "Voer je meta sleutel  \"content\" waarde in om je blog te verifieren met %s"
+msgstr ""
 
 #: modules/verification-tools/blog-verification-tools.php:117
 msgid "and"
@@ -171,7 +171,7 @@ msgstr "Pagina archiveren"
 
 #: modules/widget-visibility/widget-conditions.php:116
 msgid "All taxonomy pages"
-msgstr "Alle taxonomie pagina's"
+msgstr ""
 
 #: views/admin/network-settings.php:2
 msgid "Network Settings"
@@ -183,54 +183,54 @@ msgstr "Globaal"
 
 #: views/admin/network-settings.php:5
 msgid "These settings affect all sites on the network."
-msgstr "Deze instellingen hebben gevolgen voor alle websites op het netwerk"
+msgstr ""
 
 #: views/admin/network-settings.php:17
 msgid "Sub-site override"
-msgstr "Sub website opheffen"
+msgstr ""
 
 #: views/admin/network-settings.php:20
 msgid "Allow individual site administrators to manage their own connections (connect and disconnect) to <a href=\"//wordpress.com\">WordPress.com</a>"
-msgstr "Laat individuele website beheerders hun eigen verbindingen (verbind en verbreek verbinding) beheren om <a href=\"//wordpress.com\">WordPress.com</a>"
+msgstr ""
 
 #: class.jetpack-admin.php:147
 msgctxt "The menu item label"
 msgid "Jetpack"
-msgstr "Jetpack"
+msgstr ""
 
 #: class.jetpack-admin.php:165
 msgctxt "The menu item label with a new module count as %s"
 msgid "Jetpack %s"
-msgstr "Jetpack %s"
+msgstr ""
 
 #: modules/widget-visibility/widget-conditions.php:194
 msgctxt "Noun, as in: \"This post has one taxonomy.\""
 msgid "Taxonomy"
-msgstr "Taxonomie"
+msgstr ""
 
 #: class.jetpack-admin.php:335
 msgid "Once you’ve connected Jetpack, you’ll get access to all the delightful features below."
-msgstr "Als je eenmaal verbonden met Jetpack krijg je toegang tot alle geweldige onderstaande functies"
+msgstr ""
 
 #: class.jetpack-admin.php:340
 msgid "Jetpack team favorites"
-msgstr "Jetpack team favorieten"
+msgstr ""
 
 #: class.jetpack-admin.php:347
 msgid "Customize the look of your site, without modifying your theme."
-msgstr "Pas het uiterlijk van je website aan zonder je thema te wijzigen."
+msgstr ""
 
 #: class.jetpack-admin.php:355
 msgid "Let users log in through WordPress.com with one click."
-msgstr "Laat gebruikers met een klik inloggen via WordPress.com"
+msgstr ""
 
 #: class.jetpack-admin.php:370
 msgid "Jetpack features"
-msgstr "Jetpack functies"
+msgstr ""
 
 #: class.jetpack-admin.php:374
 msgid "Search the Jetpack features"
-msgstr "Zoek de Jetpack functies"
+msgstr ""
 
 #: class.jetpack-admin.php:378 class.jetpack-admin.php:458
 msgid "Newest"
@@ -246,11 +246,11 @@ msgstr "Laad meer"
 
 #: class.jetpack-admin.php:407
 msgid "Error, bad module."
-msgstr "Fout, slechte module"
+msgstr ""
 
 #: class.jetpack-admin.php:449
 msgid "View:"
-msgstr "Bekijken:"
+msgstr ""
 
 #: class.jetpack-admin.php:455
 msgid "Sort by:"
@@ -282,11 +282,11 @@ msgstr "Overig"
 
 #: class.jetpack-admin.php:489
 msgid "Photos and Videos"
-msgstr "Foto's en Video's"
+msgstr ""
 
 #: class.jetpack-admin.php:490
 msgid "Social"
-msgstr "Sociaal"
+msgstr ""
 
 #: class.jetpack-admin.php:492
 msgid "Writing"
@@ -294,11 +294,11 @@ msgstr "Schrijven"
 
 #: class.jetpack-admin.php:495
 msgid "loading&hellip;"
-msgstr "laden@hellip;"
+msgstr ""
 
 #: class.jetpack-admin.php:508
 msgid "Paid"
-msgstr "Betaald"
+msgstr ""
 
 #: class.jetpack-admin.php:516
 msgid "Learn more"
@@ -306,28 +306,28 @@ msgstr "Meer informatie"
 
 #: class.jetpack-modules-list-table.php:46
 msgid "Search Modules…"
-msgstr "Zoek Modules..."
+msgstr ""
 
 #: class.jetpack-modules-list-table.php:88
 msgid "No Modules Found"
-msgstr "Geen Modules Aangetroffen"
+msgstr ""
 
 #: class.jetpack-modules-list-table.php:227
 msgid "Module Info"
-msgstr "Module Info"
+msgstr ""
 
 #: class.jetpack-network.php:314
 msgid "Jetpack Sites"
-msgstr "Jetpack Websites"
+msgstr ""
 
 #: class.jetpack-sync.php:767
 msgid "Indexing request queued and waiting&hellip;"
-msgstr "Verzoek om indexing in wachtrij en aan het wachten&hellip;"
+msgstr ""
 
 #: class.jetpack-twitter-cards.php:83 class.jetpack-twitter-cards.php:92
 #: functions.opengraph.php:71
 msgid "Visit the post for more."
-msgstr "Bezoek de post voor meer."
+msgstr ""
 
 #: class.jetpack-twitter-cards.php:92
 msgid "Post by %s."
@@ -335,131 +335,131 @@ msgstr "Bericht van %s."
 
 #: class.jetpack-twitter-cards.php:146
 msgid "Twitter Site Tag"
-msgstr "Twitter Website Tag"
+msgstr ""
 
 #: class.jetpack-twitter-cards.php:166
 msgid "The Twitter username of the owner of this site's domain."
-msgstr "De Twitter gebruikersnaam van de eigener van het domein van de website"
+msgstr ""
 
 #: class.jetpack.php:2212
 msgid "<strong>Your Jetpack is almost ready!</strong>"
-msgstr "<strong>Je Jetpack is bijna klaar!</strong>"
+msgstr ""
 
 #: class.jetpack.php:2213
 msgid "Connect now to enable features like Stats, Likes, and Social Sharing."
-msgstr "Verbind nu om functies zoals Stats, Likes en Sociaal Delen in te schakelen"
+msgstr ""
 
 #: class.jetpack.php:2215
 msgid "<strong>Jetpack is installed</strong>"
-msgstr "<strong>Jetpack wordt geinstalleerd</strong>"
+msgstr ""
 
 #: class.jetpack.php:2216
 msgid "It's ready to bring awesome, WordPress.com cloud-powered features to your site."
-msgstr "Het is klaar om geweldige door WordPress.com cloud versterkte functies aan je website aan te brengen."
+msgstr ""
 
 #: class.jetpack.php:2651
 msgid "Jetpack is now active. Browse through each Jetpack feature below. Visit the <a href=\"%s\">settings page</a> to activate/deactivate features."
-msgstr "Jetpack is n u actief. Blader hieronder door elke Jetpack functie. Bezoek de  <a href=\"%s\">instellingenpagina</a> om functies te activeren/deactiveren."
+msgstr ""
 
 #: modules/contact-form/grunion-contact-form.php:324
 msgid "Feedback discarded."
-msgstr "Feedback verwijderd"
+msgstr ""
 
 #: modules/contact-form/grunion-form-view.php:143
 msgid "Can I send a notification to more than one person?"
-msgstr "Kan ik een bericht naar meer dan een persoon sturen?"
+msgstr ""
 
 #: modules/contact-form/grunion-form-view.php:144
 msgid "Yep. You can enter multiple email addresses in the Email address field, and separate them with commas. A notification email will then be sent to each email address."
-msgstr "Zeker. Je kunt verschillende e-mailadressen in het veld E-mailadres invoeren en ze scheiden met komma's. Een bericht zal dan naar elk e-mailadres gestuurd worden."
+msgstr ""
 
 #: modules/custom-post-types/nova.php:134
 msgid "For example, spicy, favorite, etc. <br /> Separate Labels with commas"
-msgstr "Bijvoorbeeld, kruidig, favoriet enz. <br /> Scheid lebels met komma's"
+msgstr ""
 
 #: modules/custom-post-types/nova.php:145
 msgid "Menu Sections"
-msgstr "Menu Secties"
+msgstr ""
 
 #: modules/custom-post-types/nova.php:146
 msgid "Menu Section"
-msgstr "Menu Sectie"
+msgstr ""
 
 #: modules/custom-post-types/nova.php:147
 msgid "Search Menu Sections"
-msgstr "Zoek Menu Secties"
+msgstr ""
 
 #: modules/custom-post-types/nova.php:148
 msgid "All Menu Sections"
-msgstr "Alle Menu Secties"
+msgstr ""
 
 #: modules/custom-post-types/nova.php:149
 msgid "Parent Menu Section"
-msgstr "Bovenliggend Menu Sectie"
+msgstr ""
 
 #: modules/custom-post-types/nova.php:150
 msgid "Parent Menu Section:"
-msgstr "Bovenliggend Menu Sectie:"
+msgstr ""
 
 #: modules/custom-post-types/nova.php:151
 msgid "Edit Menu Section"
-msgstr "Menu Sectie Bewerken"
+msgstr ""
 
 #: modules/custom-post-types/nova.php:152
 msgid "View Menu Section"
-msgstr "Menu Sectie Bekijken"
+msgstr ""
 
 #: modules/custom-post-types/nova.php:153
 msgid "Update Menu Section"
-msgstr "Menu Sectie Bijwerken"
+msgstr ""
 
 #: modules/custom-post-types/nova.php:154
 msgid "Add New Menu Section"
-msgstr "Nieuw Menu Sectie Toevoegen"
+msgstr ""
 
 #: modules/custom-post-types/nova.php:155
 msgid "New Menu Sections Name"
-msgstr "Nieuw Menu Secties Naam"
+msgstr ""
 
 #: modules/custom-post-types/nova.php:179
 msgid "Add Menu Item"
-msgstr "Menu Item Toevoegen"
+msgstr ""
 
 #: modules/custom-post-types/nova.php:220
 msgid "Menu item updated. <a href=\"%s\">View item</a>"
-msgstr "Menu item bijgewerkt. <a href=\"%s\">View item</a>"
+msgstr ""
 
 #: modules/custom-post-types/nova.php:223
 msgid "Menu item updated."
-msgstr "Menu item bijgewerkt."
+msgstr ""
 
 #: modules/custom-post-types/nova.php:225
 msgid "Menu item restored to revision from %s"
-msgstr "Menu item hersteld voor revisie van %s"
+msgstr ""
 
 #: modules/custom-post-types/nova.php:226
 msgid "Menu item published. <a href=\"%s\">View item</a>"
-msgstr "Menu item gepubliceerd. <a href=\"%s\">View item</a>"
+msgstr ""
 
 #: modules/custom-post-types/nova.php:227
 msgid "Menu item saved."
-msgstr "Menu item opgeslagen."
+msgstr ""
 
 #: modules/custom-post-types/nova.php:228
 msgid "Menu item submitted. <a target=\"_blank\" href=\"%s\">Preview item</a>"
-msgstr "Menu item ingediend. <a target=\"_blank\" href=\"%s\">Item Bekijken</a>"
+msgstr ""
 
 #: modules/custom-post-types/nova.php:229
 msgid "Menu item scheduled for: <strong>%1$s</strong>. <a target=\"_blank\" href=\"%2$s\">Preview item</a>"
-msgstr "Menu item gepland voor: <strong>%1$s</strong>. <a target=\"_blank\" href=\"%2$s\">Preview item</a>"
+msgstr ""
 
 #: modules/custom-post-types/nova.php:232
 msgid "Menu item draft updated. <a target=\"_blank\" href=\"%s\">Preview item</a>"
-msgstr "Menu item draft bijgewerkt. <a target=\"_blank\" href=\"%s\">Item bekijken</a>"
+msgstr ""
 
 #: modules/custom-post-types/nova.php:261
 msgid "Enter the menu item's name here"
-msgstr "Voer de naam van het menu item hier in"
+msgstr ""
 
 #: modules/custom-post-types/nova.php:274
 #: modules/custom-post-types/nova.php:281
@@ -475,7 +475,7 @@ msgstr "Thumbnail"
 #: modules/custom-post-types/nova.php:502
 #: modules/custom-post-types/nova.php:553
 msgid "Save New Order"
-msgstr "Nieuwe Bestelling Opslaan"
+msgstr ""
 
 #: modules/custom-post-types/nova.php:747
 msgid "edit"
@@ -487,79 +487,79 @@ msgstr "Geen categorie"
 
 #: modules/custom-post-types/nova.php:844
 msgid "Add to section:"
-msgstr "Toevoegen aan sectie:"
+msgstr ""
 
 #: modules/custom-post-types/nova.php:857
 msgid "Labels: <small>spicy, favorite, etc. <em>Separate Labels with commas</em></small>"
-msgstr "Labels: <small>spicy, favorite, etc. <em>Scheid labels met komma's</em></small>"
+msgstr ""
 
 #: modules/custom-post-types/nova.php:879
 msgid "New Row"
-msgstr "Nieuwe Rij"
+msgstr ""
 
 #: modules/gplus-authorship/admin/ui.php:158
 msgid "Hide my Google+ profile from displaying in the sharing area of my posts."
-msgstr "Verberg mijn Google+ profiel van het weergeven in de gedeelde area van mijn posten."
+msgstr ""
 
 #: modules/gplus-authorship/admin/ui.php:179
 msgid "Your posts will be associated with your Google+ profile."
-msgstr "Je posts zullen geassocieerd worden met je Google+ profiel."
+msgstr ""
 
 #: modules/gplus-authorship/admin/ui.php:225
 msgid "Associate my Google+ infomation with this post."
-msgstr "Associeer mijn Goolge+ informatie met deze post."
+msgstr ""
 
 #: modules/infinite-scroll/infinity.php:550
 msgid "Older %s"
-msgstr "Ouder %s"
+msgstr ""
 
 #: modules/likes.php:293
 msgid "WordPress.com Reblog Button"
-msgstr "WordPress.com Reblog Knop"
+msgstr ""
 
 #: modules/likes.php:299
 msgid "Show the Reblog button on posts"
-msgstr "Toon de Reblog knop op posts"
+msgstr ""
 
 #: modules/likes.php:305
 msgid "Don't show the Reblog button on posts"
-msgstr "Niet de Reblog knop op posts tonen"
+msgstr ""
 
 #: modules/likes.php:313
 msgid "Comment Likes are"
-msgstr "Commentaar Likes staan"
+msgstr ""
 
 #: modules/likes.php:319
 msgid "On for all comments"
-msgstr "Aan voor alle commentaren"
+msgstr ""
 
 #: modules/module-info.php:452
 msgid "To customize the emails sent from your blog to your followers, check the settings at the bottom of the <a href=\"%s\">Reading Settings</a> page."
-msgstr "Om de e-mails die van je blog naar je volgers zijn verzonden, bekijk je de instellingen onderaan de <a href=\"%s\">Lees Instellingen</a> pagina."
+msgstr ""
 
 #: modules/module-info.php:948
 msgid "Site Verification Tools"
-msgstr "Website Verificatie Tools"
+msgstr ""
 
 #: modules/module-info.php:949
 msgid "Use these tools to verify that you own/control your website with other external services like Google, Bing and Pinterest."
-msgstr "Gebruik deze tools om te controleren dat je de eigenaar bent van de website of hem controleert met andere externe services zoals Google, Bing en Pinterest."
+msgstr ""
 
 #: _inc/footer.php:10 class.jetpack-admin.php:310
 msgid "Connect to Get Started"
-msgstr "Verbind om te Beginnen"
+msgstr ""
 
 #: _inc/footer.php:12 class.jetpack-admin.php:312
 msgid "Link your account to WordPress.com"
-msgstr "Link je account met WordPress.com"
+msgstr ""
 
 #: _inc/footer.php:18
 msgid "An %s Airline"
-msgstr "Een %sAirline"
+msgstr ""
 
 #: _inc/footer.php:28
 msgid "Terms"
-msgstr "Condities"
+msgstr ""
 
 #: _inc/footer.php:29
 msgid "Privacy"
@@ -567,27 +567,27 @@ msgstr "Privacy"
 
 #: _inc/footer.php:30
 msgid "Test your site&#8217;s compatibility with Jetpack."
-msgstr "Test de compatibiliteit van je  website met Jetpack."
+msgstr ""
 
 #: _inc/footer.php:31
 msgid "Contact the Jetpack Happiness Squad."
-msgstr "Neem contact op met het Jetpack Geluksteam"
+msgstr ""
 
 #: _inc/footer.php:32
 msgid "Take a survey.  Tell us how we&#8217;re doing."
-msgstr "Vul een enquete in. Laat ons weten hoe we het doen."
+msgstr ""
 
 #: _inc/footer.php:32
 msgid "Give Us Feedback"
-msgstr "Geef Ons Feedback"
+msgstr ""
 
 #: _inc/footer.php:38
 msgid "Unlink your user account"
-msgstr "Ontkoppel je gebruikersaccount"
+msgstr ""
 
 #: _inc/footer.php:51
 msgid "Config"
-msgstr "Config."
+msgstr ""
 
 #: _inc/header.php:10
 msgid "Home"
@@ -595,39 +595,33 @@ msgstr "Home"
 
 #: class.jetpack-admin.php:188
 msgid "Jetpack Settings"
-msgstr "Jetpack Instellingen"
+msgstr ""
 
 #: class.jetpack-admin.php:258
 msgid ""
 "This will deactivate all Jetpack modules.\n"
 "Are you sure you want to disconnect?"
 msgstr ""
-"Dit al alle Jetpack modules deactiveren. \n"
-"Weet je zeker dat je wilt verbinden?"
 
 #: class.jetpack-admin.php:259
 msgid ""
 "This will prevent user-specific modules such as Publicize, Notifications and Post By Email from working.\n"
 "Are you sure you want to unlink?"
 msgstr ""
-"Hierdoor zullen gebruikersspecifieke modules zoals Publicize, Notifications en Post per E-mail niet meer werken.\n"
-"Weet je zeker dat je wilt ontkoppelen?"
 
 #: class.jetpack-admin.php:260
 msgid ""
 "This will deactivate Jetpack.\n"
 "Are you sure you want to deactivate Jetpack?"
 msgstr ""
-"Dit zal Jetpack deactiveren.\n"
-"Weet je zeker dat je Jetpack wilt deactiveren?"
 
 #: class.jetpack-admin.php:307
 msgid "Supercharge your self-hosted site with a suite of the most powerful WordPress.com features."
-msgstr "Superlaat je zelfgehoste website op met een paar van de meest krachte WordPress.com functies."
+msgstr ""
 
 #: class.jetpack-admin.php:333
 msgid "You're successfully connected to Jetpack!"
-msgstr "Je bent succesvol verbonden met Jetpack?"
+msgstr ""
 
 #: modules/after-the-deadline/config-options.php:86
 msgid "Language"
@@ -635,11 +629,11 @@ msgstr "Taal"
 
 #: modules/module-info.php:445
 msgid "When leaving comments, your visitors can also subscribe to a post&#8217;s comments to keep up with the conversation."
-msgstr "Bij het achterlaten van commentaar, kunnen bezoekers zoch ook abonneren op commentaar van de post om de conversatie bij te houden."
+msgstr ""
 
 #: modules/sso.php:337
 msgid "Error: This site's Jetpack connection is currently experiencing problems."
-msgstr "Fout: Deze Jetpack verbinding van deze website ondervindt momenteel problemen."
+msgstr ""
 
 #: modules/widgets/top-posts.php:86
 msgid "Image List"
@@ -648,15 +642,15 @@ msgstr "Afbeeldingslijst"
 #: modules/after-the-deadline/config-options.php:89
 msgctxt "%1$s = http://codex.wordpress.org/Installing_WordPress_in_Your_Language, %2$s = WPLANG"
 msgid "The proofreader supports English, French, German, Portuguese, and Spanish. Your <a href=\"%1$s\">%2$s</a> value is the default proofreading language."
-msgstr "De proofreader ondersteunt Engels, Frans, Duits, Portugees en Spaans. Je <a href=\"%1$s\">%2$s</a>  waarde is de standaard proofread taal."
+msgstr ""
 
 #: modules/module-info.php:450
 msgid "To use the Subscriptions widget, go to Appearance &#8594; <a href=\"%s\">Widgets</a>. Drag the widget labeled &#8220;Blog Subscriptions (Jetpack)&#8221; into one of your sidebars and configure away."
-msgstr "Om de Abonnement widget te gebruiken, ga naar Uiterlijk; <a href=\"%s\">Widgets</a>. Sleep de widget gelabeld  &#8220;Blog Abonnementen (Jetpack)&#8221; naar een van je zijbalken en configureer hoe dan ook."
+msgstr ""
 
 #: modules/sso.php:483
 msgid "Error, invalid response data."
-msgstr "Fout, ongeldige antwoord gegevens"
+msgstr ""
 
 #: modules/widgets/top-posts.php:87
 msgid "Image Grid"
@@ -668,11 +662,11 @@ msgstr "Gebruik automatische gedetecteerde taal om berichten en pagina's te proe
 
 #: modules/module-info.php:451
 msgid "You can also make changes to your Subscription settings at the bottom of the <a href=\"%s\">Discussion Settings</a> page."
-msgstr "Je kunt ook wijzigingen ana je Abonnementsinstellingen aanbrengen onderaan de <a href=\"%s\">Discussie Instellingen</a> pagina."
+msgstr ""
 
 #: modules/sso.php:538
 msgid "Error: Couldn't create suitable username."
-msgstr "Fout: Kon geen geschikte gebuikersnaam aanmaken."
+msgstr ""
 
 #: modules/widgets/top-posts.php:91
 msgid "Top Posts &amp; Pages by views are calculated from 24-48 hours of stats. They take a while to change."
@@ -704,7 +698,7 @@ msgstr "Jetpack deelt de gepubliceerde content van je blog of website direct met
 
 #: modules/sso.php:747
 msgid "Login method not allowed"
-msgstr "Inlog methode niet toegestaan"
+msgstr ""
 
 #: modules/widgets/twitter-timeline.php:24
 msgid "Twitter Timeline"
@@ -721,7 +715,7 @@ msgstr "JSON API"
 
 #: modules/sso.php:754
 msgid "We couldn't find an account with the email <strong><code>%1$s</code></strong> to log you in with.  If you already have an account on <strong>%2$s</strong>, please make sure that <strong><code>%1$s</code></strong> is configured as the email address, or that you have connected to WordPress.com on your profile page."
-msgstr "We konden geen account vinden met de e-mail <strong><code>%1$s</code></strong> om je mee in te loggen. Als je al een account hebt op <strong>%2$s</strong>, zorg dat <strong><code>%1$s</code></strong>  geconfigueerd is als het e-mailadres, of dat je verbonden bent met WordPress.com op je profielpagina."
+msgstr ""
 
 #: modules/widgets/twitter-timeline.php:27
 msgid "Display an official Twitter Embedded Timeline widget."
@@ -733,11 +727,11 @@ msgstr "Zorg ervoor dat je op \"Update Profiel\" onderaan het scherm klikt om je
 
 #: modules/module-info.php:484
 msgid "Jetpack will allow you to authorize applications and services to securely connect to your blog and allow them to use your content in new ways and offer you new functionality."
-msgstr "Jetpack geeft je toestemming applicaties en services te autoriseren om veilig met je blog te verbinden en om deze applicaties en services je content op nieuwe manieren te laten gebruiken en je nieuwe functies aan te bieden."
+msgstr ""
 
 #: modules/sso.php:756
 msgid "We couldn't find any account on <strong>%2$s</strong> that is linked to your WordPress.com account to log you in with.  If you already have an account on <strong>%2$s</strong>, please make sure that you have connected to WordPress.com on your profile page."
-msgstr "We konden geen account vinden op <strong>%2$s</strong> die verbonden is met je WordPress.com account om je mee in te loggen. Als je al een account hebt op <strong>%2$s</strong>, zorg dan dat je verbonden met WordPress.com op je profielpagina."
+msgstr ""
 
 #: modules/widgets/twitter-timeline.php:94
 msgid "My Tweets"
@@ -749,11 +743,11 @@ msgstr "Spelling"
 
 #: modules/module-info.php:486
 msgid "Developers can use WordPress.com's <a href='http://developer.wordpress.com/docs/oauth2/'>OAuth2</a> authentication system and <a href='http://developer.wordpress.com/docs/api/'>WordPress.com REST API</a> to manage and access your site's content."
-msgstr "Ontwikkelaars kunnen gebruikmaken van WordPress.com's <a href='http://developer.wordpress.com/docs/oauth2/'>OAuth2</a> authenticatiesysteem en <a href='http://developer.wordpress.com/docs/api/'> WordPress.com REST API </a> om de content van je website te beheren en toegang ertoe te krijgen."
+msgstr ""
 
 #: modules/sso.php:808
 msgid "WordPress.com Single Sign On"
-msgstr "WordPress.com Single Sign Aan"
+msgstr ""
 
 #: modules/widgets/twitter-timeline.php:167
 msgid "Follow me on Twitter"
@@ -769,11 +763,11 @@ msgstr "Items op je restaurantmenu"
 
 #: modules/module-info.php:514
 msgid "A contact form is a great way to offer your readers the ability to get in touch, without giving out your personal email address."
-msgstr "Een contactformulier is een geweldige manier of je lezers de mogelijkheid te bieden in contact te komen, zonder je persoonlijke e-mailadres te geven."
+msgstr ""
 
 #: modules/sso.php:809
 msgid "Connecting with WordPress.com SSO enables you to log in via your WordPress.com account."
-msgstr "Verbinden met WordPress.com SSO stelt je instaat om in te loggen via je WordPress.com account."
+msgstr ""
 
 #: modules/widgets/twitter-timeline.php:187
 msgid "Width (px):"
@@ -790,11 +784,11 @@ msgstr "Menu-items"
 
 #: modules/module-info.php:517
 msgid "Each contact form can easily be customized to fit your needs. When a user submits your contact form, the feedback will be filtered through <a href=\"http://akismet.com/\">Akismet</a> (if it is active on your site) to make sure it’s not spam. Any legitimate feedback will then be emailed to you, and added to your feedback management area."
-msgstr "Elk contactformulier kan gemakkelijk aan je wensen worden aangepast. Als een gebruiker een contactformulier indient, wordt de feedback gefilterd door <a href=\"http://akismet.com/\">Akismet</a> (als dchtmateat actief is op je website) om te verzekeren dat het geens pam is. Alle rechtmatige feedback zal dan per e-mail naar je verzonden worden en toegevoegd aan je feedback beheer area."
+msgstr ""
 
 #: modules/sso.php:824
 msgid "Two step Enabled"
-msgstr "Twee stappen Ingeschakeld"
+msgstr ""
 
 #: modules/widgets/twitter-timeline.php:192
 msgid "Height (px):"
@@ -810,11 +804,11 @@ msgstr "Menu item"
 
 #: modules/module-info.php:534
 msgid "Jetpack Comments Screenshot"
-msgstr "Jetpack Commentaar Screenshot"
+msgstr ""
 
 #: modules/sso.php:826
 msgid "Two step Disabled"
-msgstr "Twee stappen Uitgeschakeld"
+msgstr ""
 
 #: modules/widgets/twitter-timeline.php:197
 msgid "# of Tweets Shown:"
@@ -830,11 +824,11 @@ msgstr "Een item toevoegen"
 
 #: modules/module-info.php:539
 msgid "Jetpack Comments enables your visitors to use their WordPress.com, Twitter, or Facebook accounts when commenting on your site."
-msgstr "Jetpack Commentaar stelt je bezoekers in staat gebruik te maken van hun WordPress.com, Twitter of Facebook account als ze commentaar geven op je website."
+msgstr ""
 
 #: modules/sso.php:832
 msgid "Unlink This Account"
-msgstr "Ontkoppel Deze Account"
+msgstr ""
 
 #: modules/widgets/twitter-timeline.php:205
 msgid "You need to <a href=\"%1$s\" target=\"_blank\">create a widget at Twitter.com</a>, and then enter your widget id (the long number found in the URL of your widget's config page) in the field below. <a href=\"%2$s\" target=\"_blank\">Read more</a>."
@@ -850,7 +844,7 @@ msgstr "Menu-item bewerken"
 
 #: modules/module-info.php:544
 msgid "Jetpack tries to match your site's color scheme automatically, but you can make manual adjustments at the bottom of the <a href='%s'>Discussion Settings</a> page."
-msgstr "Jetpack probeert het kleurenschema van je website automatisch aan te passen, maar je kunt handmatige wijzigingen aanbrengen onderaan de <a href='%s'>Discussie Instellingen</a> pagina"
+msgstr ""
 
 #: modules/stats.php:266 modules/stats.php:700
 msgid "Site Stats"
@@ -870,7 +864,7 @@ msgstr "Nieuw menu-item"
 
 #: modules/module-info.php:565
 msgid "Gallery Carousel Screenshot"
-msgstr "Galerie Carousel Screenshot"
+msgstr ""
 
 #: modules/stats.php:351
 msgid "Loading&hellip;"
@@ -910,7 +904,7 @@ msgstr "Zoek Menu Items"
 
 #: modules/module-info.php:570
 msgid "With Carousel active, any standard WordPress galleries you have embedded in posts or pages will launch a gorgeous full-screen photo browsing experience with comments and EXIF metadata."
-msgstr "Als Carousel actief is, zullen eventuele standaard WordPress galerijen die je in je posts of pagina's hebt opgenamen een prachtige volledig scherm foto blader ervaring verstrekken met commentaar en EXIF metadata."
+msgstr ""
 
 #: modules/stats.php:354
 msgid "View Site Stats without Javascript"
@@ -951,7 +945,7 @@ msgstr "Geen menu-items in prullenbak gevonden"
 
 #: modules/module-info.php:587
 msgid "The Custom CSS editor gives you the ability to add to or replace your theme's CSS, all while supplying syntax coloring, auto-indentation, and immediate feedback on the validity of the CSS you're writing."
-msgstr "De Aangepaste CSS bewerker stelt je in staat de CSS van je thema's toe te voegen of te verplaatsen en gelijktijdig syntax te kleuren, auto-indentatie en onmiddelijke feedback op de geldigheid van de CSS die je schrijft."
+msgstr ""
 
 #: modules/stats.php:541
 msgid "Admin bar"
@@ -973,7 +967,7 @@ msgstr "Veel items toevoegen"
 
 #: modules/module-info.php:588
 msgid "To use the CSS editor, go to Appearance &#8594; <a href=\"%s\">Edit CSS</a>."
-msgstr "Om de CSS editor te gebruiken, ga naar naar Uiterlijk; <a href=\"%s\">Bewerken CSS</a>"
+msgstr ""
 
 #: modules/stats.php:542
 msgid "Put a chart showing 48 hours of views in the admin bar."
@@ -989,7 +983,7 @@ msgstr "Er heeft zich een probleem voorgedaan tijdens de communicatie met de pro
 
 #: modules/custom-post-types/nova.php:417
 msgid "Menu Items re-ordered."
-msgstr "Menu Items opnieuw besteld."
+msgstr ""
 
 #: modules/module-info.php:605 modules/module-info.php:608
 msgid "Mobile Theme"
@@ -1013,7 +1007,7 @@ msgstr "Labels"
 
 #: modules/module-info.php:609
 msgid "There's a good chance that visitors to your site will be using a smartphone, and it's important to provide them with a great reading experience while on the small screen."
-msgstr "Er is een grote kans dat bezoekers aan je website een smartphone gebruiken. Het is belangrijk om te zorgen dat ze goed kunnen lezen op een klein scherm."
+msgstr ""
 
 #: modules/stats.php:545
 msgid "Count the page views of registered users who are logged in."
@@ -1036,7 +1030,7 @@ msgstr "Prijs"
 
 #: modules/module-info.php:610
 msgid "Jetpack's mobile theme is optimized for small screens. It uses the header image, background, and widgets from your current theme for a great custom look. Post format support is included, so your photos and galleries will look fantastic on a smartphone."
-msgstr "Het mobiele thema van Jetpack is geoptimaliseerd voor kleine schermen. Het gebruikt de header afbeelding, achgergrond en widgets van je huidige thema voor een geweldig aangepast uiterlijk. Post formaat support is ingevoegd, dus je foto's en galerijen zullen er fantastisch uitzien op een smartphone."
+msgstr ""
 
 #: modules/stats.php:555
 msgid "Smiley"
@@ -1062,7 +1056,7 @@ msgstr "Volgorde"
 
 #: modules/module-info.php:611
 msgid "Visitors on iPhone, Android, Windows Phone, and other mobile devices will automatically see the mobile theme, with the option to view the full site. You can enable or disable the mobile theme by clicking the \"Activate\" or \"Deactive\" button above."
-msgstr "Bezoekers met een iPhone, Android, Windows Phone en andere mobiele apparaten zien automatisch het mobiele thema met de optie om de volledige website te bekijken. Je kunt het mobiele thema in of uitschakelen door hierboven op  \"Activeren\" of \"Deactiven\"  te klikken."
+msgstr ""
 
 #: modules/stats.php:556
 msgid "Hide the stats smiley face image."
@@ -1116,7 +1110,7 @@ msgstr "OMHOOG"
 
 #: modules/module-info.php:628
 msgid "If you are a theme author, you can learn about adding support for Infinite Scroll at <a href=\"%1$s\">%1$s</a>."
-msgstr "Als je een thema auteur bent, vind je op <a href=\"%1$s\">%1$s</a> meer informatie over het toevoegen van support voor Eindeloos Scrollen."
+msgstr ""
 
 #: modules/stats.php:557
 msgid "Report visibility"
@@ -1157,7 +1151,7 @@ msgstr "BENEDEN"
 
 #: modules/module-info.php:634
 msgid "When you write great content, all you really want is people to find it, right?"
-msgstr "Als je goede content schrijft, is het enige wat je wilt dat mensen het vinden, nietwaar?"
+msgstr ""
 
 #: modules/stats.php:634
 msgid "Stats"
@@ -1165,7 +1159,7 @@ msgstr "Statistieken"
 
 #: modules/widgets/wordpress-post-widget.php:25
 msgid "Display WordPress Posts"
-msgstr "Toon WordPress Posts"
+msgstr ""
 
 #: modules/carousel/jetpack-carousel.php:110
 msgid "View full size <span class=\"photo-size\">%1$s<span class=\"photo-size-times\">&times;</span>%2$s</span>"
@@ -1177,7 +1171,7 @@ msgstr "Gebruik de <kbd>TAB</kbd> toets op je toetsenbord om tussen de kolommen 
 
 #: modules/module-info.php:636
 msgid "With the Infinite Scroll module and a supported theme, that's exactly what happens. Instead of the old way of navigating down a page by scrolling and then clicking a link to get to the next page, waiting for a page refresh&mdash;the document model of the web&mdash;infinite scrolling pulls the next set of posts automatically into view when the reader approaches the bottom of the page, more like an application."
-msgstr "Met de module Oneindig  Scrollen en een ondersteund thema, is dat precies wat er gebeurt. In plaats van de oude manier van naar beneden navigeren op een pagina en dan op een link klikken om naar de volgende pagina te gaan en te wachten tot de pagina ververst, kan het document model van het web oneigen scrollen de volgende serie posts automatisch in beeld brengen als de lezer de onderkant van de pagina nadert, meer zoals een applicatie."
+msgstr ""
 
 #: modules/stats.php:636
 msgid "Views over 48 hours. Click for more Site Stats."
@@ -1185,7 +1179,7 @@ msgstr "Weergave in 48 uur. Klik voor meer website statistieken."
 
 #: modules/widgets/wordpress-post-widget.php:27
 msgid "Displays a list of recent posts from another WordPress.com or Jetpack-enabled blog."
-msgstr "Toon een lijst recente posts van een andere WordPress.com of Jetpack ingeschakeld blog."
+msgstr ""
 
 #: modules/carousel/jetpack-carousel.php:111
 msgid "Please be sure to submit some text with your comment."
@@ -1197,7 +1191,7 @@ msgstr "Beschrijving"
 
 #: modules/module-info.php:639
 msgid "At this time, your theme, %s, doesn't support Infinite Scroll. Unlike other Jetpack modules, Infinite Scroll needs information from your theme to function properly."
-msgstr "Op dit moment ondersteunt je thema, %s, Oneindig Scrollen niet. In tegenstelling tot andere Jetpack modules, heeft Infinite Scroll informatie nodig van je thema om goed te kunnen functioneren."
+msgstr ""
 
 #: modules/stats.php:721
 msgid "day"
@@ -1206,7 +1200,7 @@ msgstr "dag"
 #: modules/widgets/wordpress-post-widget.php:76
 #: modules/widgets/wordpress-post-widget.php:97
 msgid "We cannot load blog data at this time."
-msgstr "We kunnen op dit moment geen blog gegevens laden."
+msgstr ""
 
 #: modules/carousel/jetpack-carousel.php:112
 msgid "Please provide an email address to comment."
@@ -1214,7 +1208,7 @@ msgstr "Gelieve een e-mailadres te geven om te reageren."
 
 #: modules/module-info.php:641
 msgid "Until your theme supports Infinite Scroll, you won't be able to activate this module."
-msgstr "Totdat je thema Oneindig Scrollen ondersteunt, kun je deze module niet activeren."
+msgstr ""
 
 #: modules/stats.php:722
 msgid "week"
@@ -1222,7 +1216,7 @@ msgstr "zwak"
 
 #: modules/widgets/wordpress-post-widget.php:107
 msgid "We cannot display posts for this blog."
-msgstr "We kunnen geen posts voor dit blog tonen."
+msgstr ""
 
 #: modules/carousel/jetpack-carousel.php:113
 msgid "Please provide your name to comment."
@@ -1234,7 +1228,7 @@ msgstr "Deze nieuwe menu-items toevoegen"
 
 #: modules/module-info.php:651
 msgid "There is an update available for your theme. You may wish to check if this update adds Infinite Scroll support by visiting the <a href=\"%s\">WordPress Updates</a> page."
-msgstr "Er is een update beschikbaar voor je thema. Je kunt kijken of deze update Oneindig Scrollen Support toevoegd door naar de <a href=\"%s\">WordPress Updates</a> pagina te gaan."
+msgstr ""
 
 #: modules/stats.php:723
 msgid "month"
@@ -1252,7 +1246,7 @@ msgstr "Sorry, maar er was een probleem tijdens het plaatsen van je reactie. Pro
 #: modules/custom-post-types/nova.php:989
 msgctxt "Nova label separator"
 msgid ", "
-msgstr ", "
+msgstr ""
 
 #: modules/module-info.php:675 modules/module-info.php:678
 #: modules/post-by-email.php:93
@@ -1277,7 +1271,7 @@ msgstr "Geen labels"
 
 #: modules/module-info.php:680
 msgid "Post by Email is a way of publishing posts on your blog by email. Any email client can be used to send the email, allowing you to publish quickly and easily from devices such as cell phones."
-msgstr "Post per E-mail is een manier om posts op je blog per e-mail te publiceren. Elke willekeurige e-mail client kan gebruikt worden om de e-mail te versturen, waardoor je snel en gemakkelijk van apparaten zoals een mobiele telefoon kunt publiceren."
+msgstr ""
 
 #: modules/stats.php:727
 msgid "the past week"
@@ -1285,7 +1279,7 @@ msgstr "afgelopen week"
 
 #: modules/widgets/wordpress-post-widget.php:176
 msgid "Enter a WordPress.com or Jetpack WordPress site URL."
-msgstr "Voer een WordPress.com of Jetpack WordPress website URL in."
+msgstr ""
 
 #: modules/carousel/jetpack-carousel.php:116
 msgid "Your comment is in moderation."
@@ -1293,11 +1287,11 @@ msgstr "Je reactie is in behandeling."
 
 #: modules/custom-post-types/testimonial.php:73
 msgid "Customer Testimonials"
-msgstr "Klantenbeoordelingen"
+msgstr ""
 
 #: modules/module-info.php:684
 msgid "Manage your Post By Email address from your <a href=\"%s\">profile settings</a>."
-msgstr "Beheer je Post per E-mail adres van je <a href=\"%s\">profiel instellingen </a>."
+msgstr ""
 
 #: modules/stats.php:728
 msgid "the past month"
@@ -1305,7 +1299,7 @@ msgstr "De afgelopen maand"
 
 #: modules/widgets/wordpress-post-widget.php:180
 msgid "Number of Posts to Display:"
-msgstr "Aantal Posts om te Tonen:"
+msgstr ""
 
 #: modules/carousel/jetpack-carousel.php:117
 msgid "Camera"
@@ -1316,11 +1310,11 @@ msgstr "Camera"
 #: modules/custom-post-types/testimonial.php:201
 #: modules/custom-post-types/testimonial.php:206
 msgid "Testimonials"
-msgstr "Beoordelingen"
+msgstr ""
 
 #: modules/module-info.php:688
 msgid "More information on sending emails, attachments, and customizing your posts."
-msgstr "Meer informatie over het zenden van e-mails, bijlagen en het aanpassen van je posts."
+msgstr ""
 
 #: modules/stats.php:729
 msgid "the past quarter"
@@ -1328,7 +1322,7 @@ msgstr "het afgelopen kwartier"
 
 #: modules/widgets/wordpress-post-widget.php:190
 msgid "Show Featured Image:"
-msgstr "Toon Geselecteerde Afbeelding:"
+msgstr ""
 
 #: modules/carousel/jetpack-carousel.php:118
 msgid "Aperture"
@@ -1336,11 +1330,11 @@ msgstr "Opening"
 
 #: modules/custom-post-types/testimonial.php:76
 msgid "Testimonial"
-msgstr "Testimonium"
+msgstr ""
 
 #: modules/module-info.php:708
 msgid "Photon"
-msgstr "Photon"
+msgstr ""
 
 #: modules/stats.php:730
 msgid "the past year"
@@ -1348,7 +1342,7 @@ msgstr "vorig jaar"
 
 #: modules/widgets/wordpress-post-widget.php:194
 msgid "Show Excerpts:"
-msgstr "Toon Fragmenten:"
+msgstr ""
 
 #: modules/carousel/jetpack-carousel.php:119
 msgid "Shutter Speed"
@@ -1356,11 +1350,11 @@ msgstr "Shuttersnelheid"
 
 #: modules/custom-post-types/testimonial.php:78
 msgid "All Testimonials"
-msgstr "Alle Beoordelingen"
+msgstr ""
 
 #: modules/module-info.php:710
 msgid "Give your site a boost by loading images in posts from the WordPress.com content delivery network. We cache your images and serve them from our super-fast network, reducing the burden on your Web host with the click of a button."
-msgstr "Geef je website een boost door afbeeldingen op te laden in posts vanaf het WordPress.com content afleveringsnetwerk. We cachen je afbeeldingen en leveren ze met  ons supersnelle netwerk en verminderen de last op je webhost met de klik van een knop."
+msgstr ""
 
 #: modules/stats.php:752
 msgid "Chart stats by"
@@ -1376,7 +1370,7 @@ msgstr "Focuslengte"
 
 #: modules/custom-post-types/testimonial.php:80
 msgid "Add New Testimonial"
-msgstr "Nieuwe Beoordeling Toevoegen"
+msgstr ""
 
 #: modules/module-info.php:729 modules/module-info.php:732
 #: modules/tiled-gallery/tiled-gallery.php:382
@@ -1398,11 +1392,11 @@ msgstr "Reageert als %s"
 
 #: modules/custom-post-types/testimonial.php:81
 msgid "Edit Testimonial"
-msgstr "Beoordeling Bewerken"
+msgstr ""
 
 #: modules/module-info.php:735
 msgid "Create elegant magazine-style mosaic layouts for your photos without having to use an external graphic editor."
-msgstr "Maak een elegant tijdschriftachtige tegel layout voor je foto's zonder een externe grafische bewerker te gebruiken."
+msgstr ""
 
 #: modules/stats.php:778
 msgid "Show top search terms over"
@@ -1414,15 +1408,15 @@ msgstr "%1$s &ndash; %2$s"
 
 #: modules/carousel/jetpack-carousel.php:133
 msgid "You must be <a href=\"#\" class=\"jp-carousel-comment-login\">logged in</a> to post a comment."
-msgstr "Je moet  <a href=\"#\" class=\"jp-carousel-comment-login\">ingelogd zijn</a> om een commentaar te posten."
+msgstr ""
 
 #: modules/custom-post-types/testimonial.php:82
 msgid "New Testimonial"
-msgstr "Nieuwe Beoordeling"
+msgstr ""
 
 #: modules/module-info.php:736
 msgid "When adding a gallery to your post, you now have the option to select a layout style for your images. We've added support for Rectangular, Square, and Circular galleries. By default, galleries will continue to display using the standard thumbnail grid layout. To make the rectangular layout the default for all of your site's galleries, head over to <a href=\"%s\">Settings &rarr; Media</a> and check the box next to \"Display all your gallery pictures in a cool mosaic.\""
-msgstr "Als je een galerij aan je post toevoegd, heb je nu de optie om een layout stijl voor je afbeeldingen te selecteren. We hebben ondersteuning toegevoegd voor Driehoekige, Vierkante en Ronde Galerijen. Galeriijen zullen standaard de miniatuur layout gebruiken. Om de driehoekige layout standaard te maken voor alle galerijen van je website, ga naar <a href=\"%s\">Settings &rarr; Media</a> en vink het vakje aan naast \"Display all your gallery pictures in a cool mosaic.\""
+msgstr ""
 
 #: modules/stats.php:944
 msgid "%1$s %2$s Views"
@@ -1438,11 +1432,11 @@ msgstr "%s (vereist)"
 
 #: modules/custom-post-types/testimonial.php:83
 msgid "View Testimonial"
-msgstr "Beoordeling Bekijken"
+msgstr ""
 
 #: modules/module-info.php:737
 msgid "Note: Images in tiled galleries require extra-special processing, so they will be served from WordPress.com's CDN even if the Photon module is disabled."
-msgstr "Let op: Afbeeldingen in tegel galerijen vereisen extra speciale bewerking, deze worden dus geserveerd vanaf de CDN van WordPress.com, zelfs als de Photon module is uitgeschakeld."
+msgstr ""
 
 #: modules/stats.php:965
 msgid "View All"
@@ -1450,7 +1444,7 @@ msgstr "Toon alles"
 
 #: views/admin/must-connect-main-blog.php:5
 msgid "Get started with Jetpack Multisite"
-msgstr "Ga aan de slag met Jetpack Multisite"
+msgstr ""
 
 #: class.jetpack-cli.php:26
 msgid "The Jetpack Version is %s"
@@ -1464,11 +1458,11 @@ msgstr "E-mail"
 
 #: modules/custom-post-types/testimonial.php:84
 msgid "Search Testimonials"
-msgstr "Zoek Beoordelingen"
+msgstr ""
 
 #: modules/module-info.php:759
 msgid "Likes allow your readers to show their appreciation for your posts and other published content using their WordPress.com accounts. Your readers will then be able to review their liked posts from WordPress.com."
-msgstr "Met Likes kunnen je lezers hun waardering laten zien voor je posts en andere gepubliceerde content door middel van hun WordPress.com accounts.Je lezers zullen vervolgens hun leuk gevonden posts kunnen bekijken vanaf WordPress.Com."
+msgstr ""
 
 #: modules/stats.php:969
 msgid "Top Posts"
@@ -1476,7 +1470,7 @@ msgstr "Populaire berichten"
 
 #: views/admin/must-connect-main-blog.php:7
 msgid "Get started managing your Multisite install of Jetpack by connecting."
-msgstr "Begin je Multisite installatie van Jetpack te beheren door te verbinden."
+msgstr ""
 
 #: class.jetpack-cli.php:27
 msgid "The WordPress.com blog_id is %d"
@@ -1490,11 +1484,11 @@ msgstr "Site"
 
 #: modules/custom-post-types/testimonial.php:85
 msgid "No Testimonials found"
-msgstr "Geen Beoordelingen aangetroffen"
+msgstr ""
 
 #: modules/module-info.php:760
 msgid "Displayed below your posts will be how many people have liked your posts and the Gravatars of those who have liked them."
-msgstr "Onderaan je post wordt weergegeven hoeveel mensen je post leuk vonden en de Gravatars van diegenen die ze leuk vonden."
+msgstr ""
 
 #: modules/stats.php:973 modules/stats.php:997
 msgid "Sorry, nothing to report."
@@ -1502,7 +1496,7 @@ msgstr "Sorry, niets te melden"
 
 #: class.jetpack-admin.php:301 views/admin/network-admin-header.php:13
 msgid "Jetpack is network activated and notices can not be dismissed."
-msgstr "Jetpack is netwerk geactiveerd en berichten kunnen niet worden verwijderd."
+msgstr ""
 
 #: class.jetpack-cli.php:29
 msgid "Jetpack is not currently connected to WordPress.com"
@@ -1514,11 +1508,11 @@ msgstr "Ontbrekende bijlage ID."
 
 #: modules/custom-post-types/testimonial.php:86
 msgid "No Testimonials found in Trash"
-msgstr "Geen Beoordelingen aangetroffen in Prullenbak"
+msgstr ""
 
 #: modules/module-info.php:762
 msgid "More information on using Likes."
-msgstr "Meer informatie over het gebruik van Likes"
+msgstr ""
 
 #: modules/stats.php:993
 msgid "Top Searches"
@@ -1529,30 +1523,30 @@ msgstr "http://wordpress.org/extend/plugins/jetpack/"
 
 #: class.jetpack-cli.php:57
 msgid "You cannot disconnect, without having first connected."
-msgstr "Je kunt de verbinding niet verbreken, zonder eerst verbonden te zijn."
+msgstr ""
 
 #: modules/carousel/jetpack-carousel.php:303
 msgid "Nonce verification failed."
-msgstr "Nonce verificatie mislukt."
+msgstr ""
 
 #: modules/custom-post-types/testimonial.php:117
 msgid "Enter the customer's name here"
-msgstr "Voer de naam van de klant hier in."
+msgstr ""
 
 #: modules/module-info.php:785
 msgid "The Google+ profile module allows you to connect your blog and Google+ accounts."
-msgstr "Met de Google+ profiel module kun je verbinden met je blog en je Google+ accounts."
+msgstr ""
 
 #: modules/stats.php:1021
 msgid "We were unable to get your stats just now. Please reload this page to try again."
-msgstr "We konden op dit moment niet bij je stats komen. Laad de pagina opnieuw en probeer het nogmaals."
+msgstr ""
 
 msgid "Bring the power of the WordPress.com cloud to your self-hosted WordPress. Jetpack enables you to connect your blog to a WordPress.com account to use the powerful features normally only available to WordPress.com users."
 msgstr "Breng de kracht van de WordPress.com cloud naar je zelfgehoste WordPress. Jetpack maakt het mogelijk je blog te verbinden met een WordPress.com account om de krachtige mogelijkheden te gebruiken die normaal enkel beschikbaar zijn voor WordPress.com gebruikers."
 
 #: class.jetpack-cli.php:62 class.jetpack-cli.php:131
 msgid "%s is not a valid command."
-msgstr "%s is geen geldig commando."
+msgstr ""
 
 #: modules/carousel/jetpack-carousel.php:310
 msgid "Missing target blog ID."
@@ -1560,22 +1554,22 @@ msgstr "Doelblog ID ontbreekt."
 
 #: modules/custom-post-types/testimonial.php:126
 msgid "Customer Name"
-msgstr "Klantnaam"
+msgstr ""
 
 #: modules/module-info.php:786
 msgid "Displayed below your posts will be a link back to your Google+ profile and a Google+ follow button. A link will also be added to your Google+ profile."
-msgstr "Onderaan je posts is een link naar je Google+ profiel en een Google+ volgen knop. Er zal ook een link naar je Google+ profiel worden toegevoegd."
+msgstr ""
 
 #: modules/stats.php:1028
 msgid "We were unable to get your stats just now. Please reload this page to try again. If this error persists, please <a href=\"%1$s\">contact support</a>. In your report please include the information below."
-msgstr "We konden op dit moment niet bij je stats komen. Laad e pagina opnieuw en probreer het nogmaals. Als deze fout aanhoudt, ga dan naar   <a href=\"%1$s\">contact support</a>.  Vermeld in je rapport de onderstaande informatie."
+msgstr ""
 
 msgid "Automattic"
 msgstr "Automattic"
 
 #: class.jetpack-cli.php:79
 msgid "Please specify a valid user."
-msgstr "Geef een geldige gebruiker aan."
+msgstr ""
 
 #: modules/carousel/jetpack-carousel.php:313
 msgid "Missing target post ID."
@@ -1583,22 +1577,22 @@ msgstr "Ontbrekend doelbericht-ID."
 
 #: modules/custom-post-types/testimonial.php:139
 msgid "Testimonial updated. <a href=\"%s\">View testimonial</a>"
-msgstr "Beoordeling bijgewerkt.<a href=\"%s\">Zie beoordelingl</a>"
+msgstr ""
 
 #: modules/module-info.php:788
 msgid "More information on using Google+ Profile."
-msgstr "Meer informatie over het gebruik van Google+ Profiel."
+msgstr ""
 
 #: modules/subscriptions.php:123
 msgid "Jetpack Subscriptions Settings"
-msgstr "Jetpack Abonnement Instellingen"
+msgstr ""
 
 msgid "http://jetpack.me"
 msgstr "http://jetpack.me"
 
 #: class.jetpack-cli.php:82
 msgid "Please specify a user."
-msgstr "Geef een gebruiker aan."
+msgstr ""
 
 #: modules/carousel/jetpack-carousel.php:316
 msgid "No comment text was submitted."
@@ -1606,13 +1600,13 @@ msgstr "Geen reactietekst ingediend."
 
 #: modules/custom-post-types/testimonial.php:142
 msgid "Testimonial updated."
-msgstr "Beoordeling bijgewerkt."
+msgstr ""
 
 #: modules/module-info.php:804 modules/omnisearch/omnisearch-core.php:59
 #: modules/omnisearch/omnisearch-core.php:64
 #: modules/omnisearch/omnisearch-core.php:85
 msgid "Omnisearch"
-msgstr "Omnizoeken"
+msgstr ""
 
 #: modules/subscriptions.php:132
 msgid "Follow Blog"
@@ -1620,7 +1614,7 @@ msgstr "Volg Blog"
 
 #: class.jetpack-cli.php:90
 msgid "Jetpack has been successfully disconnected."
-msgstr "De verbinding met Jetpack is succesvol verbroken."
+msgstr ""
 
 #: modules/carousel/jetpack-carousel.php:328
 msgid "Comments on this post are closed."
@@ -1628,11 +1622,11 @@ msgstr "Reacties op dit bericht zijn gesloten."
 
 #: modules/custom-post-types/testimonial.php:144
 msgid "Testimonial restored to revision from %s"
-msgstr "Testimoniaal hersteld voor revisie van %s"
+msgstr ""
 
 #: modules/module-info.php:806
 msgid "Search once, get results from everything! Currently supports searching posts, pages, comments, media, and plugins."
-msgstr "Zoek eenmaal, krijg resultaten voor alles! Op dit moment wordt het zoeken van posts, pagina's, commentaar, media en plugins ondersteund."
+msgstr ""
 
 #: modules/subscriptions.php:147
 msgid "Follow Comments"
@@ -1640,7 +1634,7 @@ msgstr "Volg reacties"
 
 #: class.jetpack-cli.php:95
 msgid "%s has been successfully disconnected."
-msgstr "verbinding met %s succesvol verbroken."
+msgstr ""
 
 #: modules/carousel/jetpack-carousel.php:338
 msgid "Sorry, but we could not authenticate your request."
@@ -1648,11 +1642,11 @@ msgstr "Sorry, maar we konden je aanvraag niet verifiëren."
 
 #: modules/custom-post-types/testimonial.php:145
 msgid "Testimonial published. <a href=\"%s\">View testimonial</a>"
-msgstr "Beoordeling gepubliceerd.  <a href=\"%s\">View testimonial</a>"
+msgstr ""
 
 #: modules/module-info.php:808
 msgid "Omnisearch plays nice with other plugins by letting other providers offer results as well."
-msgstr "Omnisearc past goed bij andere plugins door andere providers ook resultaten aan te laten bieden."
+msgstr ""
 
 #: modules/subscriptions.php:168
 msgid "Follower Settings"
@@ -1660,7 +1654,7 @@ msgstr "Instellingen volger"
 
 #: class.jetpack-cli.php:97
 msgid "%s could not be disconnected.  Are you sure they're connected currently?"
-msgstr "verbinding met %s kon niet worden verbroken. Weet je zeker dat hij momenteel verbonden is?"
+msgstr ""
 
 #: modules/carousel/jetpack-carousel.php:347
 msgid "Please provide your name."
@@ -1668,11 +1662,11 @@ msgstr "Gelieve je naam te geven."
 
 #: modules/custom-post-types/testimonial.php:146
 msgid "Testimonial saved."
-msgstr "Beoordeling opgeslagen"
+msgstr ""
 
 #: modules/module-info.php:827
 msgid "Widget Visibility"
-msgstr "Widget Zichtbaarheid"
+msgstr ""
 
 #: modules/subscriptions.php:175
 msgid "Blog follow email text"
@@ -1680,7 +1674,7 @@ msgstr "Blog volg e-mailtekst"
 
 #: class.jetpack-cli.php:101
 msgid "Please specify if you would like to disconnect a blog or user."
-msgstr "Geef aan of je de gebruiker met een blog of gebruiker wilt verbreken."
+msgstr ""
 
 #: modules/carousel/jetpack-carousel.php:350
 msgid "Please provide an email address."
@@ -1688,11 +1682,11 @@ msgstr "Gelieve een e-mailadres te geven."
 
 #: modules/custom-post-types/testimonial.php:147
 msgid "Testimonial submitted. <a target=\"_blank\" href=\"%s\">Preview testimonial</a>"
-msgstr "Beoordeling ingediend. <a target=\"_blank\" href=\"%s\">Voorbeeld beoordeling</a>"
+msgstr ""
 
 #: modules/module-info.php:829
 msgid "Control which pages your widgets appear on with Widget Visibility."
-msgstr "Controleer op welke pagina's je widgets verschijnen met Widget Zichtbaarheid."
+msgstr ""
 
 #: modules/subscriptions.php:183
 msgid "Comment follow email text"
@@ -1700,7 +1694,7 @@ msgstr "Reactie volg e-mailtekst"
 
 #: class.jetpack-cli.php:138
 msgid "%s is not a valid module."
-msgstr "%s is geen geldige module."
+msgstr ""
 
 #: modules/carousel/jetpack-carousel.php:353
 msgid "Please provide a valid email address."
@@ -1708,19 +1702,19 @@ msgstr "Gelieve een geldig e-mailadres te geven."
 
 #: modules/custom-post-types/testimonial.php:148
 msgid "Testimonial scheduled for: <strong>%1$s</strong>. <a target=\"_blank\" href=\"%2$s\">Preview testimonial</a>"
-msgstr "Beoordeling gepland voor: <strong>%1$s</strong>. <a target=\"_blank\" href=\"%2$s\">Bekijk beoordeling</a>"
+msgstr ""
 
 #: modules/module-info.php:830
 msgid "To control visibility, expand the widget and click the Visibility button next to the Save button, and then, choose a set of visibility options."
-msgstr "Om de zichtbaarheid te controleren, breid de widget uit en klik Zichtbaarheid aan naast Opslaan, en kies vervolgens een serie zichtbaarheid opties."
+msgstr ""
 
 #: modules/subscriptions.php:197
 msgid "Change whether your visitors can subscribe to your posts or comments or both."
-msgstr "Wijzig of je bezoekers zich kunnen abonneren op je posts of commentaar of beide."
+msgstr ""
 
 #: class.jetpack-cli.php:144
 msgid "Please specify a valid module."
-msgstr "Geef een geldige module op."
+msgstr ""
 
 #: modules/carousel/jetpack-carousel.php:382
 msgid "Image Gallery Carousel"
@@ -1728,11 +1722,11 @@ msgstr "Afbeeldingengalerie carrousel"
 
 #: modules/custom-post-types/testimonial.php:151
 msgid "Testimonial draft updated. <a target=\"_blank\" href=\"%s\">Preview testimonial</a>"
-msgstr "Beoordeling draft bijgewerkt. <a target=\"_blank\" href=\"%s\">Bekijkj beoordeling</a>"
+msgstr ""
 
 #: modules/module-info.php:831
 msgid "For example, if you wanted the Archives widget to only appear on category archives and error pages, choose \"Show\" from the first dropdown and then add two rules: \"Page is 404 Error Page\" and \"Category is All Category Pages.\""
-msgstr "Als je bijvoorbeeld wilt dat de Archieven widget alleen verschijnt op categorie archieven en fout pagina;s, kies \"Show\" uit het eerste keuzemenu en voeg dan twee regels toe: \"Page is 404 Error Page\" en  \"Category is All Category Pages.\""
+msgstr ""
 
 #: modules/subscriptions.php:212
 msgid "Show a <em>'follow blog'</em> option in the comment form"
@@ -1748,15 +1742,15 @@ msgstr "Carrousel inschakelen"
 
 #: modules/custom-post-types/testimonial.php:187
 msgid "Customize Testimonials Archive"
-msgstr "Beoordelingen Archief Aanpassen"
+msgstr ""
 
 #: modules/module-info.php:832
 msgid "You can also hide widgets based on the current page. For example, if you don't want the Archives widget to appear on search results pages, choose \"Hide\" and \"Page is Search results.\""
-msgstr "Je kunt widgets ook verbergen op basis van de hudige pagina. Als je bijvoorbeeld niet wilt dat de Archieven widget verschijnt in zoekresultaten pagina's, kies dan \"Verbergen\" en \"Pagina is Zoekresultaten.\""
+msgstr ""
 
 #: modules/subscriptions.php:227
 msgid "Show a <em>'follow comments'</em> option in the comment form"
-msgstr "Toon een <em>'volg commentaar'</em> optie in het commentaar formulier"
+msgstr ""
 
 #: class.jetpack-admin.php:452 class.jetpack-cli.php:155
 #: modules/vaultpress.php:24
@@ -1790,11 +1784,11 @@ msgstr "Metagegevens"
 
 #: modules/custom-post-types/testimonial.php:212
 msgid "Testimonial Page Title"
-msgstr "Beoordelings Pagina Titel"
+msgstr ""
 
 #: modules/module-info.php:848
 msgid "With the VideoPress module you can easily upload videos to your WordPress site and embed them in your posts and pages. This module requires a WordPress.com account with an active <a href=\"http://store.wordpress.com/premium-upgrades/videopress/\" target=\"_blank\">VideoPress subscription</a>."
-msgstr "Met de VideoPress module kun je gemakkelijk video's uploaden naar je WordPress website en ze invoegen in je posts en pagina's. Deze module vereist een WordPress.com account met een actief <a href=\"http://store.wordpress.com/premium-upgrades/videopress/\" target=\"_blank\">VideoPress abonnement</a>."
+msgstr ""
 
 #: modules/subscriptions.php:260
 msgid "Introduction text sent when someone follows your blog. (Site and confirmation details will be automatically added for you.)"
@@ -1813,11 +1807,11 @@ msgstr "Toon fotometadata (<a href=\"http://en.wikipedia.org/wiki/Exchangeable_i
 
 #: modules/custom-post-types/testimonial.php:224
 msgid "Testimonial Page Content"
-msgstr "Beoordelings Pagina Content"
+msgstr ""
 
 #: class.jetpack-admin.php:354 modules/module-info.php:861
 msgid "Single Sign On"
-msgstr "Single Sign On"
+msgstr ""
 
 #: modules/subscriptions.php:266
 msgid "Introduction text sent when someone follows a post on your blog. (Site and confirmation details will be automatically added for you.)"
@@ -1836,11 +1830,11 @@ msgstr "Kaart van fotolocatie in carrousel weergeven, indien beschikbaar."
 
 #: modules/custom-post-types/testimonial.php:235
 msgid "Testimonial Page Featured Image"
-msgstr "Beoordelings Pagina Geselecteede Afbeelding"
+msgstr ""
 
 #: modules/module-info.php:863
 msgid "With WordPress.com Single Sign On, your users will be able to log in to or register for your WordPress site with the same credentials they use on WordPress.com.  It's safe and secure."
-msgstr "Met WordPress.com Single Sign On, kunnen je gebruikers inloggen of zich aanmelden voor je WordPress website met dezelfde gegevens die ze gebruiken op WordPress.com. Het is veilig en zeker."
+msgstr ""
 
 #: modules/subscriptions.php:271
 msgid ""
@@ -1850,9 +1844,6 @@ msgid ""
 "\n"
 "To activate, click confirm below. If you believe this is an error, ignore this message and we'll never bother you again."
 msgstr ""
-"Hallo.\n"
-"\n"
-"Je hebt onlangs de posts van dit blog gevolgd. Dat betekent dat je elke nieuwe post per e-mail ontvangt."
 
 #: class.jetpack-client-server.php:139
 msgid "An administrator for this blog must set up the Jetpack connection."
@@ -1873,7 +1864,7 @@ msgstr "Share instellingen"
 
 #: modules/module-info.php:864
 msgid "Once enabled, a \"Log in with WordPress.com\" option will be added to your existing log in form."
-msgstr "Eenmaal ingeschakeld, een\"Inloggen met WordPress.com\" optie zal worden toegevoegd aan je bestaande inlog formulier."
+msgstr ""
 
 #: modules/subscriptions.php:272
 msgid ""
@@ -1883,9 +1874,6 @@ msgid ""
 "\n"
 "To activate, click confirm below. If you believe this is an error, ignore this message and we'll never bother you again."
 msgstr ""
-"Hallo. \n"
-"\n"
-"Je hebt onlangs een van mijn posts gevolgd.Dat betekent dat je een e-mail ontvangt als nieuw commentaar gepost wordt."
 
 #: class.jetpack-client-server.php:144
 msgid "You need to register your Jetpack before connecting it."
@@ -1905,7 +1893,7 @@ msgstr "Delen"
 
 #: modules/module-info.php:879
 msgid "Monitor"
-msgstr "Monitor"
+msgstr ""
 
 #: modules/subscriptions.php:474
 msgid "Notify me of follow-up comments by email."
@@ -1922,11 +1910,11 @@ msgstr "Toon afbeeldingen carrousel diavoorstelling op volledig formaat."
 
 #: modules/gplus-authorship/admin/ui.php:81
 msgid "Your Google+ account has been connected."
-msgstr "Je Google+ account is verbonden."
+msgstr ""
 
 #: modules/module-info.php:881 modules/monitor.php:62
 msgid "Nobody likes downtime, and that's why Jetpack Monitor is on the job, keeping tabs on your site. As soon as any downtime is detected, you will receive an email notification alerting you to the issue. That way you can act quickly, to get your site back online again!"
-msgstr "Niemand vindt downtime leuk en daarom zit Jetpack Monitor er bovenop en let op jouw website. Zodra downtime bemerkt wordt, ontvang je een e-mail om je van het probleem op de hoogte te stellen. Zo kun je snel handelen om je website weer snel online te krijgen!"
+msgstr ""
 
 #: modules/subscriptions.php:481
 msgid "Notify me of new posts by email."
@@ -1943,11 +1931,11 @@ msgstr "Geef een reactie"
 
 #: modules/gplus-authorship/admin/ui.php:82
 msgid "There was a problem connecting your Google+ account. Please try again."
-msgstr "Er was een probleem bij het verbinden met je Google+ acccount. Probeer het nogmaals."
+msgstr ""
 
 #: modules/module-info.php:883 modules/monitor.php:63
 msgid "We’ll also let you know as soon as your site is up and running, so you can keep an eye on total downtime."
-msgstr "We zullen je ook zo snel mogelijk laten weten als je website het weer doet, zodat je de totale downtime kunt controleren."
+msgstr ""
 
 #: modules/subscriptions.php:559
 msgid "Add an email signup form to allow people to subscribe to your blog."
@@ -1955,7 +1943,7 @@ msgstr "Voeg een e-mail inschrijvingsformulier toe zodat mensen zich kunnen insc
 
 #: class.jetpack-debugger.php:68
 msgid "Your site isn’t reaching the Jetpack servers."
-msgstr "Je website kan de Jetpack servers niet bereiken."
+msgstr ""
 
 #: modules/comments/admin.php:54 modules/widgets/facebook-likebox.php:159
 #: modules/widgets/twitter-timeline.php:239
@@ -1964,11 +1952,11 @@ msgstr "Licht"
 
 #: modules/gplus-authorship/admin/ui.php:83
 msgid "You must click 'Accept' in the Google+ dialog to connect your account."
-msgstr "Je moet op 'Accepteren' klikken in de Google+ dialoog om je account te verbinden."
+msgstr ""
 
 #: modules/module-info.php:914 modules/module-info.php:915
 msgid "Related Posts"
-msgstr "Betrokken Posts"
+msgstr ""
 
 #: modules/subscriptions.php:562
 msgid "Blog Subscriptions (Jetpack)"
@@ -1976,7 +1964,7 @@ msgstr "Blog Inschrijvingen (Jetpack)"
 
 #: class.jetpack-debugger.php:71
 msgid "Your site isn’t securely reaching the Jetpack servers."
-msgstr "Je website is niet veilig verbonden met de Jetpack servers."
+msgstr ""
 
 #: modules/comments/admin.php:55 modules/widgets/facebook-likebox.php:160
 #: modules/widgets/twitter-timeline.php:240
@@ -1990,7 +1978,7 @@ msgstr "Google+ profiel"
 
 #: modules/module-info.php:916
 msgid "\"Related Posts\" shows additional relevant links from your site under your posts. If the feature is enabled, links appear underneath your Sharing Buttons and WordPress.com Likes (if you’ve turned these on)."
-msgstr "\"Gerelateerde Posts\" toont additionele relevante links van je website onder je posts. Als de functie ingeschakeld is, verschijnen de links onder je Deelknoppen en Wordprecc.com Likes (als je deze aan hebt staan)."
+msgstr ""
 
 #: modules/subscriptions.php:602
 msgid "An email was just sent to confirm your subscription. Please find the email now and click activate to start subscribing."
@@ -1998,7 +1986,7 @@ msgstr "Er is zojuist een e-mail aan je verzonden om je inschrijving te bevestig
 
 #: class.jetpack-debugger.php:76
 msgid "Your `%1$s` option is set up as `%2$s`, but your WordPress.com connection lists it as `%3$s`!"
-msgstr "Je `%1$s` optie is ingesteld als `%2$s`, maar je WordPress.com connectie vermeldt het als `%3$s`!"
+msgstr ""
 
 #: modules/comments/admin.php:56
 msgid "Transparent"
@@ -2011,7 +1999,7 @@ msgstr "Verbinding verbreken"
 
 #: modules/module-info.php:917
 msgid "More information on using Related Posts."
-msgstr "Meer informatie over het gebruik van Gerelateerde Posts"
+msgstr ""
 
 #: modules/subscriptions.php:611
 msgid "The email you entered was invalid, please check and try again."
@@ -2019,19 +2007,19 @@ msgstr "Het ingevulde e-mailadres is niet geldig, kijk het na en probeer het opn
 
 #: class.jetpack-debugger.php:83
 msgid "Something has gotten mixed up in your Jetpack Connection!"
-msgstr "Er is iets mis met je Jetpack Verbinding!"
+msgstr ""
 
 #: modules/comments/admin.php:72 modules/module-info.php:537
 msgid "Jetpack Comments"
-msgstr "Jetpack Commentaar"
+msgstr ""
 
 #: modules/gplus-authorship/admin/ui.php:131
 msgid "Connect your WordPress account to Google+ to add this blog to your Google+ profile and improve the visibility of your blog posts on Google."
-msgstr "Verbind je WordPress account met Google+ om dit blog toe te voegen aan je Google+ profiel en verbeter de zichtbaarheid van je blog posts op Google."
+msgstr ""
 
 #: modules/module-info.php:918
 msgid "This feature uses the WordPress.com infrastructure and requires that your public content be mirrored there. If you see intermittent issues only effecting certain posts, request a reindex of your posts."
-msgstr "Deze functie gebruikt de WordPress.com infrastructuur en vereist dat je openbare content hier weerspiegeld wordt. Als je  met tussenpozen problemen ziet die alleen gevolgen hebben voor bepaalde posten, verzoek dan een nieuwe index van je posts."
+msgstr ""
 
 #: modules/subscriptions.php:614
 msgid "You have already subscribed to this site, please check your inbox."
@@ -2039,11 +2027,11 @@ msgstr "Je bent al ingeschreven, gelieve je inbox na te kijken."
 
 #: class.jetpack-debugger.php:93
 msgid "It looks like your site can not communicate properly with Jetpack."
-msgstr "Het lijkt erop of je website niet goed kan communiceren met Jetpack."
+msgstr ""
 
 #: modules/comments/admin.php:81
 msgid "Greeting Text"
-msgstr "Begroetingstekst"
+msgstr ""
 
 #: modules/gplus-authorship/admin/ui.php:133
 msgid "Need help?"
@@ -2051,7 +2039,7 @@ msgstr "Heb je hulp nodig?"
 
 #: modules/module-info.php:934
 msgid "Markdown lets you compose posts and comments with links, lists, and other styles using regular characters and punctuation marks. Markdown is used by writers and bloggers who want a quick and easy way to write rich text, without having to take their hands off the keyboard, and without learning a lot of complicated codes and shortcuts."
-msgstr "Met Markdown kunnen je posts en commentaar samenstellenmet links, lijsten en andere stijlen met gebruikmaking van gewone tekens en interpunctietekens. Marddown wordt gebruikt door schijvers en bloggers die een snelle en gemakkelijke manier willen om een rich text te schrijven, zonder dat ze hun handen van het toetsenbord hoeven te halen, en zonder veel te hoeven leren over ingewikkelde codes en shortcuts."
+msgstr ""
 
 #: modules/subscriptions.php:620
 msgid "There was an error when subscribing, please try again."
@@ -2060,7 +2048,7 @@ msgstr "Er is een fout opgetreden tijdens het inschrijven, probeer opnieuw."
 #: class.jetpack-admin.php:197 class.jetpack-debugger.php:99
 #: class.jetpack.php:1856 class.jetpack.php:2076
 msgid "Jetpack Debugging Center"
-msgstr "Jetpack Debug Centrum"
+msgstr ""
 
 #: modules/comments/admin.php:97 modules/comments/admin.php:168
 #: modules/widgets/facebook-likebox.php:157
@@ -2069,11 +2057,11 @@ msgstr "Kleurenschema"
 
 #: modules/gplus-authorship/admin/ui.php:140
 msgid "Your Google+ profile and WordPress.com accounts have been disconnected, including your Publicize connections. If you no longer wish to be associated with this blog on Google we recommend that you also remove the blog URL from your <a href='%s' target='_blank'>Google+ profile</a>."
-msgstr "De verbinding van je Google+ profiel en WordPress.com account zijn verbroken, zo ook van je Publicize verbindingen. Als je niet meer met dit blog geassocieerd wilt zijn op Google, raden we je aan ook de blog URL van je <a href='%s' target='_blank'>Google+ profiel</a> te verwijderen."
+msgstr ""
 
 #: modules/monitor.php:79
 msgid "Receive Monitor Email Notifications."
-msgstr "Ontvang Monitor E-Mail Berichten."
+msgstr ""
 
 #: modules/subscriptions.php:633
 msgid "Join %s other subscriber"
@@ -2083,11 +2071,11 @@ msgstr[1] "Voeg je bij %s andere abonnees"
 
 #: class.jetpack-debugger.php:100
 msgid "Testing your site's compatibily with Jetpack..."
-msgstr "De compatibiliteit van je website met Jetpack wordt getest..."
+msgstr ""
 
 #: modules/comments/admin.php:118
 msgid "Adjust your Jetpack Comments form with a clever greeting and color-scheme."
-msgstr "Pas je Jetpack Commentaar formulier aan met een leuke groet en kleurschema."
+msgstr ""
 
 #: modules/gplus-authorship/admin/ui.php:142
 msgid "Your Google+ profile and WordPress.com accounts have been disconnected. If you no longer wish to be associated with this blog on Google we recommend that you also remove the blog URL from your <a href='%s' target='_blank'>Google+ profile</a>."
@@ -2095,7 +2083,7 @@ msgstr "Je Google+ profiel en WordPress.com accounts zijn ontkoppeld. Indien je 
 
 #: modules/monitor.php:81
 msgid "Emails will be sent to %s (<a href=\"%s\">Edit</a>)"
-msgstr "E-mails worden verzonden naar %s (<a href=\"%s\">Edit</a>)"
+msgstr ""
 
 #: modules/subscriptions.php:710
 msgid "Subscribe to Blog via Email"
@@ -2103,15 +2091,15 @@ msgstr "Abonneer je op dit Blog via E-mail"
 
 #: class.jetpack-debugger.php:128
 msgid "Your Jetpack setup looks a-okay!"
-msgstr "Je Jetpack instellingen zien er prima uit!"
+msgstr ""
 
 #: modules/comments/admin.php:134
 msgid "A few catchy words to motivate your readers to comment"
-msgstr "Een paar pakkende worden om het commentaar van je lezers te motiveren"
+msgstr ""
 
 #: modules/monitor.php:88 modules/sso.php:887
 msgid "This profile is not currently linked to a WordPress.com Profile."
-msgstr "Dit profiel is momenteel niet gekoppeld aan een WordPress.com Profiel."
+msgstr ""
 
 #: modules/subscriptions.php:711
 msgid "Enter your email address to subscribe to this blog and receive notifications of new posts by email."
@@ -2119,7 +2107,7 @@ msgstr "Vul je emailadres in om in te schrijven op deze blog en emailmeldingen t
 
 #: class.jetpack-debugger.php:131
 msgid "There seems to be a problem with your site’s ability to communicate with Jetpack!"
-msgstr "Er lijkt een probleem te zijn met het vermogen van je website om met Jetpack te communiceren!"
+msgstr ""
 
 #: modules/comments/base.php:83
 msgid "Invalid request"
@@ -2159,7 +2147,7 @@ msgstr "%s: %s"
 
 #: class.jetpack-debugger.php:139
 msgid "It may be caused by one of these issues, which you can diagnose yourself:"
-msgstr "Dat kan veroorzaakt woorden door een van deze problemen, die je zelf kunt diagnosticeren:"
+msgstr ""
 
 #: modules/comments/base.php:232
 msgid "Error: please enter a valid email address."
@@ -2183,11 +2171,11 @@ msgstr "Eenvoudige, beknopte website statistieken zonder extra belasting van je 
 
 #: class.jetpack-debugger.php:141
 msgid "A known issue."
-msgstr "Een bekend probleem"
+msgstr ""
 
 #: modules/comments/comments.php:187
 msgid "You must <a href=\"%s\">log in</a> to post a comment."
-msgstr "Je moet <a href=\"%s\">inloggen</a> om commentaar te posten."
+msgstr ""
 
 #: modules/gravatar-hovercards.php:47 modules/module-info.php:57
 #: modules/module-info.php:72
@@ -2220,7 +2208,7 @@ msgstr "Inschrijfknop:"
 
 #: class.jetpack-debugger.php:142
 msgid "An incompatible plugin."
-msgstr "Een niet compatiebele plugin."
+msgstr ""
 
 #: modules/comments/comments.php:251
 msgid "Cancel reply"
@@ -2242,11 +2230,11 @@ msgstr[1] "Toon het aantal inschrijvingen? (%s inschrijvingen)"
 
 #: class.jetpack-debugger.php:142
 msgid "Find out by disabling all plugins except Jetpack. If the problem persists, it's not a plugin issue. If the problem is solved, turn your plugins on one by one until the problem pops up again – there's the culprit! Let us know, and we'll try to help."
-msgstr "Ontdek het door alle plugins behalve Jetpack uit te schakelen. Als het probleem aanhoudt, is het geen plugin probleem. Als het probleem opgelost is, doe dan een voor een je plugins aan totdat het probleem weer verschijnt - daar heb je de dader! Laat het ons weten en we helpen je."
+msgstr ""
 
 #: modules/comments/comments.php:387
 msgid "Invalid security token."
-msgstr "Ongeldig beveiligings token."
+msgstr ""
 
 #: modules/holiday-snow.php:19
 msgid "Snow"
@@ -2263,7 +2251,7 @@ msgstr "Uitgelichte inhoud"
 
 #: class.jetpack-debugger.php:143
 msgid "A theme conflict."
-msgstr "Een thema conflict."
+msgstr ""
 
 #: modules/comments/comments.php:448 modules/comments/comments.php:499
 msgid "Submitting Comment%s"
@@ -2279,11 +2267,11 @@ msgstr "Media zoeken"
 
 #: modules/theme-tools/featured-content.php:409
 msgid "Easily feature all posts with the <a href=\"%1$s\">\"featured\" tag</a> or a tag of your choice. Your theme supports up to %2$s posts in its featured content area."
-msgstr "Markeer gemakkelijk al je posts met de <a href=\"%1$s\">\"geselecteerde\" tag</a> of een tag van je keuze. Je thema ondersteunt maximaal %2$s posts de de geselecteerde content area."
+msgstr ""
 
 #: class.jetpack-debugger.php:143
 msgid "If your problem isn't known or caused by a plugin, try activating Twenty Twelve (the default WordPress theme). If this solves the problem, something in your theme is probably broken – let the theme's author know."
-msgstr "Als je probleem niet bekend is of veroorzaakt wordt door ene plugin, probeer dan Twente Twelve te activeren (het standaard WordPress thema). Als dit het probleem oplost, is er waarschijnlijk iets kapot in je thema - informeer de auteur van het thema hierover."
+msgstr ""
 
 #: modules/contact-form/admin.php:16
 msgid "Add a custom form"
@@ -2304,11 +2292,11 @@ msgstr "Tagnaam"
 
 #: class.jetpack-debugger.php:144
 msgid "A problem with your XMLRPC file."
-msgstr "Een probleem met je XMLRPC bestand."
+msgstr ""
 
 #: modules/contact-form/admin.php:21 modules/contact-form/admin.php:22
 msgid "Add Contact Form"
-msgstr "Contactformulier Toevoegen"
+msgstr ""
 
 #: modules/infinite-scroll/infinity.php:297
 msgid "We've disabled this option for you since you have footer widgets in Appearance &rarr; Widgets, or because your theme does not support infinite scroll."
@@ -2324,11 +2312,11 @@ msgstr "Verberg tag van weergave in de berichtmeta en tagclouds."
 
 #: class.jetpack-debugger.php:144
 msgid "Load your <a href=\"%s\">XMLRPC file</a>. It should say “XML-RPC server accepts POST requests only.” on a line by itself."
-msgstr "Laad je <a href=\"%s\">XMLRPC bestand </a>. Het zou moeten zeggen “XML-RPC server accepteert alleen POST verzoeken.” op een aparte regel."
+msgstr ""
 
 #: modules/contact-form/admin.php:101
 msgid "Mark Spam"
-msgstr "Spam Markeren"
+msgstr ""
 
 #: modules/infinite-scroll/infinity.php:303
 msgid "Scroll Infinitely"
@@ -2341,11 +2329,11 @@ msgstr "Plugins"
 
 #: modules/theme-tools/featured-content.php:452
 msgid "The settings for Featured Content have <a href=\"%s\">moved to Appearance &rarr; Customize</a>."
-msgstr "De instellingen voor Geselecteerde Content zijn <a href=\"%s\"> verplaatst naar Uiterlijk; Aanpassen </a>."
+msgstr ""
 
 #: class.jetpack-debugger.php:146
 msgid "If it's not by itself, a theme or plugin is displaying extra characters. Try steps 2 and 3."
-msgstr "Als het het niet zelf doet, toont een thema of plugin extra karakaters. Probeer stappen 2 en 3."
+msgstr ""
 
 #: modules/contact-form/admin.php:140 modules/contact-form/admin.php:545
 msgid "You are not allowed to manage this item."
@@ -2357,7 +2345,7 @@ msgstr "(Toont na elke lading %s berichten)"
 
 #: modules/omnisearch/omnisearch-plugins.php:23
 msgid "Loading &hellip;"
-msgstr "Laden &hellip;"
+msgstr ""
 
 #: modules/theme-tools/social-links.php:188
 msgid "&mdash; Select &mdash;"
@@ -2365,11 +2353,11 @@ msgstr "&mdash; Selecteren &mdash;"
 
 #: class.jetpack-debugger.php:147
 msgid "If you get a 404 message, contact your web host. Their security may block XMLRPC."
-msgstr "Als je een 404 bericht krijgt, neem dan contact op metje web host. Zijn beveiliging kan XMLRPC blokkeren."
+msgstr ""
 
 #: modules/contact-form/admin.php:157
 msgid "Feedback(s) marked as spam"
-msgstr "Feedback(s) gemarkeerd als spam"
+msgstr ""
 
 #: modules/infinite-scroll/infinity.php:533
 msgid "Older posts"
@@ -2383,11 +2371,11 @@ msgstr "Titel"
 
 #: modules/tiled-gallery/tiled-gallery.php:358
 msgid "Tiled Mosaic"
-msgstr "Betegeld Mozaiek"
+msgstr ""
 
 #: class.jetpack-debugger.php:152
 msgid "If none of these help you find a solution, <a href=\"#\">click here to contact Jetpack support</a>. Tell us as much as you can about the issue and what steps you've tried to resolve it, and one of our Happiness Engineers will be in touch to help."
-msgstr "Als niets van dit alles je helpt een oplossing te vinden, <a href=\"#\">klik dan hier om contact op te nemen met Jetpack support</a>. Vertel ons zoveel als je kan over het probleem en welke stappen je ondernomen hebt om het op te lossen en een van onze Geluksengineers zal contact opnemen om je te helpen."
+msgstr ""
 
 #: modules/contact-form/admin.php:187 modules/contact-form/admin.php:647
 msgid "Messages"
@@ -2403,11 +2391,11 @@ msgstr "Snippet"
 
 #: modules/tiled-gallery/tiled-gallery.php:359 modules/widgets/gallery.php:328
 msgid "Square Tiles"
-msgstr "Vierkante Tegels"
+msgstr ""
 
 #: class.jetpack-debugger.php:166
 msgid "Please describe the problem you are having."
-msgstr "Beschrijf het probleem dat je hebt."
+msgstr ""
 
 #: modules/contact-form/admin.php:196
 #: modules/contact-form/grunion-omnisearch.php:36
@@ -2442,7 +2430,7 @@ msgstr "boodschap"
 
 #: modules/infinite-scroll.php:86
 msgid "Use Google Analytics with Infinite Scroll"
-msgstr "Gebruik Google Analytics met Oneindig Scrollen"
+msgstr ""
 
 #: modules/omnisearch/omnisearch-posts.php:84
 msgid "Y/m/d g:i:s A"
@@ -2454,7 +2442,7 @@ msgstr "Al je galerie-afbeeldingen in een cool mozaïek weergeven."
 
 #: class.jetpack-debugger.php:172
 msgid "Let us know your name."
-msgstr "Vertel ons je naam."
+msgstr ""
 
 #: modules/contact-form/admin.php:198
 #: modules/contact-form/grunion-omnisearch.php:38
@@ -2464,7 +2452,7 @@ msgstr "Datum"
 
 #: modules/infinite-scroll.php:97
 msgid "Track each Infinite Scroll post load as a page view in Google Analytics"
-msgstr "Traceer elke Infinite Scroll post lading als een paginavoorbeeld in Google Analytics"
+msgstr ""
 
 #: modules/omnisearch/omnisearch-posts.php:91
 msgid "%s ago"
@@ -2484,7 +2472,7 @@ msgstr "Dit item herstellen vanuit de prullenbak"
 
 #: modules/infinite-scroll.php:97
 msgid "By checking the box above, each new set of posts loaded via Infinite Scroll will be recorded as a page view in Google Analytics."
-msgstr "Door het vakje hierboven aan te vinken, zal elke nieuwe serie posts die via Oneindig Schrollen geladen is, worden opgenomen als een paginavoorbeeld in Google Analytics."
+msgstr ""
 
 #: modules/omnisearch/omnisearch-posts.php:93
 msgid "Y/m/d"
@@ -2516,7 +2504,7 @@ msgstr "Controleer je verjaardag."
 
 #: class.jetpack-debugger.php:183
 msgid "The test results and some other useful debug information will be sent to the support team. Please feel free to <a href=\"#\">review/modify</a> this information."
-msgstr "De testresultaten en nog wat andere handige debug informatie worden gestuurd naar het supportteam. Aarzel niet om deze informatie te <a href=\"#\">bekijken/wijzigen</a>."
+msgstr ""
 
 #: modules/contact-form/admin.php:284 modules/contact-form/admin.php:383
 msgid "Delete this item permanently"
@@ -2537,7 +2525,7 @@ msgstr "Vastleggen"
 
 #: class.jetpack-debugger.php:187
 msgid "Debug Info"
-msgstr "Debug Info"
+msgstr ""
 
 #: modules/contact-form/admin.php:286 modules/contact-form/admin.php:385
 msgid "Delete Permanently"
@@ -2553,11 +2541,11 @@ msgstr "Gepland"
 
 #: modules/videopress/class.videopress-player.php:326
 msgid "You do not have sufficient <a rel=\"nofollow\" href=\"%s\">freedom levels</a> to view this video. Support free software and upgrade."
-msgstr "Je hebt niet voldoende <a rel=\"nofollow\" href=\"%s\">vrijheid niveaus</a> om deze video te bekijken. Support gratis software en upgrade."
+msgstr ""
 
 #: class.jetpack-heartbeat.php:169
 msgid "Jetpack weekly"
-msgstr "Jetpak wekelijks"
+msgstr ""
 
 #: modules/contact-form/admin.php:317
 msgid "Mark this message as spam"
@@ -2588,7 +2576,7 @@ msgstr "Prullenbak"
 
 #: modules/likes.php:215
 msgid "Likes Notifications"
-msgstr "Likes Berichten"
+msgstr ""
 
 #: modules/post-by-email.php:96 modules/subscriptions.php:637
 msgid "Email Address"
@@ -2629,7 +2617,7 @@ msgstr "Verbonden"
 #: modules/contact-form/grunion-contact-form.php:1250
 msgctxt "{$date_format} \\a\\t {$time_format}"
 msgid "%1$s \\a\\t %2$s"
-msgstr "%1$s \\a\\t %2$s"
+msgstr ""
 
 #: modules/likes.php:255
 msgid "Someone likes one of my posts"
@@ -2665,7 +2653,7 @@ msgstr "WordPress.com 'likes' zijn"
 
 #: modules/post-by-email.php:118
 msgid "Regenerate Address"
-msgstr "Adres Regenereren"
+msgstr ""
 
 #: modules/videopress/class.videopress-player.php:661
 msgid "Loading video..."
@@ -2691,7 +2679,7 @@ msgstr "Deactiveer bericht per e-mail"
 
 #: modules/videopress/class.videopress-video.php:306
 msgid "The VideoPress plugin could not communicate with the VideoPress servers. This error is most likely caused by a misconfigured plugin. Please reinstall or upgrade."
-msgstr "De VideoPress plugin kon geen verbinding maken met de VideoPress servers. Deze fout wordt waarschijnlijk veroorzaakt door een verkeerd geconfigureerde plugin. Installeer opnieuw of upgrade."
+msgstr ""
 
 #: _inc/header.php:14 class.jetpack-admin.php:188 class.jetpack-network.php:315
 #: class.jetpack.php:2183 modules/publicize/ui.php:687
@@ -2709,7 +2697,7 @@ msgstr "Ingeschakeld per bericht"
 
 #: modules/post-by-email.php:127
 msgid "To use Post By Email, you need to link your %s account to your WordPress.com account."
-msgstr "Om Post per E-mail te gebruiken, moet je je %s account linken met je WordPress.com account."
+msgstr ""
 
 #: modules/videopress/class.videopress-video.php:308
 msgid "<strong>%s</strong> is not an allowed embed site."
@@ -2729,11 +2717,11 @@ msgstr "Toon knoppen op"
 
 #: modules/post-by-email.php:130 modules/publicize/publicize-jetpack.php:74
 msgid "If you don't have a WordPress.com account yet, you can sign up for free in just a few seconds."
-msgstr "Als je nog geen WordPress.com account hebt, kun je je in een paar seconden gratis aanmelden."
+msgstr ""
 
 #: modules/videopress/class.videopress-video.php:308
 msgid "Publisher limits playback of video embeds."
-msgstr "Uitgever beperkt het afspelen van video embeds."
+msgstr ""
 
 #: class.jetpack-sync.php:766 class.jetpack-sync.php:770
 #: class.jetpack-sync.php:778 class.jetpack-sync.php:800
@@ -2750,7 +2738,7 @@ msgstr "Voorpagina, archiefpagina's en zoekresultaten"
 
 #: modules/post-by-email.php:171 modules/post-by-email.php:180
 msgid "Unable to create your Post By Email address. Please try again later."
-msgstr "Kan je Post per E-mail adres niet aanmaken. Probeer het later nogmaals."
+msgstr ""
 
 #: modules/videopress/class.videopress-video.php:310
 msgid "No data found for VideoPress identifier: <strong>%s</strong>."
@@ -2768,15 +2756,15 @@ msgstr "Instellingen zijn opgeslagen"
 
 #: modules/post-by-email.php:199 modules/post-by-email.php:208
 msgid "Unable to regenerate your Post By Email address. Please try again later."
-msgstr "Kon je Post per E-mail adres niet regeneren. Probeer het later nogmaals."
+msgstr ""
 
 #: modules/videopress/videopress.php:72 modules/videopress/videopress.php:76
 msgid "Could not obtain a VideoPress upload token. Please try again later."
-msgstr "Kon geen VideoPress Upload token verkrijgen. Probeer het later nogmaals."
+msgstr ""
 
 #: class.jetpack-sync.php:771
 msgid "Indexing posts"
-msgstr "Indexeren van posts"
+msgstr ""
 
 #: modules/contact-form/grunion-contact-form.php:84
 msgid "Search Feedback"
@@ -2788,15 +2776,15 @@ msgstr "Deelknoppen"
 
 #: modules/post-by-email.php:227 modules/post-by-email.php:236
 msgid "Unable to disable your Post By Email address. Please try again later."
-msgstr "Kon je Post per E-mail adres niet uitschakelen. Probeer het later nog eens."
+msgstr ""
 
 #: modules/videopress/videopress.php:264
 msgid "Please note that the VideoPress module requires a WordPress.com account with an active <a href=\"http://store.wordpress.com/premium-upgrades/videopress/\" target=\"_blank\">VideoPress subscription</a>."
-msgstr "Let op dat de VideoPressmodule een WordPress.com account vereist met een actief <a href=\"http://store.wordpress.com/premium-upgrades/videopress/\" target=\"_blank\">VideoPress abonnement</a>"
+msgstr ""
 
 #: class.jetpack-sync.php:774
 msgid "Reindex Posts"
-msgstr "Posts opnieuw indexeren"
+msgstr ""
 
 #: modules/contact-form/grunion-contact-form.php:85
 #: modules/contact-form/grunion-contact-form.php:86
@@ -2810,15 +2798,15 @@ msgstr "Wijzigingen opslaan"
 
 #: modules/publicize/enhanced-open-graph.php:108
 msgid "Video on %s"
-msgstr "Video op %s"
+msgstr ""
 
 #: modules/videopress/videopress.php:269
 msgid "Connected WordPress.com Blog"
-msgstr "Verbonden WordPress.com Blog"
+msgstr ""
 
 #: class.jetpack-sync.php:775
 msgid "Posts indexed."
-msgstr "Post geindexeerd"
+msgstr ""
 
 #: modules/contact-form/grunion-contact-form.php:103
 msgid "Spam <span class=\"count\">(%s)</span>"
@@ -2832,15 +2820,15 @@ msgstr "Vind ik leuk:"
 
 #: modules/publicize/publicize-jetpack.php:71
 msgid "To use Publicize, you'll need to link your %s account to your WordPress.com account using the button to the right."
-msgstr "Om Publicize te gebruiken moet je je %s account aan je WordPress.com account koppelen met behulp van de knop aan de rechterkant."
+msgstr ""
 
 #: modules/videopress/videopress.php:278
 msgid "Only videos from the selected blog will be available in your media library."
-msgstr "Uitsluitend video's van het geselecteerde blog zijn verkrijgbaar in je media bibliotheek."
+msgstr ""
 
 #: class.jetpack-sync.php:779
 msgid "Status unknown."
-msgstr "Status onbekend."
+msgstr ""
 
 #: modules/contact-form/grunion-contact-form.php:192
 msgid "An error occurred. Please try again later."
@@ -2856,7 +2844,7 @@ msgstr "Er was een probleem tijdens de verbinding met %s om een geautoriseerde v
 
 #: modules/videopress/videopress.php:279
 msgid "<a href=\"%s\">Click here</a> to refresh this list."
-msgstr "<a href=\"%s\">Klik hier</a> om deze lijst te verversen."
+msgstr ""
 
 #: class.jetpack.php:1235
 msgctxt "Module Tag"
@@ -2874,54 +2862,54 @@ msgstr "Laden&#8230;"
 
 #: modules/publicize/publicize-jetpack.php:197
 msgid "An invalid request was made. This normally means that something intercepted or corrupted the request from your server to the Jetpack Server. Try again and see if it works this time."
-msgstr "Er is een ongeldig verzoek gedaan. Dit betekent normaal gesproken dat iets het verzoek heeft ongerschept of gecorrumpeerd heeft tussen jouw server en de Jetpack Server. Probeer het nogmaals om te kijken of het nu goed gaat."
+msgstr ""
 
 #: modules/videopress/videopress.php:285
 msgid "Video Library Access"
-msgstr "Video Bibliotheek Toegang"
+msgstr ""
 
 #: class.jetpack.php:1236
 msgctxt "Module Tag"
 msgid "Social"
-msgstr "Sociaal"
+msgstr ""
 
 #: modules/contact-form/grunion-contact-form.php:364
 msgid "Export feedback as CSV"
-msgstr "Feedback exporteren als CSV"
+msgstr ""
 
 #: modules/likes.php:783
 msgid "<span>%d</span> bloggers like this:"
-msgstr "<span>%d</span> bloggers op de volgende wijze:"
+msgstr ""
 
 #: modules/publicize/publicize-jetpack.php:200
 msgid "We could not verify that your server is making an authorized request. Please try again, and make sure there is nothing interfering with requests from your server to the Jetpack Server."
-msgstr "We konden niet controleren of je server een geautoriseerd verzoek indient. Probeer het nogmaals, en zorg dat er niets is dat de verzoeken van jouw server naar de Jetpack Server in de weg staat."
+msgstr ""
 
 #: modules/videopress/videopress.php:289
 msgid "Do not allow other users to access my VideoPress library"
-msgstr "Geef gebruikers geen toegang tot mijn VdeoPress bibliotheek"
+msgstr ""
 
 #: class.jetpack.php:1237
 msgctxt "Module Tag"
 msgid "WordPress.com Stats"
-msgstr "WordPress.com Stats"
+msgstr ""
 
 #: modules/contact-form/grunion-contact-form.php:370
 msgid "Select feedback to download"
-msgstr "Selecteer feedback om down te loaden"
+msgstr ""
 
 #: modules/markdown/easy-markdown.php:246
 #: modules/markdown/easy-markdown.php:248 modules/module-info.php:932
 msgid "Markdown"
-msgstr "Markdown"
+msgstr ""
 
 #: modules/publicize/publicize-jetpack.php:203
 msgid "No blog_id was included in your request. Please try disconnecting Jetpack from WordPress.com and then reconnecting it. Once you have done that, try connecting Publicize again."
-msgstr "Er was geen blog_id bij je verzoek gevoegd. Probeer de verbinding met Jetpack van WordPress.com te verbrekenen en vervolgens opnieuw te verbinden. Als je dat gedaan hebt, probeer dan nogmaals met Publicize te verbinden."
+msgstr ""
 
 #: modules/videopress/videopress.php:291
 msgid "Allow users to access my videos"
-msgstr "Geef gebruikers toegang tot mijn video's"
+msgstr ""
 
 #: class.jetpack.php:1238
 msgctxt "Module Tag"
@@ -2934,15 +2922,15 @@ msgstr "Alle berichten"
 
 #: modules/markdown/easy-markdown.php:271
 msgid "Use Markdown for posts and pages."
-msgstr "Gebruik Markdown for posts en pagina's"
+msgstr ""
 
 #: modules/publicize/publicize-jetpack.php:206
 msgid "No user information was included in your request. Please make sure that your user account has connected to Jetpack. Connect your user account by going to the <a href=\"%s\">Jetpack page</a> within wp-admin."
-msgstr "Er was geen gebruikersinfotie bij je verzoek gevoegd. Zorg daat je gebruikersaccount verbonden is met Jetpack. Verbind je gebruikersaccount door naar de <a href=\"%s\">Jetpack pagina</a> in wp-admin te gaan."
+msgstr ""
 
 #: modules/videopress/videopress.php:293
 msgid "Allow users to access and edit my videos"
-msgstr "Geef gebruikers toegang tot mijn video's en toestemming ze te bewerken"
+msgstr ""
 
 #: class.jetpack.php:1239
 msgctxt "Module Tag"
@@ -2956,15 +2944,15 @@ msgstr "Downloaden"
 #: modules/markdown/easy-markdown.php:272
 #: modules/markdown/easy-markdown.php:287
 msgid "Learn more about Markdown."
-msgstr "Meer informatie over Markdown."
+msgstr ""
 
 #: modules/publicize/publicize-jetpack.php:209
 msgid "Something which should never happen, happened. Sorry about that. If you try again, maybe it will work."
-msgstr "Er is iets gebeurd wat nooit had mogen gebeure. Het spijt ons. Als je het opnieuw probeert lukt het misschien."
+msgstr ""
 
 #: modules/videopress/videopress.php:295
 msgid "Allow users to access, edit, and delete my videos"
-msgstr "Geef gebruikers toegang tot mijn video's en toestemming ze te bewerken en te verwijderen"
+msgstr ""
 
 #: class.jetpack.php:1240
 msgctxt "Module Tag"
@@ -2980,15 +2968,15 @@ msgstr "Contactformulier"
 
 #: modules/markdown/easy-markdown.php:286
 msgid "Use Markdown for comments."
-msgstr "Gebruik Markdown voor commentaar."
+msgstr ""
 
 #: modules/publicize/publicize-jetpack.php:213
 msgid "There was a problem connecting with Publicize. Please try again in a moment."
-msgstr "Er was een probleem bij het verbinden met Publicize. Probeer het straks nogmaals."
+msgstr ""
 
 #: modules/videopress/videopress.php:298
 msgid "Allow users to upload videos"
-msgstr "Geef gebruikers toestemming video's te uploaden"
+msgstr ""
 
 #: class.jetpack.php:1241
 msgctxt "Module Tag"
@@ -2998,7 +2986,7 @@ msgstr "Mobiel"
 #: modules/contact-form/grunion-contact-form.php:785
 msgctxt "%1$s = blog name"
 msgid "%1$s Sidebar"
-msgstr "%1$s Zijbalk"
+msgstr ""
 
 #: modules/markdown/easy-markdown.php:551
 msgid "Markdown content"
@@ -3010,7 +2998,7 @@ msgstr "Foutcode: %s"
 
 #: modules/videopress/videopress.php:303
 msgid "Free formats"
-msgstr "Gratis formaten"
+msgstr ""
 
 #: class.jetpack.php:1242
 msgctxt "Module Tag"
@@ -3020,7 +3008,7 @@ msgstr "Ander"
 #: modules/contact-form/grunion-contact-form.php:788
 msgctxt "%1$s = blog name, %2$s = post title"
 msgid "%1$s %2$s"
-msgstr "%1$s %2$s"
+msgstr ""
 
 #: modules/minileven/minileven.php:93
 msgid "View Mobile Site"
@@ -3032,7 +3020,7 @@ msgstr "De verbinding is verwijderd."
 
 #: modules/videopress/videopress.php:307
 msgid "Only display videos in free software formats"
-msgstr "Toon alleen video's in gratis software formaten"
+msgstr ""
 
 #: class.jetpack.php:1553
 msgid "Jetpack requires WordPress version %s or later."
@@ -3044,7 +3032,7 @@ msgstr "Versturen &#187; "
 
 #: modules/minileven/minileven.php:260
 msgid "Mobile-compatible:"
-msgstr "Mobiel compatibel:"
+msgstr ""
 
 #: modules/publicize/publicize-jetpack.php:362
 msgctxt "Refresh connection with {social media service}"
@@ -3089,11 +3077,11 @@ msgstr "Fout!"
 
 #: modules/minileven/minileven.php:267 modules/minileven/minileven.php:318
 msgid "Include this CSS in the Mobile Theme"
-msgstr "Voeg deze CSS in het Mobiele Thema in"
+msgstr ""
 
 #: modules/publicize/publicize-jetpack.php:437
 msgid "Facebook Wall"
-msgstr "Facebook Muur"
+msgstr ""
 
 #: modules/videopress/videopress.php:317
 msgid "Display higher quality video by default."
@@ -3119,7 +3107,7 @@ msgstr "Facebook pagina"
 
 #: modules/videopress/videopress.php:318
 msgid "This setting may be overridden for individual videos."
-msgstr "Deze instelling kan opgeheven worden voor individuele video's"
+msgstr ""
 
 #: class.jetpack.php:2022 class.jetpack.php:2047 class.jetpack.php:3024
 msgid "Jetpack supercharges your self-hosted WordPress site with the awesome cloud power of WordPress.com."
@@ -3142,7 +3130,7 @@ msgstr "Tumblr blog"
 #: modules/videopress/videopress.php:330 modules/videopress/videopress.php:339
 #: modules/videopress/videopress.php:593
 msgid "VideoPress Library"
-msgstr "VideoPress Bibliotheek"
+msgstr ""
 
 #: class.jetpack.php:2023 class.jetpack.php:2048
 msgid "On this page, you are able to view the modules available within Jetpack, learn more about them, and activate or deactivate them as needed."
@@ -3162,7 +3150,7 @@ msgstr "Deze verbinding werkt correct."
 
 #: modules/videopress/videopress.php:340
 msgid "Use the button below to browse your VideoPress Library. Note that you can also browse your VideoPress Library while editing a post or page by using the <strong>Add Media</strong> button in the post editor."
-msgstr "Gebruik de onderstaande knop om in je VideopPress Bibliotheek te bladeren. Let op dat je ook kunt bladeren in je VideoPress bibliotheek terwijl je een post of pagina bewerkt met behulp van de <strong>Media Toevoegen</strong> knop in de post bewerker"
+msgstr ""
 
 #: class.jetpack.php:2024
 msgid "Jetpack Module Options"
@@ -3182,7 +3170,7 @@ msgstr "Je hebt je blog succesvol met je %s account verbonden."
 
 #: modules/videopress/videopress.php:341
 msgid "Browse Your VideoPress Library"
-msgstr "Bladeren in je VideoPress Bibliotheek"
+msgstr ""
 
 #: class.jetpack.php:2025
 msgid "<strong>To Activate/Deactivate a Module</strong> - Click on Learn More. An Activate or Deactivate button will now appear next to the Learn More button. Click the Activate/Deactivate button."
@@ -3199,11 +3187,11 @@ msgstr "Permalink naar %s"
 
 #: modules/publicize/ui.php:82
 msgid "You have chosen not to connect your blog. Please click 'accept' when prompted if you wish to connect your accounts."
-msgstr "Je hebt ervoor gekozen je blog niet te verbinden. Klik 'accepteren' als dat gevraagd wordt als je je accounts wilt verbinden."
+msgstr ""
 
 #: modules/videopress/videopress.php:342
 msgid "Please enable JavaScript support in your browser to use VideoPress."
-msgstr "Schakel JavaScript support in je browser in om VideoPress te gebruiken."
+msgstr ""
 
 #: class.jetpack.php:2026 class.jetpack.php:2073
 msgid "For more information:"
@@ -3224,7 +3212,7 @@ msgstr "Verbind je site met populaire sociale netwerken en deel automatisch nieu
 
 #: modules/videopress/videopress.php:589
 msgid "Please select a video file to upload."
-msgstr "Selecteer een videobestand om te uploaden."
+msgstr ""
 
 #: class.jetpack.php:2027 class.jetpack.php:2074
 msgid "Jetpack FAQ"
@@ -3246,7 +3234,7 @@ msgstr "Je kunt een verbinding voor alleen jezelf maken of voor alle gebruikers 
 
 #: modules/videopress/videopress.php:590
 msgid "Your video is uploading... Please do not close this window."
-msgstr "Je video wordt geupload... Dit venster niet sluiten."
+msgstr ""
 
 #: class.jetpack.php:2028 class.jetpack.php:2075
 msgid "Jetpack Support"
@@ -3268,7 +3256,7 @@ msgstr "Verbonden als:"
 
 #: modules/videopress/videopress.php:591
 msgid "An unknown error has occurred. Please try again later."
-msgstr "Er heeft zich een onbekende fout voorgedaan. Probeer het later nogmaals."
+msgstr ""
 
 #: class.jetpack.php:2044
 msgid "Overview"
@@ -3291,7 +3279,7 @@ msgstr "Gedeeld"
 
 #: modules/videopress/videopress.php:592
 msgid "Your video has successfully been uploaded. It will appear in your VideoPress Library shortly."
-msgstr "Je video is succesvol geupload. Hij zal binnenkort in je VideoPress Bibliotheek verschijnen."
+msgstr ""
 
 #: class.jetpack.php:2057
 msgid "Modules"
@@ -3319,7 +3307,7 @@ msgstr "Verbind"
 
 #: modules/videopress/videopress.php:594
 msgid "Upload a Video"
-msgstr "Een Video Uploaden"
+msgstr ""
 
 #: class.jetpack.php:2060
 msgid "You can activate or deactivate individual Jetpack modules to suit your needs."
@@ -3338,7 +3326,7 @@ msgstr "<b>%</b> reacties"
 
 #: modules/publicize/ui.php:223
 msgid "Are you sure you want to stop Publicizing posts to this connection?"
-msgstr "Weet je zeker dat je wilt stoppen met Publiczing posts naar deze verbinding?"
+msgstr ""
 
 #: modules/videopress/videopress.php:595
 msgid "Insert Video"
@@ -3401,11 +3389,11 @@ msgstr "%s"
 
 #: modules/publicize/ui.php:433
 msgid "Before you hit Publish, please refresh the following connection(s) to make sure we can Publicize your post:"
-msgstr "Voordat je op Publiceren drukt, ververs de volgende verbinding(en) om te garanderen dat we je post kunnen Publiceren:"
+msgstr ""
 
 #: modules/videopress/videopress.php:638
 msgid "Display share menu and allow viewers to embed or download this video"
-msgstr "Toon deelmenu en geef kijkers toestemming deze video te embedden of te downloaden"
+msgstr ""
 
 #: class.jetpack.php:2065
 msgid "If additional settings are available, a link to them will appear"
@@ -3486,7 +3474,7 @@ msgstr "Verbergen"
 
 #: modules/videopress/videopress.php:673
 msgid "Video Preview:"
-msgstr "Video Preview:"
+msgstr ""
 
 #: class.jetpack.php:2205 class.jetpack.php:3069
 #: views/admin/must-connect-main-blog.php:11
@@ -3508,7 +3496,7 @@ msgstr "Niet verbonden"
 
 #: modules/videopress/videopress.php:707
 msgid "Use the form below to upload a video to your VideoPress Library. The following video formats are supported: %s. Maximum upload file size is %d%s."
-msgstr "Gebruik het onderstaande formulier op een video te uploaden naar je VideoPress Bibliotheek. De volgende video formaten zijn ondersteund: %s. Maximaal opload bestandafmeting is %d%s."
+msgstr ""
 
 #: _inc/footer.php:50 class.jetpack-admin.php:501 class.jetpack.php:2207
 #: modules/module-info.php:45 modules/module-info.php:81
@@ -3534,7 +3522,7 @@ msgstr "Leer meer"
 #: modules/contact-form/grunion-form-view.php:16
 msgctxt "error message in contact form builder"
 msgid "Oops, there was a problem generating your form.  You'll likely need to try again."
-msgstr "Oeps, er ws een probleem bij het genereren van je formulier. Je moet het waarschijnlijk nogmaals proberen."
+msgstr ""
 
 #: modules/minileven/theme/pub/minileven/footer.php:27
 msgid "Semantic Personal Publishing Platform"
@@ -3546,7 +3534,7 @@ msgstr "Verbind met"
 
 #: modules/videopress/videopress.php:710
 msgid "Upload Video"
-msgstr "Video Uploaden"
+msgstr ""
 
 #: class.jetpack.php:2229
 msgid "<strong>Jetpack is activated!</strong> Each site on your network must be connected individually by an admin on that site."
@@ -3574,12 +3562,12 @@ msgstr "Alle categorie pagina's"
 
 #: class.jetpack.php:2256
 msgid "Jetpack now includes Jetpack Comments, which enables your visitors to use their WordPress.com, Twitter, or Facebook accounts when commenting on your site. To activate Jetpack Comments, <a href=\"%s\">%s</a>."
-msgstr "Jetpack voegt nu Jetpack Commentaar in, wat bezoekers in staat steld hun WordPress.com, Twitter of Facebook accounts te gebruiken als ze commentaar op je website geven. Om Jetpack Comments te activeren <a href=\"%s\">%s</a>."
+msgstr ""
 
 #: modules/contact-form/grunion-form-view.php:18
 msgctxt "Label to drag HTML form fields around to change their order in contact form builder"
 msgid "move"
-msgstr "verplaatsen"
+msgstr ""
 
 #: modules/minileven/theme/pub/minileven/functions.php:59
 msgid "Primary Menu"
@@ -3639,7 +3627,7 @@ msgstr "Alle datum archieven"
 
 #: class.jetpack.php:2440
 msgid "You need to authorize the Jetpack connection between your site and WordPress.com to enable the awesome features."
-msgstr "Je moet de Jetpack verbinding tussen jouw website en WordPress.com autoriseren om de geweldige functies in te schakelen."
+msgstr ""
 
 #: modules/contact-form/grunion-form-view.php:21
 msgctxt "This HTML form field is marked as required by the user in contact form builder"
@@ -3661,7 +3649,7 @@ msgstr "Dagelijkse archieven"
 
 #: class.jetpack.php:2443
 msgid "Don&#8217;t cross the streams!  You need to stay logged in to your WordPress blog while you authorize Jetpack."
-msgstr "Don&#8217;t kruis de stromen! Je moet ingelogd blijven in je WordPress blog terwijl je Jetpack autoriseert."
+msgstr ""
 
 #: modules/contact-form/grunion-form-view.php:22
 msgid "Are you sure you want to exit the form editor without saving?  Any changes you have made will be lost."
@@ -3673,7 +3661,7 @@ msgstr "Menu"
 
 #: modules/related-posts/jetpack-related-posts.php:294
 msgid "Show a \"Related\" header to more clearly separate the related section from posts"
-msgstr "Toon een \"Gerelateerde\" header om duidelijker de gerelateerde sectie van posts te scheiden"
+msgstr ""
 
 #: modules/widget-visibility/widget-conditions.php:75
 msgid "Monthly archives"
@@ -3681,7 +3669,7 @@ msgstr "Maandelijkse archieven"
 
 #: class.jetpack.php:2447
 msgid "Return to sender.  Whoops! It looks like you got the wrong Jetpack in the mail; deactivate then reactivate the Jetpack plugin to get a new one."
-msgstr "Terug naar afzender. Oeps! Het lijkt of je de verkeerde Jetpack in de mail hebt gekregen. Deactiveer en vervolgens reactiveer de Jetpack plugin om een nieuwe te krijgen."
+msgstr ""
 
 #: modules/contact-form/grunion-form-view.php:118
 msgid "Your new field was saved successfully"
@@ -3697,7 +3685,7 @@ msgstr "Jaarlijkse archieven"
 
 #: class.jetpack.php:2450
 msgid "Wrong size.  Hm&#8230; it seems your Jetpack doesn&#8217;t quite fit.  Have you lost weight? Click &#8220;Connect to WordPress.com&#8221; again to get your Jetpack adjusted."
-msgstr "Verkeerde afmeting.  Hm&#8230; het lijkt erop of je Jettpack niet goed past. Ben je afgevallen?  Click &#8220; Verbind opnieuw met WordPress.com&#8221; om je Jetpack aan te passen."
+msgstr ""
 
 #: modules/contact-form/grunion-form-view.php:120
 msgid "Form builder"
@@ -3705,11 +3693,11 @@ msgstr "Formulier opbouwfunctie"
 
 #: modules/minileven/theme/pub/minileven/image.php:73
 msgid "<span class=\"entry-gallery\">&laquo; <a href=\"%1$s\" title=\"Back to %2$s\" rel=\"gallery\">Back to Gallery</a></span>"
-msgstr "<span class=\"entry-gallery\">&laquo; <a href=\"%1$s\" title=\"Back to %2$s\" rel=\"gallery\">terug naar Galerij</a></span>"
+msgstr ""
 
 #: modules/related-posts/jetpack-related-posts.php:297
 msgid "Preview:"
-msgstr "Voorbeeld:"
+msgstr ""
 
 #: modules/widget-visibility/widget-conditions.php:87
 msgid "Front page"
@@ -3717,7 +3705,7 @@ msgstr "Startpagina"
 
 #: class.jetpack.php:2454
 msgid "Your website needs to be publicly accessible to use Jetpack: %s"
-msgstr "Je website moet toegankelijk zijn voor publiek om gebruik te kunnen maken van Jetpack: %s"
+msgstr ""
 
 #: modules/contact-form/grunion-form-view.php:121
 msgid "Email notifications"
@@ -3726,11 +3714,11 @@ msgstr "E-mailnotificaties"
 #: modules/minileven/theme/pub/minileven/image.php:87
 msgctxt "next-saturday"
 msgid "Image navigation"
-msgstr "Afbeelding navigatie"
+msgstr ""
 
 #: modules/related-posts/jetpack-related-posts.php:324
 msgid "Hide related content after posts"
-msgstr "Verberg gerelateerde content na posts"
+msgstr ""
 
 #: modules/widget-visibility/widget-conditions.php:88
 msgid "Posts page"
@@ -3738,7 +3726,7 @@ msgstr "Berichtenpagina"
 
 #: class.jetpack.php:2459
 msgid "%s could not be activated because it triggered a <strong>fatal error</strong>. Perhaps there is a conflict with another plugin you have installed?"
-msgstr "%s kon niet geactiveerd worden omdat het een <strong>fatal error</strong>. Perhaps there is a conflict with another plugin you have installed?"
+msgstr ""
 
 #: modules/contact-form/grunion-form-view.php:126
 msgid "How does this work?"
@@ -3750,7 +3738,7 @@ msgstr "Volgende &raquo; "
 
 #: modules/related-posts/jetpack-related-posts.php:326
 msgid "Show related content after posts"
-msgstr "Show gerelateerde content na posts"
+msgstr ""
 
 #: modules/widget-visibility/widget-conditions.php:90
 msgid "404 error page"
@@ -3766,13 +3754,13 @@ msgstr "Door een contactformulier toe te voegen, kunnen je lezers feedback naar 
 
 #: modules/minileven/theme/pub/minileven/inc/template-tags.php:20
 msgid "<span class=\"meta-nav\">&laquo;</span> Older"
-msgstr "<span class=\"meta-nav\">&laquo;</span> Ouder"
+msgstr ""
 
 #: modules/related-posts/jetpack-related-posts.php:867
 #: modules/related-posts/jetpack-related-posts.php:879
 msgctxt "in {category/tag name}"
 msgid "In \"%s\""
-msgstr "In \"%s\""
+msgstr ""
 
 #: modules/widget-visibility/widget-conditions.php:91
 msgid "Search results"
@@ -3780,7 +3768,7 @@ msgstr "Zoekresultaten"
 
 #: class.jetpack.php:2464
 msgid "Module could not be activated because it triggered a <strong>fatal error</strong>. Perhaps there is a conflict with another plugin you have installed?"
-msgstr "Module kon niet geactiveerd worden omdat het tot een <strong> fatale fout </strong> leidde. Misschien is er een conflict met een andere plugin die je hebt geinstalleerd?"
+msgstr ""
 
 #: modules/contact-form/grunion-form-view.php:128
 msgid "Can I add more fields?"
@@ -3788,7 +3776,7 @@ msgstr "Kan ik meer velden toevoegen?"
 
 #: modules/minileven/theme/pub/minileven/inc/template-tags.php:21
 msgid "Newer <span class=\"meta-nav\">&raquo;</span>"
-msgstr "Nieuwer <span class=\"meta-nav\">&raquo;</span>"
+msgstr ""
 
 #: modules/related-posts/jetpack-related-posts.php:889
 msgid "With 1 comment"
@@ -3807,7 +3795,7 @@ msgstr "%s is niet geactiveerd."
 #: modules/contact-form/grunion-form-view.php:130
 msgctxt "%1$s = \"Click here\" in an HTML link"
 msgid "Sure thing. %1$s to add a new text box, textarea, radio, checkbox, or dropdown field."
-msgstr "Zeker weten. %1$s om een nieuw tekstveld , tekst area, radio, checkbox of keuzemenu veld toe te voegen."
+msgstr ""
 
 #: modules/minileven/theme/pub/minileven/inc/template-tags.php:38
 msgid "Pingback:"
@@ -3815,7 +3803,7 @@ msgstr "Pingback:"
 
 #: modules/sharedaddy/sharedaddy.php:14
 msgid "%1$s (%2$s) thinks you may be interested in the following post:"
-msgstr "%1$s (%2$s) denkt dat je misschien geinteresseerd bent in de volgende post:"
+msgstr ""
 
 #: modules/widget-visibility/widget-conditions.php:105
 msgid "Static page:"
@@ -3843,7 +3831,7 @@ msgstr "Zichtbaarheid"
 
 #: class.jetpack.php:2486
 msgid "This module can only be altered by %s, the user who initiated the Jetpack connection on this site."
-msgstr "Deze module kan alleen gewijzigd worden door %s, de gebruiker die de Jetpack verbinding op deze website geinitieerd heeft."
+msgstr ""
 
 #: modules/contact-form/grunion-form-view.php:133
 msgid "Can I view my feedback within WordPress?"
@@ -3864,12 +3852,12 @@ msgstr "%s als:"
 
 #: class.jetpack.php:2489
 msgid "Only the user who initiated the Jetpack connection on this site can toggle %s, but that user no longer exists. This should not happen."
-msgstr "Alleen de gebruiker die de Jetpack verbinding op deze website geiniteerd heeft kan %s toggelen, maar die gebruiker bestaat niet meer. Dit zou niet moeten gebeuren"
+msgstr ""
 
 #: modules/contact-form/grunion-form-view.php:135
 msgctxt "%1$s = \"Feedback\" in an HTML link"
 msgid "Yep, you can read your feedback at any time by clicking the \"%1$s\" link in the admin menu."
-msgstr "Jazeker, je kunt op elk gewenst moment je feedback lezen door de  \"%1$s\"  link in het admin menu aan te klikken."
+msgstr ""
 
 #: modules/minileven/theme/pub/minileven/inc/template-tags.php:76
 msgid "Reply"
@@ -3877,7 +3865,7 @@ msgstr "Beantwoorden"
 
 #: modules/sharedaddy/sharedaddy.php:119
 msgid "Advanced.  If this option is checked, you must include these files in your theme manually for the sharing links to work."
-msgstr "Geavanceerd. Als deze optie is aangevinkt moet je deze bestanden handmatig in je thema invoegen om te zorgen dat de links om te delen het doen."
+msgstr ""
 
 #: modules/widget-visibility/widget-conditions.php:176
 msgctxt "Used in the \"%s if:\" translation for the widget visibility dropdown"
@@ -3886,7 +3874,7 @@ msgstr "Toon"
 
 #: class.jetpack.php:2493
 msgid "<strong>Your Jetpack has a glitch.</strong> Connecting this site with WordPress.com is not possible. This usually means your site is not publicly accessible (localhost)."
-msgstr "<strong>Je Jetpack heeft een probleem.</strong> Verbinding van deze website met WordPress.com is niet mogelijk. Dit betekent gewoonlijk dat je website niet openbaar toegankelijk is (localhost)."
+msgstr ""
 
 #: modules/contact-form/grunion-form-view.php:141
 msgid "Do I need to fill this out?"
@@ -3894,7 +3882,7 @@ msgstr "Moet ik dit invullen?"
 
 #: modules/minileven/theme/pub/minileven/inc/template-tags.php:90
 msgid "<span class=\"entry-date\"><a href=\"%1$s\" title=\"%2$s\" rel=\"bookmark\"><time datetime=\"%3$s\" pubdate>%4$s</time></a></span>"
-msgstr "<span class=\"entry-date\"><a href=\"%1$s\" title=\"%2$s\" rel=\"bookmark\"><time datetime=\"%3$s\" pubdate>%4$s</time></a></span>"
+msgstr ""
 
 #: modules/sharedaddy/sharing-service.php:12 modules/sharedaddy/sharing.php:162
 msgid "Share this:"
@@ -3907,7 +3895,7 @@ msgstr "Verberg"
 
 #: class.jetpack.php:2499
 msgid "WordPress.com is currently having problems and is unable to fuel up your Jetpack.  Please try again later."
-msgstr "WordPress.com ondervindt momenteel problemen en kan je niet verbinden met Jetpack. Probeer het later nogmaals."
+msgstr ""
 
 #: modules/contact-form/grunion-form-view.php:142
 msgid "Nope.  However, if you&#8217;d like to modify where your feedback is sent, or the subject line you can.  If you don&#8217;t make any changes here, feedback will be sent to the author of the page/post and the subject will be the name of this page/post."
@@ -3951,7 +3939,7 @@ msgstr "Categorie"
 
 #: class.jetpack.php:2543
 msgid "<strong>Your Jetpack has a glitch.</strong>  Something went wrong that&#8217;s never supposed to happen.  Guess you&#8217;re just lucky: %s"
-msgstr "<strong>Je Jetpack heeft een probleempje.</strong>  Er ging iets mis wat niet geacht werd mis te gaan.  Je hebt gewoon geluk: %s"
+msgstr ""
 
 #: modules/contact-form/grunion-form-view.php:150
 #: modules/sharedaddy/sharing-sources.php:999
@@ -4024,7 +4012,7 @@ msgstr "Selectievak"
 
 #: modules/minileven/theme/pub/minileven/index.php:31
 msgid "Tagged with %s"
-msgstr "Getagd met %s"
+msgstr ""
 
 #: modules/sharedaddy/sharing-sources.php:252
 #: modules/videopress/videopress.php:676
@@ -4038,7 +4026,7 @@ msgstr "Pagina"
 
 #: class.jetpack.php:2594
 msgid "The following modules have been updated: %l."
-msgstr "De volgende modules zijn bijgewerkt: %l."
+msgstr ""
 
 #: modules/contact-form/grunion-form-view.php:156
 msgid "Drop down"
@@ -4060,7 +4048,7 @@ msgstr "is"
 
 #: class.jetpack.php:2603
 msgid "<strong>%s Activated!</strong> You can deactivate at any time by clicking Learn More and then Deactivate on the module card."
-msgstr "<strong>%s Geactiveerd!</strong> Je kunt op elk moment deactiveren door te klikken op Meer Informatie en vervolgens de module kaart te Deactiveren."
+msgstr ""
 
 #: modules/contact-form/grunion-form-view.php:159
 msgid "Radio"
@@ -4083,8 +4071,8 @@ msgstr "of"
 msgctxt "%l = list of Jetpack module/feature names"
 msgid "<strong>%l Deactivated!</strong> You can activate it again at any time using the activate button on the module card."
 msgid_plural "<strong>%l Deactivated!</strong> You can activate them again at any time using the activate buttons on their module cards."
-msgstr[0] "<strong>%l Gedeactiveerd!</strong> Je kunt het op elk gewenst moment opnieuw activeren door middel van de activeringsknop op de module kaart,"
-msgstr[1] "<strong>%l Deactivated!</strong> You can activate them again at any time using the activate buttons on their module cards."
+msgstr[0] ""
+msgstr[1] ""
 
 #: modules/contact-form/grunion-form-view.php:160
 msgid "Text"
@@ -4104,7 +4092,7 @@ msgstr "Verwijderen"
 
 #: class.jetpack.php:2641
 msgid "<strong>Module settings were saved.</strong> "
-msgstr "<strong>Module instellingen zijn opgeslagen.</strong> "
+msgstr ""
 
 #: modules/contact-form/grunion-form-view.php:161
 msgid "Textarea"
@@ -4124,7 +4112,7 @@ msgstr "Facebook vind ik leuk vak"
 
 #: class.jetpack.php:2645
 msgid "<strong>Your Jetpack is already connected.</strong> "
-msgstr "<strong>Je Jetpack is al verbonden.</strong> "
+msgstr ""
 
 #: modules/contact-form/grunion-form-view.php:168
 msgid "Options"
@@ -4144,7 +4132,7 @@ msgstr "Toon een Facebook Vind ik leuk Box om bezoekers aan je Facebook-pagina t
 
 #: class.jetpack.php:2649 class.jetpack.php:2656
 msgid "<strong>You&#8217;re fueled up and ready to go.</strong> "
-msgstr "<strong>Je bent verbonden en klaar om te beginnen.</strong> "
+msgstr ""
 
 #: modules/contact-form/grunion-form-view.php:169
 msgid "First option"
@@ -4172,7 +4160,7 @@ msgstr "Voeg een andere optie toe"
 
 #: modules/minileven.php:51
 msgid "Excerpts"
-msgstr "Fragmenten"
+msgstr ""
 
 #: modules/sharedaddy/sharing-sources.php:310
 msgid "Post was not sent - check your email addresses!"
@@ -4184,7 +4172,7 @@ msgstr "Facebook-pagina URL"
 
 #: class.jetpack.php:2662
 msgid "<strong>You have unlinked your account (%s) from WordPress.com.</strong>"
-msgstr "<strong>Je hebt je account (%s) ontkoppeld van WordPress.com.</strong>"
+msgstr ""
 
 #: modules/contact-form/grunion-form-view.php:179
 msgid "Required?"
@@ -4192,7 +4180,7 @@ msgstr "Verplicht?"
 
 #: modules/minileven.php:55
 msgid "Enable excerpts on front page and on archive pages"
-msgstr "Schakel fragmenten in op de voorpagina en op de archief pagina's"
+msgstr ""
 
 #: modules/sharedaddy/sharing-sources.php:314
 msgid "Email check failed, please try again"
@@ -4205,7 +4193,7 @@ msgstr "De Vind ik leuk Box werkt alleen met <a href=\"http://www.facebook.com/h
 #: class.jetpack.php:2685
 msgid "Jetpack contains the most recent version of the old %l plugin."
 msgid_plural "Jetpack contains the most recent versions of the old %l plugins."
-msgstr[0] "Jetpack bevat de meest recente versie van de oude %l plugin."
+msgstr[0] ""
 msgstr[1] ""
 
 #: modules/contact-form/grunion-form-view.php:184
@@ -4214,7 +4202,7 @@ msgstr "Sla dit veld op"
 
 #: modules/minileven.php:60
 msgid "Show full posts on front page and on archive pages"
-msgstr "Toon volledige posts op voorpagina en op archiefpagina's"
+msgstr ""
 
 #: modules/sharedaddy/sharing-sources.php:318
 msgid "Sorry, your blog cannot share posts by email."
@@ -4236,7 +4224,7 @@ msgstr "Zo zal je formulier eruit zien"
 
 #: modules/minileven.php:65
 msgid "Mobile App Promos"
-msgstr "Mobiele App Promo's"
+msgstr ""
 
 #: modules/sharedaddy/sharing-sources.php:341
 msgid "Twitter"
@@ -4248,7 +4236,7 @@ msgstr "Hoogte"
 
 #: class.jetpack.php:2761
 msgid "Is this site private?"
-msgstr "Is deze website prive?"
+msgstr ""
 
 #: modules/contact-form/grunion-form-view.php:194
 msgid "Add a new field"
@@ -4256,7 +4244,7 @@ msgstr "Een nieuw veld toevoegen"
 
 #: modules/minileven.php:69
 msgid "Show a promo for the WordPress mobile apps in the footer of the mobile theme."
-msgstr "Toon een promo voor de WordPress mobiele apps in de footer van het mobiele thema."
+msgstr ""
 
 #: modules/sharedaddy/sharing-sources.php:393
 msgctxt "share to"
@@ -4271,8 +4259,8 @@ msgstr "Toon gezichten"
 msgctxt "%l = list of Jetpack module/feature names"
 msgid "Like your site's RSS feeds, %l allows access to your posts and other content to third parties."
 msgid_plural "Like your site's RSS feeds, %l allow access to your posts and other content to third parties."
-msgstr[0] "Vind de RSS feeds van je website leuk, %l staat toegang toe tot je posts en andere content aan derden."
-msgstr[1] "Like your site's RSS feeds, %l allow access to your posts and other content to third parties."
+msgstr[0] ""
+msgstr[1] ""
 
 #: modules/contact-form/grunion-form-view.php:196
 msgid "Add this form to my post"
@@ -4294,8 +4282,8 @@ msgstr "Toon profielfoto's in de plugin."
 msgctxt "%1$s = deactivation URL, %2$s = \"Deactivate {list of Jetpack module/feature names}"
 msgid "If your site is not publicly accessible, consider <a href=\"%1$s\" title=\"%2$s\">deactivating this feature</a>."
 msgid_plural "If your site is not publicly accessible, consider <a href=\"%1$s\" title=\"%2$s\">deactivating these features</a>."
-msgstr[0] "If your site is not publicly accessible, consider <a href=\"%1$s\" title=\"%2$s\">deactivating this feature</a>."
-msgstr[1] "If your site is not publicly accessible, consider <a href=\"%1$s\" title=\"%2$s\">deactivating these features</a>."
+msgstr[0] ""
+msgstr[1] ""
 
 #: modules/contact-form/grunion-form-view.php:199
 msgid "Email settings"
@@ -4316,7 +4304,7 @@ msgstr "Toon stream"
 #: class.jetpack.php:2800
 msgctxt "%l = list of Jetpack module/feature names"
 msgid "Deactivate %l"
-msgstr "Deactiveer %l"
+msgstr ""
 
 #: modules/contact-form/grunion-form-view.php:201
 msgid "Enter your email address"
@@ -4357,7 +4345,7 @@ msgstr "Toon rand"
 
 #: _inc/footer.php:35 class.jetpack.php:3011
 msgid "Disconnect from WordPress.com"
-msgstr "Verwijder de link met WordPress.com"
+msgstr "Verbreek met WordPress.com"
 
 #: modules/contact-form/grunion-form-view.php:207
 msgid "Save and go back to form builder"
@@ -4373,7 +4361,7 @@ msgstr "Reddit"
 
 #: modules/widgets/facebook-likebox.php:188
 msgid "Show a border around the plugin."
-msgstr "Toon een rand rond de plugin"
+msgstr ""
 
 #: class.jetpack.php:3016
 msgid "User linked to WordPress.com"
@@ -4395,12 +4383,12 @@ msgstr ""
 
 #: modules/module-info.php:28
 msgid "Your WordPress installation is currently being protected with the world&#8217;s best security, backup, and support."
-msgstr "Je WordPress installatie is momenteel beschermt met de beste beveiliging, backup en ondersteuning ter wereld."
+msgstr ""
 
 #: modules/sharedaddy/sharing-sources.php:513
 msgctxt "share to"
 msgid "Reddit"
-msgstr "Reddit"
+msgstr ""
 
 #: modules/widgets/facebook-likebox.php:195
 msgid "Show Wall"
@@ -4429,7 +4417,7 @@ msgstr "Liever de muur voor een Locaties-pagina weergeven dan een vriendenactivi
 
 #: class.jetpack.php:3034
 msgid "Jetpack is network activated. Notices cannot be dismissed."
-msgstr "Jetpack is netwerk geactiveerd. Berichten kunnen niet verwijderd worden."
+msgstr ""
 
 #: modules/custom-css/custom-css.php:605
 msgid "Edit CSS"
@@ -4453,7 +4441,7 @@ msgstr "Titel:"
 
 #: class.jetpack.php:3048
 msgid "To use Jetpack please contact your WordPress administrator to connect it for you."
-msgstr "Om Jetpack te gebruiken, neem contact op met WordPress beheerder om het voor je te verbinden."
+msgstr ""
 
 #: modules/custom-css/custom-css.php:618
 msgid "CSS"
@@ -4461,7 +4449,7 @@ msgstr "CSS"
 
 #: modules/module-info.php:31
 msgid "With a monthly subscription, the VaultPress plugin will backup your site&#8217;s content, themes, and plugins in real-time, as well as perform regular security scans for common threats and attacks."
-msgstr "Met een maandelijks abonnement zal de VaultPress plugin de content, thema's en plugins van je website in real-time back-uppen en regelmatige beveilingsscans uitvoeren voor gewone bedreigingen en aanvallen."
+msgstr ""
 
 #: modules/sharedaddy/sharing-sources.php:549
 #: modules/sharedaddy/sharing-sources.php:552
@@ -4496,7 +4484,7 @@ msgstr "Kies afbeeldingen"
 
 #: class.jetpack.php:3065
 msgid "To enable all of the Jetpack features you&#8217;ll need to connect your website to WordPress.com using the button to the right. Once you&#8217;ve made the connection you&#8217;ll activate all the delightful features below."
-msgstr "Om alle Jetpack functies in te schakelen moet je je website verbinden met WordPress.com door middel van de knop rechts. Als je de verbinding gemaakt hebt, kun je alle leuke onderstaande functies activeren."
+msgstr ""
 
 #: modules/custom-css/custom-css.php:659
 msgid "Stylesheet saved."
@@ -4504,7 +4492,7 @@ msgstr "Stijlblad bewaard."
 
 #: modules/module-info.php:32
 msgid "Plans & Pricing"
-msgstr "Plannen en Prijzen"
+msgstr ""
 
 #: modules/sharedaddy/sharing-sources.php:596
 msgid "LinkedIn"
@@ -4516,7 +4504,7 @@ msgstr "Verbind met:"
 
 #: class.jetpack.php:3089
 msgid "To enable all of the Jetpack features you&#8217;ll need to link your account here to your WordPress.com account using the button to the right."
-msgstr "Om alle Jetpack functies te activeren, moet je je account hier met je WordPress.com account linken door middel van de knop aan de rechterkant"
+msgstr ""
 
 #: modules/custom-css/custom-css.php:663
 msgid "Publish"
@@ -4554,7 +4542,7 @@ msgstr "Klik om op LinkedIn te delen."
 
 #: modules/widgets/gallery/templates/form.php:69
 msgid "Style:"
-msgstr "Stijl:"
+msgstr ""
 
 #: class.jetpack.php:3114 views/admin/network-admin-footer.php:4
 msgid "Have feedback on Jetpack?"
@@ -4566,7 +4554,7 @@ msgstr "CSS-stylesheeteditor"
 
 #: modules/module-info.php:59
 msgid "Hovercards enhance plain Gravatar images with information about a person: name, bio, pictures, their contact info, and other services they use on the web like Twitter, Facebook, or LinkedIn."
-msgstr "Hovercards verbeteren de gewone Gravatar afbeeldingen met informatie over een persoon: naam, bio, foto's, contactinformatie en andere services die ze op het web gebruiken zoals Twitter, Facebook of LinkedIN."
+msgstr ""
 
 #: modules/sharedaddy/sharing-sources.php:674
 msgid "Facebook"
@@ -4574,23 +4562,21 @@ msgstr "Facebook"
 
 #: modules/widgets/gallery.php:20
 msgid "Display a photo gallery or slideshow"
-msgstr "Geef een fotogalerij of diashow weer"
+msgstr ""
 
 #: class.jetpack.php:3116 views/admin/network-admin-footer.php:6
 msgid "Answer a short survey to let us know how we&#8217;re doing and what to add in the future."
-msgstr "Beantwoord een korte vragenlijst om ons te laten weten hoe we het doen en wat we in de toekomst moeten toevoegen."
+msgstr ""
 
 #: modules/custom-css/custom-css.php:680
 msgid ""
 "New to CSS? Start with a <a href=\"http://www.htmldog.com/guides/cssbeginner/\">beginner tutorial</a>. Questions?\n"
 "\t\tAsk in the <a href=\"http://wordpress.org/support/forum/themes-and-templates\">Themes and Templates forum</a>."
 msgstr ""
-"Nieuw bij CSS? Begin met een <a href=\"http://www.htmldog.com/guides/cssbeginner/\">beginnershandleiding</a>. Vragen?\n"
-"\t\tVraag het in het <a href=\"http://wordpress.org/support/forum/themes-and-templates\">Thema's en Sjablonen forum</a>."
 
 #: modules/module-info.php:60
 msgid "Hovercards offer a great way to show your internet presence and help people find your own blog."
-msgstr "Hovercards zijn een geweldige manier om je aanwezigheid op internet te tonen en mensen te helpen om je eigen blog te vinden."
+msgstr ""
 
 #: modules/sharedaddy/sharing-sources.php:752
 msgctxt "share to"
@@ -4599,7 +4585,7 @@ msgstr "Facebook"
 
 #: modules/widgets/gallery.php:327
 msgid "Tiles"
-msgstr "Tegels"
+msgstr ""
 
 #: class.jetpack.php:3119 views/admin/network-admin-footer.php:9
 msgid "Take Survey"
@@ -4607,11 +4593,11 @@ msgstr "Peiling Afnemen"
 
 #: modules/custom-css/custom-css.php:717
 msgid "Content Width:"
-msgstr "Inhoudsbreedte:"
+msgstr ""
 
 #: modules/module-info.php:74
 msgid "Hovercards enhance plain Gravatar images with information about a person: name, bio, pictures, their contact info, and other services."
-msgstr "Hovercards verbeteren de gewone Gravatar afbeeldingen met informatie over iemand: naam, bio, foto's, hun contactinformatie en andere services."
+msgstr ""
 
 #: modules/sharedaddy/sharing-sources.php:752
 msgid "Share on Facebook"
@@ -4631,7 +4617,7 @@ msgstr "Standaard"
 
 #: modules/module-info.php:75
 msgid "To see hovercards, look at any blog post on your blog that has comments. If the commenter has a hovercard associated with their gravatar, mouse over their image and the hovercard will appear. To turn hovercards off, click the Deactivate button above."
-msgstr "Om hovercards te zien, kijk je naar een willekeurige blogpost in je blog dat commentaar heeft. Als de commentaargever een hovercard bij zijn gravatar heeft, beweeg je de muis over de afbeelding en de hovercard zal verschijnen. Om hovercards uit te zetten, klik je de bovenstaande knop Deactiveren aan."
+msgstr ""
 
 #: modules/sharedaddy/sharing-sources.php:783
 msgid "Print"
@@ -4670,11 +4656,11 @@ msgstr "Uitschrijven"
 
 #: modules/custom-css/custom-css.php:726
 msgid "Limit width to %1$s pixels for videos, full size images, and other shortcodes. (<a href=\"%2$s\">More info</a>.)"
-msgstr "Beperkte breedte tot %1$s pixels voor video's, volledige afbeeldingen en andere shortcodes.  (<a href=\"%2$s\">More info</a>.)"
+msgstr ""
 
 #: modules/module-info.php:95 modules/module-info.php:108
 msgid "Shortcodes allow you to easily and safely embed media from other places in your site. With just one simple code, you can tell WordPress to embed YouTube, Flickr, and other media."
-msgstr "Met shortcodes kun je gemakkelijk en veilig media invoeren vanaf andere plaatsen op je website. Met een eenvoudige code kun je WordPress opdracht geven YouTube, Flickr en andere media in te voegen."
+msgstr ""
 
 #: modules/sharedaddy/sharing-sources.php:787
 msgid "Click to print"
@@ -4695,7 +4681,7 @@ msgstr "De default content breedte voor thema %s is %d pixels."
 
 #: modules/module-info.php:109
 msgid "Enter a shortcode directly into the Post/Page editor to embed media. For specific instructions follow the links below."
-msgstr "Voer een shortcode rechtstreeks in de Post/Pagina editor toe om media in te voegen. Voor specifieke instructies volg je de onderstaande links."
+msgstr ""
 
 #: modules/sharedaddy/sharing-sources.php:803
 msgid "Press This"
@@ -4758,11 +4744,11 @@ msgstr "Je zal niet langer updates via e-mail ontvangen over Jetpack."
 
 #: modules/custom-css/custom-css.php:812
 msgid "Preprocessor:"
-msgstr "Prepocessor:"
+msgstr ""
 
 #: modules/module-info.php:162 modules/module-info.php:176
 msgid "Instead of typing or copy-pasting long URLs, you can now get a short and simple link to your posts and pages. This uses the super compact wp.me domain name, and gives you a unique URL you can use that will be safe and reliable."
-msgstr "Inplaats van lange URL's te typen of te kopieren/plakken, kun je een korte en eenvoudige link krijgen voor je posts en pagina's. "
+msgstr ""
 
 #: modules/sharedaddy/sharing-sources.php:849
 msgid "Google"
@@ -4800,11 +4786,11 @@ msgstr "Privacybeleid"
 
 #: modules/custom-css/custom-css.php:842
 msgid "Mode:"
-msgstr "Modus:"
+msgstr ""
 
 #: modules/module-info.php:177
 msgid "To use shortlinks, go to any already published post (or publish something new!). A &#8220;Get Shortlink&#8221; button will be visible under the Post title. When you click it, a dialog box will appear with the shortlink and you can copy and paste to Twitter, Facebook or wherever your heart desires."
-msgstr "Om shortlinks te gebruiken ga je naar een reeds gepubliceerde post (of publiceer je iets nieuws!). Een  &#8220;Get Shortlink&#8221; knop zal zichtbaar zijn onder de Posttitel. Als je erop klikt verschijnt er een dialoogveld met de shortlink en kun je kunt kopieren en plakken naar Twitter, Facebook of wat dan ook."
+msgstr ""
 
 #: modules/sharedaddy/sharing-sources.php:862
 msgid "Click to share on Google+"
@@ -4821,7 +4807,7 @@ msgstr "Gebruikersvoorwaarden"
 
 #: modules/custom-css/custom-css.php:843
 msgid "Add-on"
-msgstr "Add-on"
+msgstr ""
 
 #: class.jetpack-admin.php:362 class.jetpack-admin.php:491
 #: modules/module-info.php:192 modules/module-info.php:196
@@ -4844,11 +4830,11 @@ msgstr "Debug"
 
 #: modules/custom-css/custom-css.php:843
 msgid "Replacement"
-msgstr "Vervanging"
+msgstr ""
 
 #: modules/module-info.php:197 modules/module-info.php:210
 msgid "There are many plugins and services that provide statistics, but data can be overwhelming. WordPress.com Stats makes the most popular metrics easy to understand through a clear and attractive interface."
-msgstr "Er zijn veel plugins en services die statistische gegevens bieden, maar die gegevens zijn soms wat overweldigend. WordPress.com Stats maakt de meest populaire meeteenheiden eenvoudig te begrijpen door middel van een duidelijk en aantrekkelijk interface."
+msgstr ""
 
 #: modules/sharedaddy/sharing-sources.php:1004
 msgid "URL"
@@ -4865,7 +4851,7 @@ msgstr "Ondersteuning"
 
 #: modules/custom-css/custom-css.php:850
 msgid "Add-on CSS <b>(Recommended)</b>"
-msgstr "Add-on CSS <b>(Aanbevolen)</b>"
+msgstr ""
 
 #: modules/module-info.php:211
 msgid "You can <a href=\"%s\">view your stats dashboard here</a>."
@@ -4885,7 +4871,7 @@ msgstr "Configureer %s"
 
 #: modules/custom-css/custom-css.php:855
 msgid "Replace <a href=\"%s\">theme's CSS</a> <b>(Advanced)</b>"
-msgstr "Vervang <a href=\"%s\">thema's's CSS</a> <b>(Geavanceerd)</b>"
+msgstr ""
 
 #: modules/module-info.php:225 modules/module-info.php:229
 #: modules/publicize/ui.php:95
@@ -4914,7 +4900,7 @@ msgstr "Voorbeeld"
 
 #: modules/module-info.php:230
 msgid "Publicize allows you to connect your blog to popular social networking sites and automatically share new posts with your friends.\t You can make a connection for just yourself or for all users on your blog."
-msgstr "Met Publicize kun je je blog verbinden met populaire sociale netwerk sites en automatisch nieuwe posts met je vrienden delen. \t Je kunt een verbinding voor alleen jezelf of voor alle gebruikers op je blog maken."
+msgstr ""
 
 #: modules/sharedaddy/sharing-sources.php:1017
 msgid "Remove Service"
@@ -4932,11 +4918,11 @@ msgstr "Activeren"
 
 #: modules/custom-css/custom-css.php:868
 msgid "Save &amp; Buy Upgrade"
-msgstr "Bespaar & Koop Upgrade"
+msgstr ""
 
 #: modules/module-info.php:231
 msgid "Publicize allows you to share your posts on Facebook, Twitter, Tumblr, Yahoo!, and Linkedin."
-msgstr "Met PUblicize kun je je posts delen op Facebook, Twitter, Tumblr, Yahoo! en LinkedIn."
+msgstr ""
 
 #: modules/sharedaddy/sharing-sources.php:1096
 msgid "Tumblr"
@@ -4956,7 +4942,7 @@ msgstr "Stylesheet opslaan"
 
 #: modules/module-info.php:235
 msgid "Manage your <a href=\"%s\">Publicize settings</a>."
-msgstr "Beheer je <a href=\"%s\">Publicize instellingen</a>."
+msgstr ""
 
 #: modules/sharedaddy/sharing-sources.php:1107
 msgctxt "share to"
@@ -4977,7 +4963,7 @@ msgstr "Toon meer"
 
 #: modules/module-info.php:239 modules/publicize/ui.php:114
 msgid "More information on using Publicize."
-msgstr "Meer informatie over het gebruik van Publicize."
+msgstr ""
 
 #: modules/sharedaddy/sharing-sources.php:1107
 msgid "Click to share on Tumblr"
@@ -5019,7 +5005,7 @@ msgstr "Converteren naar een bericht"
 
 #: modules/module-info.php:260 modules/module-info.php:273
 msgid "Keep up with the latest happenings on all your WordPress sites and interact with other WordPress.com users."
-msgstr "Houd de laatste gebeurtenissen bij op al je WordPress websites en houd contact met andere WordPress.com gebruikers."
+msgstr ""
 
 #: modules/widgets/gravatar-profile.php:220
 msgid "What's a Gravatar?"
@@ -5036,7 +5022,7 @@ msgstr "Je hebt geen toestemming voor deze wijziging."
 
 #: modules/module-info.php:274
 msgid "You can view your notifications in the Toolbar and <a href=\"%s\">on WordPress.com</a>."
-msgstr "Je kunt je berichten in de Werkbalk zien en <a href=\"%s\">op WordPress.com</a>."
+msgstr ""
 
 #: modules/sharedaddy/sharing-sources.php:1150
 msgctxt "share to"
@@ -5071,7 +5057,7 @@ msgstr "Afbeelding (Jetpack)"
 
 #: class.jetpack.php:3521
 msgid "Something is being cranky!"
-msgstr "Er is iet raars!"
+msgstr ""
 
 #: modules/custom-post-types/comics.php:176
 msgid "Drop images to upload"
@@ -5079,7 +5065,7 @@ msgstr "Sleep afbeeldingen om te uploaden"
 
 #: modules/module-info.php:294 modules/module-info.php:309
 msgid "%s is a powerful markup language for writing complex mathematical equations, formulas, etc."
-msgstr "%s is een krachtige markup taal voor het schrijven van ingewikkelde wiskundige vraagstukken en formules etc."
+msgstr ""
 
 #: modules/sharedaddy/sharing-sources.php:1221
 #: modules/sharedaddy/sharing-sources.php:1239
@@ -5092,7 +5078,7 @@ msgstr "Afbeelding URL:"
 
 #: class.jetpack.php:3522
 msgid "Your site is configured to only permit SSL connections to Jetpack, but SSL connections don't seem to be functional!"
-msgstr "Je website is geconfigureerd om alleen SSL verbindingen met Jetpack toe te staan, maar SSL verbindingen lijken niet functioneel te zijn!"
+msgstr ""
 
 #: modules/custom-post-types/comics.php:177
 msgid "Uploading..."
@@ -5100,7 +5086,7 @@ msgstr "Wordt geüpload..."
 
 #: modules/module-info.php:295
 msgid "Jetpack combines the power of %s and the simplicity of WordPress to give you the ultimate in math blogging platforms."
-msgstr "Jetpack combineert de kracht van %s en de eenvoud van WordPress om je het nieuwste in wiskundige blogplatforms te bieden."
+msgstr ""
 
 #: modules/sharedaddy/sharing-sources.php:1244
 msgctxt "share to"
@@ -5113,7 +5099,7 @@ msgstr "Alternatieve tekst:"
 
 #: class.jetpack.php:3607
 msgid "Error Details: Jetpack ID is empty. Do not publicly post this error message! %s"
-msgstr "Fout Gegevens: Jetpack ID is leeg. Publiceer deze foutmelding niet openbaar! %S"
+msgstr ""
 
 #: modules/custom-post-types/comics.php:178
 msgid "Processing..."
@@ -5133,7 +5119,7 @@ msgstr "Afbeelding titel:"
 
 #: class.jetpack.php:3609
 msgid "Error Details: Jetpack ID is not a scalar. Do not publicly post this error message! %s"
-msgstr "Fout Gegevens: Jetpack is geen scalaire grootheid. Publiceer deze foutmelding niet openbaar! %s"
+msgstr ""
 
 #: modules/custom-post-types/comics.php:179
 msgid "Sorry, your browser isn't supported. Upgrade at browsehappy.com."
@@ -5141,7 +5127,7 @@ msgstr "Sorry, je browser wordt niet ondersteund. Je kunt upgraden op browsehapp
 
 #: modules/module-info.php:310
 msgid "Use <code>$latex your latex code here$</code> or <code>[latex]your latex code here[/latex]</code> to include %s in your posts and comments. There are <a href=\"%s\" target=\"_blank\">all sorts of options</a> available."
-msgstr "Gebruik  <code>$latex je latex code hier$</code> of <code>[latex]je latex code hier [/latex]</code> om %s in je posts en commentaar in te voeren. Er zijn <a href=\"%s\" target=\"_blank\">alle soorten opties</a> beschikbaar."
+msgstr ""
 
 #: modules/sharedaddy/sharing.php:154
 msgid "Warning! Multibyte support missing!"
@@ -5153,7 +5139,7 @@ msgstr "Bijschrift:"
 
 #: class.jetpack.php:3611
 msgid "Error Details: Jetpack ID begins with a numeral. Do not publicly post this error message! %s"
-msgstr "Fout Gegevens: Jetpack ID begint met een getal. Publiceer deze foutmelding niet! %s"
+msgstr ""
 
 #: modules/custom-post-types/comics.php:180
 msgid "Only images can be uploaded here."
@@ -5161,7 +5147,7 @@ msgstr "Alleen afbeeldingen kunnen hier worden geüpload."
 
 #: modules/module-info.php:329
 msgid "Share your posts with Twitter, Facebook, and a host of other services. You can configure services to appear as icons, text, or both. Some services have additional options to display smart buttons, such as Twitter, which will update the number of times the post has been shared."
-msgstr "Deel je posts met Twitter, Facebook en een serie andere services. Je kunt services configureren om als iconen, als tekst of als beide te verschijnen. Sommige services hebben additonele opties om smart knoppen te tonen. Twitter bijvoorbeeld geeft een update van het aantal keren dat een post gedeeld is."
+msgstr ""
 
 #: modules/sharedaddy/sharing.php:155
 msgid "This plugin will work without it, but multibyte support is used <a href=\"%s\">if available</a>. You may see minor problems with Tweets and other sharing services."
@@ -5193,7 +5179,7 @@ msgstr "Gecentreerd"
 
 #: class.jetpack.php:3892
 msgid "The Client ID/WP.com Blog ID of this site"
-msgstr "Het Klant ID/WP.com Blog ID van deze website"
+msgstr ""
 
 #: modules/custom-post-types/comics.php:198
 #: modules/custom-post-types/comics.php:200
@@ -5243,7 +5229,7 @@ msgstr "Alle strips"
 
 #: modules/module-info.php:354
 msgid "To configure your sharing settings, go to the Settings &rarr; <a href=\"%s\">Sharing</a> menu."
-msgstr "Om je deelinstellingen te confiugreren, ga je naar Instellingen <a href=\"%s\">Delen</a> menu."
+msgstr ""
 
 #: modules/sharedaddy/sharing.php:184
 msgid "Add a new service"
@@ -5264,7 +5250,7 @@ msgstr "Nieuwe toevoegen"
 
 #: modules/module-info.php:355
 msgid "Drag and drop sharing services into the enabled section to have them show up on your site, and drag them into the hidden section to have them hidden behind a button."
-msgstr "Sleep deelservices en laat ze vallen in de ingeschakelde sectie zodat ze op je website verschijnen en sleep ze naar de verborgen sectie om ze achter een knop te verbergen."
+msgstr ""
 
 #: modules/sharedaddy/sharing.php:197
 msgid "Please note that your services have been restricted because your site is private."
@@ -5284,7 +5270,7 @@ msgstr "Nieuwe strip toevoegen"
 
 #: modules/module-info.php:361
 msgid "Full details can be found on the <a href=\"%s\">Sharing support page</a>. This video also gives a swish run-down of how to use the Sharing feature. Watch it in HD for extra snazz!"
-msgstr "Volledige details kunnen gevonden worden op de <a href=\"%s\">Delen ondersteuningspagina</a>.  Deze video geeft je bovendien een snelle uitleg over hoe je de Deelfunctie kunt gebruiken. Bekijk het in HD voor extra snazz!"
+msgstr ""
 
 #: modules/sharedaddy/sharing.php:208
 msgid "Enabled Services"
@@ -5296,7 +5282,7 @@ msgstr "Indien leeg, proberen we de afbeeldingsgrootte vast te stellen."
 
 #: class.jetpack.php:4383
 msgid "Something has gotten mixed up!"
-msgstr "Er is iets verkeerd gegaan!"
+msgstr ""
 
 #: modules/custom-post-types/comics.php:206
 msgid "Edit Comic"
@@ -5316,7 +5302,7 @@ msgstr "Link URL (wanneer de afbeelding wordt geklikt):"
 
 #: class.jetpack.php:4385
 msgid "Your <code>%1$s</code> option is set up as <strong>%2$s</strong>, but your WordPress.com connection lists it as <strong>%3$s</strong>!"
-msgstr "Je <code>%1$s</code> optie is ingesteld als <strong>%2$s</strong>, maar je WordPress.com verbinding wordt vermeld als <strong>%3$s</strong>!"
+msgstr ""
 
 #: modules/custom-post-types/comics.php:207
 msgid "New Comic"
@@ -5324,7 +5310,7 @@ msgstr "Nieuwe strip"
 
 #: modules/module-info.php:382
 msgid "The <a href='%s'>After&nbsp;the&nbsp;Deadline</a> Proofreading service improves your writing by using artificial intelligence to find your errors and offer smart suggestions."
-msgstr "De <a href='%s'>After&nbsp;the&nbsp;Deadline</a> Proofreading service verbetert je schrijven door gebruik te maken van arrtificiele intelligentie om je fouten te vinden en slimme suggesties te bieden."
+msgstr ""
 
 #: modules/sharedaddy/sharing.php:214
 msgid "Drag and drop available services here."
@@ -5332,11 +5318,11 @@ msgstr "Beschikbare diensten hier slepen en neerzetten."
 
 #: modules/widgets/readmill.php:11 modules/widgets/readmill.php:21
 msgid "Send To Readmill"
-msgstr "Naar Readmill sturen"
+msgstr ""
 
 #: class.jetpack.php:4387
 msgid "The data listed above is not for my current site. Please disconnect, and then form a new connection to WordPress.com for this site using my current settings."
-msgstr "De hierboven vermelde gegevens zijn niet van mijn huidige website. Verbreek de verbinding en maak dan opnieuw verbinding met Word.Press.com voor deze website met gebruik van mijn huidige instellingen."
+msgstr ""
 
 #: modules/custom-post-types/comics.php:208
 msgid "View Comic"
@@ -5344,7 +5330,7 @@ msgstr "Strip bekijken"
 
 #: modules/module-info.php:383
 msgid "After the Deadline provides a number of <a href=\"%s\">customization options</a>, which you can edit in your profile."
-msgstr "De Deadline  biedt een aantal <a href=\"%s\">aanpassingsopties</a>, die je in je profiel kunt bewerken."
+msgstr ""
 
 #: modules/sharedaddy/sharing.php:225
 msgid "Services dragged here will be hidden behind a share button."
@@ -5352,11 +5338,11 @@ msgstr "Diensten die hier naartoe gesleept worden, zijn verborgen onder de share
 
 #: modules/widgets/readmill.php:13
 msgid "Readmill is the best book reader for phones and tablets. With this widget you can enable users to send a book to their device with one click."
-msgstr "Readmill is de beste lezer voor boeken op telefoons en tablets. Met deze widget kun je gebruikers in staat stellen met een klik een boek naar hun apparaat te sturen."
+msgstr ""
 
 #: class.jetpack.php:4388
 msgid "Ignore the difference. This is just a staging site for the real site referenced above."
-msgstr "Negeer het verschil. Dit is gewoon een staging website voor de echte website zoals boven genoemd."
+msgstr ""
 
 #: modules/custom-post-types/comics.php:209
 msgid "Search Comics"
@@ -5372,11 +5358,11 @@ msgstr "Live voorbeeld"
 
 #: modules/widgets/readmill.php:47
 msgid "Just enter the URL to your book, make sure it's a PDF or EPUB file, and you are ready to go. For more help, head to <a href='%s'>the Readmill WordPress Widget support page</a>."
-msgstr "Voer gewoon de URL naar je boek in, zorg dat het een PDF of EPUB bestand is en je bent klaar. Ga voor meer help naar <a href='%s'>de Readmill WordPress Widget ondersteuningspagina</a>."
+msgstr ""
 
 #: class.jetpack.php:4389
 msgid "That used to be my URL for this site before I changed it. Update the WordPress.com Cloud's data to match my current settings."
-msgstr "Dit was vroeger mijn URL voor deze website, voordat ik het wijzigde. Werk de gegevens van  de WordPress.com Cloud bij om mijn huidige instellingen te matchen."
+msgstr ""
 
 #: modules/custom-post-types/comics.php:210
 msgid "No Comics found"
@@ -5392,7 +5378,7 @@ msgstr "Delen staat uit. Voeg services toe om in te schakelen."
 
 #: modules/widgets/readmill.php:55
 msgid "Download URL:"
-msgstr "URL Downloaden:"
+msgstr ""
 
 #: class.json-api-endpoints.php:1314
 msgid "This post is password protected."
@@ -5412,7 +5398,7 @@ msgstr "Knopstijl"
 
 #: modules/widgets/readmill.php:60
 msgid "Item URL:"
-msgstr "Item URL:"
+msgstr ""
 
 #: class.json-api-endpoints.php:3344
 msgid "Comment cache problem?"
@@ -5424,7 +5410,7 @@ msgstr "Strip bijgewerkt. <a href=\"%s\">Strip bekijken</a>"
 
 #: modules/module-info.php:402
 msgid "allows you to add links to your blog&#8217;s post and comment RSS feeds in your sidebar. This makes it easy for your readers to stay updated when you post new content or receive new comments."
-msgstr "stelt je in staat links toe te voegen aan de posts op je blog en commentaar te geven op RSS feeds in je zijbalk. Het maakt het gemakkelijker voor je lezers om op de hoogte te blijven  als je nieuwe content post of nieuw commentaar ontvangt."
+msgstr ""
 
 #: modules/sharedaddy/sharing.php:312
 msgid "Icon + text"
@@ -5468,7 +5454,7 @@ msgstr "Extra veld verwijderd."
 
 #: modules/module-info.php:403
 msgid "shows your latest tweets within a sidebar on your theme. It&#8217;s an easy way to add more activity to your site. There are also a number of customization options."
-msgstr "toont je laatste tweets in een zijbalk op je thema. Het is een gemakkeiljke manier om meer activiteiten aan je website toe te voegen. Er zijn ook een aantal aanpassings opties."
+msgstr ""
 
 #: modules/sharedaddy/sharing.php:314
 msgid "Text only"
@@ -5488,7 +5474,7 @@ msgstr "Strip bijgewerkt."
 
 #: modules/module-info.php:403
 msgid "The Facebook Like Box Widget "
-msgstr "Het Facebook Like Vakje Widget"
+msgstr ""
 
 #: modules/sharedaddy/sharing.php:315
 msgid "Official buttons"
@@ -5500,7 +5486,7 @@ msgstr "Je ePub link is leeg. Om de Verzenden naar ReadMill widget te tonen moet
 
 #: class.jetpack-twitter-cards.php:86
 msgid "Photo post by %s."
-msgstr "Foto post per %s."
+msgstr ""
 
 #: modules/custom-post-types/comics.php:285
 msgid "Comic restored to revision from %s"
@@ -5508,7 +5494,7 @@ msgstr "Strip hersteld naar revisie van %s"
 
 #: modules/module-info.php:403
 msgid "shows your Facebook Like Box within a sidebar on your theme. It&#8217;s a great way to let your readers show their support."
-msgstr "toont je Facebook Like Vakje in een zijbalk in je thema. Het is een geweldige manier voor je lezers om hun support te laten zien."
+msgstr ""
 
 #: modules/sharedaddy/sharing.php:320
 msgid "Sharing label"
@@ -5520,7 +5506,7 @@ msgstr "Link naar jouw blog's RSS feeds"
 
 #: class.jetpack-twitter-cards.php:86
 msgid "Photo post."
-msgstr "Foto post."
+msgstr ""
 
 #: modules/custom-post-types/comics.php:286
 msgid "Comic published. <a href=\"%s\">View comic</a>"
@@ -5540,7 +5526,7 @@ msgstr "RSS Links (Jetpack)"
 
 #: class.jetpack-twitter-cards.php:88
 msgid "Video post by %s."
-msgstr "Video post per %s"
+msgstr ""
 
 #: modules/custom-post-types/comics.php:287
 msgid "Comic saved."
@@ -5548,7 +5534,7 @@ msgstr "Strip opgeslagen."
 
 #: modules/module-info.php:403
 msgid "allows you to easily add images to widget areas in your theme. It&#8217;s an easy way to add more visual interest to your site."
-msgstr "hiermee kun je gemakkelijk afbeeldingen toevoegen aan widget areas in je thema. Het is een gemakkelijke manier om meer visueel interessante dingen aan je website toe te voegen."
+msgstr ""
 
 #: modules/sharedaddy/sharing.php:329
 msgid "New window"
@@ -5561,7 +5547,7 @@ msgstr "Berichten"
 
 #: class.jetpack-twitter-cards.php:88
 msgid "Video post."
-msgstr "Video post"
+msgstr ""
 
 #: modules/custom-post-types/comics.php:288
 msgid "Comic submitted. <a target=\"_blank\" href=\"%s\">Preview comic</a>"
@@ -5581,7 +5567,7 @@ msgstr "Berichten & Reacties"
 
 #: class.jetpack-twitter-cards.php:90
 msgid "Gallery post by %s."
-msgstr "Galerij post van %s."
+msgstr ""
 
 #: modules/custom-post-types/comics.php:289
 msgid "Comic scheduled for: <strong>%1$s</strong>. <a target=\"_blank\" href=\"%2$s\">Preview comic</a>"
@@ -5601,7 +5587,7 @@ msgstr "Feed(s) om weer te geven:"
 
 #: class.jetpack-twitter-cards.php:90
 msgid "Gallery post."
-msgstr "Galerei post."
+msgstr ""
 
 #: modules/custom-post-types/comics.php:291
 #: modules/custom-post-types/nova.php:231
@@ -5643,7 +5629,7 @@ msgstr "Ongeldige of verlopen nonce."
 
 #: modules/module-info.php:418
 msgid "The Facebook Like Box Widget"
-msgstr "Het Facebook Like Vakje Widget"
+msgstr ""
 
 #: modules/sharedaddy/sharing.php:383
 msgid "Icon URL"
@@ -5680,7 +5666,7 @@ msgstr ""
 
 #: modules/module-info.php:418
 msgid "shows your Facebook Like Box within a sidebar on your theme."
-msgstr "toont je Facebook Like Vakje in een zijbalk in je thema."
+msgstr ""
 
 #: modules/sharedaddy/sharing.php:386
 msgid "Enter the URL of a 16x16px icon you want to use for this service."
@@ -5724,7 +5710,7 @@ msgstr "voeg eenvoudig afbeeldingen toe aan de sidebar van uw theme."
 
 #: modules/sharedaddy/sharing.php:404
 msgid "An error occurred creating your new sharing service - please check you gave valid details."
-msgstr "Er ontstond een fout bij het aanmaken van je nieuwe deelservice - kijk of je geldige gegevens hebt verstrekt."
+msgstr ""
 
 #: modules/widgets/rsslinks-widget.php:100
 msgid "Medium"
@@ -5740,7 +5726,7 @@ msgstr "Zoek menu-itemlabels"
 
 #: modules/module-info.php:420
 msgid "The Gravatar Widget"
-msgstr "De Gravatar Widget"
+msgstr ""
 
 #: modules/shortcodes/archives.php:64
 msgid "Your blog does not currently have any published posts."
@@ -5760,7 +5746,7 @@ msgstr "Populaire labels"
 
 #: modules/module-info.php:420
 msgid "allows you to pull in your Gravatar image along with some of your Gravatar profile data."
-msgstr "hiermee kun je Gravatar afbeelding intrekken, samen met enkele gegevens van je Gravatar profiel."
+msgstr ""
 
 #: modules/shortcodes/audio.php:202
 msgid "Download: <a href=\"%s\">%s</a><br />"
@@ -5780,11 +5766,11 @@ msgstr "Alle Menu-item labels"
 
 #: modules/module-info.php:421
 msgid "The Gallery Widget"
-msgstr "De Galerij Widget"
+msgstr ""
 
 #: modules/shortcodes/presentations.php:227
 msgid "This slideshow could not be started. Try refreshing the page or viewing it in another browser."
-msgstr "Deze diashow kon niet worden gestart. Probeer de pagina te verversen of bekijk het in een andere browser."
+msgstr ""
 
 #: modules/widgets/rsslinks-widget.php:114
 msgid "Orange"
@@ -5800,7 +5786,7 @@ msgstr "Bewerk label menu-item"
 
 #: modules/module-info.php:421
 msgid "provides you with a simple way to display a photo gallery or slideshow in your blog’s sidebar."
-msgstr "biedt je een eenvoudige manier om een fotogalerij of diashow in de zijbalk van je blog weer te geven."
+msgstr ""
 
 #: modules/shortcodes/presentations.php:243
 msgid "Click to autoplay the presentation!"
@@ -5820,7 +5806,7 @@ msgstr "Bekijk Label Menu-item"
 
 #: modules/module-info.php:422
 msgid "The Display WordPress Posts Widget"
-msgstr "De Display WordPress Posts Widget"
+msgstr ""
 
 #: modules/shortcodes/slideshow.php:65 modules/widgets/gallery.php:330
 msgid "Slideshow"
@@ -5840,11 +5826,11 @@ msgstr "Update label menu-item"
 
 #: modules/module-info.php:422
 msgid "lets you display up to ten recent posts from another WordPress.com blog, or a self-hosted WordPress site with Jetpack enabled."
-msgstr "laat je maximaal tien recente posts weergeven van een ander WordPress.com blog, of een zelfgehoste WordPress website met Jetpack ingeschakeld."
+msgstr ""
 
 #: modules/shortcodes/slideshow.php:70
 msgid "Image Gallery Slideshow"
-msgstr "Fotogalerij Diashow"
+msgstr ""
 
 #: modules/widgets/rsslinks-widget.php:117
 msgid "Purple"
@@ -5860,7 +5846,7 @@ msgstr "Voeg nieuw menu-itemlabel toe"
 
 #: modules/module-info.php:423
 msgid "The Readmill Widget"
-msgstr "De Readmill Widget"
+msgstr ""
 
 #: modules/shortcodes/slideshow.php:182
 msgid "Click to view slideshow."
@@ -5880,7 +5866,7 @@ msgstr "Nieuwe labelnaam menu-item"
 
 #: modules/module-info.php:423
 msgid "allows your readers to send a book to their device with one click."
-msgstr "hiermee kunnen je lezers met een klik een boek naar hun apparaat sturen."
+msgstr ""
 
 #: modules/shortcodes/slideshow.php:211
 msgid "This slideshow requires JavaScript."
@@ -5896,11 +5882,11 @@ msgstr "Dubbele Ontkenningen"
 
 #: modules/module-info.php:424
 msgid "The Upcoming Events Widget"
-msgstr "De Aansstaande Evenementen Widget"
+msgstr ""
 
 #: modules/shortcodes/twitter-timeline.php:17
 msgid "Invalid username"
-msgstr "Ongeldige gebruikersnaam"
+msgstr ""
 
 #: modules/widgets/rsslinks-widget.php:121
 msgid "Image Color:"
@@ -5916,11 +5902,11 @@ msgstr "Labels toevoegen of verwijderen"
 
 #: modules/module-info.php:424
 msgid "allows you to use an iCalendar link to display a list of events on your site."
-msgstr "hiermee kun je een iKalender link weergeven om een lijst van evenementen op je website te gebruiken."
+msgstr ""
 
 #: modules/shortcodes/twitter-timeline.php:20
 msgid "Invalid id"
-msgstr "Ongeldig ID"
+msgstr ""
 
 #: modules/widgets/rsslinks-widget.php:140
 msgid "Subscribe to %s"
@@ -5956,7 +5942,7 @@ msgstr "Geen labels gevonden"
 
 #: modules/module-info.php:426
 msgid "To use the widgets, go to Appearance &#8594; <a href=\"%s\">Widgets</a>. Drag them into one of your sidebars and configure away."
-msgstr "Om de widgets te gebruiken, ga naar Uiterlijk; <a href=\"%s\">Widgets</a>. Sleep ze naar een van je zijbalken en configuren maar."
+msgstr ""
 
 #: modules/shortcodes/upcoming-events.php:23
 #: modules/widgets/upcoming-events.php:79
@@ -5981,7 +5967,7 @@ msgstr "Inschrijvingsschermafbeelding"
 
 #: modules/sso.php:134
 msgid "Jetpack Single Sign On"
-msgstr "Jetpack Single Sign On"
+msgstr ""
 
 #: modules/widgets/top-posts.php:78
 msgid "Maximum number of posts to show (no more than 10):"
@@ -5997,7 +5983,7 @@ msgstr "Abonnementen"
 
 #: modules/sso.php:171
 msgid "Require Two-Step Authentication"
-msgstr "Twee Stappen Bevestiging Vereist"
+msgstr ""
 
 #: modules/widgets/top-posts.php:83
 msgid "Display as:"
@@ -6009,11 +5995,11 @@ msgstr "<a href=\"%s\">Leer meer</a> over deze opties."
 
 #: modules/module-info.php:444
 msgid "Easily allow any visitor to subscribe to all of your posts via email through a widget in your blog&#8217;s sidebar.  Every time you publish a post, WordPress.com will send a notification to all your subscribers."
-msgstr "Geef op gemakkelijke wijze een bezoeker toestemming om zich te abonneren op al je posts via e-mail door middel van een widget in de zijbalk van je blogs. Telkens als je een post publiceert, zal WordPress.com een bericht naar al je abonnees sturen."
+msgstr ""
 
 #: modules/sso.php:189
 msgid "Match by Email"
-msgstr "Matchen per E-mail"
+msgstr ""
 
 #: modules/widgets/top-posts.php:85
 msgid "Text List"

@@ -91,6 +91,7 @@ if ( !class_exists( 'TribePluginUpdateEngineChecker' ) ) {
 		 * Get the slug
 		 *
 		 * @return string
+		 * @since 1.5
 		 */
 		public function get_slug() {
 			return apply_filters( 'pue_get_slug', $this->slug );
@@ -100,6 +101,7 @@ if ( !class_exists( 'TribePluginUpdateEngineChecker' ) ) {
 		 * Set the slug
 		 *
 		 * @param string $slug
+		 * @since 1.5
 		 */
 		private function set_slug( $slug = '' ) {
 			$this->slug = $slug;
@@ -112,6 +114,7 @@ if ( !class_exists( 'TribePluginUpdateEngineChecker' ) ) {
 		 * Get the PUE update API endpoint url
 		 *
 		 * @return string
+		 * @since 1.5
 		 */
 		public function get_pue_update_url() {
 			return apply_filters( 'pue_get_update_url', $this->pue_update_url, $this->get_slug() );
@@ -123,6 +126,7 @@ if ( !class_exists( 'TribePluginUpdateEngineChecker' ) ) {
 		 * This can be overridden using the global constant 'PUE_UPDATE_URL'
 		 *
 		 * @param string $pue_update_url
+		 * @since 1.5
 		 */
 		private function set_pue_update_url( $pue_update_url ) {
 			$this->pue_update_url = ( defined( 'PUE_UPDATE_URL' ) ) ? trailingslashit( PUE_UPDATE_URL ) : trailingslashit( $pue_update_url );
@@ -132,6 +136,7 @@ if ( !class_exists( 'TribePluginUpdateEngineChecker' ) ) {
 		 * Get the plugin file path
 		 *
 		 * @return string
+		 * @since 1.5
 		 */
 		public function get_plugin_file() {
 			return apply_filters( 'pue_get_plugin_file', $this->plugin_file, $this->get_slug() );
@@ -141,6 +146,7 @@ if ( !class_exists( 'TribePluginUpdateEngineChecker' ) ) {
 		 * Set the plugin file path
 		 *
 		 * @param string $plugin_file
+		 * @since 1.5
 		 */
 		private function set_plugin_file( $plugin_file = '' ) {
 
@@ -159,6 +165,7 @@ if ( !class_exists( 'TribePluginUpdateEngineChecker' ) ) {
 		 * Set the plugin name
 		 *
 		 * @param string $plugin_name
+		 * @since 1.5
 		 */
 		private function set_plugin_name( $plugin_name = '' ) {
 			if( !empty( $plugin_name ) ){
@@ -178,6 +185,7 @@ if ( !class_exists( 'TribePluginUpdateEngineChecker' ) ) {
 		 * Get the plugin name
 		 *
 		 * @return string
+		 * @since 1.5
 		 */
 		public function get_plugin_name() {
 			if ( empty( $this->plugin_name ) ) {
@@ -190,6 +198,7 @@ if ( !class_exists( 'TribePluginUpdateEngineChecker' ) ) {
 		 * Set all the PUE instantiation options
 		 *
 		 * @param array $options
+		 * @since 1.5
 		 */
 		private function set_options( $options = array() ) {
 
@@ -215,6 +224,7 @@ if ( !class_exists( 'TribePluginUpdateEngineChecker' ) ) {
 		 * Set all the download query array
 		 *
 		 * @param array $download_query
+		 * @since 1.5
 		 */
 		private function set_download_query( $download_query = array() ) {
 
@@ -246,6 +256,7 @@ if ( !class_exists( 'TribePluginUpdateEngineChecker' ) ) {
 		 * Get the download_query args
 		 *
 		 * @return array
+		 * @since 1.5
 		 */
 		public function get_download_query() {
 			if ( empty( $this->download_query ) ) {
@@ -259,6 +270,7 @@ if ( !class_exists( 'TribePluginUpdateEngineChecker' ) ) {
 
 		/**
 		 * Compile  a list of addons
+		 * @author Peter Chester
 		 * @param array $addons list of addons
 		 * @return array list of addons
 		 */
@@ -271,6 +283,9 @@ if ( !class_exists( 'TribePluginUpdateEngineChecker' ) ) {
 		 * Inserts license key fields on license key page
 		 *
 		 * @param array $fields List of fields
+		 * @author jkudish
+		 * @author Peter Chester
+		 * @since 1.1
 		 * @return array Modified list of fields.
 		 */
 		public function do_license_key_fields( $fields ) {
@@ -285,8 +300,8 @@ if ( !class_exists( 'TribePluginUpdateEngineChecker' ) ) {
 					'type' => 'license_key',
 					'size' => 'large',
 					'validation_type' => 'license_key',
-					'label' => sprintf( __('License Key', 'tribe-events-calendar') ),
-					'tooltip' => __('A valid license key is required for support and updates', 'tribe-events-calendar'),
+					'label' => sprintf( __('License Key', 'tribe-plugin-update-engine') ),
+					'tooltip' => __('A valid license key is required for support and updates', 'tribe-plugin-update-engine'),
 					'parent_option' => false,
 				),
 			));
@@ -298,6 +313,8 @@ if ( !class_exists( 'TribePluginUpdateEngineChecker' ) ) {
 		 * Inserts the javascript that makes the ajax checking
 		 * work on the license key page
 		 *
+		 * @author jkudish
+		 * @since 2.0.5
 		 * @return void
 		 */
 		public function do_license_key_javascript() {
@@ -324,11 +341,11 @@ if ( !class_exists( 'TribePluginUpdateEngineChecker' ) ) {
 							jQuery(this_id+' .ajax-loading-license').hide();
 							if(data.status == '1') {
 								jQuery(this_id+' .valid-key').show();
-								jQuery(this_id+' .valid-key').html(data.message);
+								jQuery(this_id+' .valid-key').text(data.message);
 								jQuery(this_id+' .invalid-key').hide();
 							} else {
 								jQuery(this_id+' .invalid-key').show();
-								jQuery(this_id+' .invalid-key').html(data.message);
+								jQuery(this_id+' .invalid-key').text(data.message);
 								jQuery(this_id+' .valid-key').hide();
 							}
 						});
@@ -343,6 +360,8 @@ if ( !class_exists( 'TribePluginUpdateEngineChecker' ) ) {
 		 *
 		 * @param string $message
 		 * @param string $tab
+		 * @author jkudish
+		 * @since 2.0.5
 		 * @return string
 		 */
 		public function do_license_key_success_message( $message, $tab ) {
@@ -350,7 +369,7 @@ if ( !class_exists( 'TribePluginUpdateEngineChecker' ) ) {
 			if ( $tab != 'licenses' )
 				return $message;
 
-			return '<div id="message" class="updated"><p><strong>' . __( 'License key(s) updated.', 'tribe-events-calendar' ) . '</strong></p></div>';
+			return '<div id="message" class="updated"><p><strong>' . __( 'License key(s) updated.', 'tribe-plugin-update-engine' ) . '</strong></p></div>';
 
 		}
 
@@ -389,27 +408,21 @@ if ( !class_exists( 'TribePluginUpdateEngineChecker' ) ) {
 
 				$pluginInfo = $this->request_info( $queryArgs );
 
-				if ( empty( $pluginInfo ) ) {
-					$response['message'] = __( 'Sorry, key validation server is not available.', 'tribe-events-calendar' );
-				}
-				elseif ( isset( $pluginInfo->api_expired ) && $pluginInfo->api_expired == 1 ) {
-					$response['message'] = __( 'Sorry, this key is expired.', 'tribe-events-calendar' );
-
-				} elseif ( isset( $pluginInfo->api_upgrade ) && $pluginInfo->api_upgrade == 1 ) {
-					$problem = __( 'Sorry, this key is out of installs.', 'tribe-events-calendar' );
-					$helpful_link = sprintf( '<a href="%s" target="_blank">%s</a>', 'http://m.tri.be/lz', __( 'Why am I seeing this message?' ) );
-					$response['message'] = "$problem $helpful_link";
-				}
-				elseif ( isset( $pluginInfo->api_invalid ) && $pluginInfo->api_invalid == 1 ) {
-					$response['message'] = __( 'Sorry, this key is not valid.', 'tribe-events-calendar' );
-				}
-				else {
+				if (empty($pluginInfo)) {
+					$response['message'] = __('Sorry, key validation server is not available.','tribe-plugin-update-engine');
+				} elseif (isset($pluginInfo->api_expired) && $pluginInfo->api_expired == 1) {
+					$response['message'] = __('Sorry, this key is expired.','tribe-plugin-update-engine');
+				} elseif (isset($pluginInfo->api_upgrade) && $pluginInfo->api_upgrade == 1) {
+					$response['message'] = __('Sorry, this key is out of installs.','tribe-plugin-update-engine');
+				} elseif (isset($pluginInfo->api_invalid) && $pluginInfo->api_invalid == 1) {
+					$response['message'] = __('Sorry, this key is not valid.','tribe-plugin-update-engine');
+				} else {
 					$response['status'] = 1;
-					$response['message'] = sprintf( __( 'Valid Key! Expires on %s', 'tribe-events-calendar' ),$pluginInfo->expiration);
+					$response['message'] = sprintf(__('Valid Key! Expires on %s','tribe-plugin-update-engine'),$pluginInfo->expiration);
 					$response['expiration'] = $pluginInfo->expiration;
 				}
 			} else {
-				$response['message'] = sprintf( __( 'Hmmm... something\'s wrong with this validator. Please contact <a href="%s">support.</a>', 'tribe-events-calendar' ), 'http://m.tri.be/1u' );
+				$response['message'] = sprintf( __( 'Hmmm... something\'s wrong with this validator. Please contact <a href="%s">support.</a>', 'plugin-update-engine' ), 'http://m.tri.be/1u' );
 			}
 			echo json_encode($response);
 			exit;
@@ -631,6 +644,8 @@ if ( !class_exists( 'TribePluginUpdateEngineChecker' ) ) {
 		 *
 		 * @param string $option_key
 		 * @param bool|mixed $default
+		 * @author Peter Chester
+		 * @since 1.4
 		 * @return null|mixed
 		 */
 		function get_option( $option_key, $default = false ) {
@@ -651,6 +666,8 @@ if ( !class_exists( 'TribePluginUpdateEngineChecker' ) ) {
 		 *
 		 * @param mixed $option_key
 		 * @param mixed $value
+		 * @author Peter Chester
+		 * @since 1.4
 		 */
 		function update_option( $option_key, $value ) {
 			// Check if the option is in the site options
@@ -785,6 +802,9 @@ if ( !class_exists( 'TribePluginUpdateEngineChecker' ) ) {
 		 * @param $insert_array
 		 * @return array
 		 *
+		 * @author codearachnid
+		 * @author Peter Chester
+		 * @since 1.3
 		 */
 		public static function array_insert_after_key( $key, $source_array, $insert_array ) {
 			if ( array_key_exists( $key, $source_array ) ) {
@@ -804,6 +824,8 @@ if ( !class_exists( 'TribePluginUpdateEngineChecker' ) ) {
 		 *
 		 * @return array $keys
 		 *
+		 * @author Peter Chester
+		 * @since 1.6
 		 */
 		public function return_install_key( $keys = array() ) {
 			if ( !empty( $this->install_key ) ) {

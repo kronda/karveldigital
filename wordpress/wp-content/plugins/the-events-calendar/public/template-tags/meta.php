@@ -4,6 +4,7 @@
  * Meta Factory Classes
  *
  * @uses  Tribe_Meta_Factory
+ * @since  3.0
  */
 
 // Don't load directly
@@ -18,6 +19,7 @@ if ( class_exists('TribeEvents') ) {
 	 * @param string $meta_group_id
 	 * @param array $args
 	 * @return bool $success
+	 * @since 3.0
 	 */
 	function tribe_register_meta_group( $meta_group_id, $args = array() ) {
 		// setup default for registering a meta group
@@ -33,6 +35,7 @@ if ( class_exists('TribeEvents') ) {
 	 * @param int $meta_id
 	 * @param array $args
 	 * @return bool $success
+	 * @since 3.0
 	 */
 	function tribe_register_meta( $meta_id, $args = array() ) {
 		return Tribe_Meta_Factory::register( $meta_id, $args );
@@ -44,6 +47,7 @@ if ( class_exists('TribeEvents') ) {
 	 * @param $meta_group_id
 	 * @param bool $is_the_meta
 	 * @return bool|mixed|void
+	 * @since 3.0
 	 */
 	function tribe_get_meta_group( $meta_group_id, $is_the_meta = false ){
 
@@ -102,6 +106,7 @@ if ( class_exists('TribeEvents') ) {
 	 * @param $meta_id
 	 * @param bool $is_the_meta
 	 * @return bool|mixed|void
+	 * @since 3.0
 	 */
 	function tribe_get_meta( $meta_id, $is_the_meta = false ) {
 
@@ -114,6 +119,7 @@ if ( class_exists('TribeEvents') ) {
 		$meta = Tribe_Meta_Factory::get_args( $meta_id );
 
 		// internal check for hiding items in the meta
+		// if( $is_the_meta && ! $meta['show_on_meta'] ){
 		if( ! $meta['show_on_meta'] ){
 			return false;
 		}
@@ -143,6 +149,7 @@ if ( class_exists('TribeEvents') ) {
 	 * @param $arg_key
 	 * @param string $type
 	 * @return bool
+	 * @since 3.0
 	 */
 	function tribe_get_meta_arg( $meta_id, $arg_key, $type = 'meta' ){
 
@@ -167,6 +174,7 @@ if ( class_exists('TribeEvents') ) {
 	 * @param $template_key
 	 * @param string $type
 	 * @return bool
+	 * @since 3.0
 	 */
 	function tribe_get_meta_template_part( $meta_id, $template_key, $type = 'meta'){
 
@@ -189,6 +197,7 @@ if ( class_exists('TribeEvents') ) {
 	 * @param $meta_id
 	 * @param bool $status
 	 * @param string $type
+	 * @since 3.0
 	 */
 	function tribe_set_the_meta_visibility( $meta_id, $status = true, $type = 'meta' ){
 		Tribe_Meta_Factory::set_visibility( $meta_id, $type, $status );
@@ -201,6 +210,7 @@ if ( class_exists('TribeEvents') ) {
 	 * @param array $template
 	 * @param string $type
 	 * @return bool
+	 * @since 3.0
 	 */
 	function tribe_set_the_meta_template( $meta_id, $template = array(), $type = 'meta' ){
 		if( is_array( $meta_id) ) {
@@ -228,6 +238,7 @@ if ( class_exists('TribeEvents') ) {
 	 * @param int $priority
 	 * @param string $type
 	 * @return bool
+	 * @since 3.0
 	 */
 	function tribe_set_meta_priority( $meta_id, $priority = 100, $type = 'meta' ){
 		if( is_array( $meta_id) ) {
@@ -255,6 +266,7 @@ if ( class_exists('TribeEvents') ) {
 	 * @param string $value_type
 	 * @param string $type
 	 * @return bool
+	 * @since 3.0
 	 */
 	function tribe_set_meta_value( $meta_id, $value, $value_type = 'meta_value', $type = 'meta' ){
 		if( is_array( $meta_id) ) {
@@ -279,6 +291,7 @@ if ( class_exists('TribeEvents') ) {
 	 * @param string $label
 	 * @param string $type
 	 * @return bool
+	 * @since 3.0
 	 */
 	function tribe_set_meta_label( $meta_id, $label = '', $type = 'meta' ){
 		if( is_array( $meta_id) ) {
@@ -300,6 +313,7 @@ if ( class_exists('TribeEvents') ) {
 	 * Get the event meta
 	 *
 	 * @return mixed|void
+	 * @since 3.0
 	 */
 	function tribe_get_the_event_meta(){
 		$html = '';
@@ -350,6 +364,8 @@ if ( class_exists('TribeEvents') ) {
 	 * @deprecated since 3.6
 	 * @todo remove in 3.7
 	 * @return string
+	 * @since 3.0
+	 * @author Jessica Yazbek
 	 **/
 	function tribe_events_single_event_meta() {
 		// Use the new template driven approach to rendering meta data unless the user opts to use the old system

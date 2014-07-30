@@ -1,11 +1,6 @@
 Order Deny,Allow
 Deny from all
 
-<FilesMatch "^(form|akismet)\.(css|js)$">
-	Allow from all
-</FilesMatch>
-
-#allow access to any image
-<FilesMatch "^(.+)\.(png|gif)$">
+<FilesMatch "^akismet\.(css|js)$">
 	Allow from all
 </FilesMatch>

@@ -7,6 +7,8 @@
  * the show funcion in: lib/tribe-events-bar.class.php
  *
  * @package TribeEventsCalendar
+ * @since  3.0
+ * @author Modern Tribe Inc.
  *
  */
 ?>

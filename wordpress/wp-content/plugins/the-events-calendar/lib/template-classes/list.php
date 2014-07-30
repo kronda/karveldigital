@@ -4,6 +4,8 @@
  * This file contains the hook logic required to create an effective event list view.
  *
  * @package TribeEventsCalendar
+ * @since  2.1
+ * @author Modern Tribe Inc.
  *
  */
 

@@ -8,6 +8,8 @@ if ( !class_exists( 'TribeValidate' ) ) {
 	 * helper class that validates fields for use in Settings, MetaBoxes, Users, anywhere.
 	 * Instantiate whenever you want to validate a field
 	 *
+	 * @since 2.0.5
+	 * @author jkudish
 	 */
 	class TribeValidate {
 
@@ -53,6 +55,8 @@ if ( !class_exists( 'TribeValidate' ) ) {
 		/**
 		 * Class constructor
 		 *
+		 * @since 2.0.5
+		 * @author jkudish
 		 * @param string $field_id the field ID to validate
 		 * @param array $field_id the field object to validate
 		 * @param mixed $value the value to validate
@@ -119,6 +123,8 @@ if ( !class_exists( 'TribeValidate' ) ) {
 		/**
 		 * validates a field as a string containing only letters and numbers
 		 *
+		 * @since 2.0.7
+		 * @author jkudish
 		 * @return stdClass validation result object
 		 */
 		public function alpha_numeric() {
@@ -134,6 +140,8 @@ if ( !class_exists( 'TribeValidate' ) ) {
 		 * validates a field as a string containing only letters,
 		 * numbers and carriage returns
 		 *
+		 * @since 2.0.7
+		 * @author jkudish
 		 * @return stdClass validation result object
 		 */
 		public function alpha_numeric_multi_line() {
@@ -150,6 +158,8 @@ if ( !class_exists( 'TribeValidate' ) ) {
 		 * validates a field as a string containing only letters,
 		 * numbers, dots and carriage returns
 		 *
+		 * @since 2.0.7
+		 * @author jkudish
 		 * @return stdClass validation result object
 		 */
 		public function alpha_numeric_multi_line_with_dots_and_dashes() {
@@ -165,6 +175,8 @@ if ( !class_exists( 'TribeValidate' ) ) {
 		/**
 		 * validates a field as being positive integers
 		 *
+		 * @since 2.0.5
+		 * @author jkudish
 		 * @return stdClass validation result object
 		 */
 		public function positive_int() {
@@ -179,6 +191,8 @@ if ( !class_exists( 'TribeValidate' ) ) {
 		/**
 		 * validates & sanitizes fields as URL slugs
 		 *
+		 * @since 2.0.5
+		 * @author jkudish
 		 * @return stdClass validation result object
 		 */
 		public function slug() {
@@ -194,6 +208,8 @@ if ( !class_exists( 'TribeValidate' ) ) {
 		/**
 		 * validates & sanitizes fields as URLs
 		 *
+		 * @since 2.0.5
+		 * @author jkudish, nciske
 		 * @return stdClass validation result object
 		 */
 		public function url() {
@@ -210,6 +226,8 @@ if ( !class_exists( 'TribeValidate' ) ) {
 		 * validates fields that have options (radios, dropdowns, etc.)
 		 * by making sure the value is part of the options array
 		 *
+		 * @since 2.0.5
+		 * @author jkudish
 		 * @return stdClass validation result object
 		 */
 		public function options() {
@@ -226,6 +244,8 @@ if ( !class_exists( 'TribeValidate' ) ) {
 		 * validates fields that have multiple options (checkbox list, etc.)
 		 * by making sure the value is part of the options array
 		 *
+		 * @since 2.0.5
+		 * @author jkudish, nciske
 		 * @return stdClass validation result object
 		 */
 		public function options_multi() {
@@ -246,6 +266,8 @@ if ( !class_exists( 'TribeValidate' ) ) {
 		 * then combines the value into an array containg the value
 		 * and name from the option
 		 *
+		 * @since 2.0.5
+		 * @author jkudish
 		 * @return stdClass validation result object
 		 */
 		public function options_with_label() {
@@ -263,6 +285,8 @@ if ( !class_exists( 'TribeValidate' ) ) {
 		 * as the specified value as specified in
 		 * $this->additional_args['compare_name']
 		 *
+		 * @since 2.0.5
+		 * @author jkudish
 		 * @return stdClass validation result object
 		 */
 		public function cannot_be_the_same_as() {
@@ -286,6 +310,8 @@ if ( !class_exists( 'TribeValidate' ) ) {
 		/**
 		 * validates a field as being a number or a percentage
 		 *
+		 * @since 2.0.5
+		 * @author jkudish
 		 * @return stdClass validation result object
 		 */
 		public function number_or_percent() {
@@ -300,6 +326,8 @@ if ( !class_exists( 'TribeValidate' ) ) {
 		/**
 		 * sanitizes an html field
 		 *
+		 * @since 2.0.5
+		 * @author jkudish
 		 * @return stdClass validation result object
 		 */
 		public function html() {
@@ -310,6 +338,8 @@ if ( !class_exists( 'TribeValidate' ) ) {
 		/**
 		 * sanitizes a license key
 		 *
+		 * @since 2.0.5
+		 * @author jkudish
 		 * @return stdClass validation result object
 		 */
 		public function license_key() {
@@ -320,6 +350,8 @@ if ( !class_exists( 'TribeValidate' ) ) {
 		/**
 		 * sanitizes a textarea field
 		 *
+		 * @since 2.0.5
+		 * @author jkudish
 		 * @return stdClass validation result object
 		 */
 		public function textarea() {
@@ -330,6 +362,8 @@ if ( !class_exists( 'TribeValidate' ) ) {
 		/**
 		 * sanitizes a field as beeing a boolean
 		 *
+		 * @since 2.0.5
+		 * @author jkudish
 		 * @return stdClass validation result object
 		 */
 		public function boolean() {
@@ -340,6 +374,8 @@ if ( !class_exists( 'TribeValidate' ) ) {
 		/**
 		 * validates a Google Maps Zoom field
 		 *
+		 * @since 2.0.5
+		 * @author jkudish
 		 * @return stdClass validation result object
 		 */
 		public function google_maps_zoom() {
@@ -355,6 +391,8 @@ if ( !class_exists( 'TribeValidate' ) ) {
 		 * validates a field as being part of an address
 		 * allows for letters, numbers, dashses and spaces only
 		 *
+		 * @since 2.0.5
+		 * @author jkudish
 		 * @return stdClass validation result object
 		 */
 		public function address() {
@@ -371,6 +409,8 @@ if ( !class_exists( 'TribeValidate' ) ) {
 		 * validates a field as being a city or province
 		 * allows for letters, dashses and spaces only
 		 *
+		 * @since 2.0.5
+		 * @author jkudish
 		 * @return stdClass validation result object
 		 */
 		public function city_or_province() {
@@ -386,6 +426,8 @@ if ( !class_exists( 'TribeValidate' ) ) {
 		/**
 		 * validates a field as being a zip code
 		 *
+		 * @since 2.0.5
+		 * @author jkudish
 		 * @return stdClass validation result object
 		 */
 		public function zip() {
@@ -400,6 +442,8 @@ if ( !class_exists( 'TribeValidate' ) ) {
 		/**
 		 * validates a field as being a phone number
 		 *
+		 * @since 2.0.5
+		 * @author jkudish
 		 * @return stdClass validation result object
 		 */
 		public function phone() {
@@ -414,6 +458,8 @@ if ( !class_exists( 'TribeValidate' ) ) {
 		/**
 		 * validates & sanitizes a field as being a country list
 		 *
+		 * @since 2.0.5
+		 * @author jkudish
 		 * @return stdClass validation result object
 		 */
 		public function country_list() {
@@ -436,6 +482,8 @@ if ( !class_exists( 'TribeValidate' ) ) {
 		 * automatically validate a field regardless of the value
 		 * Don't use this unless you know what you are doing
 		 *
+		 * @since 2.0.5
+		 * @author jkudish
 		 * @return stdClass validation result object
 		 */
 		public function none() {

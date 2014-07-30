@@ -6,6 +6,7 @@
  * [your-theme]/tribe-events/modules/meta.php
  *
  * @package TribeEventsCalendar
+ * @since 3.6
  */
 
 do_action( 'tribe_events_single_meta_before' );

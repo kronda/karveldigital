@@ -4,6 +4,8 @@
  * This file contains the hook logic required to create an effective day grid view.
  *
  * @package TribeEventsCalendar
+ * @since  3.0
+ * @author Modern Tribe Inc.
  *
  */
 
@@ -21,6 +23,7 @@ if( !class_exists('Tribe_Events_Single_Event_Template')){
 		 * Setup meta display in this template
 		 *
 		 * @return void
+		 * @since 3.0
 		 **/
 		public function setup_meta() {
 
@@ -82,6 +85,7 @@ if( !class_exists('Tribe_Events_Single_Event_Template')){
 		 * Set up the notices for this template
 		 *
 		 * @return void
+		 * @since 3.0
 		 **/
 		public function set_notices() {
 

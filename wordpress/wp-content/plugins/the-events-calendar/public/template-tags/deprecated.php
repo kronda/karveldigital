@@ -1193,6 +1193,7 @@ if ( class_exists( 'TribeEvents' ) ) {
 	 *
 	 * @deprecated
 	 * @uses load_template()
+	 * @since 2.0
 	 */
 	function tribe_calendar_grid()  {
 		_deprecated_function( __FUNCTION__, '3.0', 'tribe_show_month()' );
@@ -1206,6 +1207,7 @@ if ( class_exists( 'TribeEvents' ) ) {
 	 *
 	 * @deprecated
 	 * @uses load_template()
+	 * @since 2.0
 	 */
 	function tribe_calendar_mini_grid() {
 		_deprecated_function( __FUNCTION__, '3.0' );
@@ -1220,6 +1222,7 @@ if ( class_exists( 'TribeEvents' ) ) {
 	 * @param array $results Array of events from tribe_get_events()
 	 * @param string $date
 	 * @return array Days of the month with events as values
+	 * @since 2.0
 	 */
 	function tribe_sort_by_month( $results, $date )  {
 		_deprecated_function( __FUNCTION__, '3.0' );
@@ -1233,6 +1236,7 @@ if ( class_exists( 'TribeEvents' ) ) {
 	 * @deprecated
 	 * @param string $prefix A prefix to add to the ID of the calendar elements.  This allows you to reuse the calendar on the same page.
 	 * @param string|null $date
+	 * @since 2.0
 	 */
 	function tribe_month_year_dropdowns( $prefix = '', $date = null )  {
 		_deprecated_function( __FUNCTION__, '3.0' );
@@ -1245,6 +1249,7 @@ if ( class_exists( 'TribeEvents' ) ) {
 	 *
 	 * @deprecated
 	 * @return string URL
+	 * @since 2.0
 	 */
 	function tribe_get_this_month_link()  {
 		_deprecated_function( __FUNCTION__, '3.0' );
@@ -1257,6 +1262,7 @@ if ( class_exists( 'TribeEvents' ) ) {
 	 *
 	 * @deprecated
 	 * @return string Name of the displayed month.
+	 * @since 2.0
 	 */
 	function tribe_get_displayed_month()  {
 		_deprecated_function( __FUNCTION__, '3.0' );

@@ -9,6 +9,7 @@ if( class_exists( 'TribeEvents' ) ) {
 	 * Conditional tag to check if current page is an event category page
 	 *
 	 * @return bool
+	 * @author  Modern Tribe
 	 **/
 	function tribe_is_event_category() {
 		global $wp_query; 
@@ -20,6 +21,7 @@ if( class_exists( 'TribeEvents' ) ) {
 	 * Conditional tag to check if current page is an event venue page
 	 *
 	 * @return bool
+	 * @author  Modern Tribe
 	 **/
 	function tribe_is_event_venue() {
 		global $wp_query; 
@@ -31,6 +33,7 @@ if( class_exists( 'TribeEvents' ) ) {
 	 * Conditional tag to check if current page is an event organizer page
 	 *
 	 * @return bool
+	 * @author  Modern Tribe
 	 **/
 	function tribe_is_event_organizer() {
 		global $wp_query; 
@@ -42,6 +45,7 @@ if( class_exists( 'TribeEvents' ) ) {
 	 * Conditional tag to check if current page is displaying event query
 	 *
 	 * @return bool
+	 * @author  Modern Tribe
 	 **/
 	function tribe_is_event_query() {
 		global $wp_query; 

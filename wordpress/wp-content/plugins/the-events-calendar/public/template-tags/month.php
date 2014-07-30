@@ -24,6 +24,8 @@ if( class_exists( 'TribeEvents' ) ) {
 	 * @param array $args query args to pass to the month view
 	 * @param string $template_path template to use, defaults to the full month view
 	 * @return void
+	 * @author Jessica Yazbek
+	 * @since 3.0
 	 **/
 	function tribe_show_month( $args = array(), $template_path = 'month/content' ) {
 
@@ -61,6 +63,7 @@ if( class_exists( 'TribeEvents' ) ) {
 	 * Returns true if the current view is Month
 	 *
 	 * @return bool
+	 * @since 2.0
 	 */
 	function tribe_is_month()  {
 		$tribe_ecp = TribeEvents::instance();
@@ -83,7 +86,9 @@ if( class_exists( 'TribeEvents' ) ) {
 	 * </ code >
 	 *
 	 * @return bool
+	 * @author Jessica Yazbek
 	 * @see Tribe_Events_Month_Template::have_days()
+	 * @since 3.0
 	 **/
 	function tribe_events_have_month_days() {
 		return Tribe_Events_Month_Template::have_days();
@@ -104,7 +109,9 @@ if( class_exists( 'TribeEvents' ) ) {
 	 * </ code >
 	 *
 	 * @return void
+	 * @author Jessica Yazbek
 	 * @see Tribe_Events_Month_Template::the_day()
+	 * @since 3.0
 	 **/
 	function tribe_events_the_month_day() {
 		Tribe_Events_Month_Template::the_day();
@@ -125,7 +132,9 @@ if( class_exists( 'TribeEvents' ) ) {
 	 * </ code >
 	 *
 	 * @return int
+	 * @author Jessica Yazbek
 	 * @see Tribe_Events_Month_Template::get_current_week()
+	 * @since 3.0 
 	 **/
 	function tribe_events_get_current_week() {
 		return Tribe_Events_Month_Template::get_current_week();
@@ -146,7 +155,9 @@ if( class_exists( 'TribeEvents' ) ) {
 	 * 	'date' => 'previous' or 'next'
 	 *
 	 * @return array
+	 * @author Jessica Yazbek
 	 * @see Tribe_Events_Month_Template::get_current_day()
+	 * @since 3.0
 	 **/
 	function tribe_events_get_current_month_day() {
 		return apply_filters( 'tribe_events_get_current_month_day', Tribe_Events_Month_Template::get_current_day() );
@@ -157,7 +168,9 @@ if( class_exists( 'TribeEvents' ) ) {
 	 * Outputs classes for the current month day, including special classes for past / present / future days
 	 *
 	 * @return void
+	 * @author Jessica Yazbek
 	 * @see Tribe_Events_Month_Template::day_classes()
+	 * @since 3.0 
 	 **/
 	function tribe_events_the_month_day_classes() {
 		echo apply_filters( 'tribe_events_the_month_day_class', Tribe_Events_Month_Template::day_classes() );
@@ -168,7 +181,9 @@ if( class_exists( 'TribeEvents' ) ) {
 	 * Outputs classes for the current single event in the month loop
 	 *
 	 * @return void
+	 * @author Jessica Yazbek
 	 * @see Tribe_Events_Month_Template::event_classes()
+	 * @since 3.0 
 	 **/
 	function tribe_events_the_month_single_event_classes() {
 		echo apply_filters(  'tribe_events_the_month_single_event_classes', Tribe_Events_Month_Template::event_classes() );
@@ -178,7 +193,9 @@ if( class_exists( 'TribeEvents' ) ) {
 	 * Returns whether there are any events in the month
 	 *
 	 * @return bool
+	 * @author Jessica Yazbek
 	 * @see Tribe_Events_Month_Template::get_daily_counts()
+	 * @since 3.1.1
 	 **/
 	function tribe_events_month_has_events() {
 		return apply_filters( 'tribe_events_month_has_events', false );
@@ -191,6 +208,7 @@ if( class_exists( 'TribeEvents' ) ) {
 	 * Returns the URL where the jump menu sends the month/year request.
 	 *
 	 * @return string URL
+	 * @since 2.0
 	 */
 	function tribe_get_dropdown_link_prefix()  {
 		$tribe_ecp = TribeEvents::instance();
@@ -204,6 +222,7 @@ if( class_exists( 'TribeEvents' ) ) {
 	 * Get current calendar month view date
 	 *
 	 * @return string Date currently queried
+	 * @since 2.0
 	 */
 	function tribe_get_month_view_date() {
 		global $wp_query;
@@ -222,22 +241,16 @@ if( class_exists( 'TribeEvents' ) ) {
 	/**
 	 * Display an html link to the previous month. Used in the month navigation.
 	 *
-	 * No link will be returned if the link is to a month that precedes any existing
-	 * events.
-	 *
 	 * @return void
+	 * @author Jessica Yazbek
 	 * @uses tribe_get_previous_month_text()
+	 * @since 3.0
 	 **/
 	function tribe_events_the_previous_month_link() {
-		$html = '';
 		$url = tribe_get_previous_month_link();
 		$date = TribeEvents::instance()->previousMonth( tribe_get_month_view_date() );
-
-		if ( $date >= tribe_events_earliest_date( TribeDateUtils::DBYEARMONTHTIMEFORMAT ) ) {
-			$text = tribe_get_previous_month_text();
-			$html = '<a data-month="' . $date . '" href="' . $url . '" rel="prev"><span>&laquo;</span> ' . $text . ' </a>';
-		}
-
+		$text = tribe_get_previous_month_text();
+		$html = '<a data-month="'. $date .'" href="' . $url . '" rel="prev"><span>&laquo;</span> '. $text .' </a>';
 		echo apply_filters('tribe_events_the_previous_month_link', $html);
 	}
 
@@ -245,20 +258,19 @@ if( class_exists( 'TribeEvents' ) ) {
 	 * Display an html link to the next month. Used in the month navigation.
 	 *
 	 * @return void
+	 * @author Jessica Yazbek
 	 * @uses tribe_get_next_month_text()
+	 * @since 3.0
 	 **/
 	function tribe_events_the_next_month_link() {
-		$html = '';
 		$url = tribe_get_next_month_link();
-		$text = tribe_get_next_month_text();
-
-		// Check if $url is populated (an empty string may indicate the date was out-of-bounds, ie on 32bit servers)
-		if ( ! empty( $url ) ) {
+		try {
 			$date = TribeEvents::instance()->nextMonth( tribe_get_month_view_date() );
-			if ( $date <= tribe_events_latest_date( TribeDateUtils::DBYEARMONTHTIMEFORMAT ) )
-				$html = '<a data-month="' . $date . '" href="' . $url . '" rel="next">' . $text . ' <span>&raquo;</span></a>';
+			$text = tribe_get_next_month_text();
+			$html = '<a data-month="'. $date .'" href="' . $url . '" rel="next">'. $text .' <span>&raquo;</span></a>';
+		} catch ( OverflowException $e ) {
+			$html = '';
 		}
-
 		echo apply_filters('tribe_events_the_next_month_link', $html);
 	}
 
@@ -268,6 +280,7 @@ if( class_exists( 'TribeEvents' ) ) {
 	 * Returns a link to the previous month's events page. Used in the month view.
 	 *
 	 * @return string URL
+	 * @since 2.0
 	 */
 	function tribe_get_previous_month_link() {
 		global $wp_query;
@@ -285,6 +298,7 @@ if( class_exists( 'TribeEvents' ) ) {
 	 * Returns a textual description of the previous month
 	 *
 	 * @return string Name of the previous month.
+	 * @since 2.0
 	 */
 	function tribe_get_previous_month_text()  {
 		$tribe_ecp = TribeEvents::instance();
@@ -298,6 +312,7 @@ if( class_exists( 'TribeEvents' ) ) {
 	 * Returns a link to the next month's events page. Used in the month view.
 	 *
 	 * @return string URL 
+	 * @since 2.0
 	 */
 	function tribe_get_next_month_link()  {
 		global $wp_query;
@@ -319,6 +334,7 @@ if( class_exists( 'TribeEvents' ) ) {
 	 * Returns a textual description of the current month
 	 *
 	 * @return string Name of the current month.
+	 * @since 2.0
 	 */
 	function tribe_get_current_month_text( ) {
 		$output = date( 'F', strtotime( tribe_get_month_view_date() ) );
@@ -331,6 +347,7 @@ if( class_exists( 'TribeEvents' ) ) {
 	 * Returns a textual description of the next month
 	 *
 	 * @return string Name of the next month.
+	 * @since 2.0
 	 */
 	function tribe_get_next_month_text()  {
 		$tribe_ecp = TribeEvents::instance();

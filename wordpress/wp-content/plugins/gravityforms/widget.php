@@ -1,9 +1,4 @@
 <?php
-
-if(!class_exists('GFForms')){
-    die();
-}
-
 add_action( 'widgets_init', 'gf_register_widget' );
 
 if(!function_exists("gf_register_widget")){

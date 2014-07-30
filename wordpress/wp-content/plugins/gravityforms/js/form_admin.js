@@ -13,7 +13,7 @@ jQuery(document).ready(function($){
 
     // init merge tag auto complete
     if(typeof form != 'undefined')
-        window.gfMergeTags = new gfMergeTagsObj(form);
+        new gfMergeTagsObj(form);
 
 });
 
@@ -657,10 +657,7 @@ function ConfirmationObj() {
         var defaultVal, valueExists, value;
 
         f = window.form;
-        var id = 0;
-        if(isSet(f)){
-            id = f.id
-        }
+        id = isSet(f) ? f.id : 0;
 
     };
 
@@ -1051,7 +1048,7 @@ var gfMergeTagsObj = function(form) {
             }
         }
 
-        mergeTags = gform.applyFilters('gform_merge_tags', mergeTags, elementId, hideAllFields, excludeFieldTypes, isPrepop, option, this );
+        mergeTags = gform.applyFilters('gform_merge_tags', mergeTags, elementId, hideAllFields, excludeFieldTypes, isPrepop, option);
 
         return mergeTags;
     }

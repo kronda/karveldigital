@@ -49,7 +49,7 @@ Class GFNotification {
             check_admin_referer('gforms_save_notification', 'gforms_save_notification');
             
             //clear out notification because it could have legacy data populated
-            $notification = array();
+            $notification = array( 'isActive' => rgar( $notification, 'isActive') );
 
             $is_update = true;
 
@@ -1045,7 +1045,12 @@ class GFNotificationTable extends WP_List_Table {
     }
 
     function display() {
-        extract( $this->_args );
+
+        // ...causing issue: Notice: Indirect modification of overloaded property GFNotificationTable::$_args has no effect
+        //extract( $this->_args ); // gives us $plural, $singular, $ajax, $screen
+
+        $singular = $this->_args['singular'];
+
         ?>
 
         <table class="wp-list-table <?php echo implode( ' ', $this->get_table_classes() ); ?>" cellspacing="0">

@@ -3,8 +3,8 @@ Contributors: woothemes, mattyza, jameskoster, hlashbrooke
 Donate link: http://woothemes.com/
 Tags: features, widget, shortcode, template-tag, services
 Requires at least: 3.4.2
-Tested up to: 3.8.0
-Stable tag: 1.4.2
+Tested up to: 4.0
+Stable tag: 1.4.3
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -141,6 +141,10 @@ You sure can, just use the following snippet:
 * Initial release. Woo!
 
 == Changelog ==
+
+= 1.4.3 =
+* 2014.08.18
+* Tweak - Made post type args filterable (props lkraav).
 
 = 1.4.2 =
 * 2014-02-03

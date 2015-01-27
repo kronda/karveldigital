@@ -1,14 +1,14 @@
-# Copyright (C) 2014 The Theme Foundry
+# Copyright (C) 2015 The Theme Foundry
 # This file is distributed under the same license as the Make Plus package.
 msgid ""
 msgstr ""
-"Project-Id-Version: Make Plus 1.4.5\n"
+"Project-Id-Version: Make Plus 1.4.8\n"
 "Report-Msgid-Bugs-To: https://thethemefoundry.com/support/\n"
-"POT-Creation-Date: 2014-12-13 00:29:38+00:00\n"
+"POT-Creation-Date: 2015-01-26 23:11:54+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"PO-Revision-Date: 2014-MO-DA HO:MI+ZONE\n"
+"PO-Revision-Date: 2015-MO-DA HO:MI+ZONE\n"
 "Last-Translator: The Theme Foundry\n"
 "Language-Team: The Theme Foundry\n"
 "X-Generator: grunt-wp-i18n 0.4.7\n"
@@ -533,7 +533,7 @@ msgid "Landing"
 msgstr ""
 
 #: components/quick-start/define-templates.php:1112
-#: components/style-kits/definitions.php:260
+#: components/style-kits/definitions.php:263
 msgid "Creative"
 msgstr ""
 
@@ -562,48 +562,56 @@ msgstr ""
 msgid "Light"
 msgstr ""
 
-#: components/style-kits/definitions.php:98
+#: components/style-kits/definitions.php:99
 msgid "Dark"
 msgstr ""
 
-#: components/style-kits/definitions.php:179
+#: components/style-kits/definitions.php:181
 msgid "Modern"
 msgstr ""
 
-#: components/style-kits/definitions.php:341
+#: components/style-kits/definitions.php:345
 msgid "Vintage"
 msgstr ""
 
-#: components/style-kits/style-kits.php:130
-#: components/style-kits/style-kits.php:177
+#: components/style-kits/definitions.php:427
+msgid "Hello"
+msgstr ""
+
+#: components/style-kits/style-kits.php:134
+#: components/style-kits/style-kits.php:181
 msgid "Style Kits"
 msgstr ""
 
-#: components/style-kits/style-kits.php:131
+#: components/style-kits/style-kits.php:135
 #: components/style-kits/stylekit.php:30
 msgid ""
 "Use a style kit to quickly apply designer-picked style choices (fonts, "
 "layout, colors) to your website."
 msgstr ""
 
-#: components/style-kits/style-kits.php:137
+#: components/style-kits/style-kits.php:141
 #: components/style-kits/stylekit.php:45
 msgid "Kits"
 msgstr ""
 
-#: components/style-kits/style-kits.php:155
+#: components/style-kits/style-kits.php:159
 #: components/style-kits/stylekit.php:78 components/typekit/customizer.php:114
 #: components/typekit/customizer.php:190
 msgid "Reset"
 msgstr ""
 
-#: components/style-kits/style-kits.php:155
+#: components/style-kits/style-kits.php:159
 #: components/style-kits/stylekit.php:78
 msgid "Load Kit"
 msgstr ""
 
-#: components/style-kits/style-kits.php:278
+#: components/style-kits/style-kits.php:282
 msgid "Choose a kit"
+msgstr ""
+
+#: components/style-kits/style-kits.php:499
+msgid "Default"
 msgstr ""
 
 #: components/text-column-layout/text-column-layout.php:149
@@ -907,28 +915,28 @@ msgstr ""
 msgid "Password"
 msgstr ""
 
-#: updater/api-key.php:181
+#: updater/api-key.php:182
+msgid "API Key:"
+msgstr ""
+
+#: updater/api-key.php:187
+msgid "Problems? <a href=\"#\" class=\"updater-re-auth\">Try authorizing again</a>."
+msgstr ""
+
+#: updater/api-key.php:192
 msgid ""
-"<h3 class=\"title updater-authed\">API Key: <strong>%1$s</strong></h3>\n"
-"\t\t\t\t\t<p>Problems? <a href=\"#\" class=\"updater-re-auth\">Try "
-"authorizing again</a>.</p>"
+"Please authorize your theme for automatic updates with the same credentials "
+"you use to sign into The Theme Foundry website. If you have trouble logging "
+"in, please <a href=\"https://thethemefoundry.com/support/\">contact us in "
+"the Help Center</a>. The authorization process will send your current "
+"domain and product information to authorize this site."
 msgstr ""
 
-#: updater/api-key.php:189
-msgid ""
-"<p>Please authorize your theme for automatic updates with the same "
-"credentials you use to sign into The Theme Foundry website. If you have "
-"trouble logging in, please <a "
-"href=\"https://thethemefoundry.com/support/\">contact us in the Help "
-"Center</a>. The authorization process will send your current domain and "
-"product information to authorize this site.</p>"
+#: updater/api-key.php:268
+msgid "Your site is authorized for automatic updates from The Theme Foundry."
 msgstr ""
 
-#: updater/api-key.php:267
-msgid "You site is authorized for automatic updates from The Theme Foundry."
-msgstr ""
-
-#: updater/api-key.php:284 updater/api-key.php:308
+#: updater/api-key.php:285 updater/api-key.php:309
 msgid ""
 "There was an error authorizing your site for automatic updates from The "
 "Theme Foundry."

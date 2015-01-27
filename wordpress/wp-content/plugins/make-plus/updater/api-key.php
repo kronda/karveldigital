@@ -178,17 +178,18 @@ class TTF_Updater_API_Key {
 
 		if ( ! empty( $api_key ) ) {
 			printf(
-				__(
-					'<h3 class="title updater-authed">API Key: <strong>%1$s</strong></h3>
-					<p>Problems? <a href="#" class="updater-re-auth">Try authorizing again</a>.</p>',
-					'make-plus'
-				),
+				'<h3 class="title updater-authed">%1$s <strong>%2$s</strong></h3>',
+				__( 'API Key:', 'make-plus' ),
 				$api_key
 			);
+			printf(
+				'<p>%s</p>',
+				__( 'Problems? <a href="#" class="updater-re-auth">Try authorizing again</a>.', 'make-plus' )
+			);
 		} else {
-			_e(
-				'<p>Please authorize your theme for automatic updates with the same credentials you use to sign into The Theme Foundry website. If you have trouble logging in, please <a href="https://thethemefoundry.com/support/">contact us in the Help Center</a>. The authorization process will send your current domain and product information to authorize this site.</p>',
-				'make-plus'
+			printf(
+				'<p>%s</p>',
+				__( 'Please authorize your theme for automatic updates with the same credentials you use to sign into The Theme Foundry website. If you have trouble logging in, please <a href="https://thethemefoundry.com/support/">contact us in the Help Center</a>. The authorization process will send your current domain and product information to authorize this site.', 'make-plus' )
 			);
 		}
 	?>
@@ -264,7 +265,7 @@ class TTF_Updater_API_Key {
 		if ( 200 === $response_code && isset( $response_body->key ) ) {
 			$msg = array(
 				'status'  => 'updated',
-				'message' => __( 'You site is authorized for automatic updates from The Theme Foundry.', 'make-plus' ),
+				'message' => __( 'Your site is authorized for automatic updates from The Theme Foundry.', 'make-plus' ),
 			);
 
 			// Record the key

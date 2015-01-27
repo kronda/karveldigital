@@ -59,7 +59,7 @@ class TTF_Updater {
 		include untrailingslashit( dirname( __FILE__ ) ) . '/api-key.php';
 
 		// Setup the updater config
-		add_action( 'admin_init', array( $this, 'updater_config' ) );
+		add_action( 'after_setup_theme', array( $this, 'updater_config' ) );
 
 		// Allow manual update checks to be performed
 		add_filter( 'pre_set_site_transient_update_plugins', array( $this, 'pre_set_site_transient_update_plugins' ) );

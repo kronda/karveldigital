@@ -4,7 +4,7 @@ Donate link: https://thethemefoundry.com
 Tags: woocommerce, sidebars, widgets, customizer, fonts, typekit, demo content, page builder
 Requires at least: 3.9
 Tested up to: 4.1.0
-Stable tag: 1.4.5
+Stable tag: 1.4.8
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -31,6 +31,20 @@ Make gives you the flexibility to build the site that you want. Make Plus makes 
 For more information, please see the [Make Plus support page](https://thethemefoundry.com/docs/make-docs/).
 
 == Changelog ==
+
+= 1.4.8 =
+
+* Fixed problem with the updater. If you are having trouble updating through the WordPress interface, please follow these steps to update manually: https://thethemefoundry.com/tutorials/updating-your-existing-theme/
+
+= 1.4.7 =
+
+* Added new "Hello" style kit.
+* Added "Default" style kit that sets style-related options back to theme defaults.
+* Improved backend code for Style Kits functionality.
+
+= 1.4.6 =
+
+* Improved functionality for load/reset buttons in Style Kits.
 
 = 1.4.5 =
 
@@ -149,6 +163,18 @@ For more information, please see the [Make Plus support page](https://thethemefo
 * Initial release
 
 == Upgrade Notice ==
+
+= 1.4.8 =
+
+Fixes a problem with the updater.
+
+= 1.4.7 =
+
+Adds new "Hello" and "Default" style kits.
+
+= 1.4.6 =
+
+Improves load/reset functionality for Style Kits.
 
 = 1.4.5 =
 

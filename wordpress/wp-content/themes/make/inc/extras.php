@@ -111,6 +111,46 @@ endif;
 
 add_action( 'wp', 'ttfmake_setup_author' );
 
+if ( ! function_exists( 'ttfmake_sanitize_text' ) ) :
+/**
+ * Allow only certain tags and attributes in a string.
+ *
+ * @since  1.0.0.
+ *
+ * @param  string    $string    The unsanitized string.
+ * @return string               The sanitized string.
+ */
+function ttfmake_sanitize_text( $string ) {
+	global $allowedtags;
+	$expandedtags = $allowedtags;
+
+	// span
+	$expandedtags['span'] = array();
+
+	// Enable id, class, and style attributes for each tag
+	foreach ( $expandedtags as $tag => $attributes ) {
+		$expandedtags[$tag]['id']    = true;
+		$expandedtags[$tag]['class'] = true;
+		$expandedtags[$tag]['style'] = true;
+	}
+
+	// br (doesn't need attributes)
+	$expandedtags['br'] = array();
+
+	/**
+	 * Customize the tags and attributes that are allows during text sanitization.
+	 *
+	 * @since 1.4.3
+	 *
+	 * @param array     $expandedtags    The list of allowed tags and attributes.
+	 * @param string    $string          The text string being sanitized.
+	 */
+	apply_filters( 'make_sanitize_text_allowed_tags', $expandedtags, $string );
+
+	return wp_kses( $string, $expandedtags );
+}
+endif;
+
 if ( ! function_exists( 'sanitize_hex_color' ) ) :
 /**
  * Sanitizes a hex color.
@@ -197,7 +237,7 @@ add_filter( 'excerpt_more', 'ttfmake_excerpt_more' );
 
 if ( ! function_exists( 'ttfmake_get_view' ) ) :
 /**
- * Determine the current view
+ * Determine the current view.
  *
  * For use with view-related theme options.
  *
@@ -218,7 +258,7 @@ function ttfmake_get_view() {
 	// Post parent
 	$parent_post_type = '';
 	if ( is_attachment() ) {
-		$post_parent = get_post()->post_parent;
+		$post_parent      = get_post()->post_parent;
 		$parent_post_type = get_post_type( $post_parent );
 	}
 
@@ -245,8 +285,15 @@ function ttfmake_get_view() {
 		$view = 'page';
 	}
 
-	// Filter the view and return
-	return apply_filters( 'ttfmake_get_view', $view, $parent_post_type );
+	/**
+	 * Allow developers to dynamically change the view.
+	 *
+	 * @since 1.2.3.
+	 *
+	 * @param string    $view                The view name.
+	 * @param string    $parent_post_type    The post type for the parent post of the current post.
+	 */
+	return apply_filters( 'make_get_view', $view, $parent_post_type );
 }
 endif;
 
@@ -278,8 +325,17 @@ function ttfmake_has_sidebar( $location ) {
 		$show_sidebar = false;
 	}
 
-	// Filter and return
-	return apply_filters( 'ttfmake_has_sidebar', $show_sidebar, $location, $view );
+	/**
+	 * Allow developers to dynamically changed the result of the "has sidebar" check.
+	 *
+	 * @since 1.2.3.
+	 *
+	 * @param bool      $show_sidebar    Whether or not to show the sidebar.
+	 * @param string    $location        The location of the sidebar being evaluated.
+	 * @param string    $view            The view name.
+	 */
+
+	return apply_filters( 'make_has_sidebar', $show_sidebar, $location, $view );
 }
 endif;
 
@@ -301,7 +357,7 @@ function ttfmake_sidebar_description( $sidebar_id ) {
 		$column_count = (int) get_theme_mod( 'footer-widget-areas', ttfmake_get_default( 'footer-widget-areas' ) );
 
 		if ( $column > $column_count ) {
-			$description = __( 'This widget area is currently disabled. Enable it in the "Footer" section of the Theme Customizer.', 'make' );
+			$description = __( 'This widget area is currently disabled. Enable it in the "Footer" panel of the Customizer.', 'make' );
 		}
 	}
 	// Other sidebars
@@ -312,12 +368,12 @@ function ttfmake_sidebar_description( $sidebar_id ) {
 
 		// Not enabled anywhere
 		if ( empty( $enabled_views ) ) {
-			$description = __( 'This widget area is currently disabled. Enable it in the "Layout" section of the Theme Customizer.', 'make' );
+			$description = __( 'This widget area is currently disabled. Enable it in the "Content & Layout" panel of the Customizer.', 'make' );
 		}
 		// List enabled views
 		else {
 			$description = sprintf(
-				__( 'This widget area is currently enabled for the following views: %s. Change this in the "Layout" section of the Theme Customizer.', 'make' ),
+				__( 'This widget area is currently enabled for the following views: %s. Change this in the "Content & Layout" panel of the Customizer.', 'make' ),
 				esc_html( implode( _x( ', ', 'list item separator', 'make' ), $enabled_views ) )
 			);
 		}
@@ -354,59 +410,17 @@ function ttfmake_sidebar_list_enabled( $location ) {
 		}
 	}
 
-	return $enabled_views;
+	/**
+	 * Filter the list of sidebars that are available for a specific location.
+	 *
+	 * @since 1.2.3.
+	 *
+	 * @param array    $enabled_views    The list of views enabled for the sidebar.
+	 * @param string   $location         The location of the sidebar being evaulated.
+	 */
+	return apply_filters( 'make_sidebar_list_enabled', $enabled_views, $location );
 }
 endif;
-
-/**
- * Generate a link to the Make info page.
- *
- * @since  1.0.6.
- *
- * @param  string    $component    The component where the link is located.
- * @return string                  The link.
- */
-function ttfmake_get_plus_link( $component ) {
-	$url = 'https://thethemefoundry.com/wordpress-themes/make/#make-table';
-	return esc_url( $url );
-}
-
-/**
- * Add notice if Make Plus is installed as a theme.
- *
- * @since  1.1.2.
- *
- * @param  string         $source           File source location.
- * @param  string         $remote_source    Remove file source location.
- * @param  WP_Upgrader    $upgrader         WP_Upgrader instance.
- * @return WP_Error                         Error or source on success.
- */
-function ttfmake_check_package( $source, $remote_source, $upgrader ) {
-	global $wp_filesystem;
-
-	if ( ! isset( $_GET['action'] ) || 'upload-theme' !== $_GET['action'] ) {
-		return $source;
-	}
-
-	if ( is_wp_error( $source ) ) {
-		return $source;
-	}
-
-	// Check the folder contains a valid theme
-	$working_directory = str_replace( $wp_filesystem->wp_content_dir(), trailingslashit( WP_CONTENT_DIR ), $source );
-	if ( ! is_dir( $working_directory ) ) { // Sanity check, if the above fails, lets not prevent installation.
-		return $source;
-	}
-
-	// A proper archive should have a style.css file in the single subdirectory
-	if ( ! file_exists( $working_directory . 'style.css' ) && strpos( $source, 'make-plus-' ) >= 0 ) {
-		return new WP_Error( 'incompatible_archive_theme_no_style', $upgrader->strings[ 'incompatible_archive' ], __( 'The uploaded package appears to be a plugin. PLEASE INSTALL AS A PLUGIN.', 'make' ) );
-	}
-
-	return $source;
-}
-
-add_filter( 'upgrader_source_selection', 'ttfmake_check_package', 9, 3 );
 
 if ( ! function_exists( 'ttfmake_get_section_data' ) ) :
 /**
@@ -449,7 +463,15 @@ function ttfmake_get_section_data( $post_id ) {
 		}
 	}
 
-	return $ordered_data;
+	/**
+	 * Filter the section data for a post.
+	 *
+	 * @since 1.2.3.
+	 *
+	 * @param array    $ordered_data    The array of section data.
+	 * @param int      $post_id         The post ID for the retrieved data.
+	 */
+	return apply_filters( 'make_get_section_data', $ordered_data, $post_id );
 }
 endif;
 
@@ -529,6 +551,96 @@ function ttfmake_is_builder_page( $post_id = 0 ) {
 	// Other post types will use meta data to support builder pages
 	$has_builder_meta = ( 1 === (int) get_post_meta( $post_id, '_ttfmake-use-builder', true ) );
 
-	return $has_builder_template || $has_builder_meta;
+	$is_builder_page = $has_builder_template || $has_builder_meta;
+
+	/**
+	 * Allow a developer to dynamically change whether the post uses the builder or not.
+	 *
+	 * @since 1.2.3
+	 *
+	 * @param bool    $is_builder_page    Whether or not the post uses the builder.
+	 * @param int     $post_id            The ID of post being evaluated.
+	 */
+	return apply_filters( 'make_is_builder_page', $is_builder_page, $post_id );
 }
 endif;
+
+if ( ! function_exists( 'ttfmake_builder_css' ) ) :
+/**
+ * Trigger an action hook for each section on a Builder page for the purpose
+ * of adding section-specific CSS rules to the document head.
+ *
+ * @since 1.4.5
+ *
+ * @return void
+ */
+function ttfmake_builder_css() {
+	if ( ttfmake_is_builder_page() ) {
+		$sections = ttfmake_get_section_data( get_the_ID() );
+
+		if ( ! empty( $sections ) ) {
+			foreach ( $sections as $id => $data ) {
+				if ( isset( $data['section-type'] ) ) {
+					/**
+					 * Allow section-specific CSS rules to be added to the document head of a Builder page.
+					 *
+					 * @since 1.4.5
+					 *
+					 * @param array    $data    The Builder section's data.
+					 * @param int      $id      The ID of the Builder section.
+					 */
+					do_action( 'make_builder_' . $data['section-type'] . '_css', $data, $id );
+				}
+			}
+		}
+	}
+}
+endif;
+
+add_action( 'make_css', 'ttfmake_builder_css' );
+
+if ( ! function_exists( 'ttfmake_builder_banner_css' ) ) :
+/**
+ * Add frontend CSS rules for Banner sections based on certain section options.
+ *
+ * @since 1.4.5
+ *
+ * @param array    $data    The banner's section data.
+ * @param int      $id      The banner's section ID.
+ *
+ * @return void
+ */
+function ttfmake_builder_banner_css( $data, $id ) {
+	$responsive = ( isset( $data['responsive'] ) ) ? $data['responsive'] : 'balanced';
+	$slider_height = absint( $data['height'] );
+	if ( 0 === $slider_height ) {
+		$slider_height = 600;
+	}
+	$slider_ratio = ( $slider_height / 960 ) * 100;
+
+	if ( 'aspect' === $responsive ) {
+		ttfmake_get_css()->add( array(
+			'selectors'    => array( '#builder-section-' . esc_attr( $id ) . ' .builder-banner-slide' ),
+			'declarations' => array(
+				'padding-bottom' => $slider_ratio . '%'
+			),
+		) );
+	} else {
+		ttfmake_get_css()->add( array(
+			'selectors'    => array( '#builder-section-' . esc_attr( $id ) . ' .builder-banner-slide' ),
+			'declarations' => array(
+				'padding-bottom' => $slider_height . 'px'
+			),
+		) );
+		ttfmake_get_css()->add( array(
+			'selectors'    => array( '#builder-section-' . esc_attr( $id ) . ' .builder-banner-slide' ),
+			'declarations' => array(
+				'padding-bottom' => $slider_ratio . '%'
+			),
+			'media'        => 'screen and (min-width: 600px) and (max-width: 960px)'
+		) );
+	}
+}
+endif;
+
+add_action( 'make_builder_banner_css', 'ttfmake_builder_banner_css', 10, 2 );

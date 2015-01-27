@@ -1,3 +1,82 @@
+## 1.4.8
+
+* Fixed bug preventing Builder section duplication in some cases
+* Fixed line breaks in post comment count in Webkit browsers
+* Fixed content editor in Builder overlay resizable
+* Deprecated unused Builder functions
+* Added new filter hook: `make_content_width`
+* Added theme support for title tag
+* Added Russian translation
+
+## 1.4.7
+
+* Fixed bug where Customizer's font-family options weren't showing correct selected choice
+* Fixed issue with the custom logo not appearing correctly in some server environments
+* Added additional inline documentation for some action and filter hooks
+* Added Estonian translation
+
+## 1.4.6
+
+* Fixed several small compatibility issues in WordPress 4.1
+* Fixed error thrown by Format Builder on some admin screens
+* Fixed entry date layout issue in Chrome caused by excess whitespace in HTML
+
+## 1.4.5
+
+* Fixed raw CSS appearing in rich snippet content in some situations
+* Fixed post meta alignment issues
+* Fixed blurry Page Builder overlays in Safari
+* Updated Google Fonts list
+* Updated documentation links
+* Updated Dutch translation
+
+## 1.4.4
+
+* Fixed inaccessible Attachment Display Settings panel when editing pages
+* Added Dutch translation
+
+## 1.4.3
+
+* Improved text sanitization in some instances to allow more HTML tags and attributes
+* Fixed incorrect text color being applied to Header Bar menu items
+* Other minor code improvements
+
+## 1.4.2
+
+* Fixed Column configuration data not saving correctly in the Page Builder
+
+## 1.4.1
+
+* Added the Format Builder tool to the Visual Editor
+* Added the Insert Icon button to the Visual Editor
+* Removed old button, alert, and list formatting options in favor of the Format Builder
+* Fixed minor issues with the Page Builder
+* Updated German translations
+
+## 1.4.0
+
+* Updated Page Builder interface to improve performance, reduce clutter and better match WordPress' flat design
+
+## 1.3.2
+
+* Fixed fatal error in PHP 5.2.
+
+## 1.3.1
+
+* Fixed fatal error in PHP 5.2.
+
+## 1.3.0
+
+* Added support for WordPress 4.0 and Customizer panels
+* Updated organization of Customizer options to utilize panels
+* Added individual font family and size options for each header level (H1 - H6)
+* Added other new font options: Tagline family, Sub-menu family and size, Widget family
+* Added lots of new filter and action hooks for developers, along with inline documentation
+* Updated FontAwesome library to 4.2. Includes support for 5 new social profile icons: Angel List, Last.fm, Slideshare, Twitch, and Yelp
+* Fixed incorrect header font size defaults
+* Fixed post navigation arrow orientation
+* Fixed theme name in German translation
+
 ## 1.2.2
 
 * Fixed a bug that caused some style and script assets to not load correctly on some web host configurations

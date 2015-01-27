@@ -1,4 +1,7 @@
 <?php
+/**
+ * @package Make Plus
+ */
 
 if ( ! class_exists( 'TTFMP_Style_Kits' ) ) :
 /**
@@ -98,7 +101,64 @@ class TTFMP_Style_Kits {
 		add_action( 'wp_head', array( $this, 'head_script' ) );
 
 		// Customizer filters
-		add_filter( 'ttfmake_customizer_sections', array( $this, 'customizer_sections' ) );
+		if ( ttfmake_customizer_supports_panels() && function_exists( 'ttfmake_customizer_add_panels' ) ) {
+			add_filter( 'make_customizer_sections', array( $this, 'customizer_sections' ) );
+		} else {
+			add_filter( 'ttfmake_customizer_sections', array( $this, 'legacy_customizer_sections' ) );
+		}
+	}
+
+	/**
+	 * Filter to add a new Customizer section
+	 *
+	 * This function takes the main array of Customizer sections and adds a new one
+	 * right before the first panel.
+	 *
+	 * @since  1.3.3.
+	 *
+	 * @param  array    $sections    The array of sections to add to the Customizer.
+	 * @return array                 The modified array of sections.
+	 */
+	public function customizer_sections( $sections ) {
+		global $wp_customize;
+		$theme_prefix = 'ttfmake_';
+
+		// Get priority of General panel
+		$general_priority = $wp_customize->get_panel( $theme_prefix . 'general' )->priority;
+
+		$sections['stylekit'] = array(
+			'title' => __( 'Style Kits', 'make-plus' ),
+			'description' => __( 'Use a style kit to quickly apply designer-picked style choices (fonts, layout, colors) to your website.', 'make-plus' ),
+			'priority' => $general_priority - 10,
+			'options' => array(
+				'stylekit-heading' => array(
+					'control' => array(
+						'control_type'		=> 'TTFMAKE_Customize_Misc_Control',
+						'label'				=> __( 'Kits', 'make-plus' ),
+						'type'				=> 'heading',
+					),
+				),
+				'stylekit-dropdown' => array(
+					'control' => array(
+						'control_type'		=> 'TTFMAKE_Customize_Misc_Control',
+						'type'				=> 'text',
+						'description'		=> sprintf(
+							'<select>%s</select>',
+							ttfmp_get_style_kits()->get_kit_options()
+						),
+					),
+				),
+				'stylekit-buttons' => array(
+					'control' => array(
+						'control_type'		=> 'TTFMAKE_Customize_Misc_Control',
+						'type'				=> 'text',
+						'description'		=> '<a href="#" class="button reset-design">' . __( 'Reset', 'make-plus' ) . '</a><a href="#" class="button load-design">' . __( 'Load Kit', 'make-plus' ) . '</a>',
+					),
+				),
+			),
+		);
+
+		return $sections;
 	}
 
 	/**
@@ -112,7 +172,7 @@ class TTFMP_Style_Kits {
 	 * @param  array    $sections    The array of sections to add to the Customizer.
 	 * @return array                 The modified array of sections.
 	 */
-	public function customizer_sections( $sections ) {
+	public function legacy_customizer_sections( $sections ) {
 		$new_sections = array(
 			'stylekit'    => array( 'title' => __( 'Style Kits', 'make-plus' ), 'path' => $this->component_root ),
 		);

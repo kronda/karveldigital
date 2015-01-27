@@ -1,4 +1,7 @@
 <?php
+/**
+ * @package Make Plus
+ */
 
 if ( ! class_exists( 'TTFMP_Customizer' ) ) :
 /**
@@ -93,7 +96,11 @@ class TTFMP_Customizer {
 		add_filter( 'ttfmake_setting_defaults', array( $this, 'setting_defaults' ) );
 
 		// Add new settings and controls
-		add_action( 'customize_register', array( $this, 'footer_white_label' ), 20 );
+		if ( ttfmake_customizer_supports_panels() && function_exists( 'ttfmake_customizer_add_panels' ) ) {
+			add_filter( 'make_customizer_footer_sections', array( $this, 'footer_white_label' ) );
+		} else {
+			add_action( 'customize_register', array( $this, 'legacy_footer_white_label' ), 20 );
+		}
 
 		// Enable White Label setting
 		add_filter( 'ttfmake_show_footer_credit', array( $this, 'show_footer_credit' ) );
@@ -121,9 +128,40 @@ class TTFMP_Customizer {
 	 *
 	 * @since  1.0.0.
 	 *
+	 * @param  array    $footer_sections    Array of definitions for the Footer panel
+	 * @return array                        Augmented array of definitions for the Footer panel
+	 */
+	public function footer_white_label( $footer_sections ) {
+		$theme_prefix = 'ttfmake_';
+		$panel = 'ttfmake_footer';
+
+		$footer_sections['footer-white-label'] = array(
+			'panel' => $panel,
+			'title' => __( 'White Label', 'make' ),
+			'options' => array(
+				'footer-hide-credit' => array(
+					'setting' => array(
+						'sanitize_callback'	=> 'absint',
+					),
+					'control' => array(
+						'label'				=> __( 'Hide theme credit', 'make-plus' ),
+						'type'				=> 'checkbox',
+					),
+				),
+			),
+		);
+
+		return $footer_sections;
+	}
+
+	/**
+	 * Add White Label settings and controls to the Footer section
+	 *
+	 * @since  1.0.0.
+	 *
 	 * @return void
 	 */
-	public function footer_white_label() {
+	public function legacy_footer_white_label() {
 		global $wp_customize;
 
 		$social_icons = $wp_customize->get_control( 'ttfmake_footer-show-social' );
@@ -156,7 +194,7 @@ class TTFMP_Customizer {
 				array(
 					'section'  => $section,
 					'type'     => 'heading',
-					'label'    => __( 'White Label', 'make' ),
+					'label'    => __( 'White Label', 'make-plus' ),
 					'priority' => $priority->add()
 				)
 			)
@@ -177,7 +215,7 @@ class TTFMP_Customizer {
 			array(
 				'settings' => $setting_id,
 				'section'  => $section,
-				'label'    => __( 'Hide theme credit', 'make' ),
+				'label'    => __( 'Hide theme credit', 'make-plus' ),
 				'type'     => 'checkbox',
 				'priority' => $priority->add()
 			)

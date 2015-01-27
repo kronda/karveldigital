@@ -1,4 +1,7 @@
 <?php
+/**
+ * @package Make Plus
+ */
 
 if ( ! class_exists( 'TTFMP_PerPage' ) ) :
 /**
@@ -129,7 +132,7 @@ class TTFMP_PerPage {
 			$view = 'post';
 		}
 
-		return $view;
+		return apply_filters( 'ttfmp_perpage_view', $view, $post );
 	}
 
 	/**

@@ -8,17 +8,21 @@ var oneApp = oneApp || {}, $oneApp = $oneApp || jQuery(oneApp);
 		init: function() {
 			var $messageBox = $('.ttfmp-import-message'),
 				$select = $('#ttfmp-import-content', $messageBox),
-				$link = $('#ttfmp-import-link', $messageBox);
+				$title = $('#title');
 
-			$select.on('change', function(){
+			$messageBox.on('click', '#ttfmp-import-link', function(evt){
+				evt.preventDefault();
+
+				// Generate the link and submit
 				var val = $select.val(),
-					url = ttfmpLayoutTemplates.base;
+					url = ttfmpLayoutTemplates.base,
+					title = $title.val();
 
 				// Construct the URL
-				url += '?ttfmp_template_nonce=' + ttfmpLayoutTemplates.nonce + '&ttfmp_template=' + val + '&ttfmp_post_id=' + ttfmpLayoutTemplates.postID;
+				url += '?ttfmp_template_nonce=' + ttfmpLayoutTemplates.nonce + '&ttfmp_template=' + val + '&ttfmp_post_id=' + ttfmpLayoutTemplates.postID + '&ttfmp_title=' + encodeURIComponent(title);
 
-				// Replace the URL
-				$link.attr('href', url);
+				// Goto the page
+				window.location.href = url;
 			});
 
 			$oneApp.on('afterSectionViewAdded', function() {

@@ -1,4 +1,7 @@
 <?php
+/**
+ * @package Make Plus
+ */
 
 if ( ! class_exists( 'TTFMP_Sidebar_Management' ) ) :
 /**
@@ -72,8 +75,8 @@ class TTFMP_Sidebar_Management {
 
 					register_sidebar( array(
 						'id'            => $id,
-						'name'          => $this->get_sidebar_title( $sidebar['id'] ),
-						'description'   => $this->get_sidebar_description( $sidebar['id'] ),
+						'name'          => stripslashes( $this->get_sidebar_title( $sidebar['id'] ) ),
+						'description'   => stripslashes( $this->get_sidebar_description( $sidebar['id'] ) ),
 						'before_widget' => '<aside id="%1$s" class="widget %2$s">',
 						'after_widget'  => '</aside>',
 						'before_title'  => '<h4 class="widget-title">',
@@ -100,7 +103,7 @@ class TTFMP_Sidebar_Management {
 			$label = esc_html( $sidebar['label'] );
 		} else {
 			$sidebar_information = $this->parse_sidebar_id( $id );
-			$label               = __( 'Sidebar', 'ttfmp' ) . ' ' . $sidebar_information['page_id'] . '-' . $sidebar_information['section_id'] . '-' . $sidebar_information['column_id'];
+			$label               = __( 'Sidebar', 'make-plus' ) . ' ' . $sidebar_information['page_id'] . '-' . $sidebar_information['section_id'] . '-' . $sidebar_information['column_id'];
 		}
 
 		return $label;
@@ -130,7 +133,7 @@ class TTFMP_Sidebar_Management {
 				'Add widgets to the "%s" widget area.',
 				$label
 			),
-			'ttfmp'
+			'make-plus'
 		);
 	}
 
@@ -173,7 +176,14 @@ class TTFMP_Sidebar_Management {
 	 * @return array    The list of sidebars registered for the builder.
 	 */
 	public function get_registered_sidebars() {
-		return get_theme_mod( 'builder-sidebars', array() );
+		$sidebars = get_option( 'ttfmp-builder-sidebars', false );
+		if ( false === $sidebars ) {
+			// Check for old theme mod
+			$sidebars = get_theme_mod( 'builder-sidebars', array() );
+			update_option( 'ttfmp-builder-sidebars', $sidebars );
+		}
+
+		return $sidebars;
 	}
 
 	/**
@@ -243,7 +253,7 @@ class TTFMP_Sidebar_Management {
 	 * @return void
 	 */
 	public function save_sidebars( $sidebars ) {
-		set_theme_mod( 'builder-sidebars', $sidebars );
+		update_option( 'ttfmp-builder-sidebars', $sidebars );
 	}
 
 	/**

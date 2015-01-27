@@ -1,4 +1,7 @@
 <?php
+/**
+ * @package Make Plus
+ */
 
 if ( ! class_exists( 'TTFMP_Typekit_Customizer' ) ) :
 /**
@@ -49,7 +52,12 @@ class TTFMP_Typekit_Customizer {
 	 */
 	public function __construct() {
 		// Add the sections
-		add_action( 'customize_register', array( $this, 'customize_register' ), 20 );
+		if ( ttfmake_customizer_supports_panels() && function_exists( 'ttfmake_customizer_add_panels' ) ) {
+			add_filter( 'make_customizer_typography_sections', array( $this, 'customize_register' ), 20 );
+			add_action( 'customize_register', array( $this, 'section_priority' ), 30 );
+		} else {
+			add_action( 'customize_register', array( $this, 'legacy_customize_register' ), 20 );
+		}
 
 		// Add scripts and styles
 		add_action( 'wp_head', array( $this, 'print_typekit' ), 0 );
@@ -68,6 +76,81 @@ class TTFMP_Typekit_Customizer {
 	}
 
 	/**
+	 * Filter to add a new Customizer section
+	 *
+	 * This function takes the main array of Customizer sections and adds a new one
+	 * to the Typography panel.
+	 *
+	 * @since  1.3.3.
+	 *
+	 * @param  array    $sections    The array of sections to add to the Customizer.
+	 * @return array                 The modified array of sections.
+	 */
+	public function customize_register( $sections ) {
+		global $wp_customize;
+		$panel = 'ttfmake_typography';
+		$theme_prefix = 'ttfmake_';
+
+		// Define the section
+		$sections['font-typekit'] = array(
+			'panel' => $panel,
+			'title' => __( 'Typekit', 'make' ),
+			'description' => __( 'Enter your Kit ID into the field below and click the "Load" button to retrieve the fonts from your kit.', 'make-plus' ),
+			'options' => array(
+				'typekit-id' => array(
+					'setting' => array(
+						'default'			=> '',
+						'sanitize_callback'	=> array( $this, 'sanitize_typekit_id' ),
+					),
+					'control' => array(
+						'label'				=> __( 'Typekit Kit ID', 'make-plus' ),
+						'type'				=> 'text',
+					),
+				),
+				'typekit-load-fonts' => array(
+					'control' => array(
+						'control_type'		=> 'TTFMAKE_Customize_Misc_Control',
+						'type'				=> 'text',
+						'description'		=> '<a href="#">' . __( 'Reset', 'make-plus' ) . '</a><a href="#">' . __( 'Load Typekit Fonts', 'make-plus' ) . '</a>',
+					),
+				),
+				'typekit-help-text' => array(
+					'control' => array(
+						'control_type'		=> 'TTFMAKE_Customize_Misc_Control',
+						'type'				=> 'text',
+						'description'		=> sprintf(
+							__( 'For more information about Typekit integration, please see the %s.', 'make-plus' ),
+							sprintf(
+								'<a href="%1$s">Make Plus %2$s</a>',
+								'https://thethemefoundry.com/docs/make-docs/customizer/typography/',
+								__( 'documentation', 'make-plus' )
+							)
+						),
+					),
+				),
+			),
+		);
+
+		return $sections;
+	}
+
+	/**
+	 * Set the Typekit section priority above the Google Web Fonts section.
+	 *
+	 * @since 1.3.3
+	 *
+	 * @param  object    $wp_customize
+	 * @return void
+	 */
+	public function section_priority( $wp_customize ) {
+		// Get Google Web Fonts section priority
+		$google = $wp_customize->get_section( 'ttfmake_font-google' )->priority;
+
+		// Set the Typekit section priority
+		$wp_customize->get_section( 'ttfmake_font-typekit' )->priority = $google - 5;
+	}
+
+	/**
 	 * Add the Typekit ID input.
 	 *
 	 * @since  1.0.0.
@@ -75,7 +158,7 @@ class TTFMP_Typekit_Customizer {
 	 * @param  WP_Customize_Manager    $wp_customize    Theme Customizer object.
 	 * @return void
 	 */
-	public function customize_register( $wp_customize ) {
+	public function legacy_customize_register( $wp_customize ) {
 		// Site title font size
 		$wp_customize->add_setting(
 			'typekit-id',
@@ -117,7 +200,7 @@ class TTFMP_Typekit_Customizer {
 				array(
 					'section'     => 'ttfmake_font',
 					'type'        => 'text',
-					'description' => sprintf( __( 'For more information about Typekit integration, please see <a href="%s">Make Plus\' documentation</a>.', 'make-plus' ), 'https://thethemefoundry.com/tutorials/make/#typekit-integration' ),
+					'description' => sprintf( __( 'For more information about Typekit integration, please see <a href="%s">Make Plus\' documentation</a>.', 'make-plus' ), 'https://thethemefoundry.com/docs/make-docs/customizer/typography/' ),
 					'priority'    => 470
 				)
 			)
@@ -149,11 +232,15 @@ class TTFMP_Typekit_Customizer {
 	 */
 	public function is_typekit_used() {
 		// Grab the font choices
-		$fonts = array(
-			get_theme_mod( 'font-site-title', ttfmake_get_default( 'font-site-title' ) ),
-			get_theme_mod( 'font-header', ttfmake_get_default( 'font-header' ) ),
-			get_theme_mod( 'font-body', ttfmake_get_default( 'font-body' ) ),
-		);
+		if ( ttfmake_customizer_supports_panels() && function_exists( 'ttfmake_get_font_property_option_keys' ) ) {
+			$font_keys = ttfmake_get_font_property_option_keys( 'family' );
+		} else {
+			$font_keys = array( 'font-site-title', 'font-header', 'font-body', );
+		}
+		$fonts = array();
+		foreach ( $font_keys as $key ) {
+			$fonts[] = get_theme_mod( $key, ttfmake_get_default( $key ) );
+		}
 
 		// De-dupe the fonts
 		$fonts         = array_unique( $fonts );
@@ -211,6 +298,7 @@ class TTFMP_Typekit_Customizer {
 		);
 
 		$typekit_choices = get_theme_mod( 'typekit-choices', array() );
+		$option_keys = ( ttfmake_customizer_supports_panels() && function_exists( 'ttfmake_get_font_property_option_keys' ) ) ? ttfmake_get_font_property_option_keys( 'family' ) : array( 'font-site-title', 'font-header', 'font-body', );
 
 		wp_localize_script(
 			'ttfmp-typekit-customizer',
@@ -220,7 +308,9 @@ class TTFMP_Typekit_Customizer {
 				'headerLabel'    => __( 'Typekit Fonts', 'make-plus' ),
 				'noInputError'   => __( 'Please enter your Typekit Kit ID', 'make-plus' ),
 				'ajaxError'      => __( 'Typekit fonts could not be found. Please try again', 'make-plus' ),
+				'success'        => __( 'Fonts loaded successfully.', 'make-plus' ),
 				'typekitChoices' => ( ! empty( $typekit_choices ) ) ? array_keys( $typekit_choices ) : array(),
+				'optionKeys'     => $option_keys,
 			)
 		);
 	}
@@ -235,21 +325,32 @@ class TTFMP_Typekit_Customizer {
 	public function customize_controls_print_styles() {
 	?>
 		<style type="text/css">
-			#customize-control-ttfmp-typekit-load-fonts .error {
+			#customize-control-ttfmp-typekit-load-fonts .error,
+			#customize-control-ttfmake_typekit-load-fonts .error {
 				color: red !important;
 				margin-bottom: 10px;
 				display: block;
 			}
-			#customize-control-ttfmp-typekit-load-fonts .description {
+			#customize-control-ttfmp-typekit-load-fonts .success,
+			#customize-control-ttfmake_typekit-load-fonts .success {
+				color: blue !important;
+				margin-bottom: 10px;
+				display: block;
+			}
+			#customize-control-ttfmp-typekit-load-fonts .description,
+			#customize-control-ttfmake_typekit-load-fonts .description {
 				margin-top: 10px;
 			}
-			#customize-control-ttfmp-typekit-load-fonts .button {
+			#customize-control-ttfmp-typekit-load-fonts .button,
+			#customize-control-ttfmake_typekit-load-fonts .button {
 				font-style: normal;
 			}
-			#customize-control-ttfmp-typekit-load-fonts .load-fonts {
+			#customize-control-ttfmp-typekit-load-fonts .load-fonts,
+			#customize-control-ttfmake_typekit-load-fonts .load-fonts {
 				margin-left: 5px;
 			}
-			#customize-control-ttfmp-typekit-load-fonts .spinner {
+			#customize-control-ttfmp-typekit-load-fonts .spinner,
+			#customize-control-ttfmake_typekit-load-fonts .spinner {
 				display: inline-block;
 				margin-top: 4px;
 				vertical-align: middle;
@@ -341,7 +442,7 @@ class TTFMP_Typekit_Customizer {
 	}
 
 	/**
-	 * Potentially update the typekit choices and remove temporary choices..
+	 * Potentially update the typekit choices and remove temporary choices.
 	 *
 	 * When the customizer is saved, the temporary values need to be cleaned. The temp choices that are saved
 	 * during the AJAX request to Typekit need to be moved to the real choices and the temp choices need to be removed.
@@ -361,7 +462,7 @@ class TTFMP_Typekit_Customizer {
 			remove_theme_mod( 'typekit-choices' );
 
 		// Determine if the Typekit ID has changed
-		} else if ( true === $typekit_id_has_changed || true === $typekit_id_has_not_changed_but_choices_have ) {
+		} else if ( true === $typekit_id_has_changed || ( true === $typekit_id_has_not_changed_but_choices_have && get_theme_mod( 'typekit-temp-choices' ) ) ) {
 			set_theme_mod( 'typekit-choices', get_theme_mod( 'typekit-temp-choices' ) );
 		}
 

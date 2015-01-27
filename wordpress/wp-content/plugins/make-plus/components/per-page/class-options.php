@@ -1,4 +1,7 @@
 <?php
+/**
+ * @package Make Plus
+ */
 
 if ( ! class_exists( 'TTFMP_PerPage_Options' ) ) :
 /**
@@ -54,32 +57,44 @@ class TTFMP_PerPage_Options {
 			'hide-footer',
 			'sidebar-left',
 			'sidebar-right',
-			'post-author',
 		);
 
 		$post = array(
 			'featured-images',
+			'featured-images-alignment',
 			'post-date',
+			'post-date-location',
+			'post-author',
+			'post-author-location',
 			'show-categories',
 			'show-tags',
+			'comment-count',
+			'comment-count-location',
 		);
 
 		$page = array(
 			'featured-images',
+			'featured-images-alignment',
 			'post-date',
+			'post-date-location',
+			'post-author',
+			'post-author-location',
 			'hide-title',
-		);
-
-		$product = array(
-			'shop-sidebar',
+			'comment-count',
+			'comment-count-location',
 		);
 
 		if ( 'product' === $view || 'shop' === $view ) {
-			$keys = array_merge( $common, $product );
+			$keys = $common;
 		} else if ( 'page' === $view ) {
 			$keys = array_merge( $common, $page );
 		} else {
 			$keys = array_merge( $common, $post );
+		}
+
+		$shop_sidebar_views = get_theme_support( 'ttfmp-shop-sidebar' );
+		if ( isset( $shop_sidebar_views[0] ) && in_array( $view, (array) $shop_sidebar_views[0] ) ) {
+			$keys[] = 'shop-sidebar';
 		}
 
 		return apply_filters( 'ttfmp_perpage_keys', $keys );
@@ -184,11 +199,16 @@ class TTFMP_PerPage_Options {
 			'hide-footer' => 'absint',
 			'sidebar-left' => 'absint',
 			'sidebar-right' => 'absint',
-			'post-author' => 'ttfmake_sanitize_choice',
 			'featured-images' => 'ttfmake_sanitize_choice',
+			'featured-images-alignment' => 'ttfmake_sanitize_choice',
 			'post-date' => 'ttfmake_sanitize_choice',
+			'post-date-location' => 'ttfmake_sanitize_choice',
+			'post-author' => 'ttfmake_sanitize_choice',
+			'post-author-location' => 'ttfmake_sanitize_choice',
 			'show-categories' => 'absint',
 			'show-tags' => 'absint',
+			'comment-count' => 'ttfmake_sanitize_choice',
+			'comment-count-location' => 'ttfmake_sanitize_choice',
 			'hide-title' => 'absint',
 			'shop-sidebar' => 'ttfmake_sanitize_choice',
 		);

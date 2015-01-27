@@ -1,4 +1,7 @@
 <?php
+/**
+ * @package Make Plus
+ */
 
 global $ttfmake_section_data, $ttfmake_sections;
 
@@ -20,7 +23,7 @@ $title = apply_filters( 'the_title', $data['title'] );
 $columns = ttfmake_sanitize_section_choice( $data['columns'], 'columns', 'edd-downloads' );
 $taxonomy = ttfmake_sanitize_section_choice( $data['taxonomy'], 'taxonomy', 'edd-downloads' );
 $sortby = ttfmake_sanitize_section_choice( $data['sortby'], 'sortby', 'edd-downloads' );
-$count = absint( $data['count'] );
+$count = (int) $data['count'];
 $thumb = ( absint( $data['thumb'] ) ) ? 'true' : 'false';
 $price = ( absint( $data['price'] ) ) ? 'yes' : 'no';
 $addcart = ( absint( $data['addcart'] ) ) ? 'yes' : 'no';

@@ -4,14 +4,17 @@
 
 		init: function() {
 			// Cache elements
-			ttfmpTypekit.cache.$textInput = $('input', '#customize-control-ttfmp-typekit-id');
-			ttfmpTypekit.cache.$wrapper = $('#accordion-section-ttfmake_font');
-			ttfmpTypekit.cache.$descriptionText = $('p', '#customize-control-ttfmp-typekit-load-fonts');
+			ttfmpTypekit.cache.$textInput = $('input', '#customize-control-ttfmp-typekit-id, #customize-control-ttfmake_typekit-id');
+			ttfmpTypekit.cache.$wrapper = $('#accordion-section-ttfmake_font, #accordion-section-ttfmake_font-typekit');
+			ttfmpTypekit.cache.$descriptionText = $('p', '#customize-control-ttfmp-typekit-load-fonts, #customize-control-ttfmake_typekit-load-fonts');
 			ttfmpTypekit.cache.$reset = $('a:nth-child(1)', ttfmpTypekit.cache.$descriptionText);
 			ttfmpTypekit.cache.$load = $('a:nth-child(2)', ttfmpTypekit.cache.$descriptionText);
-			ttfmpTypekit.cache.$titleFontSelect = $('select', '#customize-control-ttfmake_font-site-title');
-			ttfmpTypekit.cache.$headerFontSelect = $('select', '#customize-control-ttfmake_font-header');
-			ttfmpTypekit.cache.$bodyFontSelect = $('select', '#customize-control-ttfmake_font-body');
+
+			// Cache the font family controls
+			ttfmpTypekit.cache.options = {};
+			$.each(ttfmpTypekitData.optionKeys, function(index, key) {
+				ttfmpTypekit.cache.options[key] = $('select', '#customize-control-ttfmake_' + key);
+			});
 
 			// Denote which items are Typekit fonts
 			ttfmpTypekit.markTypekitChoices();
@@ -20,14 +23,14 @@
 			ttfmpTypekit.cache.$reset.addClass('button reset-fonts');
 			ttfmpTypekit.cache.$load.addClass('button load-fonts');
 
-			ttfmpTypekit.cache.$wrapper.on('click', '.load-fonts', function(evt) {
+			ttfmpTypekit.cache.$wrapper.on('click', '.load-fonts', function(evt) {console.log('click');
 				evt.preventDefault();
 
 				// Add the loading status
 				ttfmpTypekit.showSpinner();
 
 				// Remove errors
-				ttfmpTypekit.removeErrors();
+				ttfmpTypekit.removeMessages();
 
 				if ('' !== ttfmpTypekit.cache.$textInput.val()) {
 					ttfmpTypekit.makeRequest(ttfmpTypekit.cache.$textInput.val(), ttfmpTypekitData.nonce);
@@ -40,23 +43,23 @@
 			ttfmpTypekit.cache.$wrapper.on('click', '.reset-fonts', function(evt) {
 				evt.preventDefault();
 				ttfmpTypekit.reset();
-				ttfmpTypekit.removeErrors();
+				ttfmpTypekit.removeMessages();
 				ttfmpTypekit.hideSpinner();
 			});
 		},
 
 		markTypekitChoices: function() {
 			_.each(ttfmpTypekitData.typekitChoices, function(value) {
-				$('option[value="' + value +'"]', ttfmpTypekit.cache.$titleFontSelect).addClass('ttfmp-typekit-choice');
-				$('option[value="' + value +'"]', ttfmpTypekit.cache.$headerFontSelect).addClass('ttfmp-typekit-choice');
-				$('option[value="' + value +'"]', ttfmpTypekit.cache.$bodyFontSelect).addClass('ttfmp-typekit-choice');
+				$.each(ttfmpTypekit.cache.options, function(key, element) {
+					$('option[value="' + value +'"]', element).addClass('ttfmp-typekit-choice');
+				});
 			});
 
 			// Mark the header as a choice
 			if (ttfmpTypekitData.typekitChoices.length > 0) {
-				$('.ttfmp-typekit-choice', ttfmpTypekit.cache.$titleFontSelect).first().prev().addClass('ttfmp-typekit-choice');
-				$('.ttfmp-typekit-choice', ttfmpTypekit.cache.$headerFontSelect).first().prev().addClass('ttfmp-typekit-choice');
-				$('.ttfmp-typekit-choice', ttfmpTypekit.cache.$bodyFontSelect).first().prev().addClass('ttfmp-typekit-choice');
+				$.each(ttfmpTypekit.cache.options, function(key, element) {
+					$('.ttfmp-typekit-choice', element).first().prev().addClass('ttfmp-typekit-choice');
+				});
 			}
 		},
 
@@ -75,9 +78,10 @@
 
 		handleSuccess: function(data) {
 			var optionsHTML = ttfmpTypekit.buildOption(0, '--- ' + ttfmpTypekitData.headerLabel + ' ---', true),
-				titleVal = ttfmpTypekit.cache.$titleFontSelect.val(),
-				headerVal = ttfmpTypekit.cache.$headerFontSelect.val(),
-				bodyVal = ttfmpTypekit.cache.$bodyFontSelect.val();
+				optionsVal = {};
+				$.each(ttfmpTypekit.cache.options, function(key, element) {
+					optionsVal[key] = element.val();
+				});
 
 			$.each(data, function(index, value) {
 				optionsHTML += ttfmpTypekit.buildOption(index, value, false);
@@ -90,9 +94,12 @@
 			ttfmpTypekit.prependFonts(optionsHTML);
 
 			// Set the correct current vals
-			ttfmpTypekit.cache.$titleFontSelect.val(titleVal);
-			ttfmpTypekit.cache.$headerFontSelect.val(headerVal);
-			ttfmpTypekit.cache.$bodyFontSelect.val(bodyVal);
+			$.each(ttfmpTypekit.cache.options, function(key, element) {
+				element.val( optionsVal[key] );
+			});
+
+			// Add success message
+			ttfmpTypekit.addSuccess(ttfmpTypekitData.success);
 
 			// Remove the loading indicator
 			ttfmpTypekit.hideSpinner();
@@ -104,15 +111,15 @@
 		},
 
 		prependFonts: function(optionsHTML) {
-			ttfmpTypekit.cache.$titleFontSelect.prepend(optionsHTML);
-			ttfmpTypekit.cache.$headerFontSelect.prepend(optionsHTML);
-			ttfmpTypekit.cache.$bodyFontSelect.prepend(optionsHTML);
+			$.each(ttfmpTypekit.cache.options, function(key, element) {
+				element.prepend(optionsHTML);
+			});
 		},
 
 		removeFonts: function() {
-			$('.ttfmp-typekit-choice', ttfmpTypekit.cache.$titleFontSelect).remove();
-			$('.ttfmp-typekit-choice', ttfmpTypekit.cache.$headerFontSelect).remove();
-			$('.ttfmp-typekit-choice', ttfmpTypekit.cache.$bodyFontSelect).remove();
+			$.each(ttfmpTypekit.cache.options, function(key, element) {
+				$('.ttfmp-typekit-choice', element).remove();
+			});
 		},
 
 		handleError: function(data) {
@@ -129,12 +136,17 @@
 		},
 
 		addError: function(message) {
-			ttfmpTypekit.removeErrors();
+			ttfmpTypekit.removeMessages();
 			ttfmpTypekit.cache.$descriptionText.prepend('<span class="error">' + message + '<br /></span>');
 		},
 
-		removeErrors: function() {
-			$('.error', ttfmpTypekit.cache.$descriptionText).remove();
+		addSuccess: function(message) {
+			ttfmpTypekit.removeMessages();
+			ttfmpTypekit.cache.$descriptionText.prepend('<span class="success">' + message + '<br /></span>');
+		},
+
+		removeMessages: function() {
+			$('.error, .success', ttfmpTypekit.cache.$descriptionText).remove();
 		},
 
 		reset: function() {
@@ -145,11 +157,13 @@
 			ttfmpTypekit.removeFonts();
 
 			// Set the default fonts
-			ttfmpTypekit.cache.$titleFontSelect.val('sans-serif').change();
-			ttfmpTypekit.cache.$headerFontSelect.val('sans-serif').change();
-			ttfmpTypekit.cache.$bodyFontSelect.val('Open Sans').change();
+			$.each(ttfmpTypekit.cache.options, function(key, element) {
+				element.val('sans-serif');
+			});
 		}
 	};
 
-	ttfmpTypekit.init();
+	$(document).ready(function() {
+		ttfmpTypekit.init();
+	});
 })(jQuery);

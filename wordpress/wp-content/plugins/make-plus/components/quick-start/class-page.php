@@ -1,4 +1,7 @@
 <?php
+/**
+ * @package Make Plus
+ */
 
 if ( ! class_exists( 'TTFMP_Page' ) ) :
 /**
@@ -81,8 +84,10 @@ class TTFMP_Page {
 		} else {
 			// Prep the post data
 			$data = wp_parse_args( $override_data, array(
-				'post_type'    => 'page',
-				'post_content' => $post_content,
+				'post_type'      => 'page',
+				'post_content'   => $post_content,
+				'comment_status' => 'closed',
+				'ping_status'    => 'closed',
 			) );
 
 			// Insert the post

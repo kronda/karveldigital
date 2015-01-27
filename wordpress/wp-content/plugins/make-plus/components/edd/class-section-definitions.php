@@ -1,4 +1,7 @@
 <?php
+/**
+ * @package Make Plus
+ */
 
 if ( ! class_exists( 'TTFMP_EDD_Section_Definitions' ) ) :
 /**
@@ -50,6 +53,10 @@ class TTFMP_EDD_Section_Definitions {
 		// Add Product Grid section settings
 		add_filter( 'ttfmake_section_defaults', array( $this, 'section_defaults' ) );
 		add_filter( 'ttfmake_section_choices', array( $this, 'section_choices' ), 10, 3 );
+
+		// Add JS fix for "Insert download" button
+		add_action( 'admin_head-post.php', array( $this, 'admin_head_script' ) );
+		add_action( 'admin_head-post-new.php', array( $this, 'admin_head_script' ) );
 	}
 
 	/**
@@ -118,7 +125,10 @@ class TTFMP_EDD_Section_Definitions {
 		$clean_data['sortby'] = ttfmake_sanitize_section_choice( $parsed_data['sortby'], 'sortby', 'edd-downloads' );
 
 		// Count
-		$clean_data['count'] = absint( $parsed_data['count'] );
+		$clean_data['count'] = (int) $parsed_data['count'];
+		if ( $clean_data['count'] < -1 ) {
+			$clean_data['count'] = abs( $clean_data['count'] );
+		}
 
 		// Thumb
 		$clean_data['thumb'] = absint( $parsed_data['thumb'] );
@@ -179,10 +189,10 @@ class TTFMP_EDD_Section_Definitions {
 		switch ( $choice_id ) {
 			case 'edd-downloads-columns' :
 				$choices = array(
-					1 => __( '1', 'make' ),
-					2 => __( '2', 'make' ),
-					3 => __( '3', 'make' ),
-					4 => __( '4', 'make' ),
+					1 => __( '1', 'make-plus' ),
+					2 => __( '2', 'make-plus' ),
+					3 => __( '3', 'make-plus' ),
+					4 => __( '4', 'make-plus' ),
 				);
 				break;
 			case 'edd-downloads-taxonomy' :
@@ -269,8 +279,12 @@ class TTFMP_EDD_Section_Definitions {
 	 * @return void
 	 */
 	public function admin_enqueue_scripts( $hook_suffix ) {
+		// Have to be careful with this test because this function was introduced in Make 1.2.0.
+		$post_type_supports_builder = ( function_exists( 'ttfmake_post_type_supports_builder' ) ) ? ttfmake_post_type_supports_builder( get_post_type() ) : false;
+		$post_type_is_page          = ( 'page' === get_post_type() );
+
 		// Only load resources if they are needed on the current page
-		if ( ! in_array( $hook_suffix, array( 'post.php', 'post-new.php' ) ) || 'page' !== get_post_type() ) {
+		if ( ! in_array( $hook_suffix, array( 'post.php', 'post-new.php' ) ) || ( ! $post_type_supports_builder && ! $post_type_is_page ) ) {
 			return;
 		}
 
@@ -282,6 +296,35 @@ class TTFMP_EDD_Section_Definitions {
 			ttfmp_get_app()->version,
 			'all'
 		);
+	}
+
+	/**
+	 * This script fixes the "Chosen" download select used by EDD's "Insert download" button for
+	 * custom TinyMCE instances. A pull request has been accepted to fix this in the plugin, so this
+	 * shouldn't be needed after version 2.0.
+	 *
+	 * @since 1.2.0.
+	 *
+	 * @return void
+	 */
+	public function admin_head_script() {
+		// Have to be careful with this test because this function was introduced in Make 1.2.0.
+		$post_type_supports_builder = ( function_exists( 'ttfmake_post_type_supports_builder' ) ) ? ttfmake_post_type_supports_builder( get_post_type() ) : false;
+		$post_type_is_page          = ( 'page' === get_post_type() );
+
+		if ( ( ! $post_type_supports_builder && ! $post_type_is_page ) || ( defined( 'EDD_VERSION' ) && true === version_compare( EDD_VERSION, '2.0', '>' ) ) ) {
+			return;
+		}
+		?>
+		<script type="application/javascript">
+			(function($){
+				// This fixes the Chosen box being 0px wide when the thickbox is opened
+				$('#post').on('click', '.edd-thickbox', function() {
+					$('.edd-select-chosen', '#choose-download').css('width', '100%');
+				});
+			}(jQuery));
+		</script>
+	<?php
 	}
 }
 endif;

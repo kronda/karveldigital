@@ -1,8 +1,11 @@
 <?php
+/**
+ * @package Make Plus
+ */
 
 if ( ! function_exists( 'ttfmp_edd_add_color_css' ) ) :
 /**
- * Use Make's color options to override some of WooCommerce's CSS styles
+ * Use Make's color options to override some of EDD's CSS styles
  *
  * @since 1.0.0.
  *
@@ -10,10 +13,8 @@ if ( ! function_exists( 'ttfmp_edd_add_color_css' ) ) :
  */
 function ttfmp_edd_add_color_css() {
 	// Get and escape options
-	$color_primary         = maybe_hash_hex_color( get_theme_mod( 'color-primary', ttfmake_get_default( 'color-primary' ) ) );
-	$color_secondary       = maybe_hash_hex_color( get_theme_mod( 'color-secondary', ttfmake_get_default( 'color-secondary' ) ) );
-	$color_text            = maybe_hash_hex_color( get_theme_mod( 'color-text', ttfmake_get_default( 'color-text' ) ) );
-	$color_detail          = maybe_hash_hex_color( get_theme_mod( 'color-detail', ttfmake_get_default( 'color-detail' ) ) );
+	$color_secondary = maybe_hash_hex_color( get_theme_mod( 'color-secondary', ttfmake_get_default( 'color-secondary' ) ) );
+	$color_highlight = maybe_hash_hex_color( get_theme_mod( 'color-highlight', ttfmake_get_default( 'color-highlight' ) ) );
 
 	// Output the rules
 	ttfmake_get_css()->add( array(
@@ -40,6 +41,15 @@ function ttfmp_edd_add_color_css() {
 		),
 		'declarations' => array(
 			'border-color' => $color_secondary
+		)
+	) );
+	ttfmake_get_css()->add( array(
+		'selectors'    => array(
+			'.edd_price',
+			'.edd-cart-added-alert',
+		),
+		'declarations' => array(
+			'color' => $color_highlight
 		)
 	) );
 }

@@ -1,4 +1,7 @@
 <?php
+/**
+ * @package Make Plus
+ */
 
 if ( ! class_exists( 'TTFMP_EDD' ) ) :
 /**
@@ -99,8 +102,27 @@ class TTFMP_EDD {
 		// Add template path
 		add_filter( 'edd_template_paths', array( $this, 'filter_template_paths' ) );
 
-		// Filter the shortcode output
-		add_filter( 'downloads_shortcode', array( $this, 'filter_downloads_shortcode' ), 10, 4 );
+		// Filter the download item class
+		add_filter( 'edd_download_class', array( $this, 'edd_download_class' ), 10, 4 );
+
+		// Show featured images on Shop and Product views
+		add_filter( 'theme_mod_layout-shop-featured-images', array( $this, 'mod_value' ) );
+		add_filter( 'theme_mod_layout-product-featured-images', array( $this, 'mod_value' ) );
+
+		// Hide author on Shop and Product views
+		add_filter( 'theme_mod_layout-shop-post-author', array( $this, 'mod_value' ) );
+		add_filter( 'theme_mod_layout-product-post-author', array( $this, 'mod_value' ) );
+
+		// Define shop and product views
+		add_filter( 'ttfmake_get_view', array( $this, 'get_view' ), 10, 2 );
+		add_filter( 'ttfmp_perpage_view', array( $this, 'perpage_view' ), 10, 2 );
+
+		// Add Customizer section descriptions
+		add_filter( 'ttfmp_shop_layout_shop_description', array( $this, 'layout_shop_description' ) );
+		add_filter( 'ttfmp_shop_layout_product_description', array( $this, 'layout_product_description' ) );
+
+		// Add support for Shop Settings
+		$this->add_support();
 	}
 
 	/**
@@ -134,35 +156,156 @@ class TTFMP_EDD {
 	}
 
 	/**
-	 * Filter the downloads shortcode.
+	 * Add additional download item classes.
 	 *
-	 * @since 1.1.0.
+	 * @since 1.2.0.
 	 *
-	 * @param  string    $display       The output of the shortcode.
-	 * @param  array     $atts          Unused.
-	 * @param  string    $buy_button    Unused.
-	 * @param  int       $columns       The number of columns for the downloads grid.
-	 * @return string                   The modified output of the shortcode.
+	 * @param  string    $class    The download item classes.
+	 * @param  int       $id       The download post ID.
+	 * @param  array     $atts     The shortcode atts.
+	 * @param  int       $i        The output counter.
+	 * @return string              The modified download item classes.
 	 */
-	public function filter_downloads_shortcode( $display, $atts, $buy_button, $columns ) {
-		$columns = absint( $columns );
-
-		if ( 1 === $columns ) {
-			return $display;
+	public function edd_download_class( $class, $id, $atts, $i ) {
+		if ( ! isset( $atts['columns'] ) || 1 == $atts['columns'] || is_null( $i ) ) {
+			return $class;
 		}
 
-		ob_start(); ?>
-		<script type="application/javascript">
-			(function($) {
-				$('.edd_download_columns_<?php echo $columns; ?> .edd_download').filter(function(index) {
-					return (index%<?php echo $columns; ?> == <?php echo $columns - 1; ?>);
-				}).addClass('last');
-			})(jQuery);
-		</script>
-	<?php
-		$script = trim( ob_get_clean() );
+		if ( 0 === (int) $i % absint( $atts['columns'] ) ) {
+			$class .= ' last';
+		}
 
-		return $display . $script;
+		return $class;
+	}
+
+	/**
+	 * Filter to identify views related to EDD.
+	 *
+	 * This assumes two EDD views: a "Shop" view that includes download post type archives and
+	 * download category and tag archives, and a "Product" view which is just individual downloads.
+	 *
+	 * @since  1.2.0.
+	 *
+	 * @param  string    $view                The current view.
+	 * @param  string    $parent_post_type    The post type of the parent of the current post.
+	 * @return string
+	 */
+	public function get_view( $view, $parent_post_type ) {
+		// Product attachments
+		if ( is_attachment() && 'download' === $parent_post_type ) {
+			$view = 'product';
+		}
+		// Shop pages
+		else if ( is_post_type_archive( 'download' ) || is_tax( 'download_category' ) || is_tax( 'download_tag' ) ) {
+			$view = 'shop';
+		}
+		// Single products
+		else if ( 'download' === get_post_type() ) {
+			$view = 'product';
+		}
+
+		return $view;
+	}
+
+	/**
+	 * Filter to identify per-page views related to EDD.
+	 *
+	 * @since 1.2.0.
+	 *
+	 * @param $view
+	 * @param $post
+	 * @return string
+	 */
+	public function perpage_view( $view, $post ) {
+		if ( 'download' === $post->post_type ) {
+			$view = 'product';
+		}
+
+		return $view;
+	}
+
+	/**
+	 * Add a description to the Layout: Shop section.
+	 *
+	 * @since 1.2.0.
+	 *
+	 * @param  string $text
+	 * @return string
+	 */
+	public function layout_shop_description( $text ) {
+		$description = __( 'For Easy Digital Downloads, this view consists of download archives and related category and tag archives.', 'make-plus' );
+
+		if ( '' !== $text ) {
+			$text .= ' ';
+		}
+
+		return $text . $description;
+	}
+
+	/**
+	 * Add a description to the Layout: Product section.
+	 *
+	 * @since 1.2.0.
+	 *
+	 * @param  string $text
+	 * @return string
+	 */
+	public function layout_product_description( $text ) {
+		$description = __( 'For Easy Digital Downloads, this view consists of single downloads.', 'make-plus' );
+
+		if ( '' !== $text ) {
+			$text .= ' ';
+		}
+
+		return $text . $description;
+	}
+
+	/**
+	 * Return a specific value depending on the current filter.
+	 *
+	 * @since 1.2.0.
+	 *
+	 * @param  mixed     $value    The current value of the setting.
+	 * @return string              The modified value of the setting.
+	 */
+	public function mod_value( $value ) {
+		$filter = current_filter();
+
+		// Featured Image
+		if ( 'theme_mod_layout-shop-featured-images' === $filter ) {
+			return 'thumbnail';
+		}
+		if ( 'theme_mod_layout-product-featured-images' === $filter ) {
+			return 'post-header';
+		}
+
+		// Post Author
+		if ( 'theme_mod_layout-shop-post-author' === $filter || 'theme_mod_layout-product-post-author' === $filter ) {
+			return 'none';
+		}
+
+		return $value;
+	}
+
+	/**
+	 * Add support for various features in the shared Shop Settings module.
+	 *
+	 * @since 1.2.0.
+	 *
+	 * @return void
+	 */
+	public function add_support() {
+		// Layout: Shop
+		add_theme_support( 'ttfmp-shop-layout-shop' );
+
+		// Layout: Product
+		add_theme_support( 'ttfmp-shop-layout-product' );
+
+		// Shop Sidebar
+		add_theme_support( 'ttfmp-shop-sidebar', array( 'shop', 'product', 'page' ) );
+
+		// Highlight color
+		add_theme_support( 'ttfmp-shop-color-highlight' );
 	}
 }
 endif;

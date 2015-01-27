@@ -1,4 +1,7 @@
 <?php
+/**
+ * @package Make Plus
+ */
 
 if ( ! class_exists( 'TTFMP_Duplicator' ) ) :
 /**
@@ -82,6 +85,11 @@ class TTFMP_Duplicator {
 
 		// Include needed files
 		require_once $this->component_root . '/page.php';
+
+		// The section component requires new components of Make 1.0.9
+		if ( defined( 'TTFMAKE_VERSION' ) && true === version_compare( TTFMAKE_VERSION, '1.0.9', '>=' ) ) {
+			require_once $this->component_root . '/section.php';
+		}
 	}
 }
 endif;

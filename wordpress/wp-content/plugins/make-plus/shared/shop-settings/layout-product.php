@@ -1,4 +1,7 @@
 <?php
+/**
+ * @package Make Plus
+ */
 
 if ( ! function_exists( 'ttfmake_customizer_layout_product' ) ) :
 /**
@@ -17,18 +20,21 @@ function ttfmake_customizer_layout_product( $wp_customize, $section ) {
 
 	// Section info
 	$setting_id = $setting_prefix . '-section-info';
-	$wp_customize->add_control(
-		new TTFMAKE_Customize_Misc_Control(
-			$wp_customize,
-			$control_prefix . $setting_id,
-			array(
-				'section'     => $section,
-				'type'        => 'text',
-				'description' => __( 'The Product view includes single products and items attached to those products, such as images.', 'make-plus' ),
-				'priority'    => $priority->add()
+	$description = apply_filters( 'ttfmp_shop_layout_product_description', '' );
+	if ( '' !== $description ) {
+		$wp_customize->add_control(
+			new TTFMAKE_Customize_Misc_Control(
+				$wp_customize,
+				$control_prefix . $setting_id,
+				array(
+					'section'     => $section,
+					'type'        => 'text',
+					'description' => ttfmake_sanitize_text( $description ),
+					'priority'    => $priority->add()
+				)
 			)
-		)
-	);
+		);
+	}
 
 	// Header, Footer, Sidebars heading
 	$setting_id = $setting_prefix . '-heading-sidebars';
@@ -125,28 +131,6 @@ function ttfmake_customizer_layout_product( $wp_customize, $section ) {
 			'section'  => $section,
 			'label'    => __( 'Show right sidebar', 'make-plus' ),
 			'type'     => 'checkbox',
-			'priority' => $priority->add()
-		)
-	);
-
-	// Shop sidebar
-	$setting_id = $setting_prefix . '-shop-sidebar';
-	$wp_customize->add_setting(
-		$setting_id,
-		array(
-			'default'           => ttfmake_get_default( $setting_id ),
-			'type'              => 'theme_mod',
-			'sanitize_callback' => 'ttfmake_sanitize_choice',
-		)
-	);
-	$wp_customize->add_control(
-		$control_prefix . $setting_id,
-		array(
-			'settings' => $setting_id,
-			'section'  => $section,
-			'label'    => __( 'Shop Sidebar Location', 'make-plus' ),
-			'type'     => 'select',
-			'choices'  => ttfmake_get_choices( $setting_id ),
 			'priority' => $priority->add()
 		)
 	);

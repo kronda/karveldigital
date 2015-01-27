@@ -136,7 +136,10 @@
 			}
 		};
 
-	ttfmpStyleKits.init();
+	// Wait until Customizer initialization is complete.
+	$(document).ready(function() {
+		ttfmpStyleKits.init();
+	});
 })(jQuery);
 
 /**

@@ -1,3 +1,6 @@
+/*---------------------------------------------------------
+ EDD (edd.scss)
+-------------------------------------------------------- */
 .edd_download_inner {
 	padding: 0; //reset
 	margin: 0; //reset
@@ -48,6 +51,9 @@ input[type=submit].edd-submit,
 #edd_checkout_cart th,
 #edd_checkout_form_wrap fieldset {
 	border-color: #eaecee; //secondary
+}
+#edd_download_pagination {
+	display: none;
 }
 .edd_download_columns_1,
 .edd_download_columns_2,

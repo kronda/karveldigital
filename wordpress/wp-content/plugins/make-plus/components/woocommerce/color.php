@@ -1,4 +1,7 @@
 <?php
+/**
+ * @package Make Plus
+ */
 
 if ( ! function_exists( 'ttfmp_woocommerce_add_color_css' ) ) :
 /**

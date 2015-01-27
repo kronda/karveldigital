@@ -1,4 +1,7 @@
 <?php
+/**
+ * @package Make Plus
+ */
 
 if ( ! class_exists( 'TTFMP_Quick_Start' ) ) :
 /**
@@ -141,7 +144,7 @@ class TTFMP_Quick_Start {
 					<?php $i++; ?>
 					<?php endforeach; ?>
 				</select>
-				<a href="<?php echo esc_url( ttfmp_get_template_url( $first_template_name, get_the_ID() ) ); ?>" id="ttfmp-import-link" class="button">
+				<a href="#" id="ttfmp-import-link" class="button">
 					<?php _e( 'Import content', 'make-plus' ); ?>
 				</a>
 			</p>
@@ -179,8 +182,13 @@ class TTFMP_Quick_Start {
 		$page            = new TTFMP_Page();
 		$page->apply_template( $template_object );
 
+		// Add override data
+		$override = array(
+			'post_title' => ( isset( $_GET['ttfmp_title'] ) ) ? $_GET['ttfmp_title'] : '',
+		);
+
 		// Create the new page
-		$id = $page->insert();
+		$id = $page->insert( $override );
 
 		// Redirect to the new post on success and back to the page listing on failure
 		if ( false === $id ) {

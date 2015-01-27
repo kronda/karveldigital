@@ -1,11 +1,14 @@
+/*---------------------------------------------------------
+ EDD (edd.scss)
+-------------------------------------------------------- */
 .edd_download_inner {
 	margin: 0;
-	margin-bottom: 44px;
+	margin-bottom: 44px; 
 	padding: 0;
 }
 
 .edd_download_title {
-	font-size: 17px;
+	font-size: 17px; 
 	margin-bottom: 6px;
 }
 
@@ -28,7 +31,7 @@
 }
 
 .edd_price {
-	text-decoration: underline;
+	text-decoration: underline; 
 	color: #289a00;
 }
 
@@ -50,6 +53,10 @@
 
 #edd_checkout_cart td, #edd_checkout_cart th, #edd_checkout_form_wrap fieldset {
 	border-color: #eaecee;
+}
+
+#edd_download_pagination {
+	display: none;
 }
 
 .edd_download_columns_1 .edd_download, .edd_download_columns_2 .edd_download, .edd_download_columns_3 .edd_download, .edd_download_columns_4 .edd_download {

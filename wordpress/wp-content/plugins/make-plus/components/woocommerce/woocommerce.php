@@ -1,4 +1,7 @@
 <?php
+/**
+ * @package Make Plus
+ */
 
 if ( ! class_exists( 'TTFMP_WooCommerce' ) ) :
 /**
@@ -89,35 +92,44 @@ class TTFMP_WooCommerce {
 	 * @return void
 	 */
 	public function init() {
-		// Include needed files
-		require_once $this->component_root . '/class-shop-sidebar.php';
-		require_once $this->component_root . '/class-section-definitions.php';
-		require_once $this->component_root . '/class-shortcode.php';
-		require_once $this->component_root . '/color.php';
+		// Passive mode
+		if ( true === ttfmp_get_app()->passive ) {
+			// Include needed files
+			require_once $this->component_root . '/class-shortcode.php';
+		}
+		// Active mode
+		else {
+			// Include needed files
+			require_once $this->component_root . '/class-section-definitions.php';
+			require_once $this->component_root . '/class-shortcode.php';
+			require_once $this->component_root . '/color.php';
 
-		// Enqueue scripts and styles
-		add_action( 'wp_enqueue_scripts', array( $this, 'enqueue_scripts' ) );
+			// Enqueue scripts and styles
+			add_action( 'wp_enqueue_scripts', array( $this, 'enqueue_scripts' ) );
 
-		// Modify the WooCommerce General Settings page
-		add_action( 'woocommerce_settings_general', array( $this, 'modify_wc_settings' ) );
+			// Modify the WooCommerce General Settings page
+			add_action( 'woocommerce_settings_general', array( $this, 'modify_wc_settings' ) );
 
-		// Filter the frontend color settings
-		add_filter( 'pre_option_woocommerce_frontend_css_colors', array( $this, 'frontend_css_colors' ) );
+			// Filter the frontend color settings
+			add_filter( 'pre_option_woocommerce_frontend_css_colors', array( $this, 'frontend_css_colors' ) );
 
-		// Add new settings and controls
-		add_action( 'customize_register', array( $this, 'color_highlight' ), 20 );
+			// Use a preview version of the WooCommerce stylesheet while in the Theme Customizer
+			add_action( 'wp', array( $this, 'compile_preview_styles' ) );
 
-		// Use a preview version of the WooCommerce stylesheet while in the Theme Customizer
-		add_action( 'wp', array( $this, 'compile_preview_styles' ) );
+			// Re-compile the WooCommerce CSS file when settings are saved
+			add_action( 'customize_save_after', array( $this, 'save_frontend_styles' ) );
 
-		// Re-compile the WooCommerce CSS file when settings are saved
-		add_action( 'customize_save_after', array( $this, 'save_frontend_styles' ) );
+			// Define shop and product views
+			add_filter( 'ttfmake_get_view', array( $this, 'get_view' ), 10, 2 );
+			add_filter( 'ttfmp_perpage_view', array( $this, 'perpage_view' ), 10, 2 );
 
-		// Customizer filters
-		add_filter( 'ttfmake_customizer_sections', array( $this, 'customizer_sections' ) );
-		add_filter( 'ttfmake_setting_defaults', array( $this, 'setting_defaults' ) );
-		add_filter( 'ttfmake_setting_choices', array( $this, 'setting_choices' ), 10, 2 );
-		add_filter( 'ttfmake_get_view', array( $this, 'get_view' ), 10, 2 );
+			// Add Customizer section descriptions
+			add_filter( 'ttfmp_shop_layout_shop_description', array( $this, 'layout_shop_description' ) );
+			add_filter( 'ttfmp_shop_layout_product_description', array( $this, 'layout_product_description' ) );
+
+			// Add support for Shop Settings
+			$this->add_support();
+		}
 	}
 
 	/**
@@ -168,7 +180,7 @@ class TTFMP_WooCommerce {
 		?>
 		<tr valign="top" class="woocommerce_frontend_css_colors">
 			<th scope="row" class="titledesc">
-				<?php _e( 'Frontend Styles', 'woocommerce' ); ?>
+				<?php _e( 'Frontend Styles', 'make-plus' ); ?>
 			</th>
 			<td class="forminp">
 				<span class="description">
@@ -177,22 +189,22 @@ class TTFMP_WooCommerce {
 			$css_file  = WC()->plugin_path() . '/assets/css/woocommerce.css';
 			if ( is_writable( $base_file ) && is_writable( $css_file ) ) {
 				// Get the URL
-				$url = admin_url( 'customize.php' );
+				$url = add_query_arg( 'return', urlencode( wp_unslash( $_SERVER['REQUEST_URI'] ) ), admin_url( 'customize.php' ) );
 				$shop = get_option( 'woocommerce_shop_page_id' );
 				if ( $shop ) {
 					$url = add_query_arg( 'url', urlencode( get_permalink( $shop ) ), $url );
 				}
 				// Add the message
 				printf(
-					__( 'These styles can be customized in the Colors section of the %s.', 'make-plus' ),
+					__( 'These styles can be customized in the Color Scheme &rarr; General section of the %s.', 'make-plus' ),
 					sprintf(
 						'<a href="%1$s">%2$s</a>',
 						esc_url( $url ),
-						__( 'Theme Customizer', 'make-plus' )
+						__( 'Customizer', 'make-plus' )
 					)
 				);
 			} else {
-				echo __( 'To edit colours <code>woocommerce/assets/css/woocommerce-base.less</code> and <code>woocommerce.css</code> need to be writable. See <a href="http://codex.wordpress.org/Changing_File_Permissions">the Codex</a> for more information.', 'woocommerce' );
+				echo __( 'To edit colours <code>woocommerce/assets/css/woocommerce-base.less</code> and <code>woocommerce.css</code> need to be writable. See <a href="http://codex.wordpress.org/Changing_File_Permissions">the Codex</a> for more information.', 'make-plus' );
 			}
 			?>
 				</span>
@@ -213,7 +225,7 @@ class TTFMP_WooCommerce {
 		$colors = array(
 			'primary' => get_theme_mod( 'color-primary', ttfmake_get_default( 'color-primary' ) ),
 			'secondary' => get_theme_mod( 'color-secondary', ttfmake_get_default( 'color-secondary' ) ),
-			'highlight' => get_theme_mod( 'color-woocommerce-highlight', ttfmake_get_default( 'color-woocommerce-highlight' ) ),
+			'highlight' => get_theme_mod( 'color-highlight', ttfmake_get_default( 'color-highlight' ) ),
 			'content_bg' => get_theme_mod( 'main-background-color', ttfmake_get_default( 'main-background-color' ) ),
 			'subtext' => get_theme_mod( 'color-detail', ttfmake_get_default( 'color-detail' ) ),
 		);
@@ -245,14 +257,19 @@ class TTFMP_WooCommerce {
 			return;
 		}
 
-		wp_dequeue_style( 'woocommerce-general' );
-		wp_deregister_style( 'woocommerce-general' );
-		wp_enqueue_style(
-			'woocommerce-general',
-			WC()->plugin_url() . '/assets/css/ttfmp-woocommerce-preview.css',
-			array(),
-			time()
-		);
+		$uploads = wp_upload_dir();
+		$preview_file = trailingslashit( $uploads['basedir'] ) . 'ttfmp-woocommerce-preview.css';
+
+		if ( file_exists( $preview_file ) ) {
+			wp_dequeue_style( 'woocommerce-general' );
+			wp_deregister_style( 'woocommerce-general' );
+			wp_enqueue_style(
+				'woocommerce-general',
+				trailingslashit( $uploads['baseurl'] ) . 'ttfmp-woocommerce-preview.css',
+				array(),
+				time()
+			);
+		}
 	}
 
 	/**
@@ -269,10 +286,12 @@ class TTFMP_WooCommerce {
 			return;
 		}
 
+		$uploads = wp_upload_dir();
+
 		$colors    = array_map( 'esc_attr', (array) get_option( 'woocommerce_frontend_css_colors' ) );
 		$base_file = WC()->plugin_path() . '/assets/css/woocommerce-base.less';
 		$less_file = WC()->plugin_path() . '/assets/css/woocommerce.less';
-		$css_file  = WC()->plugin_path() . '/assets/css/ttfmp-woocommerce-preview.css';
+		$css_file  = trailingslashit( $uploads['basedir'] ) . 'ttfmp-woocommerce-preview.css';
 
 		if ( ! file_exists( $css_file ) ) {
 			$new_file = file_put_contents( $css_file, '' );
@@ -327,7 +346,7 @@ class TTFMP_WooCommerce {
 				// Reset the base
 				file_put_contents( $base_file, $original_base );
 			} catch ( exception $ex ) {
-				wp_die( __( 'Could not compile woocommerce.less:', 'woocommerce' ) . ' ' . $ex->getMessage() );
+				wp_die( __( 'Could not compile woocommerce.less:', 'make-plus' ) . ' ' . $ex->getMessage() );
 			}
 		}
 	}
@@ -353,138 +372,6 @@ class TTFMP_WooCommerce {
 		if ( function_exists( 'woocommerce_compile_less_styles' ) ) {
 			woocommerce_compile_less_styles();
 		}
-	}
-
-	/**
-	 * Filter to add new Customizer sections
-	 *
-	 * This function takes the main array of Customizer sections and attempts to insert
-	 * new ones right after the layout-page section.
-	 *
-	 * @since  1.0.0.
-	 *
-	 * @param  array    $sections    The array of sections to add to the Customizer.
-	 * @return array                 The modified array of sections.
-	 */
-	public function customizer_sections( $sections ) {
-		$new_sections = array(
-			'layout-shop'    => array( 'title' => __( 'Layout: Shop', 'make-plus' ), 'path' => $this->component_root ),
-			'layout-product' => array( 'title' => __( 'Layout: Product', 'make-plus' ), 'path' => $this->component_root ),
-		);
-
-		// Get the position of the layout-page section in the array
-		$keys = array_keys( $sections );
-		$positions = array_flip( $keys );
-		$layout_page = absint( $positions[ 'layout-page' ] );
-
-		// Slice the array
-		$front = array_slice( $sections, 0, $layout_page + 1 );
-		$back  = array_slice( $sections, $layout_page + 1 );
-
-		// Combine and return
-		return array_merge( $front, $new_sections, $back );
-	}
-
-	/**
-	 * Filter to add new Customizer setting defaults
-	 *
-	 * @since  1.0.0.
-	 *
-	 * @param  array    $defaults    The array of Customizer option defaults.
-	 * @return array
-	 */
-	public function setting_defaults( $defaults ) {
-		$new_defaults = array(
-			// Colors
-			'color-woocommerce-highlight'  => '#289a00',
-
-			// Layout - Shop
-			'layout-shop-hide-header'      => 0,
-			'layout-shop-hide-footer'      => 0,
-			'layout-shop-sidebar-left'     => 0,
-			'layout-shop-sidebar-right'    => 1,
-			'layout-shop-shop-sidebar'     => 'right',
-			'layout-shop-post-author'      => 'none',
-
-			// Layout - Product
-			'layout-product-hide-header'   => 0,
-			'layout-product-hide-footer'   => 0,
-			'layout-product-sidebar-left'  => 0,
-			'layout-product-sidebar-right' => 1,
-			'layout-product-shop-sidebar'  => 'right',
-			'layout-product-post-author'   => 'none',
-		);
-
-		return array_merge( $defaults, $new_defaults );
-	}
-
-	/**
-	 * Filter to add new Customizer setting choices
-	 *
-	 * @since  1.0.0.
-	 *
-	 * @param  array     $choices    The current choices.
-	 * @param  string    $setting    The current setting.
-	 * @return array
-	 */
-	public function setting_choices( $choices, $setting ) {
-		if ( count( $choices ) > 1 ) {
-			return $choices;
-		}
-
-		switch ( $setting ) {
-			case 'layout-shop-shop-sidebar' :
-			case 'layout-product-shop-sidebar' :
-				$choices = array(
-					'left'  => __( 'Left Sidebar', 'make-plus' ),
-					'right' => __( 'Right Sidebar', 'make-plus' ),
-					'none'  => __( 'Neither', 'make-plus' ),
-				);
-				break;
-		}
-
-		return $choices;
-	}
-
-	/**
-	 * Add a Highlight Color control to the Colors section of the Customizer
-	 *
-	 * @since  1.0.0.
-	 *
-	 * @return void
-	 */
-	public function color_highlight() {
-		global $wp_customize;
-
-		$color_detail = $wp_customize->get_control( 'ttfmake_color-detail' );
-
-		$priority       = new TTFMAKE_Prioritizer( $color_detail->priority + 1, 1 );
-		$section        = 'ttfmake_color';
-		$control_prefix = 'ttfmp_';
-		$setting_prefix = 'color';
-
-		// Highlight Color
-		$setting_id = $setting_prefix . '-woocommerce-highlight';
-		$wp_customize->add_setting(
-			$setting_id,
-			array(
-				'default'           => ttfmake_get_default( $setting_id ),
-				'type'              => 'theme_mod',
-				'sanitize_callback' => 'maybe_hash_hex_color',
-			)
-		);
-		$wp_customize->add_control(
-			new WP_Customize_Color_Control(
-				$wp_customize,
-				$control_prefix . $setting_id,
-				array(
-					'settings' => $setting_id,
-					'section'  => $section,
-					'label'    => __( 'Highlight Color', 'make-plus' ),
-					'priority' => $priority->add()
-				)
-			)
-		);
 	}
 
 	/**
@@ -546,6 +433,82 @@ class TTFMP_WooCommerce {
 		}
 
 		return $view;
+	}
+
+	/**
+	 * Filter to identify per-page views related to EDD.
+	 *
+	 * @since 1.2.0.
+	 *
+	 * @param $view
+	 * @param $post
+	 * @return string
+	 */
+	public function perpage_view( $view, $post ) {
+		if ( $post->ID === get_option( 'woocommerce_cart_page_id' ) || $post->ID === get_option( 'woocommerce_checkout_page_id' ) ) {
+			$view = 'shop';
+		} else if ( 'product' === $post->post_type ) {
+			$view = 'product';
+		}
+
+		return $view;
+	}
+
+	/**
+	 * Add a description to the Layout: Shop section.
+	 *
+	 * @since 1.2.0.
+	 *
+	 * @param  string $text
+	 * @return string
+	 */
+	public function layout_shop_description( $text ) {
+		$description = __( 'For WooCommerce, this view consists of product archives and other shop utility pages such as Checkout.', 'make-plus' );
+
+		if ( '' !== $text ) {
+			$text .= ' ';
+		}
+
+		return $text . $description;
+	}
+
+	/**
+	 * Add a description to the Layout: Product section.
+	 *
+	 * @since 1.2.0.
+	 *
+	 * @param  string $text
+	 * @return string
+	 */
+	public function layout_product_description( $text ) {
+		$description = __( 'For WooCommerce, this view consists of single products.', 'make-plus' );
+
+		if ( '' !== $text ) {
+			$text .= ' ';
+		}
+
+		return $text . $description;
+	}
+
+	/**
+	 * Add support for various features in the shared Shop Settings module.
+	 *
+	 * @since 1.2.0.
+	 *
+	 * @return void
+	 */
+	public function add_support() {
+		// Layout: Shop
+		add_theme_support( 'ttfmp-shop-layout-shop' );
+
+		// Layout: Product
+		add_theme_support( 'ttfmp-shop-layout-product' );
+
+		// Shop Sidebar
+		add_theme_support( 'ttfmp-shop-sidebar', array( 'shop', 'product', 'page' ) );
+
+		// Highlight color
+		add_theme_support( 'ttfmp-shop-color-highlight' );
 	}
 }
 endif;

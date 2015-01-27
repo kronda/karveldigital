@@ -28,7 +28,12 @@ function dh_ptp_simple_flat_css($id, $meta)
     $design1_featured_button_border_color = isset($meta['featured-button-border-color'])?$meta['featured-button-border-color']:'#2980b9';
     $design1_featured_button_hover_color = isset($meta['featured-button-hover-color'])?$meta['featured-button-hover-color']:'#2980b9';
     $design1_featured_button_font_color = isset($meta['featured-button-font-color'])?$meta['featured-button-font-color']:'#ffffff';
-        
+     
+    // Print stylish custom css setting
+      if(isset($meta['ept-custom-css-setting-dg1'])) {    
+              echo $meta['ept-custom-css-setting-dg1'];
+        }
+    
     ?>
 
     #ptp-<?php echo $id ?> div.ptp-item-container {
@@ -52,7 +57,7 @@ function dh_ptp_simple_flat_css($id, $meta)
     }
     #ptp-<?php echo $id ?> div.ptp-cta{
         border-bottom-right-radius: <?php echo $design1_rounded_corner_width; ?>;
-        border-top-left-radius: <?php echo $design1_rounded_corner_width; ?>;
+        border-bottom-left-radius: <?php echo $design1_rounded_corner_width; ?>;
         padding-top: 1.25em;
         padding-bottom: 1.25em;
     }
@@ -142,7 +147,7 @@ function dh_ptp_generate_simple_flat_pricing_table_html ($id)
 		  		'<div class="ptp-price">' . $plan_price . '</div>' .
                     dh_ptp_features_to_html_simple_flat($plan_features, dh_ptp_get_max_number_of_features()) .
 	  			'<div class="ptp-cta">'.
-                    (($custom_button)?$custom_button:'<a class="ptp-button" href="' . $button_url . '">' . $button_text . '</a>') .
+                    (($custom_button)?$custom_button:'<a class="ptp-button" id="ptp-'.$id.'-cta-'.$loop_index.'" href="' . $button_url . '">' . $button_text . '</a>') .
 	  			'</div>' .
 			'</div>' .
 		'</div>';
@@ -217,10 +222,10 @@ function dh_ptp_features_to_html_simple_flat ($plan_features, $max_number_of_fea
     $this_columns_number_of_features = count($features);
 
     for ($i=0; $i<$max_number_of_features; $i++) {
-        if ($i < $this_columns_number_of_features && $features[$i] != '') {
+        if ($i < $this_columns_number_of_features && trim($features[$i]) != '') {
             $html .= '<div class="ptp-bullet-item ptp-row-id-'.$i.'">' . str_replace(array("\n", "\r"), '', $features[$i]) . '</div>';
         } else {
-            $html .= '<div class="ptp-bullet-item ptp-row-id-'.$i.'">&nbsp;</div>';
+            $html .= '<div class="ptp-bullet-item ptp-row-id-'.$i.' tt-ptp-empty-row">&nbsp;</div>';
         }
     }
 

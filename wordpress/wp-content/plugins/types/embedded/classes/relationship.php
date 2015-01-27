@@ -2,10 +2,10 @@
 /*
  * Post relationship class.
  *
- * $HeadURL: https://www.onthegosystems.com/misc_svn/cck/tags/1.5.7/embedded/classes/relationship.php $
- * $LastChangedDate: 2014-05-05 13:47:14 +0200 (Mon, 05 May 2014) $
- * $LastChangedRevision: 22007 $
- * $LastChangedBy: marcin $
+ * $HeadURL: http://plugins.svn.wordpress.org/types/tags/1.6.4/embedded/classes/relationship.php $
+ * $LastChangedDate: 2014-10-23 10:33:39 +0000 (Thu, 23 Oct 2014) $
+ * $LastChangedRevision: 1012677 $
+ * $LastChangedBy: iworks $
  *
  */
 
@@ -254,6 +254,7 @@ class WPCF_Relationship
             $post_title = $save_fields['_wp_title'];
         }
 
+
         $post_data['post_title'] = $post_title;
         $post_data['post_content'] = isset( $save_fields['_wp_body'] ) ? $save_fields['_wp_body'] : $child->post_content;
         $post_data['post_type'] = $child->post_type;
@@ -274,6 +275,19 @@ class WPCF_Relationship
          *
          * UPDATE POST
          */
+
+        $cf = new WPCF_Field;
+        if (
+            isset( $_POST['wpcf_post_relationship'][$parent_id])
+            && isset( $_POST['wpcf_post_relationship'][$parent_id][$child_id] )
+        ) {
+            $_POST['wpcf'] = array();
+            foreach( $_POST['wpcf_post_relationship'][$parent_id][$child_id] as $slug => $value ) {
+                $_POST['wpcf'][$cf->__get_slug_no_prefix( $slug )] = $value;
+                $_POST['wpcf'][$slug] = $value;
+            }
+        }
+        unset($cf);
 
         $updated_id = wp_update_post( $post_data );
         if ( empty( $updated_id ) ) {
@@ -328,7 +342,27 @@ class WPCF_Relationship
          * UPDATE Loop over fields
          */
         foreach ( $save_fields as $slug => $value ) {
-            $this->cf->set( $child, $slug );
+            if ( defined( 'WPTOOLSET_FORMS_VERSION' ) ) {
+                // Get field by slug
+                $field = wpcf_fields_get_field_by_slug( str_replace( WPCF_META_PREFIX,
+                                '', $slug ) );
+                if ( empty( $field ) ) {
+                    continue;
+                }
+                // Set config
+                $config = wptoolset_form_filter_types_field( $field, $child->ID );
+                // Check if valid
+                $valid = wptoolset_form_validate_field( 'post', $config, $value );
+                if ( is_wp_error( $valid ) ) {
+                    $errors = $valid->get_error_data();
+                    $msg = sprintf( __( 'Child post "%s" field "%s" not updated:',
+                                    'wpcf' ), $child->post_title, $field['name'] );
+                    wpcf_admin_message_store( $msg . ' ' . implode( ', ',
+                                    $errors ), 'error' );
+                    continue;
+                }
+            }
+            $this->cf->set( $child, $field );
             $this->cf->context = 'post_relationship';
             $this->cf->save( $value );
         }

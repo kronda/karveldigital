@@ -2,10 +2,10 @@
 /**
  * Returns HTML formatted output for elements and handles form submission.
  *
- * $HeadURL: https://www.onthegosystems.com/misc_svn/common/tags/Views-1.6.1-Types-1.5.7/classes/forms.php $
- * $LastChangedDate: 2014-05-09 13:24:35 +0200 (Fri, 09 May 2014) $
- * $LastChangedRevision: 22197 $
- * $LastChangedBy: marcin $
+ * $HeadURL: http://plugins.svn.wordpress.org/types/tags/1.6.4/embedded/common/classes/forms.php $
+ * $LastChangedDate: 2014-11-18 06:47:25 +0000 (Tue, 18 Nov 2014) $
+ * $LastChangedRevision: 1027712 $
+ * $LastChangedBy: iworks $
  *
  * @version 1.0
  */
@@ -323,7 +323,7 @@ if (!class_exists('Enlimbo_Forms_Wpcf')) {
                         continue;
                     }
                     // Don't set disabled for checkbox
-                    if ($attribute == 'disabled' && $element['#type'] == 'checkbox') {
+                    if ( ( 'disabled' == $attribute || '#disabled' == $attribute )  && $element['#type'] == 'checkbox') {
                         continue;
                     }
                     // Append class values
@@ -583,7 +583,7 @@ if (!class_exists('Enlimbo_Forms_Wpcf')) {
                 $element['_render']['element'] .= ' onclick="javascript:return false; if(this.checked == 1){this.checked=1; return true;}else{this.checked=0; return false;}"';
             }
             if (!empty($element['#attributes']['#disabled'])) {
-                $element['_render']['element'] .= ' disabled="disabled""';
+                $element['_render']['element'] .= ' disabled="disabled"';
             }
 			
             $element['_render']['element'] .= ' />';

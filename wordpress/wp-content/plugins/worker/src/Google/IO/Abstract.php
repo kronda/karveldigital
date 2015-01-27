@@ -23,6 +23,7 @@ abstract class Google_IO_Abstract
     const UNKNOWN_CODE           = 0;
     const FORM_URLENCODED        = 'application/x-www-form-urlencoded';
     const CONNECTION_ESTABLISHED = "HTTP/1.0 200 Connection established\r\n\r\n";
+
     private static $ENTITY_HTTP_METHODS = array("POST" => null, "PUT" => null);
 
     /** @var Google_ApiClient */
@@ -68,13 +69,24 @@ abstract class Google_IO_Abstract
     abstract public function getTimeout();
 
     /**
+     * Test for the presence of a cURL header processing bug
+     *
+     * The cURL bug was present in versions prior to 7.30.0 and caused the header
+     * length to be miscalculated when a "Connection established" header added by
+     * some proxies was present.
+     *
+     * @return boolean
+     */
+    abstract protected function needsQuirk();
+
+    /**
      * @visible for testing.
      * Cache the response to an HTTP request if it is cacheable.
      *
      * @param Google_Http_Request $request
      *
      * @return bool Returns true if the insertion was successful.
-     * Otherwise, return false.
+     *              Otherwise, return false.
      */
     public function setCachedRequest(Google_Http_Request $request)
     {
@@ -93,8 +105,8 @@ abstract class Google_IO_Abstract
      *
      * @param Google_HttpRequest $request the http request to be executed
      *
-     * @return Google_HttpRequest http request with the response http code,
-     * response headers and response body filled in
+     * @return Google_HttpRequest  http request with the response http code,
+     *                             response headers and response body filled in
      * @throws Google_IO_Exception on curl or IO error
      */
     public function makeRequest(Google_Http_Request $request)
@@ -140,7 +152,7 @@ abstract class Google_IO_Abstract
      * @param Google_Http_Request $request
      *
      * @return Google_Http_Request|bool Returns the cached object or
-     * false if the operation was unsuccessful.
+     *                                  false if the operation was unsuccessful.
      */
     public function getCachedRequest(Google_Http_Request $request)
     {
@@ -224,11 +236,11 @@ abstract class Google_IO_Abstract
     {
         if (isset($responseHeaders['connection'])) {
             $hopByHop = array_merge(
-              self::$HOP_BY_HOP,
-              explode(
-                ',',
-                $responseHeaders['connection']
-              )
+                self::$HOP_BY_HOP,
+                explode(
+                    ',',
+                    $responseHeaders['connection']
+                )
             );
 
             $endToEnd = array();
@@ -253,6 +265,13 @@ abstract class Google_IO_Abstract
     {
         if (stripos($respData, self::CONNECTION_ESTABLISHED) !== false) {
             $respData = str_ireplace(self::CONNECTION_ESTABLISHED, '', $respData);
+
+            // Subtract the proxy header size unless the cURL bug prior to 7.30.0
+            // is present which prevented the proxy header size from being taken into
+            // account.
+            if (!$this->needsQuirk()) {
+                $headerSize -= strlen(self::CONNECTION_ESTABLISHED);
+            }
         }
 
         if ($headerSize) {
@@ -291,7 +310,7 @@ abstract class Google_IO_Abstract
         foreach ($responseHeaderLines as $headerLine) {
             if ($headerLine && strpos($headerLine, ':') !== false) {
                 list($header, $value) = explode(': ', $headerLine, 2);
-                $header = strtolower($header);
+                $header               = strtolower($header);
                 if (isset($responseHeaders[$header])) {
                     $headers[$header] .= "\n".$value;
                 } else {

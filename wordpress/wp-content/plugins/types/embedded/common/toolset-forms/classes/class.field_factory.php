@@ -2,10 +2,10 @@
 
 /**
  *
- * $HeadURL: https://www.onthegosystems.com/misc_svn/common/tags/Views-1.6.1-Types-1.5.7/toolset-forms/classes/class.field_factory.php $
- * $LastChangedDate: 2014-05-19 11:12:04 +0200 (Mon, 19 May 2014) $
- * $LastChangedRevision: 22437 $
- * $LastChangedBy: marcin $
+ * $HeadURL: http://plugins.svn.wordpress.org/types/tags/1.6.4/embedded/common/toolset-forms/classes/class.field_factory.php $
+ * $LastChangedDate: 2014-10-23 10:33:39 +0000 (Thu, 23 Oct 2014) $
+ * $LastChangedRevision: 1012677 $
+ * $LastChangedBy: iworks $
  *
  */
 
@@ -72,7 +72,14 @@ abstract class FieldFactory extends FieldAbstract
 
     public function getValue()
     {
-        return $this->_value;
+        global $post;
+        $value = $this->_value;
+        $value = apply_filters( 'wpcf_fields_value_get', $value, $post );
+        if ( array_key_exists('slug', $this->_data ) ) {
+            $value = apply_filters( 'wpcf_fields_slug_' . $this->_data['slug'] . '_value_get', $value, $post );
+        }
+        $value = apply_filters( 'wpcf_fields_type_' . $this->_data['type'] . '_value_get', $value, $post );
+        return $value;
     }
 
     public function getTitle()
@@ -108,6 +115,26 @@ abstract class FieldFactory extends FieldAbstract
     public function getSettings()
     {
         return isset( $this->_settings ) ? $this->_settings : array();
+    }
+
+    public function isRepetitive()
+    {
+        return (bool)$this->_data['repetitive'];
+    }
+
+    public function getAttr() {
+        if ( array_key_exists( 'attribute', $this->_data ) ) {
+            return $this->_data['attribute'];
+        }
+        return array();
+    }
+
+    public function getWPMLAction()
+    {
+        if ( array_key_exists( 'wpml_action', $this->_data ) ) {
+            return $this->_data['wpml_action'];
+        }
+        return 0;
     }
 
     public static function registerScripts() {}

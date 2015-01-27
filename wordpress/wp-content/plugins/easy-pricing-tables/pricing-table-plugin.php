@@ -1,15 +1,15 @@
 <?php
 /*
-	Plugin Name: Easy Pricing Tables by fatcat apps
-	Plugin URI: http://fatcatapps.com/easypricingtables
-	Description: Create a Beautiful, Responsive and Highly Converting Pricing Table in Less Than 5 Minutes with Easy Pricing Tables for WordPress. No Coding Required.
+	Plugin Name: Easy Pricing Tables Lite by Fatcat Apps
+	Plugin URI: https://fatcatapps.com/easypricingtables
+	Description: Create a Beautiful, Responsive and Highly Converting Pricing or Comparison Table in Less Than 5 Minutes with Easy Pricing Tables for WordPress. No Coding Required.
 	Author: David Hehenberger
-	Version: 1.6.0.2
-	Author URI: http://fatcatapps.com
+	Version: 1.9.5.5
+	Author URI: https://fatcatapps.com
 */
 
 // define plugin version for update nag
-define('PTP_PLUGIN_VERSION', '1.6');
+define('PTP_PLUGIN_VERSION', '1.9.5.5');
 
 // Define a constant to always include the absolute path
 define('PTP_PLUGIN_PATH', plugin_dir_path( __FILE__ ));
@@ -59,7 +59,7 @@ function dh_ptp_plugin_settings_link($links)
   // Add Easy Pricing Tables links
   $add_new_link = '<a href="post-new.php?post_type=easy-pricing-table">' . __('Add New', PTP_LOC) . '</a>'; 
   $forum_link   = '<a href="http://wordpress.org/support/plugin/easy-pricing-tables">' . __('Support', PTP_LOC) . '</a>';
-  $premium_link = '<a href="http://fatcatapps.com/easypricingtables/?utm_campaign=ept-plugins.php&utm_source=free-plugin&utm_medium=link&utm_content=v1">' . __('Purchase Premium', PTP_LOC) . '</a>';
+  $premium_link = '<a href="https://fatcatapps.com/easypricingtables/?utm_campaign=ept-plugins.php&utm_source=free-plugin&utm_medium=referral&utm_content=v1">' . __('Purchase Premium', PTP_LOC) . '</a>';
   
   array_push($links, $add_new_link);
   array_push($links, $forum_link);
@@ -84,7 +84,10 @@ function dh_ptp_plugin_footer_enqueu($hook_suffix)
   global $post;
   
   if ($post && $post->post_type == 'easy-pricing-table') {
-	add_filter('admin_footer_text', 'dh_ptp_plugin_footer');
+      wp_enqueue_script( 'codemirror', PTP_PLUGIN_PATH_FOR_SUBDIRS.'/assets/ui/ui-components/codemirror/codemirror.js' );
+      wp_enqueue_script( 'css', PTP_PLUGIN_PATH_FOR_SUBDIRS.'/assets/ui/ui-components/codemirror/addon-codemirror/css.js' );
+      wp_enqueue_style( 'codemirror-style', PTP_PLUGIN_PATH_FOR_SUBDIRS . '/assets/ui/ui-components/codemirror/codemirror.css' );
+      add_filter('admin_footer_text', 'dh_ptp_plugin_footer');
   }
 }
 add_action('admin_enqueue_scripts', 'dh_ptp_plugin_footer_enqueu');

@@ -1,50 +1,64 @@
-=== Easy Pricing Tables by fatcat apps ===
-Contributors: davidhme
-Donate link: http://fatcatapps.com/easypricingtables/?utm_campaign=ept-donate-link&utm_source=wordpress.org-plugins&utm_medium=link
-Tags: pricing table, responsive pricing table, comparison, comparison table, css table, price, price gird, pricing, pricing box, pricing grid, table, pricing page, landing page, woocommerce
-Author URI: http://fatcatapps.com/?utm_campaign=ept-author-uri&utm_source=wordpress.org-plugins&utm_medium=link
-Plugin URI: http://fatcatapps.com/easypricingtables/?utm_campaign=ept-plugin-uri&utm_source=wordpress.org-plugins&utm_medium=link
-Requires at least: 3.6.0.1
-Tested up to: 3.9.2
-Stable tag: 1.6.0.2
+=== Easy Pricing Tables Lite by Fatcat Apps ===
+Contributors: davidhme, fatcatapps
+Donate link: https://fatcatapps.com/easypricingtables/?utm_campaign=ept-donate-link&utm_source=wordpress.org%2Fplugins&utm_medium=referral
+Tags: pricing table, price table, comparison table, table, pricing grid, responsive pricing table, sales page, pricing page, woocommerce
+Author URI: https://fatcatapps.com/easypricingtables/?utm_campaign=ept-donate-link&utm_source=wordpress.org%2Fplugins&utm_medium=referral
+Plugin URI: https://fatcatapps.com/easypricingtables/?utm_campaign=ept-donate-link&utm_source=wordpress.org%2Fplugins&utm_medium=referral
+Requires at least: 3.6
+Tested up to: 4.1
+Stable tag: 1.9.5.5
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
 Create a Beautiful, Responsive and Highly Converting Pricing Table in Less Than 5 Minutes with Easy Pricing Tables for WordPress. No Coding Required.
 
 == Description ==
-*   **Easy Pricing Tables for Wordpress** makes it easy to create and publish beautiful pricing tables on your WordPress site. You will be able to set up and publish your pricing table in no time.
-
-*   [View A Pricing Table Live Demo &raquo;](http://fatcatapps.com/easypricingtables/free-demo/?utm_campaign=ept-description-demo&utm_source=wordpress.org-plugins&utm_medium=link)
-
-*   Easy Pricing Tables implements conversion rate optimization (CRO) best practices and guides you through the process of creating a pricing table that converts 
-
-*   This plugin works with any WordPress theme you have installed. After installing the plugin and creating your first pricing table, you can publish your table anywhere on your site using a shortcode.
+*   The **Easy Pricing Tables** WordPress Plugin makes it easy to create and publish beautiful pricing tables and comparison tables on your WordPress site. You will be able to set up and publish your pricing table in no time.
 
 [youtube http://www.youtube.com/watch?v=657Qs5Yng5Q]
 
-**Features**
+*   [View Easy Pricing Tables Premium Live Demo &raquo;](http://ept-demo.fatcatapps.com/?utm_campaign=ept-description-demo&utm_source=wordpress.org%2Fplugins&utm_medium=referral)
+
+*   [Check out Easy Pricing Tables Premium](https://fatcatapps.com/easypricingtables/?utm_campaign=ept-description-cta&utm_source=wordpress.org%2Fplugins&utm_medium=referral)
+
+= Overview =
+
+*   Easy Pricing Tables implements conversion rate optimization (CRO) best practices and guides you through the process of creating a pricing table that converts 
+
+*   Easy Pricing Tables works with any WordPress theme you have installed. After installing the plugin and creating your first pricing table, you can publish your table anywhere on your site using a shortcode.
+
+
+= Easy Pricing Tables Features =
 
 *   Works with any WordPress Theme
 *   Responsive Pricing Tables
 *   Intuitive User Interface
 *   Built-in Conversion Rate Optimization Best Practices
-*   Create Unlimited Rows and up to 10 Columns
-*	Customize your design: font-size, color pickers and rounded borders.
-*   Use drag & drop to reorder columns
-*   Featured Your Most Popular Column
+*   Create Unlimited Pricing Rows
+*	Customize Your Design: Font-size, Color Pickers and Rounded Borders.
+*   Use Drag & Drop To Reorder Columns
+*   Featured Your Most Popular Pricing Column
+*   Custom CSS - Add Custom CSS to your pricing table
 
-**Premium Version Features**
+> #### Easy Pricing Tables Premium
+> Easy Pricing Tables Premium comes with the following features.<br />
+>
+> 4 Additional Gorgeous Designs.<br />
+> Full Customization Options.<br />
+> Tooltips.<br />
+> Google Analytics Integration.<br />
+> 300+ Icons.<br />
+> Pricing Toggles.<br />
+> Priority Support.<br />
+>
+> [Learn more about Easy Pricing Tables Premium >>](http://fatcatapps.com/easypricingtables/?utm_campaign=ept-description-cta&utm_source=wordpress.org-plugins&utm_medium=link)
 
-*	4 additional gorgeous designs
-*	More customization options
-*	Tooltips
-*	Google Analytics Integration
-*   Icons
-*	Pricing Toggles
-*	Priority support
+= Relevant Links =
 
-*	[Learn more about Easy Pricing Tables Premium >>](http://fatcatapps.com/easypricingtables/?utm_campaign=ept-description-cta&utm_source=wordpress.org-plugins&utm_medium=link)
+*   [Easy Pricing Tables Premium live demo](http://ept-demo.fatcatapps.com/?utm_campaign=ept-description-demo&utm_source=wordpress.org%2Fplugins&utm_medium=referral)
+*   [FatcatApps.com](http://fatcatapps.com/)
+*	[Other plugins by FatcatApps](https://profiles.wordpress.org/fatcatapps/#content-plugins)
+*	[FatcatApps founder, David Hehenberger, on Twitter](https://twitter.com/davidhme)
 
 == Installation ==
 
@@ -105,12 +119,46 @@ We're using a small jQuery library called (jquery.matchHeight.js)[https://github
 2. Example of a pricing table with 2 columns
 3. Creating a new table
 4. Design options of free plugin
-5. Additional table designs of [Easy Pricing Tables Premium](http://fatcatapps.com/easypricingtables/?utm_campaign=ept-sceenshots-cta&utm_source=wordpress.org-plugins&utm_medium=link)
+5. Additional table designs of [Easy Pricing Tables Premium](https://fatcatapps.com/easypricingtables/?utm_campaign=ept-sceenshots-cta&utm_source=wordpress.org%2Fplugins&utm_medium=referral)
 6. Additional settings of [Easy Pricing Tables Premium](http://fatcatapps.com/easypricingtables/?utm_campaign=ept-sceenshots-cta&utm_source=wordpress.org-plugins&utm_medium=link)
 7. One of the designs from [Easy Pricing Tables Premium](http://fatcatapps.com/easypricingtables/?utm_campaign=ept-sceenshots-cta&utm_source=wordpress.org-plugins&utm_medium=link)
 8. Another design from [Easy Pricing Tables Premium](http://fatcatapps.com/easypricingtables/?utm_campaign=ept-sceenshots-cta&utm_source=wordpress.org-plugins&utm_medium=link)
 
 == Changelog ==
+
+= 1.9.5.4 =
+* Updated readme.txt
+
+= 1.9.5.3 =
+* Confirmed compatibility with WordPress 4.0.1
+
+= 1.9.5 =
+* Improvement: Empty rows will now automatically be hidden on smartphones
+* Improvement: Changed mouse cursor from arrow to hand on button hover
+* Improvement: Changed aesthetics (CSS) of the tabs in the Easy Pricing Tables editor
+* Improvement: Made the pricing table columns in the Easy Pricing Tables editor wider
+* Changed version number of Easy Pricing Tables to correspond to Easy Pricing Tables Premium
+* Added Easy Pricing Tables - icon to media button
+
+= 1.7.1 =
+* Fixed CSS bug related to the "rounded pricing table corners" - feature
+* Fixed a rare bug by adding jquey lib dependency after matchHeight lib
+* Minor CSS change in the UI
+* Add unique ID element to every call to action button
+
+= 1.7 =
+* Add Custom CSS Feature
+
+= 1.6.1.1 =
+* Tiny CSS fix (user interface)
+
+= 1.6.1 =
+* Small user interface improvements
+
+
+= 1.6.0.3 =
+* Confirmed compatibility with WordPress 4.0
+
 
 = 1.6.0.2 =
 * Confirmed compatibility with WordPress 3.9.2

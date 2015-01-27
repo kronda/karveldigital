@@ -15,7 +15,6 @@
  * limitations under the License.
  */
 
-
 /**
  * @author Chirag Shah <chirags@google.com>
  */
@@ -69,7 +68,7 @@ class Google_Http_Batch
         $url         = $this->base_path.'/batch';
         $httpRequest = new Google_Http_Request($url, 'POST');
         $httpRequest->setRequestHeaders(
-          array('Content-Type' => 'multipart/mixed; boundary='.$this->boundary)
+            array('Content-Type' => 'multipart/mixed; boundary='.$this->boundary)
         );
 
         $httpRequest->setPostBody($body);
@@ -100,14 +99,14 @@ class Google_Http_Batch
                 $part = trim($part);
                 if (!empty($part)) {
                     list($metaHeaders, $part) = explode("\r\n\r\n", $part, 2);
-                    $metaHeaders = $this->client->getIo()->getHttpResponseHeaders($metaHeaders);
+                    $metaHeaders              = $this->client->getIo()->getHttpResponseHeaders($metaHeaders);
 
                     $status = substr($part, 0, strpos($part, "\n"));
                     $status = explode(" ", $status);
                     $status = $status[1];
 
                     list($partHeaders, $partBody) = $this->client->getIo()->ParseHttpResponse($part, false);
-                    $response = new Google_Http_Request("");
+                    $response                     = new Google_Http_Request("");
                     $response->setResponseHttpCode($status);
                     $response->setResponseHeaders($partHeaders);
                     $response->setResponseBody($partBody);
@@ -116,7 +115,7 @@ class Google_Http_Batch
                     $key = $metaHeaders['content-id'];
 
                     if (isset($this->expected_classes[$key]) &&
-                      strlen($this->expected_classes[$key]) > 0
+                        strlen($this->expected_classes[$key]) > 0
                     ) {
                         $class = $this->expected_classes[$key];
                         $response->setExpectedClass($class);

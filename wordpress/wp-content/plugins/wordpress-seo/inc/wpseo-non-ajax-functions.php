@@ -59,7 +59,7 @@ function wpseo_title_test() {
 	update_option( 'wpseo_titles', $options );
 }
 
-add_filter( 'switch_theme', 'wpseo_title_test', 0 );
+//add_filter( 'switch_theme', 'wpseo_title_test', 0 );
 
 
 /**
@@ -164,11 +164,11 @@ function wpseo_upgrader_process_complete( $upgrader_object, $context_array, $the
 	if ( ( isset( $context_array['bulk'] ) && $context_array['bulk'] === true ) && ( is_array( $themes ) && count( $themes ) > 0 ) ) {
 
 		if ( in_array( $theme, $themes ) ) {
-			wpseo_title_test();
+//			wpseo_title_test();
 			wpseo_description_test();
 		}
 	} elseif ( is_string( $themes ) && $themes === $theme ) {
-		wpseo_title_test();
+//		wpseo_title_test();
 		wpseo_description_test();
 	}
 
@@ -198,11 +198,11 @@ function wpseo_update_theme_complete_actions( $update_actions, $updated_theme ) 
 	if ( is_object( $updated_theme ) ) {
 		/* Bulk update and $updated_theme only contains info on which theme was last in the list
 		   of updated themes, so go & test */
-		wpseo_title_test();
+//		wpseo_title_test();
 		wpseo_description_test();
 	} elseif ( $updated_theme === $theme ) {
 		/* Single theme update for the active theme */
-		wpseo_title_test();
+//		wpseo_title_test();
 		wpseo_description_test();
 	}
 
@@ -364,42 +364,77 @@ function wpseo_admin_bar_menu() {
 					'parent' => 'wpseo-analysis',
 					'id'     => 'wpseo-inlinks-ose',
 					'title'  => __( 'Check Inlinks (OSE)', 'wordpress-seo' ),
-					'href'   => 'http://www.opensiteexplorer.org/' . str_replace( '/', '%252F', preg_replace( '`^http[s]?://`', '', $url ) ) . '/a!links',
+					'href'   => '//moz.com/researchtools/ose/links?site=' . urlencode( $url ),
 					'meta'   => array( 'target' => '_blank' )
 				) );
 			$wp_admin_bar->add_menu( array(
 					'parent' => 'wpseo-analysis',
 					'id'     => 'wpseo-kwdensity',
 					'title'  => __( 'Check Keyword Density', 'wordpress-seo' ),
-					'href'   => 'http://www.zippy.co.uk/keyworddensity/index.php?url=' . urlencode( $url ) . '&keyword=' . urlencode( $focuskw ),
+					'href'   => '//www.zippy.co.uk/keyworddensity/index.php?url=' . urlencode( $url ) . '&keyword=' . urlencode( $focuskw ),
 					'meta'   => array( 'target' => '_blank' )
 				) );
 			$wp_admin_bar->add_menu( array(
 					'parent' => 'wpseo-analysis',
 					'id'     => 'wpseo-cache',
 					'title'  => __( 'Check Google Cache', 'wordpress-seo' ),
-					'href'   => 'http://webcache.googleusercontent.com/search?strip=1&q=cache:' . urlencode( $url ),
+					'href'   => '//webcache.googleusercontent.com/search?strip=1&q=cache:' . urlencode( $url ),
 					'meta'   => array( 'target' => '_blank' )
 				) );
 			$wp_admin_bar->add_menu( array(
 					'parent' => 'wpseo-analysis',
 					'id'     => 'wpseo-header',
 					'title'  => __( 'Check Headers', 'wordpress-seo' ),
-					'href'   => 'http://quixapp.com/headers/?r=' . urlencode( $url ),
+					'href'   => '//quixapp.com/headers/?r=' . urlencode( $url ),
 					'meta'   => array( 'target' => '_blank' )
 				) );
 			$wp_admin_bar->add_menu( array(
 					'parent' => 'wpseo-analysis',
 					'id'     => 'wpseo-richsnippets',
 					'title'  => __( 'Check Rich Snippets', 'wordpress-seo' ),
-					'href'   => 'http://www.google.com/webmasters/tools/richsnippets?q=' . urlencode( $url ),
+					'href'   => '//www.google.com/webmasters/tools/richsnippets?q=' . urlencode( $url ),
 					'meta'   => array( 'target' => '_blank' )
 				) );
 			$wp_admin_bar->add_menu( array(
 					'parent' => 'wpseo-analysis',
 					'id'     => 'wpseo-facebookdebug',
 					'title'  => __( 'Facebook Debugger', 'wordpress-seo' ),
-					'href'   => 'https://developers.facebook.com/tools/debug/og/object?q=' . urlencode( $url ),
+					'href'   => '//developers.facebook.com/tools/debug/og/object?q=' . urlencode( $url ),
+					'meta'   => array( 'target' => '_blank' )
+				) );
+			$wp_admin_bar->add_menu( array(
+					'parent' => 'wpseo-analysis',
+					'id'     => 'wpseo-pinterestvalidator',
+					'title'  => __( 'Pinterest Rich Pins Validator', 'wordpress-seo' ),
+					'href'   => '//developers.pinterest.com/rich_pins/validator/?link=' . urlencode( $url ),
+					'meta'   => array( 'target' => '_blank' )
+				) );
+			$wp_admin_bar->add_menu( array(
+					'parent' => 'wpseo-analysis',
+					'id'     => 'wpseo-htmlvalidation',
+					'title'  => __( 'HTML Validator', 'wordpress-seo' ),
+					'href'   => '//validator.w3.org/check?uri=' . urlencode( $url ),
+					'meta'   => array( 'target' => '_blank' )
+				) );
+			$wp_admin_bar->add_menu( array(
+					'parent' => 'wpseo-analysis',
+					'id'     => 'wpseo-cssvalidation',
+					'title'  => __( 'CSS Validator', 'wordpress-seo' ),
+					'href'   => '//jigsaw.w3.org/css-validator/validator?uri=' . urlencode( $url ),
+					'meta'   => array( 'target' => '_blank' )
+				) );
+			$wp_admin_bar->add_menu( array(
+					'parent' => 'wpseo-analysis',
+					'id'     => 'wpseo-pagespeed',
+					'title'  => __( 'Google Page Speed Test', 'wordpress-seo' ),
+					'href'   => '//developers.google.com/speed/pagespeed/insights/?url=' . urlencode( $url ),
+					'meta'   => array( 'target' => '_blank' )
+				) );
+			$wp_admin_bar->add_menu( array(
+					'parent' => 'wpseo-analysis',
+					'id'     => 'wpseo-modernie',
+					'title'  => __( 'Modern IE Site Scan', 'wordpress-seo' ),
+					'href'   => '//www.modern.ie/en-us/report#' . urlencode( $url ),
 					'meta'   => array( 'target' => '_blank' )
 				) );
 		}
@@ -464,7 +499,7 @@ function wpseo_admin_bar_menu() {
 		$wp_admin_bar->add_menu( array(
 				'parent' => 'wpseo-settings',
 				'id'     => 'wpseo-import',
-				'title'  => __( 'Import & Export', 'wordpress-seo' ),
+				'title'  => esc_html__( 'Import & Export', 'wordpress-seo' ),
 				'href'   => admin_url( 'admin.php?page=wpseo_import' ),
 			) );
 		$wp_admin_bar->add_menu( array(

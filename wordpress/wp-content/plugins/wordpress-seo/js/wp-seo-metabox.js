@@ -81,9 +81,10 @@ function yst_testFocusKw() {
 	var focuskw = jQuery.trim(jQuery('#' + wpseoMetaboxL10n.field_prefix + 'focuskw').val());
 	focuskw = yst_escapeFocusKw(focuskw).toLowerCase();
 
-	var postname = jQuery('#editable-post-name-full').text();
-	var url = wpseoMetaboxL10n.wpseo_permalink_template.replace('%postname%', postname).replace('http://', '');
-
+	if (jQuery('#editable-post-name-full').length) {
+		var postname = jQuery('#editable-post-name-full').text();
+		var url = wpseoMetaboxL10n.wpseo_permalink_template.replace('%postname%', postname).replace('http://', '');
+	}
 	var p = new RegExp("(^|[ \s\n\r\t\.,'\(\"\+;!?:\-])" + focuskw + "($|[ \s\n\r\t.,'\)\"\+!?:;\-])", 'gim');
 	//remove diacritics of a lower cased focuskw for url matching in foreign lang
 	var focuskwNoDiacritics = removeLowerCaseDiacritics(focuskw);
@@ -95,10 +96,14 @@ function yst_testFocusKw() {
 	if (focuskw != '') {
 		var html = '<p>' + wpseoMetaboxL10n.keyword_header + '</p>';
 		html += '<ul>';
-		html += '<li>' + wpseoMetaboxL10n.article_header_text + ptest(jQuery('#title').val(), p) + '</li>';
+		if (jQuery('#title').length) {
+			html += '<li>' + wpseoMetaboxL10n.article_header_text + ptest(jQuery('#title').val(), p) + '</li>';
+		}
 		html += '<li>' + wpseoMetaboxL10n.page_title_text + ptest(jQuery('#wpseosnippet_title').text(), p) + '</li>';
 		html += '<li>' + wpseoMetaboxL10n.page_url_text + ptest(url, p2) + '</li>';
-		html += '<li>' + wpseoMetaboxL10n.content_text + ptest(jQuery('#content').val(), p) + '</li>';
+		if (jQuery('#content').length) {
+			html += '<li>' + wpseoMetaboxL10n.content_text + ptest(jQuery('#content').val(), p) + '</li>';
+		}
 		html += '<li>' + wpseoMetaboxL10n.meta_description_text + ptest(metadesc, p) + '</li>';
 		html += '</ul>';
 		focuskwresults.html(html);
@@ -108,8 +113,13 @@ function yst_testFocusKw() {
 }
 
 function yst_replaceVariables(str, callback) {
+	if (typeof str === "undefined") {
+		return '';
+	}
 	// title
-	str = str.replace(/%%title%%/g, jQuery('#title').val());
+	if (jQuery('#title').length) {
+		str = str.replace(/%%title%%/g, jQuery('#title').val());
+	}
 
 	// These are added in the head for performance reasons.
 	str = str.replace(/%%sitedesc%%/g, wpseoMetaboxL10n.sitedesc);
@@ -126,15 +136,18 @@ function yst_replaceVariables(str, callback) {
 
 	str = str.replace(/%%focuskw%%/g, jQuery('#yoast_wpseo_focuskw').val() );
 	// excerpt
-	var excerpt = yst_clean(jQuery("#excerpt").val());
-	str = str.replace(/%%excerpt_only%%/g, excerpt);
-	if ('' == excerpt) {
-		excerpt = jQuery("#content").val().replace(/(<([^>]+)>)/ig,"").substring(0,wpseoMetaboxL10n.wpseo_meta_desc_length-1);
+	var excerpt = '';
+	if (jQuery('#excerpt').length) {
+		excerpt = yst_clean(jQuery("#excerpt").val());
+		str = str.replace(/%%excerpt_only%%/g, excerpt);
+	}
+	if ('' == excerpt && jQuery('#content').length) {
+		excerpt = jQuery('#content').val().replace(/(<([^>]+)>)/ig,"").substring(0,wpseoMetaboxL10n.wpseo_meta_desc_length-1);
 	}
 	str = str.replace(/%%excerpt%%/g, excerpt);
 
 	// parent page
-	if ( jQuery('#parent_id option:selected').text() != wpseoMetaboxL10n.no_parent_text ) {
+	if (jQuery('#parent_id').length && jQuery('#parent_id option:selected').text() != wpseoMetaboxL10n.no_parent_text ) {
 		str = str.replace(/%%parent_title%%/g, jQuery('#parent_id option:selected').text());
 	}
 
@@ -205,6 +218,8 @@ function yst_updateTitle(force) {
 		var placeholder_title = divHtml.html(title).text();
 		titleElm.attr('placeholder', placeholder_title);
 
+		title = yst_clean(title);
+
 		// and now the snippet preview title
 		title = yst_boldKeywords(title, false);
 
@@ -262,8 +277,10 @@ function yst_updateDesc() {
 		snippet.find('.desc span.content').html('');
 		yst_testFocusKw();
 
-		desc = jQuery("#content").val();
-		desc = yst_clean(desc);
+		if (jQuery('#content').length) {
+			desc = jQuery('#content').val();
+			desc = yst_clean(desc);
+		}
 
 		var focuskw = yst_escapeFocusKw(jQuery.trim(jQuery('#' + wpseoMetaboxL10n.field_prefix + 'focuskw').val()));
 		if (focuskw != '') {
@@ -296,8 +313,10 @@ function yst_trimDesc(desc) {
 }
 
 function yst_updateURL() {
-	var name = jQuery('#editable-post-name-full').text();
-	var url = wpseoMetaboxL10n.wpseo_permalink_template.replace('%postname%', name).replace('http://', '');
+	if (jQuery('#editable-post-name-full').length) {
+		var name = jQuery('#editable-post-name-full').text();
+		var url = wpseoMetaboxL10n.wpseo_permalink_template.replace('%postname%', name).replace('http://', '');
+	}
 	url = yst_boldKeywords(url, true);
 	jQuery('#wpseosnippet').find('.url').html(url);
 	yst_testFocusKw();
@@ -449,30 +468,36 @@ jQuery(document).ready(function () {
 	});
 
 
-	jQuery(".yoast_help").qtip({
-		position: {
-			corner: {
-				target : 'topMiddle',
-				tooltip: 'bottomLeft'
+
+	jQuery(".yoast_help").qtip(
+		{
+			content: {
+				attr: 'alt'
+			},
+			position: {
+				my: 'bottom left',
+				at: 'top center'
+			},
+			style   : {
+				tip: {
+					corner: true
+				},
+				classes : 'yoast-qtip qtip-rounded qtip-blue'
+			},
+			show    : {
+				when: {
+					event: 'mouseover'
+				}
+			},
+			hide    : {
+				fixed: true,
+				when : {
+					event: 'mouseout'
+				}
 			}
-		},
-		show    : {
-			when: {
-				event: 'mouseover'
-			}
-		},
-		hide    : {
-			fixed: true,
-			when : {
-				event: 'mouseout'
-			}
-		},
-		style   : {
-			tip : 'bottomLeft',
-			name: 'blue'
+
 		}
-	});
+	);
 
 	yst_updateSnippet();
-
 });

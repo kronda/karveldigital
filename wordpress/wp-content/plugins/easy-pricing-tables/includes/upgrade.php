@@ -15,7 +15,7 @@ function dh_ptp_upgrade_ob_start() {
 
 function dh_ptp_upgrade_to_premium()
 {
-    wp_redirect('http://fatcatapps.com/easypricingtables/?utm_campaign=ept-left-menu&utm_source=free-plugin&utm_medium=link&utm_content=v1', 301);
+    wp_redirect('https://fatcatapps.com/easypricingtables/?utm_campaign=ept-left-menu&utm_source=free-plugin&utm_medium=referral&utm_content=v1', 301);
     exit();
 }
 
@@ -29,12 +29,23 @@ function dh_ptp_upgrade_to_premium_menu_js()
             });
         });
     </script>
+    <style>
+        a[href="edit.php?post_type=easy-pricing-table&page=easy-pricing-tables-upgrade"] {
+            color: #6bbc5b !important;
+        }
+        a[href="edit.php?post_type=easy-pricing-table&page=easy-pricing-tables-upgrade"]:hover {
+            color: #7ad368 !important;
+        }
+    </style>
     <?php 
 }
 add_action( 'admin_footer', 'dh_ptp_upgrade_to_premium_menu_js');
 
 /* Upgrade to premium notice when plugin is upgraded */
 
+/*
+ * // Remove upgrade nag is due WP.org policy
+ * 
 function dh_ptp_upgrade_check()
 {
 	$installed_version = get_option('dh_ptp_ept_free_version');
@@ -67,5 +78,5 @@ function dh_ptp_all_admin_notices_css()
 			'.dh-ptp-upgrade-nag a {color: #6bbc5b;} '.
 			'.dh-ptp-upgrade-nag a:hover {color: #7ad368;}' .
 		'</style>';
-}
+}*/
 ?>

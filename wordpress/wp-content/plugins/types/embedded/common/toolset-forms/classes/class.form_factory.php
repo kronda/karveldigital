@@ -10,10 +10,10 @@ define( "CLASS_NAME_PREFIX", "WPToolset_Field_" );
  * Creation Form Class
  * @author onTheGo System
  *
- * $HeadURL: https://www.onthegosystems.com/misc_svn/common/tags/Views-1.6.1-Types-1.5.7/toolset-forms/classes/class.form_factory.php $
- * $LastChangedDate: 2014-05-09 13:24:35 +0200 (Fri, 09 May 2014) $
- * $LastChangedRevision: 22197 $
- * $LastChangedBy: marcin $
+ * $HeadURL: http://plugins.svn.wordpress.org/types/tags/1.6.4/embedded/common/toolset-forms/classes/class.form_factory.php $
+ * $LastChangedDate: 2014-10-23 10:33:39 +0000 (Thu, 23 Oct 2014) $
+ * $LastChangedRevision: 1012677 $
+ * $LastChangedBy: iworks $
  *
  *
  */
@@ -42,33 +42,44 @@ class FormFactory extends FormAbstract
 
         if ( is_admin() ) {
             wp_register_style( 'wptoolset-forms-admin',
-                WPTOOLSET_FORMS_RELPATH . '/css/admin.css', array(),
+                WPTOOLSET_FORMS_RELPATH . '/css/wpt-toolset-backend.css', array(),
                 WPTOOLSET_FORMS_VERSION );
             wp_enqueue_style( 'wptoolset-forms-admin' );
         } else {
-            wp_register_style( 'wptoolset-forms-cred',
-                WPTOOLSET_FORMS_RELPATH . '/css/cred.css', array(),
-                WPTOOLSET_FORMS_VERSION );
-            wp_enqueue_style( 'wptoolset-forms-cred' );
-
-            $cred_cred_settings = get_option( 'cred_cred_settings' );
-            if ( array_key_exists( 'use_bootstrap', $cred_cred_settings ) && $cred_cred_settings['use_bootstrap'] ) {
-                $this->_use_bootstrap = true;
-            /*
-                wp_register_style(
-                    'bootstrap-css',
-                    '//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css',
-                    array(),
-                    '3.1.1'
-                );
-                wp_register_style(
-                    'bootstrap-theme-css',
-                    '//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap-theme.min.css',
-                    array('bootstrap-css'),
-                    '3.1.1'
-                );
-                wp_enqueue_style('bootstrap-theme-css');
+            /**
+             * get cred form settings
              */
+            $cred_cred_settings = get_option( 'cred_cred_settings' );
+            /**
+             * load or not cred.css
+             * and check use bootstrap
+             */
+            $load_cred_css = true;
+            if ( is_array($cred_cred_settings) ) {
+                if (
+                    array_key_exists('dont_load_cred_css', $cred_cred_settings )
+                    && $cred_cred_settings['dont_load_cred_css']
+                ) {
+                    $load_cred_css = false;
+                }
+                if (
+                    array_key_exists( 'use_bootstrap', $cred_cred_settings )
+                    && $cred_cred_settings['use_bootstrap']
+                ) {
+                    $this->_use_bootstrap = true;
+                }
+            }
+            /**
+             * register
+             */
+            if ( $load_cred_css ) {
+                wp_register_style(
+                    'wptoolset-forms-cred',
+                    WPTOOLSET_FORMS_RELPATH . '/css/wpt-toolset-frontend.css',
+                    array(),
+                    WPTOOLSET_FORMS_VERSION
+                );
+                wp_enqueue_style( 'wptoolset-forms-cred' );
             }
         }
     }
@@ -100,7 +111,8 @@ class FormFactory extends FormAbstract
      * (non-PHPdoc)
      * @see classes/FormAbstract::getFieldObject()
      */
-    public function getFieldObject( $data, $global_name_field, $value ) {
+    public function getFieldObject( $data, $global_name_field, $value )
+    {
         if ( $class = $this->loadFieldClass( $data['type'] ) ) {
             return new $class( $data, $global_name_field, $value );
         }
@@ -123,7 +135,7 @@ class FormFactory extends FormAbstract
      * (non-PHPdoc)
      * @see classes/FormAbstract::createForm()
      */
-    public function createForm( $nameForm = 'default' ) {
+    public function createForm( $nameForm /*= 'default'*/ ) {
         if ( $this->formNameExists( $nameForm ) ) return;
         $this->theForm->autoHandle( $nameForm, $this->form );
 
@@ -140,7 +152,7 @@ class FormFactory extends FormAbstract
      * (non-PHPdoc)
      * @see classes/FormAbstract::displayForm()
      */
-    public function displayForm( $nameForm = 'default' ) {
+    public function displayForm( $nameForm /*= 'default'*/ ) {
         if ( $this->formNameExists( $nameForm ) ) return;
         $myform = $this->theForm;
         $this->theForm->autoHandle( $nameForm, $this->form );
@@ -166,6 +178,11 @@ class FormFactory extends FormAbstract
          */
         $config['use_bootstrap'] = $this->theForm->form_settings['use_bootstrap'];
         $config['has_media_button'] = $this->theForm->form_settings['has_media_button'];
+        /**
+         * WMPL configuration
+         */
+        $config['wpml_action'] = $this->get_wpml_action($config['id']);
+
         $htmlArray = array();
         $_gnf = $global_name_field;
         $_cfg = $config;
@@ -176,12 +193,23 @@ class FormFactory extends FormAbstract
             if ( !empty( $config['repetitive'] ) ) {
                 $_gnf = $_cfg['name'] = "{$global_name_field}[{$count}]";
             }
-
+            //CHECKGEN			
+            if ( isset($_cfg['validation']) && 
+                 is_array($_cfg['validation'])  && 
+                 count($_cfg['validation']) > 0 && 
+                 !is_admin() && $_SERVER['REQUEST_METHOD'] == 'POST' &&
+                 isset( $_GET['_tt'] ) && 
+                 !isset( $_GET['_success'] ) && 
+                 !isset( $_GET['_success_message'] )  ) 
+            {
+                $_cfg['validate'] = 1;	
+            }
             if ( !is_wp_error( $field = $this->loadField( $_cfg, $_gnf, $val ) ) ) {
                 $form = $field->metaform();
                 // Set $config['validate'] to trigger PHP validation
                 // when rendering metaform
-                if ( !empty( $_cfg['validate'] ) && is_wp_error( $valid = $this->validateField( $field, $val ) ) ) {
+                if ( !empty( $_cfg['validate'] ) && 
+                     is_wp_error( $valid = $this->validateField( $field, $val ) ) ) {
                     $key = key( $form );
                     $error = $valid->get_error_data();
                     if ( is_array( $error ) ) {
@@ -199,7 +227,19 @@ class FormFactory extends FormAbstract
                 $htmlArray[] = $this->theForm->renderElements( $form );
                 if ( empty( $config['repetitive'] ) ) break;
                 $count++;
-            } else echo "error";
+            } else {
+                if ( current_user_can('manage_options') ) {
+                    $htmlArray[] = sprintf(
+                        '<div id="message" class="error"><p>%s</p><p>%s</p></div>',
+                        sprintf(
+                            __('There is a problem with render <strong>%s (%s)</strong> field.', 'wpv-views'),
+                            $_cfg['title'],
+                            $_cfg['type']
+                        ),
+                        $field->get_error_message()
+                    );
+                }
+            }
         }
         if ( !empty( $htmlArray ) && isset($config['repetitive']) && $config['repetitive'] ) {
             $_gnf = $_cfg['name'] = "{$global_name_field}[%%{$count}%%]";
@@ -209,6 +249,7 @@ class FormFactory extends FormAbstract
                 $this->_repetitive()->add( $config, $tpl );
             }
         }
+
         return !empty( $htmlArray ) ? $this->_tpl( $config, $htmlArray ) : '';
     }
 
@@ -243,12 +284,12 @@ class FormFactory extends FormAbstract
         if ( !isset( $loaded[$type] ) ) {
             $loaded[$type] = 1;
             // These should be performed only once
-            $field::registerScripts();
-            $field::registerStyles();
+            $field->registerScripts();
+            $field->registerStyles();
             $field->enqueueScripts();
             $field->enqueueStyles();
-            $field::addFilters();
-            $field::addActions();
+            $field->addFilters();
+            $field->addActions();
         }
         $this->_checkValidation( $config );
         $this->_checkConditional( $config );
@@ -305,17 +346,51 @@ class FormFactory extends FormAbstract
         return $o;
     }
 
+    static $_validate_flag = array();
     public function validateField( $field, $value ) {
         if ( is_array( $field ) ) {
             $field = $this->loadField( $field, $field['name'], $value );
         }
-        if ( !is_wp_error( $field ) ) {
+        
+        /**
+         * Temporary fixing validation for checkbox/radios/skype because _cakeValidation is not working for thats
+         * https://icanlocalize.basecamphq.com/projects/7393061-toolset/todo_items/186243370/comments
+         */
+        if (!is_admin()) {            
+            //I receive wpcf-id and wpcf[id] for the same type
+            if ( $field->getId()==$field->getName() &&
+                ($field->getType()=='checkbox' ||
+                 $field->getType()=='radios' ||
+                    $field->getType()=='skype' )               
+                ) 
+            {   
+                //https://icanlocalize.basecamphq.com/projects/7393061-toolset/todo_items/188604193/comments
+                //added sanitize_text_field for sucuri warning php.backdoor.eval_POST.010
+                $field_value = isset($_POST[$field->getName()])?sanitize_text_field($_POST[$field->getName()]):"";
+                if ($field->getType()=='skype') {
+                    $field_value = isset($_POST[$field->getName()]['skypename'])?sanitize_text_field($_POST[$field->getName()]['skypename']):"";
+                }
+                //##########################################################################################
+                
+                $_tmp = $field->getValidationData();
+                if (isset($_tmp['required']) &&
+                    !isset($field_value)) 
+                {
+                    $mess = $field->getTitle().' Field is required';
+                    return new WP_Error( 'wptoolset_forms', $mess,
+                                array($field->getTitle().' Field is required') );;
+                }
+            }     
+        }
+        //****************************************************************
+
+        if ( !is_wp_error( $field ) ) {            
             if ( $field->getValidationData() ) {
                 return $this->_validation->validateField( $field );
             }
             return true;
         }
-        return new WP_Error( 'wpt-validation', 'Field do not exist',
+        return new WP_Error( 'wptoolset_forms', 'Field do not exist',
                 array('Field do not exist') );
     }
 
@@ -331,6 +406,15 @@ class FormFactory extends FormAbstract
     public function loadFieldClass( $type ) {
         $type = strtolower( $type );
         $class = $this->getClassFromType( $type );
+
+        /**
+         * try to load custom class
+         */
+        $loader = $class.'_loader';
+        if ( function_exists($loader) ) {
+            $loader();
+        }
+
         if ( !class_exists( $class ) ) {
             $file = WPTOOLSET_FORMS_ABSPATH . "/classes/class.{$type}.php";
             if ( file_exists( $file ) ) {
@@ -349,4 +433,16 @@ class FormFactory extends FormAbstract
         return class_exists( $class ) ? $class : false;
     }
 
+    private function get_wpml_action($id)
+    {
+        global $iclTranslationManagement;
+        if (
+            is_object($iclTranslationManagement)
+            && 'TranslationManagement' == get_class($iclTranslationManagement)
+            && isset($iclTranslationManagement->settings['custom_fields_translation'][$id])
+        ) {
+            return $iclTranslationManagement->settings['custom_fields_translation'][$id];
+        }
+        return 0;
+    }
 }

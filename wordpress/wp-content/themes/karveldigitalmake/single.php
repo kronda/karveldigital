@@ -19,7 +19,6 @@ yoast_breadcrumb('<p id="breadcrumbs">','</p>');
 	<?php while ( have_posts() ) : the_post(); ?>
 		<?php get_template_part( 'partials/content', 'single' ); ?>
 		<?php get_template_part( 'partials/nav', 'post' ); ?>
-    <?php optin_monster_tag( 'zpvy921uh2-post', FALSE ); ?>
 		<?php get_template_part( 'partials/content', 'comments' ); ?>
 	<?php endwhile; ?>
 

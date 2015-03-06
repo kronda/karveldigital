@@ -3,7 +3,7 @@
 Plugin Name: Gravity Forms
 Plugin URI: http://www.gravityforms.com
 Description: Easily create web forms and manage form entries within the WordPress admin.
-Version: 1.9.2.3
+Version: 1.9.3
 Author: rocketgenius
 Author URI: http://www.rocketgenius.com
 Text Domain: gravityforms
@@ -112,7 +112,7 @@ add_action( 'plugins_loaded', array( 'GFForms', 'loaded' ) );
 
 class GFForms {
 
-	public static $version = '1.9.2.3';
+	public static $version = '1.9.3';
 
 	public static function loaded() {
 
@@ -3128,5 +3128,29 @@ if ( ! function_exists( 'rgexplode' ) ) {
 		}
 
 		return $ary;
+	}
+}
+
+if( ! function_exists( 'gf_apply_filters' ) ) {
+	function gf_apply_filters( $filter, $modifiers, $value ) {
+
+		if( ! is_array( $modifiers ) ) {
+			$modifiers = array( $modifiers );
+		}
+
+		// add an empty modifier so the base filter will be applied as well
+		array_unshift( $modifiers, '' );
+
+		$args = array_slice( func_get_args(), 3 );
+		$args = array_pad( $args, 10, null );
+
+		// apply modified versions of filter
+		foreach( $modifiers as $modifier ) {
+			$modifier = empty( $modifier ) ? '' : sprintf( '_%s', $modifier );
+			$filter  .= $modifier;
+			$value    = apply_filters( $filter, $value, $args[0], $args[1], $args[2], $args[3], $args[4], $args[5], $args[6], $args[7], $args[8], $args[9] );
+		}
+
+		return $value;
 	}
 }

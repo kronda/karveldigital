@@ -84,10 +84,8 @@ class MMB_Installer extends MMB_Core
             include_once ABSPATH.'wp-admin/includes/class-wp-upgrader.php';
         }
 
-        $upgrader_skin              = new WP_Upgrader_Skin();
-        $upgrader_skin->done_header = true;
-
-        $upgrader          = new WP_Upgrader($upgrader_skin);
+        $upgrader = new WP_Upgrader(mwp_container()->getUpdaterSkin());
+        $upgrader->init();
         $destination       = $type == 'themes' ? WP_CONTENT_DIR.'/themes' : WP_PLUGIN_DIR;
         $clear_destination = isset($clear_destination) ? $clear_destination : false;
 
@@ -159,6 +157,18 @@ class MMB_Installer extends MMB_Core
         // Can generate "E_NOTICE: ob_clean(): failed to delete buffer. No buffer to delete."
         @ob_clean();
         $this->mmb_maintenance_mode(false);
+
+        if (mwp_container()->getRequestStack()->getMasterRequest()->getProtocol() >= 1) {
+            // WP_Error won't get JSON encoded, so unwrap the error here.
+            foreach ($install_info as $key => $value) {
+                if ($value instanceof WP_Error) {
+                    $install_info[$key] = array(
+                        'error' => $value->get_error_message(),
+                        'code'  => $value->get_error_code(),
+                    );
+                }
+            }
+        }
 
         return $install_info;
     }
@@ -329,7 +339,7 @@ class MMB_Installer extends MMB_Core
                     include_once ABSPATH.'wp-admin/includes/class-wp-upgrader.php';
                 }
 
-                $core   = new Core_Upgrader();
+                $core   = new Core_Upgrader(mwp_container()->getUpdaterSkin());
                 $result = $core->upgrade($current_update);
                 $this->mmb_maintenance_mode(false);
                 if (is_wp_error($result)) {
@@ -466,8 +476,8 @@ class MMB_Installer extends MMB_Core
             }
         }
         $return = array();
-        if (class_exists('Plugin_Upgrader') && class_exists('Bulk_Plugin_Upgrader_Skin')) {
-            $upgrader = new Plugin_Upgrader(new Bulk_Plugin_Upgrader_Skin(compact('nonce', 'url')));
+        if (class_exists('Plugin_Upgrader')) {
+            $upgrader = new Plugin_Upgrader(mwp_container()->getUpdaterSkin());
             $result   = $upgrader->bulk_upgrade(array_keys($plugins));
             if (!function_exists('wp_update_plugins')) {
                 include_once ABSPATH.'wp-includes/update.php';
@@ -524,8 +534,8 @@ class MMB_Installer extends MMB_Core
                 }
             }
         }
-        if (class_exists('Theme_Upgrader') && class_exists('Bulk_Theme_Upgrader_Skin')) {
-            $upgrader = new Theme_Upgrader(new Bulk_Theme_Upgrader_Skin(compact('title', 'nonce', 'url', 'theme')));
+        if (class_exists('Theme_Upgrader')) {
+            $upgrader = new Theme_Upgrader(mwp_container()->getUpdaterSkin());
             $result   = $upgrader->bulk_upgrade($themes);
 
             if (!function_exists('wp_update_themes')) {
@@ -659,7 +669,7 @@ class MMB_Installer extends MMB_Core
                         $upgrader_skin              = new WP_Upgrader_Skin();
                         $upgrader_skin->done_header = true;
                         $upgrader                   = new WP_Upgrader();
-                        @$update_result             = $upgrader->run(
+                        @$update_result = $upgrader->run(
                             array(
                                 'package'           => $update['url'],
                                 'destination'       => isset($update['type']) && $update['type'] == 'theme' ? WP_CONTENT_DIR.'/themes' : WP_PLUGIN_DIR,

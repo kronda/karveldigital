@@ -855,7 +855,7 @@ if ( ! class_exists( 'GFForms' ) ) {
 	}
 
 	function GetDateFieldInputs(field) {
-		if (typeof field.dateType == 'undefined' || field.dateType == 'datepicker') {
+		if (typeof field.dateType == 'undefined' || field.dateType == 'datepicker' || field.dateType == '') {
 			return null;
 		}
 

@@ -4,7 +4,7 @@
 Gravity Forms Front End Form Styles
 Version 1.9
 http: //www.gravityforms.com
-updated: February 26, 2015 5:20 PM
+updated: March 5, 2015 2:30 PM
 
 Gravity Forms is a Rocketgenius project
 copyright 2008-2015 Rocketgenius Inc.
@@ -220,13 +220,17 @@ html>body .entry ul,
 	float: left;
 }
 
+.gform_wrapper .gfield_date_year {
+    width: 4.5em !important;
+}
+
 .gform_wrapper .gfield_date_month input,
 .gform_wrapper .gfield_date_day input,
 .gform_wrapper .gfield_date_year input {
 	width: 85% !important;
 }
 .gform_wrapper .gfield_date_year input {
-    width: 125% !important;
+    width: 88% !important;
 }
 
 .gform_wrapper .field_hover {
@@ -579,8 +583,7 @@ body .gform_wrapper label.gfield_label + div.ginput_container {
 .gform_wrapper .right_label input.large,
 .gform_wrapper .right_label select.large,
 .gform_wrapper .left_label input.large,
-.gform_wrapper .left_label select.large,
-.gform_wrapper textarea.textarea {
+.gform_wrapper .left_label select.large {
 	width: 63%;
 }
 
@@ -770,17 +773,14 @@ li.gfield + li.gfield.gfield_creditcard_warning {
 }
 
 .gform_wrapper .top_label .gfield_error input.large,
-.gform_wrapper .top_label .gfield_error select.large,
-.gform_wrapper .top_label .gfield_error textarea.textarea {
+.gform_wrapper .top_label .gfield_error select.large {
 	width: 100%;
 }
 
 .gform_wrapper .right_label .gfield_error input.large,
 .gform_wrapper .right_label .gfield_error select.large,
-.gform_wrapper .right_label .gfield_error textarea.textarea,
 .gform_wrapper .left_label .gfield_error input.large,
-.gform_wrapper .left_label .gfield_error select.large,
-.gform_wrapper .left_label .gfield_error textarea.textarea {
+.gform_wrapper .left_label .gfield_error select.large {
 	width: 66%;
 }
 

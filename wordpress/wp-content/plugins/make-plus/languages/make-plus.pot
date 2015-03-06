@@ -2,9 +2,9 @@
 # This file is distributed under the same license as the Make Plus package.
 msgid ""
 msgstr ""
-"Project-Id-Version: Make Plus 1.4.8\n"
+"Project-Id-Version: Make Plus 1.5.0\n"
 "Report-Msgid-Bugs-To: https://thethemefoundry.com/support/\n"
-"POT-Creation-Date: 2015-01-26 23:11:54+00:00\n"
+"POT-Creation-Date: 2015-02-17 08:21:12+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -35,16 +35,6 @@ msgstr ""
 #: components/post-list/class-section-definitions.php:211
 #: components/woocommerce/class-section-definitions.php:201
 msgid "4"
-msgstr ""
-
-#: components/customizer/customizer.php:140
-#: components/customizer/customizer.php:197
-msgid "White Label"
-msgstr ""
-
-#: components/customizer/customizer.php:147
-#: components/customizer/customizer.php:218
-msgid "Hide theme credit"
 msgstr ""
 
 #: components/duplicator/page.php:79 components/duplicator/page.php:252
@@ -148,14 +138,18 @@ msgstr ""
 msgid "None"
 msgstr ""
 
-#: components/edd/edd.php:236
+#: components/edd/edd.php:239
 msgid ""
 "For Easy Digital Downloads, this view consists of download archives and "
 "related category and tag archives."
 msgstr ""
 
-#: components/edd/edd.php:254
+#: components/edd/edd.php:257
 msgid "For Easy Digital Downloads, this view consists of single downloads."
+msgstr ""
+
+#: components/edd/edd.php:324
+msgid "For Easy Digital Downloads, used for prices and alerts."
 msgstr ""
 
 #: components/edd/sections/builder-templates/downloads.php:27
@@ -230,8 +224,8 @@ msgstr ""
 #: components/per-page/class-metabox.php:443
 #: shared/shop-settings/layout-product.php:48
 #: shared/shop-settings/layout-shop.php:48
-#: shared/shop-settings/shop-settings.php:153
-#: shared/shop-settings/shop-settings.php:208
+#: shared/shop-settings/shop-settings.php:167
+#: shared/shop-settings/shop-settings.php:224
 msgid "Header, Footer, Sidebars"
 msgstr ""
 
@@ -240,8 +234,8 @@ msgstr ""
 #: components/per-page/class-metabox.php:447
 #: shared/shop-settings/layout-product.php:69
 #: shared/shop-settings/layout-shop.php:69
-#: shared/shop-settings/shop-settings.php:161
-#: shared/shop-settings/shop-settings.php:216
+#: shared/shop-settings/shop-settings.php:175
+#: shared/shop-settings/shop-settings.php:232
 msgid "Hide site header"
 msgstr ""
 
@@ -250,8 +244,8 @@ msgstr ""
 #: components/per-page/class-metabox.php:455
 #: shared/shop-settings/layout-product.php:90
 #: shared/shop-settings/layout-shop.php:90
-#: shared/shop-settings/shop-settings.php:170
-#: shared/shop-settings/shop-settings.php:225
+#: shared/shop-settings/shop-settings.php:184
+#: shared/shop-settings/shop-settings.php:241
 msgid "Hide site footer"
 msgstr ""
 
@@ -260,8 +254,8 @@ msgstr ""
 #: components/per-page/class-metabox.php:463
 #: shared/shop-settings/layout-product.php:111
 #: shared/shop-settings/layout-shop.php:111
-#: shared/shop-settings/shop-settings.php:179
-#: shared/shop-settings/shop-settings.php:234
+#: shared/shop-settings/shop-settings.php:193
+#: shared/shop-settings/shop-settings.php:250
 msgid "Show left sidebar"
 msgstr ""
 
@@ -270,8 +264,8 @@ msgstr ""
 #: components/per-page/class-metabox.php:471
 #: shared/shop-settings/layout-product.php:132
 #: shared/shop-settings/layout-shop.php:132
-#: shared/shop-settings/shop-settings.php:188
-#: shared/shop-settings/shop-settings.php:243
+#: shared/shop-settings/shop-settings.php:202
+#: shared/shop-settings/shop-settings.php:259
 msgid "Show right sidebar"
 msgstr ""
 
@@ -533,7 +527,7 @@ msgid "Landing"
 msgstr ""
 
 #: components/quick-start/define-templates.php:1112
-#: components/style-kits/definitions.php:263
+#: components/style-kits/definitions.php:216
 msgid "Creative"
 msgstr ""
 
@@ -542,7 +536,7 @@ msgid "Photography"
 msgstr ""
 
 #: components/quick-start/define-templates.php:1563
-#: shared/shop-settings/shop-settings.php:146
+#: shared/shop-settings/shop-settings.php:158
 msgid "Shop"
 msgstr ""
 
@@ -562,19 +556,19 @@ msgstr ""
 msgid "Light"
 msgstr ""
 
-#: components/style-kits/definitions.php:99
+#: components/style-kits/definitions.php:88
 msgid "Dark"
 msgstr ""
 
-#: components/style-kits/definitions.php:181
+#: components/style-kits/definitions.php:152
 msgid "Modern"
 msgstr ""
 
-#: components/style-kits/definitions.php:345
+#: components/style-kits/definitions.php:280
 msgid "Vintage"
 msgstr ""
 
-#: components/style-kits/definitions.php:427
+#: components/style-kits/definitions.php:349
 msgid "Hello"
 msgstr ""
 
@@ -597,7 +591,7 @@ msgstr ""
 
 #: components/style-kits/style-kits.php:159
 #: components/style-kits/stylekit.php:78 components/typekit/customizer.php:114
-#: components/typekit/customizer.php:190
+#: components/typekit/customizer.php:174
 msgid "Reset"
 msgstr ""
 
@@ -610,7 +604,7 @@ msgstr ""
 msgid "Choose a kit"
 msgstr ""
 
-#: components/style-kits/style-kits.php:499
+#: components/style-kits/style-kits.php:436
 msgid "Default"
 msgstr ""
 
@@ -649,11 +643,11 @@ msgid ""
 "retrieve the fonts from your kit."
 msgstr ""
 
-#: components/typekit/customizer.php:106 components/typekit/customizer.php:177
+#: components/typekit/customizer.php:106 components/typekit/customizer.php:161
 msgid "Typekit Kit ID"
 msgstr ""
 
-#: components/typekit/customizer.php:114 components/typekit/customizer.php:190
+#: components/typekit/customizer.php:114 components/typekit/customizer.php:174
 msgid "Load Typekit Fonts"
 msgstr ""
 
@@ -665,26 +659,40 @@ msgstr ""
 msgid "documentation"
 msgstr ""
 
-#: components/typekit/customizer.php:203
+#: components/typekit/customizer.php:187
 msgid ""
 "For more information about Typekit integration, please see <a "
 "href=\"%s\">Make Plus' documentation</a>."
 msgstr ""
 
-#: components/typekit/customizer.php:308 components/typekit/customizer.php:377
+#: components/typekit/customizer.php:312 components/typekit/customizer.php:382
 msgid "Typekit Fonts"
 msgstr ""
 
-#: components/typekit/customizer.php:309
+#: components/typekit/customizer.php:313
 msgid "Please enter your Typekit Kit ID"
 msgstr ""
 
-#: components/typekit/customizer.php:310
+#: components/typekit/customizer.php:314
 msgid "Typekit fonts could not be found. Please try again"
 msgstr ""
 
-#: components/typekit/customizer.php:311
+#: components/typekit/customizer.php:315
 msgid "Fonts loaded successfully."
+msgstr ""
+
+#: components/typekit/customizer.php:316
+msgid "Fonts reset."
+msgstr ""
+
+#: components/white-label/white-label.php:51
+#: components/white-label/white-label.php:123
+msgid "White Label"
+msgstr ""
+
+#: components/white-label/white-label.php:58
+#: components/white-label/white-label.php:144
+msgid "Hide theme credit"
 msgstr ""
 
 #: components/widget-area/sidebar-management.php:106
@@ -791,6 +799,36 @@ msgstr ""
 msgid "Product tags"
 msgstr ""
 
+#: components/woocommerce/legacy/class-legacy-color.php:95
+msgid "Frontend Styles"
+msgstr ""
+
+#: components/woocommerce/legacy/class-legacy-color.php:111
+msgid ""
+"These styles can be customized in the Color Scheme &rarr; General section "
+"of the %s."
+msgstr ""
+
+#: components/woocommerce/legacy/class-legacy-color.php:115
+msgid "Customizer"
+msgstr ""
+
+#: components/woocommerce/legacy/class-legacy-color.php:119
+msgid ""
+"To edit colours <code>woocommerce/assets/css/woocommerce-base.less</code> "
+"and <code>woocommerce.css</code> need to be writable. See <a "
+"href=\"http://codex.wordpress.org/Changing_File_Permissions\">the Codex</a> "
+"for more information."
+msgstr ""
+
+#: components/woocommerce/legacy/class-legacy-color.php:261
+msgid "Could not compile woocommerce.less:"
+msgstr ""
+
+#: components/woocommerce/legacy/class-legacy-color.php:330
+msgid "For WooCommerce, used for prices, in stock labels, and sales flash."
+msgstr ""
+
 #: components/woocommerce/sections/builder-templates/product-grid.php:34
 msgid "Show"
 msgstr ""
@@ -807,40 +845,24 @@ msgstr ""
 msgid "Show <em>Add to cart</em> button"
 msgstr ""
 
-#: components/woocommerce/woocommerce.php:183
-msgid "Frontend Styles"
-msgstr ""
-
-#: components/woocommerce/woocommerce.php:199
-msgid ""
-"These styles can be customized in the Color Scheme &rarr; General section "
-"of the %s."
-msgstr ""
-
-#: components/woocommerce/woocommerce.php:203
-msgid "Customizer"
-msgstr ""
-
-#: components/woocommerce/woocommerce.php:207
-msgid ""
-"To edit colours <code>woocommerce/assets/css/woocommerce-base.less</code> "
-"and <code>woocommerce.css</code> need to be writable. See <a "
-"href=\"http://codex.wordpress.org/Changing_File_Permissions\">the Codex</a> "
-"for more information."
-msgstr ""
-
-#: components/woocommerce/woocommerce.php:349
-msgid "Could not compile woocommerce.less:"
-msgstr ""
-
-#: components/woocommerce/woocommerce.php:466
+#: components/woocommerce/woocommerce.php:262
 msgid ""
 "For WooCommerce, this view consists of product archives and other shop "
 "utility pages such as Checkout."
 msgstr ""
 
-#: components/woocommerce/woocommerce.php:484
+#: components/woocommerce/woocommerce.php:280
 msgid "For WooCommerce, this view consists of single products."
+msgstr ""
+
+#: components/woocommerce/woocommerce.php:328
+msgid ""
+"Make's color scheme no longer applies to WooCommerce shop elements. Please "
+"install the %s plugin to customize your shop's colors."
+msgstr ""
+
+#: components/woocommerce/woocommerce.php:332
+msgid "WooCommerce Colors"
 msgstr ""
 
 #: shared/shop-settings/class-shop-sidebar.php:83
@@ -875,19 +897,19 @@ msgid ""
 "\"Layout\" section of the Theme Customizer."
 msgstr ""
 
-#: shared/shop-settings/shop-settings.php:201
+#: shared/shop-settings/shop-settings.php:215
 msgid "Product"
 msgstr ""
 
-#: shared/shop-settings/shop-settings.php:268
+#: shared/shop-settings/shop-settings.php:284
 msgid "Layout: Shop"
 msgstr ""
 
-#: shared/shop-settings/shop-settings.php:271
+#: shared/shop-settings/shop-settings.php:287
 msgid "Layout: Product"
 msgstr ""
 
-#: shared/shop-settings/shop-settings.php:359
+#: shared/shop-settings/shop-settings.php:382
 msgid "Highlight Color"
 msgstr ""
 

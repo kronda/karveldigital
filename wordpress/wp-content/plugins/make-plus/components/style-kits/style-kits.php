@@ -309,158 +309,95 @@ class TTFMP_Style_Kits {
 	 *
 	 * @return mixed    The array of allowed keys.
 	 */
-	private function get_option_keys() {
-		$keys = array(
-			/**
-			 * General
-			 */
-			// Background Image
-			'background_image',
-			'main-background-image',
-
-			/**
-			 * Typography
-			 */
-			// Site Title & Tagline
-			'font-family-site-title',
-			'font-size-site-title',
-			'font-family-site-tagline',
-			'font-size-site-tagline',
-			// Main Menu
-			'font-family-nav',
-			'font-size-nav',
-			'font-family-subnav',
-			'font-size-subnav',
-			'font-subnav-mobile',
-			// Widgets
-			'font-family-widget',
-			'font-size-widget',
-			// Headers & Body
-			'font-family-h1',
-			'font-size-h1',
-			'font-family-h2',
-			'font-size-h2',
-			'font-family-h3',
-			'font-size-h3',
-			'font-family-h4',
-			'font-size-h4',
-			'font-family-h5',
-			'font-size-h5',
-			'font-family-h6',
-			'font-size-h6',
-			'font-family-body',
-			'font-size-body',
-
-			/**
-			 * Color Scheme
-			 */
-			// General
-			'color-primary',
-			'color-secondary',
-			'color-text',
-			'color-detail',
-			// Background
-			'background_color',
-			'main-background-color',
-			// Header
-			'header-bar-background-color',
-			'header-bar-text-color',
-			'header-bar-border-color',
-			'header-background-color',
-			'header-text-color',
-			'color-site-title',
-			// Footer
-			'footer-background-color',
-			'footer-text-color',
-			'footer-border-color',
-
-			/**
-			 * Header
-			 */
-			// Background Image
-			'header-background-image',
-			// Layout
-			'header-layout',
+	private function get_allowed_option_keys() {
+		// List of options that Style Kits won't touch.
+		$blacklist = array(
+			'hide-site-title',
+			'hide-tagline',
+			'logo-regular',
+			'logo-retina',
+			'logo-favicon',
+			'logo-apple-touch',
+			'navigation-mobile-label',
+			'general-sticky-label',
+			'label-read-more',
+			'social-facebook-official',
+			'social-twitter',
+			'social-google-plus-square',
+			'social-linkedin',
+			'social-instagram',
+			'social-flickr',
+			'social-youtube',
+			'social-vimeo-square',
+			'social-pinterest',
+			'social-email',
+			'social-hide-rss',
+			'social-custom-rss',
+			'background_repeat',
+			'background_position_x',
+			'background_attachment',
+			'background_size',
+			'header-background-repeat',
+			'header-background-position',
+			'header-background-attachment',
+			'header-background-size',
+			'main-background-repeat',
+			'main-background-position',
+			'main-background-attachment',
+			'main-background-size',
+			'footer-background-repeat',
+			'footer-background-position',
+			'footer-background-attachment',
+			'footer-background-size',
 			'header-branding-position',
 			'header-bar-content-layout',
+			'header-text',
 			'header-show-social',
 			'header-show-search',
-
-			/**
-			 * Content & Layout
-			 */
-			// Global
-			'general-layout',
-			'main-content-link-underline',
-			// Blog (Posts Page)
-			'layout-blog-featured-images',
-			'layout-blog-post-date',
-			'layout-blog-post-author',
-			'layout-blog-auto-excerpt',
-			'layout-blog-show-categories',
-			'layout-blog-show-tags',
-			'layout-blog-featured-images-alignment',
-			'layout-blog-post-date-location',
-			'layout-blog-post-author-location',
-			'layout-blog-comment-count',
-			'layout-blog-comment-count-location',
-			// Archives
-			'layout-archive-featured-images',
-			'layout-archive-post-date',
-			'layout-archive-post-author',
-			'layout-archive-auto-excerpt',
-			'layout-archive-show-categories',
-			'layout-archive-show-tags',
-			'layout-archive-featured-images-alignment',
-			'layout-archive-post-date-location',
-			'layout-archive-post-author-location',
-			'layout-archive-comment-count',
-			'layout-archive-comment-count-location',
-			// Search Results
-			'layout-search-featured-images',
-			'layout-search-post-date',
-			'layout-search-post-author',
-			'layout-search-auto-excerpt',
-			'layout-search-show-categories',
-			'layout-search-show-tags',
-			'layout-search-featured-images-alignment',
-			'layout-search-post-date-location',
-			'layout-search-post-author-location',
-			'layout-search-comment-count',
-			'layout-search-comment-count-location',
-			// Posts
-			'layout-post-featured-images',
-			'layout-post-post-date',
-			'layout-post-post-author',
-			'layout-post-show-categories',
-			'layout-post-show-tags',
-			'layout-post-featured-images-alignment',
-			'layout-post-post-date-location',
-			'layout-post-post-author-location',
-			'layout-post-comment-count',
-			'layout-post-comment-count-location',
-			// Pages
-			'layout-page-hide-title',
-			'layout-page-featured-images',
-			'layout-page-post-date',
-			'layout-page-post-author',
-			'layout-page-featured-images-alignment',
-			'layout-page-post-date-location',
-			'layout-page-post-author-location',
-			'layout-page-comment-count',
-			'layout-page-comment-count-location',
-
-			/**
-			 * Footer
-			 */
-			// Background Image
-			'footer-background-image',
-			// Layout
-			'footer-layout',
+			'footer-widget-areas',
+			'footer-text',
 			'footer-show-social',
+			'layout-blog-hide-header',
+			'layout-blog-hide-footer',
+			'layout-blog-sidebar-left',
+			'layout-blog-sidebar-right',
+			'layout-archive-hide-header',
+			'layout-archive-hide-footer',
+			'layout-archive-sidebar-left',
+			'layout-archive-sidebar-right',
+			'layout-search-hide-header',
+			'layout-search-hide-footer',
+			'layout-search-sidebar-left',
+			'layout-search-sidebar-right',
+			'layout-post-hide-header',
+			'layout-post-hide-footer',
+			'layout-post-sidebar-left',
+			'layout-post-sidebar-right',
+			'layout-page-hide-header',
+			'layout-page-hide-footer',
+			'layout-page-sidebar-left',
+			'layout-page-sidebar-right',
+			'layout-page-hide-title',
 		);
 
-		return apply_filters( 'ttfmp_style_kit_option_keys', $keys );
+		// Get the master options list.
+		$keys = array_keys( ttfmake_option_defaults() );
+
+		// Remove blacklisted options.
+		foreach ( $blacklist as $option ) {
+			if ( isset( $keys[ $option ] ) ) {
+				unset( $keys[ $option ] );
+			}
+		}
+
+		/**
+		 * Filter to modify the array of option keys that Style Kits is allowed to modify.
+		 *
+		 * @since 1.5.0.
+		 *
+		 * @param array    $keys    Array of option keys that Style Kits is allowed to modify.
+		 */
+		return apply_filters( 'ttfmp_style_kit_allowed_option_keys', $keys );
 	}
 
 	/**
@@ -472,7 +409,7 @@ class TTFMP_Style_Kits {
 	 */
 	private function get_defaults() {
 		$all_defaults = ttfmake_option_defaults();
-		$allowed_keys = $this->get_option_keys();
+		$allowed_keys = $this->get_allowed_option_keys();
 
 		$defaults = array();
 		foreach ( $allowed_keys as $key ) {

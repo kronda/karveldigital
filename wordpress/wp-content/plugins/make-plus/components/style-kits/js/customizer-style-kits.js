@@ -140,11 +140,10 @@
 						// Now actually set the value
 						setting.set(v);
 
-						// Manually update the color pickers
-						var $picker = $('li[id$="' + settingId + '"] .color-picker-hex');
-						if ($picker.length > 0) {
-							$picker.wpColorPicker('color', v);
-						}
+						// Manually update certain controls
+						api.control('ttfmake_' + settingId, function(control) {
+							ttfmpStyleKits.manualUpdate(control, v);
+						});
 					});
 				});
 
@@ -170,15 +169,50 @@
 						// Now actually set the value
 						setting.set(v);
 
-						// Manually update the color pickers
-						var $picker = $('li[id$="' + settingId + '"] .color-picker-hex');
-						if ($picker.length > 0) {
-							$picker.wpColorPicker('color', v);
-						}
+						// Manually update certain controls
+						api.control('ttfmake_' + settingId, function(control) {
+							ttfmpStyleKits.manualUpdate(control, v);
+						});
 					});
 				});
 
 				ttfmpStyleKits.resettable = false;
+			},
+
+			/**
+			 * Manually update controls that don't auto-detect changes.
+			 *
+			 * @since 1.5.0.
+			 *
+			 * @param  control    The Customizer control object
+			 * @param  v          The value to set to the control
+			 * @return void
+			 */
+			manualUpdate: function(control, v) {
+				var $colorpicker  = $(control.selector).find('.color-picker-hex'),
+					$chosenselect = $(control.selector).find('.chosen-container').siblings('select'),
+					$uiSlider     = $(control.selector).find('.ttfmake-control-range'),
+					$uiButtonset  = $(control.selector).find('.ttfmake-control-buttonset, .ttfmake-control-image');
+
+				// Color picker
+				if ($colorpicker.length > 0) {
+					$colorpicker.wpColorPicker('color', v);
+				}
+
+				// Chosen select
+				if ($chosenselect.length > 0) {
+					$chosenselect.trigger('chosen:updated');
+				}
+
+				// jQuery UI Slider
+				if ($uiSlider.length > 0) {
+					$uiSlider.trigger('slidechange');
+				}
+
+				// jQuery UI Buttonset
+				if ($uiButtonset.length > 0) {
+					$uiButtonset.trigger('change');
+				}
 			},
 
 			/**

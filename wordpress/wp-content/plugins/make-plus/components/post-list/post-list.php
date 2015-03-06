@@ -334,34 +334,40 @@ class TTFMP_Post_List {
 		$color_detail          = maybe_hash_hex_color( get_theme_mod( 'color-detail', ttfmake_get_default( 'color-detail' ) ) );
 
 		// Output the rules
-		ttfmake_get_css()->add( array(
-			'selectors'    => array(
-				'.builder-section-postlist .ttfmp-post-list-item-footer a:hover',
-				'.ttfmp-widget-post-list .ttfmp-post-list-item-comment-link:hover'
-			),
-			'declarations' => array(
-				'color' => $color_primary
-			)
-		) );
-		ttfmake_get_css()->add( array(
-			'selectors'    => array(
-				'.ttfmp-widget-post-list .ttfmp-post-list-item-date a',
-				'.builder-section-postlist .ttfmp-post-list-item-date a'
-			),
-			'declarations' => array(
-				'color' => $color_text
-			)
-		) );
-		ttfmake_get_css()->add( array(
-			'selectors'    => array(
-				'.builder-section-postlist .ttfmp-post-list-item-footer',
-				'.builder-section-postlist .ttfmp-post-list-item-footer a',
-				'.ttfmp-widget-post-list .ttfmp-post-list-item-comment-link'
-			),
-			'declarations' => array(
-				'color' => $color_detail
-			)
-		) );
+		if ( $color_primary !== ttfmake_get_default( 'color-primary' ) ) {
+			ttfmake_get_css()->add( array(
+				'selectors'    => array(
+					'.builder-section-postlist .ttfmp-post-list-item-footer a:hover',
+					'.ttfmp-widget-post-list .ttfmp-post-list-item-comment-link:hover'
+				),
+				'declarations' => array(
+					'color' => $color_primary
+				)
+			) );
+		}
+		if ( $color_text !== ttfmake_get_default( 'color-text' ) ) {
+			ttfmake_get_css()->add( array(
+				'selectors'    => array(
+					'.ttfmp-widget-post-list .ttfmp-post-list-item-date a',
+					'.builder-section-postlist .ttfmp-post-list-item-date a'
+				),
+				'declarations' => array(
+					'color' => $color_text
+				)
+			) );
+		}
+		if ( $color_detail !== ttfmake_get_default( 'color-detail' ) ) {
+			ttfmake_get_css()->add( array(
+				'selectors'    => array(
+					'.builder-section-postlist .ttfmp-post-list-item-footer',
+					'.builder-section-postlist .ttfmp-post-list-item-footer a',
+					'.ttfmp-widget-post-list .ttfmp-post-list-item-comment-link'
+				),
+				'declarations' => array(
+					'color' => $color_detail
+				)
+			) );
+		}
 	}
 }
 endif;

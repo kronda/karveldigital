@@ -4,7 +4,7 @@
  * Plugin URI:  https://thethemefoundry.com/make/
  * Description: A powerful paid companion plugin for the Make WordPress theme.
  * Author:      The Theme Foundry
- * Version:     1.4.8
+ * Version:     1.5.0
  * Author URI:  https://thethemefoundry.com
  *
  * @package Make Plus
@@ -26,10 +26,14 @@ class TTFMP_App {
 	 *
 	 * @var   string    The semantically versioned plugin version number.
 	 */
-	var $version = '1.4.8';
+	var $version = '1.5.0';
 
 	/**
-	 * @var bool
+	 * Plugin mode.
+	 *
+	 * @since
+	 *
+	 * @var    bool    True if Make is not the current theme.
 	 */
 	var $passive = true;
 
@@ -121,7 +125,7 @@ class TTFMP_App {
 	}
 
 	/**
-	 * Create a new section.
+	 * Set class properties.
 	 *
 	 * @since  1.0.0.
 	 *
@@ -134,33 +138,70 @@ class TTFMP_App {
 		$this->component_base = $this->root_dir . '/' . $this->component_dir_name;
 		$this->shared_base    = $this->root_dir . '/' . $this->shared_dir_name;
 		$this->url_base       = untrailingslashit( plugins_url( '/', __FILE__ ) );
+	}
 
+	/**
+	 * General purpose init function. Intended to fire once.
+	 *
+	 * @since  1.0.0.
+	 *
+	 * @return void
+	 */
+	public function init() {
 		// Check to see if Make is the active theme
 		if ( 'make' === get_template() ) {
 			$this->passive = false;
 		}
 
+		// Translations
+		load_plugin_textdomain( 'make-plus', null, $this->root_dir . '/languages/' );
+
 		// Load in the updater
 		if ( file_exists( $this->root_dir . '/updater/updater.php' ) ) {
 			require_once $this->root_dir . '/updater/updater.php';
-		}
 
-		// Load compatibility helpers
-		if ( file_exists( $this->root_dir . '/shared/compatibility.php' ) ) {
-			require_once $this->root_dir . '/shared/compatibility.php';
+			// Set the updater values
+			add_filter( 'ttf_updater_config', array( $this, 'updater_config' ) );
 		}
-
-		// Load the components
-		add_action( 'after_setup_theme', array( $this, 'load_components' ) );
 
 		// Load shared functions
 		add_action( 'after_setup_theme', array( $this, 'load_shared_functions' ) );
 
-		// General purpose setup action
-		add_action( 'init', array( $this, 'init' ) );
+		// Load the components
+		add_action( 'after_setup_theme', array( $this, 'load_components' ) );
+	}
 
-		// Set the updater values
-		add_filter( 'ttf_updater_config', array( $this, 'updater_config' ) );
+	/**
+	 * Load shared functions.
+	 *
+	 * @since 1.2.0.
+	 *
+	 * @return void
+	 */
+	public function load_shared_functions() {
+		// Load compatibility helpers
+		$file = $this->shared_base . '/compatibility.php';
+		if ( file_exists( $file ) ) {
+			require_once $file;
+		}
+
+		// Customizer definitions
+		$file = $this->shared_base . '/customizer/class-TTFMP_Customizer_Definitions.php';
+		if ( file_exists( $file ) ) {
+			require_once $file;
+		}
+
+		// Shop settings
+		$file = $this->shared_base . '/shop-settings/shop-settings.php';
+		if ( file_exists( $file ) ) {
+			require_once $file;
+		}
+
+		// Reporting
+		$file = $this->shared_base . '/class-reporting.php';
+		if ( is_admin() && file_exists( $file ) ) {
+			require_once $file;
+		}
 	}
 
 	/**
@@ -171,22 +212,8 @@ class TTFMP_App {
 	 * @return void.
 	 */
 	public function load_components() {
-		// Load shared components
-		if ( is_admin() ) {
-			require_once $this->root_dir . '/shared/class-reporting.php';
-		}
-
 		// Assumes that component is located at '/components/slug/slug.php'
 		$components = array(
-			'customizer'  => array(
-				'slug'       => 'customizer',
-				'conditions' => array(
-					// Make is active theme
-					false === $this->passive,
-					// Make version is at least 1.0.4
-					defined( 'TTFMAKE_VERSION' ) && true === version_compare( TTFMAKE_VERSION, '1.0.4', '>=' ),
-				)
-			),
 			'duplicator'  => array(
 				'slug'       => 'duplicator',
 				'conditions' => array(
@@ -269,6 +296,15 @@ class TTFMP_App {
 					true === $this->passive || ( defined( 'TTFMAKE_VERSION' ) && true === version_compare( TTFMAKE_VERSION, '1.0.4', '>=' ) ),
 				)
 			),
+			'white-label'  => array(
+				'slug'       => 'white-label',
+				'conditions' => array(
+					// Make is active theme
+					false === $this->passive,
+					// Make version is at least 1.0.4
+					defined( 'TTFMAKE_VERSION' ) && true === version_compare( TTFMAKE_VERSION, '1.0.4', '>=' ),
+				)
+			),
 			'woocommerce' => array(
 				'slug'       => 'woocommerce',
 				'conditions' => array(
@@ -289,34 +325,6 @@ class TTFMP_App {
 				}
 			}
 		}
-	}
-
-	/**
-	 * Load necessary shared functions.
-	 *
-	 * @since 1.2.0.
-	 *
-	 * @return void
-	 */
-	public function load_shared_functions() {
-		// Shop settings
-		if ( current_theme_supports( 'ttfmp-shop-layout-shop' ) || current_theme_supports( 'ttfmp-shop-layout-product' ) || current_theme_supports( 'ttfmp-shop-sidebar' ) || current_theme_supports( 'ttfmp-shop-color-highlight' ) ) {
-			$file = $this->shared_base . '/shop-settings/shop-settings.php';
-			if ( file_exists( $file ) ) {
-				require_once $file;
-			}
-		}
-	}
-
-	/**
-	 * General purpose init function.
-	 *
-	 * @since  1.0.0.
-	 *
-	 * @return void
-	 */
-	public function init() {
-		load_plugin_textdomain( 'make-plus', null, $this->root_dir . '/languages/' );
 	}
 
 	/**
@@ -351,4 +359,4 @@ function ttfmp_get_app() {
 }
 endif;
 
-ttfmp_get_app();
+ttfmp_get_app()->init();

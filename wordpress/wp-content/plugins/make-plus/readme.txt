@@ -4,7 +4,7 @@ Donate link: https://thethemefoundry.com
 Tags: woocommerce, sidebars, widgets, customizer, fonts, typekit, demo content, page builder
 Requires at least: 3.9
 Tested up to: 4.1.0
-Stable tag: 1.4.8
+Stable tag: 1.5.0
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -31,6 +31,15 @@ Make gives you the flexibility to build the site that you want. Make Plus makes 
 For more information, please see the [Make Plus support page](https://thethemefoundry.com/docs/make-docs/).
 
 == Changelog ==
+
+= 1.5.0 =
+
+* Updated Style Kits, White Label, and Typekit modules for compatibility with Make 1.5.0's new Customizer options.
+* Updated properties of some existing Style Kits.
+* Improved code performance and structure.
+* Updated WooCommerce module for compatibility with WooCommerce 2.3.x.
+* Removed color scheme support for WooCommerce 2.3.x shop elements in favor of the WooCommerce Colors plugin.
+* Added Russian translation.
 
 = 1.4.8 =
 
@@ -163,6 +172,10 @@ For more information, please see the [Make Plus support page](https://thethemefo
 * Initial release
 
 == Upgrade Notice ==
+
+= 1.5.0 =
+
+Compatibility updates for Make 1.5.0 and WooCommerce 2.3.x.
 
 = 1.4.8 =
 

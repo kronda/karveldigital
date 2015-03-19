@@ -493,7 +493,6 @@ class MMB_Installer extends MMB_Core
                         if (!empty($result[$plugin_slug]) || (isset($current->checked[$plugin_slug]) && version_compare(array_search($plugin_slug, $versions), $current->checked[$plugin_slug], '<') == true)) {
                             $return[$plugin_slug] = 1;
                         } else {
-                            update_option('mmb_forcerefresh', true);
                             $return[$plugin_slug] = 'Could not refresh upgrade transients, please reload website data';
                         }
                     }
@@ -553,7 +552,6 @@ class MMB_Installer extends MMB_Core
                         if (!empty($result[$theme_tmp]) || (isset($current->checked[$theme_tmp]) && version_compare(array_search($theme_tmp, $versions), $current->checked[$theme_tmp], '<') == true)) {
                             $return[$theme_tmp] = 1;
                         } else {
-                            update_option('mmb_forcerefresh', true);
                             $return[$theme_tmp] = 'Could not refresh upgrade transients, please reload website data';
                         }
                     }
@@ -722,10 +720,6 @@ class MMB_Installer extends MMB_Core
                 include_once ABSPATH.'wp-admin/includes/plugin.php';
             }
             foreach ($current->response as $plugin_path => $plugin_data) {
-                if ($plugin_path == 'worker/init.php') {
-                    continue;
-                }
-
                 $data = get_plugin_data(WP_PLUGIN_DIR.'/'.$plugin_path);
                 if (isset($data['Name']) && in_array($data['Name'], $filter)) {
                     continue;
@@ -755,7 +749,7 @@ class MMB_Installer extends MMB_Core
             $current = $this->mmb_get_transient('update_themes');
             if (!empty($current->response)) {
                 foreach ((array) $all_themes as $theme_template => $theme_data) {
-                    if (isset($theme_data->{'Parent Theme'}) && !empty($theme_data->{'Parent Theme'})) {
+                    if (!empty($theme_data['Parent Theme'])) {
                         continue;
                     }
 

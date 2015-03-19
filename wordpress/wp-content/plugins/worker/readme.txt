@@ -46,6 +46,21 @@ ManageWP is also the creator of [ManageWP.org](https://managewp.org/ "WordPress 
 
 == Changelog ==
 
+= 4.0.11 =
+
+- Fix: Better detect available updates
+- Fix: Improve compatibility with other plugins
+
+= 4.0.10 =
+
+- Fix: Fix update functionality on some installations that use FTP credentials
+- Fix: Fix Google Drive uploading on installations without cURL PHP extension
+
+= 4.0.9 =
+
+- New: Make the ManageWP Worker plugin upgradable through the dashboard widget
+- Fix: Improve auto-connect functionality with [ManageWP Orion](http://managewp.com/managewp-orion-official-announcement "ManageWP Orion Official Announcement")
+
 = 4.0.8 =
 
 - Fix: Fix single-click restore functionality

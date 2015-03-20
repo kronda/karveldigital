@@ -9,7 +9,6 @@ global $ttfmake_section_data, $ttfmake_is_js_template;
 $section_name = ttfmake_get_section_name( $ttfmake_section_data, $ttfmake_is_js_template );
 
 $defaults = array(
-	'title' => ttfmake_get_section_default( 'title', 'post-list' ),
 	'columns' => ttfmake_get_section_default( 'columns', 'post-list' ),
 	'type' => ttfmake_get_section_default( 'type', 'post-list' ),
 	'sortby' => ttfmake_get_section_default( 'sortby', 'post-list' ),
@@ -28,12 +27,6 @@ $defaults = array(
 );
 $data = wp_parse_args( $ttfmake_section_data['data'], $defaults );
 ?>
-
-	<div class="ttfmake-titlediv">
-		<div class="ttfmake-titlewrap">
-			<input placeholder="<?php esc_attr_e( 'Enter title here' ); ?>" type="text" name="<?php echo $section_name; ?>[title]" class="ttfmake-title ttfmake-section-header-title-input" value="<?php echo esc_attr( htmlspecialchars( $data['title'] ) ); ?>" autocomplete="off" />
-		</div>
-	</div>
 
 	<div class="ttfmake-post-list-options-container">
 		<div class="ttfmake-type-select-wrapper">

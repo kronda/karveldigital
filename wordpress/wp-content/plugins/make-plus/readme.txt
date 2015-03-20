@@ -3,8 +3,8 @@ Contributors: thethemefoundry, dstrojny, jupiterwise, scottrrollo, tollmanz
 Donate link: https://thethemefoundry.com
 Tags: woocommerce, sidebars, widgets, customizer, fonts, typekit, demo content, page builder
 Requires at least: 3.9
-Tested up to: 4.1.0
-Stable tag: 1.5.0
+Tested up to: 4.1.1
+Stable tag: 1.5.1
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -31,6 +31,12 @@ Make gives you the flexibility to build the site that you want. Make Plus makes 
 For more information, please see the [Make Plus support page](https://thethemefoundry.com/docs/make-docs/).
 
 == Changelog ==
+
+= 1.5.1 =
+
+* Added per page settings to remove header and footer boundary padding.
+* Added Page Builder section configuration option to remove space below a section.
+* Updated Posts List, WooCommerce, and Easy Digital Downloads section UIs to move the title field to the Section Configuration panel.
 
 = 1.5.0 =
 
@@ -172,6 +178,10 @@ For more information, please see the [Make Plus support page](https://thethemefo
 * Initial release
 
 == Upgrade Notice ==
+
+= 1.5.1 =
+
+Adds options to remove spacing above and below Builder sections.
 
 = 1.5.0 =
 

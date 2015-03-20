@@ -119,9 +119,11 @@ class TTFMP_Shop_Settings {
 
 			if ( current_theme_supports( 'ttfmp-shop-layout-shop' ) ) {
 				add_filter( 'ttfmake_setting_defaults', array( $this, 'layout_shop_setting_defaults' ) );
+				add_filter( 'ttfmp_perpage_allowed_keys', array( $this, 'shop_perpage_allowed_keys' ) );
 			}
 			if ( current_theme_supports( 'ttfmp-shop-layout-product' ) ) {
 				add_filter( 'ttfmake_setting_defaults', array( $this, 'layout_product_setting_defaults' ) );
+				add_filter( 'ttfmp_perpage_allowed_keys', array( $this, 'product_perpage_allowed_keys' ) );
 			}
 		}
 
@@ -336,6 +338,50 @@ class TTFMP_Shop_Settings {
 		);
 
 		return array_merge( $defaults, $new_defaults );
+	}
+
+	/**
+	 * Filter to add shop layout keys to Per Page component.
+	 *
+	 * @since 1.5.1.
+	 *
+	 * @param  array    $allowed_keys    The array of allowed keys.
+	 *
+	 * @return array                     The modified array of allowed keys.
+	 */
+	public function shop_perpage_allowed_keys( $allowed_keys ) {
+		$allowed_keys['shop'] = array(
+			'layout-shop-hide-header',
+			'layout-shop-hide-footer',
+			'layout-shop-sidebar-left',
+			'layout-shop-sidebar-right',
+			'header-hide-padding-bottom',
+			'footer-hide-padding-top',
+		);
+
+		return $allowed_keys;
+	}
+
+	/**
+	 * Filter to add product layout keys to Per Page component.
+	 *
+	 * @since 1.5.1.
+	 *
+	 * @param  array    $allowed_keys    The array of allowed keys.
+	 *
+	 * @return array                     The modified array of allowed keys.
+	 */
+	public function product_perpage_allowed_keys( $allowed_keys ) {
+		$allowed_keys['product'] = array(
+			'layout-product-hide-header',
+			'layout-product-hide-footer',
+			'layout-product-sidebar-left',
+			'layout-product-sidebar-right',
+			'header-hide-padding-bottom',
+			'footer-hide-padding-top',
+		);
+
+		return $allowed_keys;
 	}
 
 	/**

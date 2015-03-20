@@ -232,7 +232,7 @@ class TTFMP_WooCommerce {
 	}
 
 	/**
-	 * Filter to identify per-page views related to EDD.
+	 * Filter to identify per-page views related to WooCommerce.
 	 *
 	 * @since 1.2.0.
 	 *

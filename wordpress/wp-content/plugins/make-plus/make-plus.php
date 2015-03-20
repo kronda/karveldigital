@@ -4,7 +4,7 @@
  * Plugin URI:  https://thethemefoundry.com/make/
  * Description: A powerful paid companion plugin for the Make WordPress theme.
  * Author:      The Theme Foundry
- * Version:     1.5.0
+ * Version:     1.5.1
  * Author URI:  https://thethemefoundry.com
  *
  * @package Make Plus
@@ -26,7 +26,7 @@ class TTFMP_App {
 	 *
 	 * @var   string    The semantically versioned plugin version number.
 	 */
-	var $version = '1.5.0';
+	var $version = '1.5.1';
 
 	/**
 	 * Plugin mode.
@@ -214,6 +214,15 @@ class TTFMP_App {
 	public function load_components() {
 		// Assumes that component is located at '/components/slug/slug.php'
 		$components = array(
+			'builder-tweaks'  => array(
+				'slug'       => 'builder-tweaks',
+				'conditions' => array(
+					// Make is active theme
+					false === $this->passive,
+					// Make version is at least 1.0.6
+					defined( 'TTFMAKE_VERSION' ) && true === version_compare( TTFMAKE_VERSION, '1.4.5', '>=' ),
+				)
+			),
 			'duplicator'  => array(
 				'slug'       => 'duplicator',
 				'conditions' => array(

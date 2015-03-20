@@ -72,7 +72,15 @@ class TTFMP_WooCommerce_Section_Definitions {
 			'sections/builder-templates/product-grid',
 			'sections/front-end-templates/product-grid',
 			500,
-			ttfmp_get_woocommerce()->component_root
+			ttfmp_get_woocommerce()->component_root,
+			array(
+				100 => array(
+					'type'  => 'section_title',
+					'name'  => 'title',
+					'label' => __( 'Enter section title', 'make' ),
+					'class' => 'ttfmake-configuration-title ttfmake-section-header-title-input',
+				),
+			)
 		);
 	}
 

@@ -72,7 +72,15 @@ class TTFMP_Post_List_Section_Definitions {
 			'sections/builder-templates/post-list',
 			'sections/front-end-templates/post-list',
 			500,
-			ttfmp_get_post_list()->component_root
+			ttfmp_get_post_list()->component_root,
+			array(
+				100 => array(
+					'type'  => 'section_title',
+					'name'  => 'title',
+					'label' => __( 'Enter section title', 'make' ),
+					'class' => 'ttfmake-configuration-title ttfmake-section-header-title-input',
+				),
+			)
 		);
 	}
 

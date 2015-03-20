@@ -9,7 +9,6 @@ global $ttfmake_section_data, $ttfmake_is_js_template;
 $section_name = ttfmake_get_section_name( $ttfmake_section_data, $ttfmake_is_js_template );
 
 $defaults = array(
-	'title' => ttfmake_get_section_default( 'title', 'edd-downloads' ),
 	'columns' => ttfmake_get_section_default( 'columns', 'edd-downloads' ),
 	'taxonomy' => ttfmake_get_section_default( 'taxonomy', 'edd-downloads' ),
 	'sortby' => ttfmake_get_section_default( 'sortby', 'edd-downloads' ),
@@ -21,12 +20,6 @@ $defaults = array(
 );
 $data = wp_parse_args( $ttfmake_section_data['data'], $defaults );
 ?>
-
-	<div class="ttfmake-titlediv">
-		<div class="ttfmake-titlewrap">
-			<input placeholder="<?php esc_attr_e( 'Enter title here' ); ?>" type="text" name="<?php echo $section_name; ?>[title]" class="ttfmake-title ttfmake-section-header-title-input" value="<?php echo esc_attr( htmlspecialchars( $data['title'] ) ); ?>" autocomplete="off" />
-		</div>
-	</div>
 
 	<div class="ttfmake-edd-downloads-options-container">
 		<div class="ttfmake-taxonomy-select-wrapper">

@@ -1,7 +1,7 @@
 <?php
 /*
 Plugin Name: Schedule Posts Calendar
-Version: 4.3
+Version: 5.0
 Plugin URI: http://toolstack.com/SchedulePostsCalendar
 Author: Greg Ross
 Author URI: http://toolstack.com
@@ -11,12 +11,12 @@ Compatible with WordPress 3+.
 
 Read the accompanying readme.txt file for instructions and documentation.
 
-Copyright (c) 2012-13 by Greg Ross
+Copyright (c) 2012-15 by Greg Ross
 
 This software is released under the GPL v2.0, see license.txt for details
 */
 
-define( 'SCHEDULEPOSTCALENDARVERSION', '4.3' );
+define( 'SCHEDULEPOSTCALENDARVERSION', '5.0' );
 
 /*
  	This function is called to add the .css and .js files for the calendar to 
@@ -30,16 +30,16 @@ function schedule_posts_calendar_add_cal($theme_num, $url)
 	switch( $theme_num )
 		{
 		case 2:
-			wp_register_style( 'dhtmlxcalendar_style', $url . '/skins/dhtmlxcalendar_dhx_skyblue.css' );
+			wp_register_style( 'dhtmlxcalendar_style', $url . '/skins/skyblue/dhtmlxcalendar.css' );
 			break;
 		case 3:
-			wp_register_style( 'dhtmlxcalendar_style', $url . '/skins/dhtmlxcalendar_dhx_web.css' );
+			wp_register_style( 'dhtmlxcalendar_style', $url . '/skins/web/dhtmlxcalendar.css' );
 			break;
 		case 4:
-			wp_register_style( 'dhtmlxcalendar_style', $url . '/skins/dhtmlxcalendar_dhx_terrace.css' );
+			wp_register_style( 'dhtmlxcalendar_style', $url . '/skins/terrace/dhtmlxcalendar.css' );
 			break;
 		default:
-			wp_register_style( 'dhtmlxcalendar_style', $url . '/skins/dhtmlxcalendar_omega.css' );
+			wp_register_style( 'dhtmlxcalendar_style', $url . '/skins/wordpress/dhtmlxcalendar.css' );
 			break;
 		}
 
@@ -101,16 +101,17 @@ function schedule_posts_calendar_quick_schedule()
 	wp_enqueue_script( 'schedulepostscalendar' );
 	}
 
-function schedule_posts_calendar_checked_state( $value )
+function schedule_posts_calendar_checked_state( $value, $key )
 	{
-	if( $value == 1 ) 
+	if( array_key_exists( $key, $value ) )
 		{
-		return 1;
+		if( $value[$key] == 1 ) 
+			{
+			return 1;
+			}
 		}
-	else
-		{
-		return 0;
-		}
+
+	return 0;
 	}
 	
 /*
@@ -126,10 +127,10 @@ function schedule_posts_calendar_admin_page()
 		{
 		if( empty( $_POST['schedule_posts_calendar']['startofweek'] ) ) { $_POST['schedule_posts_calendar']['startofweek'] = 7; }
 		if( empty( $_POST['schedule_posts_calendar']['theme'] ) ) { $_POST['schedule_posts_calendar']['theme'] = 4; }
-		$_POST['schedule_posts_calendar']['hide-timestamp'] = schedule_posts_calendar_checked_state( $_POST['schedule_posts_calendar']['hide-timestamp'] );
-		$_POST['schedule_posts_calendar']['popup-calendar'] = schedule_posts_calendar_checked_state( $_POST['schedule_posts_calendar']['popup-calendar'] );
-		$_POST['schedule_posts_calendar']['enable-translation'] = schedule_posts_calendar_checked_state( $_POST['schedule_posts_calendar']['enable-translation'] );
-		$_POST['schedule_posts_calendar']['override-translation'] = schedule_posts_calendar_checked_state( $_POST['schedule_posts_calendar']['override-translation'] );
+		$_POST['schedule_posts_calendar']['hide-timestamp'] = schedule_posts_calendar_checked_state( $_POST['schedule_posts_calendar'], 'hide-timestamp' );
+		$_POST['schedule_posts_calendar']['popup-calendar'] = schedule_posts_calendar_checked_state( $_POST['schedule_posts_calendar'], 'popup-calendar' );
+		$_POST['schedule_posts_calendar']['enable-translation'] = schedule_posts_calendar_checked_state( $_POST['schedule_posts_calendar'], 'enable-translation' );
+		$_POST['schedule_posts_calendar']['override-translation'] = schedule_posts_calendar_checked_state( $_POST['schedule_posts_calendar'], 'override-translation' );
 
 		foreach( $monthsoftheyear as $month )
 			{
@@ -201,7 +202,7 @@ function schedule_posts_calendar_admin_page()
 		
 		<div><?php _e('Calendar theme');?>: <Select name="schedule_posts_calendar[theme]">
 <?php
-		$themes = array( "Omega", "Sky Blue", "Web", "Terrace" );
+		$themes = array( "WordPress", "Sky Blue", "Web", "Terrace" );
 		
 		for( $i = 0; $i < 4; $i++ )
 			{
@@ -220,7 +221,7 @@ function schedule_posts_calendar_admin_page()
 			
 			<div><input name="schedule_posts_calendar[popup-calendar]" type="checkbox" value="1" <?php checked($options['popup-calendar'], 1); ?> /> <?php _e("Use a popup calendar instead of an inline one (you probably want to hide the default dispaly above)"); ?></div>
 
-			<div class="submit"><input type="submit" name="info_update" value="<?php _e('Update Options') ?> &raquo;" /></div>
+			<div class="submit"><input type="submit" name="info_update" class="button-primary" value="<?php _e('Update Options') ?>" /></div>
 			
 	</fieldset>
 		
@@ -332,7 +333,7 @@ function schedule_posts_calendar_admin_page()
 			?>
 		</table>
 		
-		<div class="submit"><input type="submit" name="info_update" value="<?php _e('Update Options') ?> &raquo;" /></div>
+		<div class="submit"><input type="submit" name="info_update" class="button-primary" value="<?php _e('Update Options') ?>" /></div>
 		
 	</fieldset>
 	
@@ -401,7 +402,7 @@ function schedule_posts_calendar_admin()
 */
 function schedule_posts_calendar_link_row($actions, $post) 
 	{
-	$actions['schedule'] = '<a href="#" class="editinlineschedule" title="Schedule this item" onClick="schedule_posts_calendar_quick_schedule_edit(' . $post->ID . ');">' . __('Schedule') . '</a>';
+	$actions['schedule'] = '<a href="#" class="editinlineschedule" title="Schedule this item" onClick="scp_calendar_quick_schedule_edit(' . $post->ID . ');">' . __('Schedule') . '</a>';
 		
 	return $actions;
 	}

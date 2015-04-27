@@ -1,0 +1,35 @@
+.pricing_container.pink .pricing_title_block,
+.pricing_container .pricing_item.pink .pricing_title_block {
+    background: #f77fa8;
+    background: -moz-linear-gradient(top,  #f77fa8 0%, #e55d7b 100%);
+    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#f77fa8), color-stop(100%,#e55d7b));
+    background: -webkit-linear-gradient(top, #f77fa8 0%,#e55d7b 100%);
+    background: -o-linear-gradient(top,  #f77fa8 0%,#e55d7b 100%);
+    background: -ms-linear-gradient(top,  #f77fa8 0%,#e55d7b 100%);
+    background: linear-gradient(to bottom,  #f77fa8 0%,#e55d7b 100%);
+
+    border: 1px solid #cd5771;
+}
+
+.pricing_container.pink .pricing_title_block .name,
+.pricing_container .pricing_item.pink .pricing_title_block .name {
+    color: #753f52;
+}
+
+.pricing_container.pink .pricing_title_block .name .has-tip,
+.pricing_container .pricing_item.pink .pricing_title_block .name .has-tip{
+    color: #753f52;
+    border-bottom: dotted 1px #753f52;
+}
+
+.pricing_container.pink .pt_description,
+.pricing_container .pricing_item.pink .pt_description {
+    background: #f7c2d2;
+    color: #7e5661;
+}
+
+.pricing_container.pink .ptp-fancy-button.pricing:hover,
+.pricing_container .pricing_item.pink .ptp-fancy-button.pricing:hover {
+    background: #e55d7b;
+    border: 1px solid #cd5771;
+}

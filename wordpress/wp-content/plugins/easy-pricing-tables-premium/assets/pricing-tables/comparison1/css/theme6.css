@@ -1,0 +1,21 @@
+.desc-table{border:1px solid #397275;}
+.special.ptp-price-table .ptp-pay-duration{background-color:#c7396d;}
+.special.ptp-price-table .ptp-price-holder{border-color:#c7396d;background-color:#ee4c7e;}
+.desc-table .ptp-data-holder:hover{background-color:#255753 !important;}
+.special.ptp-price-table:hover .ptp-pay-duration{background-color:#ee4c7e;}
+.special.ptp-price-table:hover .ptp-price-holder{background-color:#c7396d !important;}
+.ptp-data-holder .btn:hover{background-color:#c7396d;border-bottom:5px solid #70215a;}
+.ptp-data-holder .btn{background-color:#ee4c7e; border-bottom:5px solid #c7396d;color: #fff;}
+.ptp-data-holder .btn .has-tip {color: #fff; border-bottom: dotted 1px #fff;}
+.ptp-plan-title h2{color:#60a9bc;text-shadow:0 2px 0 #255753;}
+.ptp-plan-title h2 .has-tip {color:#60a9bc;text-shadow:0 2px 0 #255753; border-bottom: dotted 1px #60a9bc;}
+.special .ptp-plan-title h2{color:#9c2e64;text-shadow:0 2px 0 #70215a;}
+.special .ptp-plan-title h2 .has-tip {color:#9c2e64;text-shadow:0 2px 0 #70215a; border-bottom: dotted 1px #9c2e64;}
+.ptp-price-table:hover .ptp-price-holder{background-color:#397275;}
+.ptp-price-table:hover .ptp-pay-duration{background-color:#417d83;}
+.ptp-price-holder{background-color:#417d83;border:1px solid #397275;}
+.ptp-pay-duration{background-color:#397275;}
+.desc-table .ptp-data-holder{background-color:#397275;}
+.desc-table .ptp-data-holder:nth-child(2n+1){background-color:#397275;}
+.desc-table .ptp-data-holder:nth-child(2n){background-color:#417d83;}
+.fa-times-circle.red {color:#c7396d;}

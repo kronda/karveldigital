@@ -1,0 +1,21 @@
+.desc-table{border:1px solid #3c3a7a;}
+.special.ptp-price-table .ptp-pay-duration{background-color:#c70056;}
+.special.ptp-price-table .ptp-price-holder{border-color:#c70056;background-color:#ee1367;}
+.desc-table .ptp-data-holder:hover{background-color:#281f58 !important;}
+.special.ptp-price-table:hover .ptp-pay-duration{background-color:#ee1367;}
+.special.ptp-price-table:hover .ptp-price-holder{background-color:#c70056 !important;}
+.ptp-data-holder .btn:hover{background-color:#c70056;border-bottom:5px solid #700043;}
+.ptp-data-holder .btn{background-color:#ee1367; border-bottom:5px solid #c70056;color: #fff;}
+.ptp-data-holder .btn .has-tip {color: #fff; border-bottom: dotted 1px #fff;}
+.ptp-plan-title h2{color:#6371c1;text-shadow:0 2px 0 #281f58;}
+.ptp-plan-title h2 .has-tip {color:#6371c1;text-shadow:0 2px 0 #281f58; border-bottom: dotted 1px #6371c1;}
+.special .ptp-plan-title h2{color:#9c004d;text-shadow:0 2px 0 #700043;}
+.special .ptp-plan-title h2 .has-tip {color:#9c004d;text-shadow:0 2px 0 #700043; border-bottom: dotted 1px #9c004d;}
+.ptp-price-table:hover .ptp-price-holder{background-color:#3c3a7a;}
+.ptp-price-table:hover .ptp-pay-duration{background-color:#444588;}
+.ptp-price-holder{background-color:#444588;border:1px solid #3c3a7a;}
+.ptp-pay-duration{background-color:#3c3a7a;}
+.desc-table .ptp-data-holder{background-color:#3c3a7a;}
+.desc-table .ptp-data-holder:nth-child(2n+1){background-color:#3c3a7a;}
+.desc-table .ptp-data-holder:nth-child(2n){background-color:#444588;}
+.fa-times-circle.red{color:#c70056;}

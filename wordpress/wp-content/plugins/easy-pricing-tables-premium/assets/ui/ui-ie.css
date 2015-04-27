@@ -1,0 +1,14 @@
+/* IE Hacks */
+.pricing_title_block .ribbon {display: none;}
+.head-tooltip {display: none;}
+
+/* Columns */
+.ptp-col {float: left;} /* Design 1 */
+.pricing_item {float: left;} /* Design 2 */
+.ptp-stylish-pricingtable .ptp-stylish-column {float: left;} /* Design 3 */
+.ptp-design4-pricingtable > li {float: left;} /* Design 4 */
+.row-fluid [class*="ptp-span"] { float: left; } /* Comparison 1*/
+
+/* Design 4 additional tweaks */
+.ptp-design4-front {display: none;}
+.ptp-design4-back {cursor: pointer;}

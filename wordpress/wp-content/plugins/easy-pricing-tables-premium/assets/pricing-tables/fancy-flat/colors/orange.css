@@ -1,0 +1,34 @@
+.pricing_container.orange .pricing_title_block,
+.pricing_container .pricing_item.orange .pricing_title_block {
+    background: #ffa14f; /* Old browsers */
+    background: -moz-linear-gradient(top,  #ffa14f 0%, #ff7f00 100%); /* FF3.6+ */
+    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#ffa14f), color-stop(100%,#ff7f00)); /* Chrome,Safari4+ */
+    background: -webkit-linear-gradient(top,  #ffa14f 0%,#ff7f00 100%); /* Chrome10+,Safari5.1+ */
+    background: -o-linear-gradient(top,  #ffa14f 0%,#ff7f00 100%); /* Opera 11.10+ */
+    background: -ms-linear-gradient(top,  #ffa14f 0%,#ff7f00 100%); /* IE10+ */
+    background: linear-gradient(to bottom,  #ffa14f 0%,#ff7f00 100%); /* W3C */
+    border: 1px solid #e57300;
+}
+
+.pricing_container.orange .pricing_title_block .name,
+.pricing_container .pricing_item.orange .pricing_title_block .name {
+    color: #6c4113;
+}
+
+.pricing_container.orange .pricing_title_block .name .has-tip,
+.pricing_container .pricing_item.orange .pricing_title_block .has-tip{
+    color: #6c4113;
+    border-bottom: dotted 1px #6c4113;
+}
+
+.pricing_container.orange .pt_description,
+.pricing_container .pricing_item.orange .pt_description {
+    background: #f3d0b0;
+    color: #7e5636;
+}
+
+.pricing_container.orange .ptp-fancy-button.pricing:hover,
+.pricing_container .pricing_item.orange .ptp-fancy-button.pricing:hover {
+    background: #e09910;
+    border: 1px solid #c5911c;
+}

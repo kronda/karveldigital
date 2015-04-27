@@ -1,0 +1,34 @@
+.pricing_container.ochre .pricing_title_block,
+.pricing_container .pricing_item.ochre .pricing_title_block {
+    background: #dca562;
+    background: -moz-linear-gradient(top,  #dca562 0%, #bf972e 100%);
+    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#dca562), color-stop(100%,#bf972e));
+    background: -webkit-linear-gradient(top, #dca562 0%,#bf972e 100%);
+    background: -o-linear-gradient(top,  #dca562 0%,#bf972e 100%);
+    background: -ms-linear-gradient(top,  #dca562 0%,#bf972e 100%);
+    background: linear-gradient(to bottom,  #dca562 0%,#bf972e 100%);
+    border: 1px solid #a48227;
+}
+
+.pricing_container.ochre .pricing_title_block .name,
+.pricing_container .pricing_item.ochre .pricing_title_block .name {
+    color: #563c1a;
+}
+
+.pricing_container.ochre .pricing_title_block .name .has-tip,
+.pricing_container .pricing_item.ochre .pricing_title_block .name .has-tip{
+    color: #563c1a;
+    border-bottom: dotted 1px #563c1a;
+}
+
+.pricing_container.ochre .pt_description,
+.pricing_container .pricing_item.ochre .pt_description {
+    background: #e7cfb5;
+    color: #66523b;
+}
+
+.pricing_container.ochre .ptp-fancy-button.pricing:hover,
+.pricing_container .pricing_item.ochre .ptp-fancy-button.pricing:hover {
+    background: #bf972e;
+    border: 1px solid #a48227;
+}

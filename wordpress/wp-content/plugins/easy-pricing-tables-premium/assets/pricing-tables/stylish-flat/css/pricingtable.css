@@ -1,0 +1,506 @@
+/*
+
+TABLE OF CONTENTS
+
+01 TABLES STYLING
+02 HEADERS
+03 COLUMNS CONTENT
+04 FOOTERS
+05 COLORS
+06 COLUMN HIGHLIGHT
+07 MEDIA QUERIES
+
+*/
+
+
+/**
+ * Eric Meyer's Reset CSS v2.0 (http://meyerweb.com/eric/tools/css/reset/)
+ * http://cssreset.com
+ */
+.ptp-stylish-pricingtable html, .ptp-stylish-pricingtable body, .ptp-stylish-pricingtable div, .ptp-stylish-pricingtable span, .ptp-stylish-pricingtable applet, .ptp-stylish-pricingtable object, 
+.ptp-stylish-pricingtable iframe, .ptp-stylish-pricingtable h1, .ptp-stylish-pricingtable h2, .ptp-stylish-pricingtable h3, .ptp-stylish-pricingtable h4, .ptp-stylish-pricingtable h5, 
+.ptp-stylish-pricingtable h6, .ptp-stylish-pricingtable p, .ptp-stylish-pricingtable blockquote, .ptp-stylish-pricingtable pre, .ptp-stylish-pricingtable a, .ptp-stylish-pricingtable abbr, 
+.ptp-stylish-pricingtable acronym, .ptp-stylish-pricingtable address, .ptp-stylish-pricingtable big, .ptp-stylish-pricingtable cite, .ptp-stylish-pricingtable code,
+.ptp-stylish-pricingtable del, .ptp-stylish-pricingtable dfn, .ptp-stylish-pricingtable em, .ptp-stylish-pricingtable img, .ptp-stylish-pricingtable ins, .ptp-stylish-pricingtable kbd, 
+.ptp-stylish-pricingtable q, .ptp-stylish-pricingtable s, .ptp-stylish-pricingtable samp, .ptp-stylish-pricingtable small, .ptp-stylish-pricingtable strike, .ptp-stylish-pricingtable strong, 
+.ptp-stylish-pricingtable sub, .ptp-stylish-pricingtable sup, .ptp-stylish-pricingtable tt, .ptp-stylish-pricingtable var,.ptp-stylish-pricingtable b, .ptp-stylish-pricingtable u, .ptp-stylish-pricingtable i,
+.ptp-stylish-pricingtable center,
+.ptp-stylish-pricingtable dl, .ptp-stylish-pricingtable dt, .ptp-stylish-pricingtable dd, .ptp-stylish-pricingtable ol, .ptp-stylish-pricingtable ul, .ptp-stylish-pricingtable li,
+.ptp-stylish-pricingtable fieldset, .ptp-stylish-pricingtable form, .ptp-stylish-pricingtable label, .ptp-stylish-pricingtable legend,
+.ptp-stylish-pricingtable table, .ptp-stylish-pricingtable caption, .ptp-stylish-pricingtable tbody, .ptp-stylish-pricingtable tfoot, .ptp-stylish-pricingtable thead, .ptp-stylish-pricingtable tr, .ptp-stylish-pricingtable th, .ptp-stylish-pricingtable td,
+.ptp-stylish-pricingtable article, .ptp-stylish-pricingtable aside, .ptp-stylish-pricingtable canvas, .ptp-stylish-pricingtable details, .ptp-stylish-pricingtable embed,
+.ptp-stylish-pricingtable figure, .ptp-stylish-pricingtable figcaption, .ptp-stylish-pricingtable footer, .ptp-stylish-pricingtable header, .ptp-stylish-pricingtable hgroup,
+.ptp-stylish-pricingtable menu, .ptp-stylish-pricingtable nav, .ptp-stylish-pricingtable output, .ptp-stylish-pricingtable ruby, .ptp-stylish-pricingtable section, .ptp-stylish-pricingtable summary,
+.ptp-stylish-pricingtable time, .ptp-stylish-pricingtable mark, .ptp-stylish-pricingtable audio, .ptp-stylish-pricingtable video {
+    font-size: 100%;
+    font: inherit;
+    vertical-align: baseline;
+}
+
+/* HTML tag support in table */
+.ptp-stylish-pricingtable b, .ptp-stylish-pricingtable strong {font-weight: bold;}
+.ptp-stylish-pricingtable i, .ptp-stylish-pricingtable em {font-style: italic;}
+
+/* HTML5 display-role reset for older browsers */
+.ptp-stylish-pricingtable article, .ptp-stylish-pricingtable aside, .ptp-stylish-pricingtable details, .ptp-stylish-pricingtable figcaption, .ptp-stylish-pricingtable figure,
+.ptp-stylish-pricingtable footer, .ptp-stylish-pricingtable header, .ptp-stylish-pricingtable hgroup, .ptp-stylish-pricingtable menu, .ptp-stylish-pricingtable nav, .ptp-stylish-pricingtable section {
+    display: block;
+}
+/*
+.ptp-stylish-pricingtable body {
+}
+
+.ptp-stylish-pricingtable ol, .ptp-stylish-pricingtable ul {
+    list-style: none;
+}
+*/
+.ptp-stylish-pricingtable blockquote, .ptp-stylish-pricingtable q {
+    quotes: none;
+}
+.ptp-stylish-pricingtable blockquote:before, .ptp-stylish-pricingtable blockquote:after,
+.ptp-stylish-pricingtable q:before, .ptp-stylish-pricingtable q:after {
+    content: '';
+    content: none;
+}
+.ptp-stylish-pricingtable table {
+    border-collapse: collapse;
+    border-spacing: 0;
+}
+
+/*** End Reset ***/
+
+/** minor fixes **/
+.ptp-stylish-bottomheader{
+	padding-top: 18px;
+}
+
+.ptp-stylish-description .ptp-design3-row{
+	padding-right: 0;
+	padding-left: 0;
+	text-align: center;
+}
+
+/** End minor fixes. Main CSS Section: **/
+
+/*  _______________________________________
+
+	01 TABLES STYLING
+    _______________________________________  */
+
+
+
+.ptp-stylish-pricingtable {
+	font-family:Arial, Helvetica, sans-serif;
+	font-size: 12px;
+	width:100%;
+	text-shadow:1px 1px 1px #000000;
+	margin-bottom: 30px;
+	text-align: center;
+}
+.ptp-stylish-pricingtable .ptp-stylish-column {
+	margin: 0px;
+	padding: 0px;
+	list-style: none;
+}
+	/*.ptp-stylish-pricingtable ul,
+	.ptp-stylish-pricingtable ul li {
+		list-style: none;
+		margin: 0;
+		padding: 0;
+		text-align: center;
+	}*/
+.ptp-stylish-pricingtable .ptp-stylish-column {
+	display: inline-block;
+	padding: 0;
+	margin: 0;
+	-webkit-box-shadow: 0 0 3px 0px rgba(0, 0, 0, 0.4);
+    -moz-box-shadow: 0 0 3px 0px rgba(0, 0, 0, 0.4);
+    box-shadow: 0 0 3px 0px rgba(0, 0, 0, 0.4);
+}
+	.ptp-stylish-pricingtable .ptp-stylish-column_last {
+		margin-right:0;
+	}
+.ptp-stylish-pricingtable_five .ptp-stylish-column {
+	width: 20%;
+}
+.ptp-stylish-pricingtable_four .ptp-stylish-column {
+	width: 25%;
+}
+.ptp-stylish-pricingtable_three .ptp-stylish-column {
+	width: 33.333%;
+}
+.ptp-stylish-pricingtable_two .ptp-stylish-column {
+	width: 50%;
+}
+.ptp-stylish-pricingtable_one .ptp-stylish-column {
+	width: 50%;
+}
+
+
+/*  _______________________________________
+
+	02 ptp-stylish-headerS
+    _______________________________________  */
+
+
+
+.ptp-stylish-pricingtable .ptp-stylish-header {
+	padding: 24px 8% 12px 8%;
+	*padding: 24px 8% 24px 8%;
+	margin-bottom: 0;
+	text-shadow:1px 1px 1px #222222;
+	-webkit-box-shadow: inset 0px 1px 0px 0px rgba(255, 255, 255, 0.25), 0px 1px 1px 0px rgba(0, 0, 0, 0.35);
+    -moz-box-shadow: inset 0px 1px 0px 0px rgba(255, 255, 255, 0.25), 0px 1px 1px 0px rgba(0, 0, 0, 0.35);
+    box-shadow: inset 0px 1px 0px 0px rgba(255, 255, 255, 0.25), 0px 1px 1px 0px rgba(0, 0, 0, 0.35);
+}
+	.ptp-stylish-pricingtable .ptp-stylish-header strong.price,
+	.ptp-stylish-pricingtable .ptp-stylish-header strong.title {
+		margin: 0;
+		padding: 0;
+	}
+	.ptp-stylish-pricingtable .ptp-stylish-header strong.price {
+		font-size: 42px;
+		line-height: 48px;
+		font-weight: 400;
+	}
+		.ptp-stylish-pricingtable .ptp-stylish-header strong.price span {
+			font-size: 11px;
+		}
+	.ptp-stylish-pricingtable .ptp-stylish-header strong.title {
+		font-size: 24px;
+		font-weight: 400;
+	}
+	.ptp-stylish-pricingtable .ptp-stylish-header .subline {
+		font-size: 11px;
+		margin: 0;
+	}
+	.ptp-stylish-pricingtable .ptp-stylish-header .ptp-stylish-topheader {
+		padding-bottom: 24px;
+	}
+	.ptp-stylish-pricingtable .ptp-stylish-header ptp-stylish-bottomheader {
+		padding-top: 18px;
+	}
+
+
+
+/*  _______________________________________
+
+	03 ptp-sytlish-columnS ptp-stylish-content
+    _______________________________________  */
+
+
+
+.ptp-stylish-pricingtable .ptp-stylish-column {
+	background: #121212;
+}
+.ptp-stylish-pricingtable .ptp-stylish-content {
+}
+.ptp-stylish-pricingtable .ptp-stylish-content .ptp-stylish-description {
+	white-space: wrap;
+}
+.ptp-stylish-pricingtable .ptp-stylish-content .ptp-stylish-description .ptp-design3-row {
+	/*text-align: left;*/
+	padding: 18px 8%;
+	border-bottom: 1px solid #191919;
+}
+/*.ptp-stylish-pricingtable .ptp-stylish-content .ptp-stylish-description i {
+	font-size: 18px;
+	width: 30px;
+	float: left;
+}*/
+
+
+
+/*  _______________________________________
+
+	04 ptp-stylish-footerS
+    _______________________________________  */
+
+
+
+.ptp-stylish-pricingtable .ptp-stylish-footer {
+	padding: 24px 2% 12px 2%;
+	margin: 12px 0 24px 0;
+}
+.ptp-stylish-pricingtable .ptp-stylish-pricing_button {
+	transition:background 0.3s;
+	border-radius:3px;
+	display: inline-block;
+	cursor: pointer;
+	padding: 10px 0px;
+	-webkit-box-shadow: inset 0px 1px 0px 0px rgba(255, 255, 255, 0.25), 0px 1px 1px 0px rgba(0, 0, 0, 0.35);
+	-moz-box-shadow: inset 0px 1px 0px 0px rgba(255, 255, 255, 0.25), 0px 1px 1px 0px rgba(0, 0, 0, 0.35);
+	box-shadow: inset 0px 1px 0px 0px rgba(255, 255, 255, 0.25), 0px 1px 1px 0px rgba(0, 0, 0, 0.35);
+}
+.ptp-stylish-pricingtable .ptp-stylish-pricing_button a {
+	text-decoration: none;
+	font-size: 13px;
+	color: #d4d4d4;
+	text-shadow:1px 1px 1px #161616;
+        padding: 15px 32px;
+}
+	.ptp-stylish-pricingtable .ptp-stylish-pricing_button:hover {
+		-webkit-box-shadow: inset 0px 1px 0px 0px rgba(255, 255, 255, 0.15), 0px 1px 1px 0px rgba(0, 0, 0, 0.45);
+	    -moz-box-shadow: inset 0px 1px 0px 0px rgba(255, 255, 255, 0.15), 0px 1px 1px 0px rgba(0, 0, 0, 0.45);
+	    box-shadow: inset 0px 1px 0px 0px rgba(255, 255, 255, 0.15), 0px 1px 1px 0px rgba(0, 0, 0, 0.45);
+	}
+
+
+
+/*  _______________________________________
+
+	05 COLORS
+    _______________________________________  */
+
+
+
+.ptp-stylish-column_blue .ptp-stylish-header,
+.ptp-stylish-column_blue .ptp-stylish-pricing_button {
+	background: #456366;
+}
+	.ptp-stylish-column_blue .ptp-stylish-pricing_button:hover {
+		background: #374f52;
+	}
+	.ptp-stylish-column_blue .ptp-stylish-topheader {
+		border-bottom: 1px solid #374f52; /* 1 or 2 tones lighter */
+	}
+	.ptp-stylish-column_blue ptp-stylish-bottomheader {
+		border-top: 1px solid #53777a; /* 2 tones darker than the BG */
+	}
+.ptp-stylish-column_brown .ptp-stylish-header,
+.ptp-stylish-column_brown .ptp-stylish-pricing_button {
+	background: #696758;
+}
+	.ptp-stylish-column_brown .ptp-stylish-pricing_button:hover {
+		background: #575549;
+	}
+	.ptp-stylish-column_brown .ptp-stylish-topheader {
+		border-bottom: 1px solid #575549;
+	}
+	.ptp-stylish-column_brown ptp-stylish-bottomheader {
+		border-top: 1px solid #727060;
+	}
+.ptp-stylish-column_deepblue .ptp-stylish-header,
+.ptp-stylish-column_deepblue .ptp-stylish-pricing_button {
+	background: #45484B;
+}
+	.ptp-stylish-column_deepblue .ptp-stylish-pricing_button:hover {
+		background: #353739;
+	}
+	.ptp-stylish-column_deepblue .ptp-stylish-topheader {
+		border-bottom: 1px solid #353739;
+	}
+	.ptp-stylish-column_deepblue ptp-stylish-bottomheader {
+		border-top: 1px solid #4d5054;
+	}
+.ptp-stylish-column_darkgrey .ptp-stylish-header,
+.ptp-stylish-column_darkgrey .ptp-stylish-pricing_button {
+	background: #36393B;
+}
+	.ptp-stylish-column_darkgrey .ptp-stylish-pricing_button:hover {
+		background: #262829;
+	}
+	.ptp-stylish-column_darkgrey .ptp-stylish-topheader {
+		border-bottom: 1px solid #262829;
+	}
+	.ptp-stylish-column_darkgrey ptp-stylish-bottomheader {
+		border-top: 1px solid #3e4244;
+	}
+.ptp-stylish-column_green .ptp-stylish-header,
+.ptp-stylish-column_green .ptp-stylish-pricing_button {
+	background: #496449;
+}
+	.ptp-stylish-column_green .ptp-stylish-pricing_button:hover {
+		background: #3a513a;
+	}
+	.ptp-stylish-column_green .ptp-stylish-topheader {
+		border-bottom: 1px solid #3a513a;
+	}
+	.ptp-stylish-column_green ptp-stylish-bottomheader {
+		border-top: 1px solid #506e50;
+	}
+.ptp-stylish-column_ocean .ptp-stylish-header,
+.ptp-stylish-column_ocean .ptp-stylish-pricing_button {
+	background: #3f4953;
+}
+	.ptp-stylish-column_ocean .ptp-stylish-pricing_button:hover {
+		background: #303840;
+	}
+	.ptp-stylish-column_ocean .ptp-stylish-topheader {
+		border-bottom: 1px solid #303840;
+	}
+	.ptp-stylish-column_ocean ptp-stylish-bottomheader {
+		border-top: 1px solid #4e5a66;
+	}
+.ptp-stylish-column_olive .ptp-stylish-header,
+.ptp-stylish-column_olive .ptp-stylish-pricing_button {
+	background: #504F48;
+}
+	.ptp-stylish-column_olive .ptp-stylish-pricing_button:hover {
+		background: #3e3d38;
+	}
+	.ptp-stylish-column_olive .ptp-stylish-topheader {
+		border-bottom: 1px solid #3e3d38;
+	}
+	.ptp-stylish-column_olive ptp-stylish-bottomheader {
+		border-top: 1px solid #595850;
+	}
+.ptp-stylish-column_orange .ptp-stylish-header,
+.ptp-stylish-column_orange .ptp-stylish-pricing_button {
+	background: #a64324;
+}
+	.ptp-stylish-column_orange .ptp-stylish-pricing_button:hover {
+		background: #8a381e;
+	}
+	.ptp-stylish-column_orange .ptp-stylish-topheader {
+		border-bottom: 1px solid #8a381e;
+	}
+	.ptp-stylish-column_orange ptp-stylish-bottomheader {
+		border-top: 1px solid #b44927;
+	}
+.ptp-stylish-column_pink .ptp-stylish-header,
+.ptp-stylish-column_pink .ptp-stylish-pricing_button {
+	background: #712941;
+}
+	.ptp-stylish-column_pink .ptp-stylish-pricing_button:hover {
+		background: #582033;
+	}
+	.ptp-stylish-column_pink .ptp-stylish-topheader {
+		border-bottom: 1px solid #582033;
+	}
+	.ptp-stylish-column_pink ptp-stylish-bottomheader {
+		border-top: 1px solid #7d2e49;
+	}
+.ptp-stylish-column_purple .ptp-stylish-header,
+.ptp-stylish-column_purple .ptp-stylish-pricing_button {
+	background: #493c45;
+}
+	.ptp-stylish-column_purple .ptp-stylish-pricing_button:hover {
+		background: #362d33;
+	}
+	.ptp-stylish-column_purple .ptp-stylish-topheader {
+		border-bottom: 1px solid #362d33;
+	}
+	.ptp-stylish-column_purple ptp-stylish-bottomheader {
+		border-top: 1px solid #52444e;
+	}
+.ptp-stylish-column_red .ptp-stylish-header,
+.ptp-stylish-column_red .ptp-stylish-pricing_button {
+	background: #742222;
+}
+	.ptp-stylish-column_red .ptp-stylish-pricing_button:hover {
+		background: #5a1a1a;
+	}
+	.ptp-stylish-column_red .ptp-stylish-topheader {
+		border-bottom: 1px solid #5a1a1a;
+	}
+	.ptp-stylish-column_red ptp-stylish-bottomheader {
+		border-top: 1px solid #812626;
+	}
+.ptp-stylish-column_yellow .ptp-stylish-header,
+.ptp-stylish-column_yellow .ptp-stylish-pricing_button {
+	background: #b28d19;
+}
+	.ptp-stylish-column_yellow .ptp-stylish-pricing_button:hover {
+		background: #947615;
+	}
+	.ptp-stylish-column_yellow .ptp-stylish-topheader {
+		border-bottom: 1px solid #947615;
+	}
+	.ptp-stylish-column_yellow ptp-stylish-bottomheader {
+		border-top: 1px solid #c1991b;
+	}
+
+
+
+/*  _______________________________________
+
+	06 	ptp-sytlish-column HIGHLIGHT
+    _______________________________________  */
+
+
+
+.ptp-stylish-pricingtable .ptp-stylish-column_highlight {
+	position: relative;
+	z-index: 2;
+	background: #0f0f0f;
+	border-bottom: 1px solid #161616;
+	-webkit-box-shadow: inset 0 0 1px rgba(0,0,0,0.6), 0 0 21px 0px rgba(0, 0, 0, 0.6);
+    -moz-box-shadow: inset 0 0 1px rgba(0,0,0,0.6), 0 0 21px 0px rgba(0, 0, 0, 0.6);
+    box-shadow: inset 0 0 1px rgba(0,0,0,0.6), 0 0 21px 0px rgba(0, 0, 0, 0.6);
+}
+.ptp-stylish-pricingtable .ptp-stylish-column_highlight .ptp-stylish-header {
+	padding: 32px 8% 24px 8%;
+	position: relative;
+	margin-top: -20px;
+	*padding: 24px 8% 24px 8%;
+	*margin-top: 0;
+}
+.ptp-stylish-pricingtable .ptp-stylish-column_highlight .ptp-stylish-footer {
+	padding: 32px 2% 24px 2%;
+	*padding: 24px 2% 12px 2%;
+}
+
+
+
+/*  _______________________________________
+
+	07 MEDIA QUERIES
+    _______________________________________  */
+
+
+
+/*@media screen and (max-width: 1023px) {
+
+	.ptp-stylish-pricingtable .ptp-stylish-column {
+		margin: 0 0 32px 0;
+	}
+	.ptp-stylish-pricingtable_five .ptp-stylish-column,
+	.ptp-stylish-pricingtable_four .ptp-stylish-column,
+	.ptp-stylish-pricingtable_three .ptp-stylish-column,
+	.ptp-stylish-pricingtable_two .ptp-stylish-column {
+		width: 50%; 
+	}
+	.ptp-stylish-pricingtable .ptp-stylish-content .ptp-stylish-description i {
+		width: 30px;
+	}
+	.ptp-stylish-pricingtable .ptp-stylish-content .ptp-stylish-description .ptp-design3-row {
+		padding-left: 10%;
+	}
+	.ptp-stylish-pricingtable .ptp-stylish-column_highlight {
+		z-index: 1;
+		background: #121212;
+		border-bottom: none;
+		-webkit-box-shadow: 0 0 3px 0px rgba(0, 0, 0, 0.4);
+	    -moz-box-shadow: 0 0 3px 0px rgba(0, 0, 0, 0.4);
+	    box-shadow: 0 0 3px 0px rgba(0, 0, 0, 0.4);
+	}
+	.ptp-stylish-pricingtable .ptp-stylish-column_highlight .ptp-stylish-header {
+		padding: 24px 8% 12px 8%;
+		margin-top: auto;
+	}
+	.ptp-stylish-pricingtable .ptp-stylish-column_highlight .ptp-stylish-footer {
+		padding: 24px 2% 12px 2%;
+	}
+
+}*/
+
+@media screen and (max-width: 767px) {
+
+	.ptp-stylish-pricingtable .ptp-stylish-column {
+		margin: 0 0 32px 0;
+	}
+	/*.ptp-stylish-pricingtable .ptp-stylish-column {
+		margin-right: 0;
+	}*/
+	.ptp-stylish-pricingtable_five .ptp-stylish-column,
+	.ptp-stylish-pricingtable_four .ptp-stylish-column,
+	.ptp-stylish-pricingtable_three .ptp-stylish-column,
+	.ptp-stylish-pricingtable_two .ptp-stylish-column {
+		width: 100%; 
+	}
+	.ptp-stylish-pricingtable .ptp-stylish-content .ptp-stylish-description .ptp-design3-row {
+		padding-left: 12%;
+	}
+        .tt-ptp-empty-row { display: none  }
+}

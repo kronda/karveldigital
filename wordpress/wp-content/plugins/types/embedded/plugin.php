@@ -5,13 +5,13 @@
   Description: Define custom post types, custom taxonomy and custom fields.
   Author: OnTheGoSystems
   Author URI: http://www.onthegosystems.com
-  Version: 1.6.6.2
+  Version: 1.6.6.3
  */
 /**
  *
- * $HeadURL: http://plugins.svn.wordpress.org/types/tags/1.6.6.2/embedded/plugin.php $
- * $LastChangedDate: 2015-04-10 07:30:43 +0000 (Fri, 10 Apr 2015) $
- * $LastChangedRevision: 1131818 $
+ * $HeadURL: http://plugins.svn.wordpress.org/types/tags/1.6.6.3/embedded/plugin.php $
+ * $LastChangedDate: 2015-04-27 10:19:57 +0000 (Mon, 27 Apr 2015) $
+ * $LastChangedRevision: 1146882 $
  * $LastChangedBy: iworks $
  *
  */

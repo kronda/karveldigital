@@ -32,7 +32,7 @@ class GFFreshBooks extends GFFeedAddOn {
 		return self::$_instance;
 	}
 
-	public function init_admin(){
+	public function init_admin() {
 		parent::init_admin();
 
 		$this->ensure_upgrade();
@@ -40,42 +40,52 @@ class GFFreshBooks extends GFFeedAddOn {
 		add_filter( 'gform_addon_navigation', array( $this, 'maybe_create_menu' ) );
 	}
 
+	public function init_frontend() {
+		parent::init_frontend();
+
+		add_action( 'gform_post_payment_completed', array( $this, 'create_payment' ), 10, 2 );
+	}
+
 	//------- AJAX FUNCTIONS ------------------//
 
-	public function init_ajax(){
+	public function init_ajax() {
 		parent::init_ajax();
 
 		add_action( 'wp_ajax_gf_dismiss_freshbooks_menu', array( $this, 'ajax_dismiss_menu' ) );
 
 	}
 
-	public function maybe_create_menu( $menus ){
-		$current_user = wp_get_current_user();
+	public function maybe_create_menu( $menus ) {
+		$current_user            = wp_get_current_user();
 		$dismiss_freshbooks_menu = get_metadata( 'user', $current_user->ID, 'dismiss_freshbooks_menu', true );
-		if ( $dismiss_freshbooks_menu != '1' ){
-			$menus[] = array( 'name' => $this->_slug, 'label' => $this->get_short_title(), 'callback' => array( $this, 'temporary_plugin_page' ), 'permission' => $this->_capabilities_form_settings );
+		if ( $dismiss_freshbooks_menu != '1' ) {
+			$menus[] = array( 'name'       => $this->_slug,
+			                  'label'      => $this->get_short_title(),
+			                  'callback'   => array( $this, 'temporary_plugin_page' ),
+			                  'permission' => $this->_capabilities_form_settings
+			);
 		}
 
 		return $menus;
 	}
 
-	public function ajax_dismiss_menu(){
+	public function ajax_dismiss_menu() {
 
 		$current_user = wp_get_current_user();
 		update_metadata( 'user', $current_user->ID, 'dismiss_freshbooks_menu', '1' );
 	}
 
-	public function temporary_plugin_page(){
+	public function temporary_plugin_page() {
 		$current_user = wp_get_current_user();
 		?>
 		<script type="text/javascript">
-			function dismissMenu(){
+			function dismissMenu() {
 				jQuery('#gf_spinner').show();
 				jQuery.post(ajaxurl, {
-						action : "gf_dismiss_freshbooks_menu"
+						action: "gf_dismiss_freshbooks_menu"
 					},
 					function (response) {
-						document.location.href='?page=gf_edit_forms';
+						document.location.href = '?page=gf_edit_forms';
 						jQuery('#gf_spinner').hide();
 					}
 				);
@@ -85,12 +95,15 @@ class GFFreshBooks extends GFFeedAddOn {
 
 		<div class="wrap about-wrap">
 			<h1><?php _e( 'FreshBooks Add-On v2.0', 'gravityformsfreshbooks' ) ?></h1>
-			<div class="about-text"><?php _e( 'Thank you for updating! The new version of the Gravity Forms FreshBooks Add-On makes changes to how you manage your FreshBooks integration.', 'gravityformsfreshbooks' ) ?></div>
+
+			<div
+				class="about-text"><?php _e( 'Thank you for updating! The new version of the Gravity Forms FreshBooks Add-On makes changes to how you manage your FreshBooks integration.', 'gravityformsfreshbooks' ) ?></div>
 			<div class="changelog">
 				<hr/>
 				<div class="feature-section col two-col">
 					<div class="col-1">
 						<h3><?php _e( 'Manage FreshBooks Contextually', 'gravityformsfreshbooks' ) ?></h3>
+
 						<p><?php _e( 'FreshBooks Feeds are now accessed via the FreshBooks sub-menu within the Form Settings for the Form with which you would like to integrate FreshBooks.', 'gravityformsfreshbooks' ) ?></p>
 					</div>
 					<div class="col-2 last-feature">
@@ -101,8 +114,10 @@ class GFFreshBooks extends GFFeedAddOn {
 				<hr/>
 
 				<form method="post" id="dismiss_menu_form" style="margin-top: 20px;">
-					<input type="checkbox" name="dismiss_freshbooks_menu" value="1" onclick="dismissMenu();"> <label><?php _e( 'I understand this change, dismiss this message!', 'gravityformsfreshbooks' ) ?></label>
-					<img id="gf_spinner" src="<?php echo GFCommon::get_base_url() . '/images/spinner.gif'?>" alt="<?php _e( 'Please wait...', 'gravityformsfreshbooks' ) ?>" style="display:none;"/>
+					<input type="checkbox" name="dismiss_freshbooks_menu" value="1" onclick="dismissMenu();">
+					<label><?php _e( 'I understand this change, dismiss this message!', 'gravityformsfreshbooks' ) ?></label>
+					<img id="gf_spinner" src="<?php echo GFCommon::get_base_url() . '/images/spinner.gif'?>"
+					     alt="<?php _e( 'Please wait...', 'gravityformsfreshbooks' ) ?>" style="display:none;"/>
 				</form>
 
 			</div>
@@ -156,7 +171,7 @@ class GFFreshBooks extends GFFeedAddOn {
 		if ( ! $this->is_valid_credentials() ) {
 			?>
 			<div><?php echo sprintf( __( 'We are unable to login to FreshBooks with the provided username and password. Please make sure they are valid in the %sSettings Page%s', 'gravityformsfreshbooks' ),
-					"<a href='" . $this->get_plugin_settings_url() . "'>", '</a>' ); ?>
+					"<a href='" . esc_url( $this->get_plugin_settings_url() ) . "'>", '</a>' ); ?>
 			</div>
 
 			<?php
@@ -170,7 +185,7 @@ class GFFreshBooks extends GFFeedAddOn {
 	public function feed_settings_fields() {
 		return array(
 			array(
-				'title'       => __( 'Freshbooks Feed', 'gravityformsfreshbooks' ),
+				'title'       => __( 'Freshbooks Feed Settings', 'gravityformsfreshbooks' ),
 				'description' => '',
 				'fields'      => array(
 					array(
@@ -181,6 +196,12 @@ class GFFreshBooks extends GFFeedAddOn {
 						'class'    => 'medium',
 						'tooltip'  => '<h6>' . __( 'Name', 'gravityformsfreshbooks' ) . '</h6>' . __( 'Enter a feed name to uniquely identify this setup.', 'gravityformsfreshbooks' ),
 					),
+				),
+			),
+			array(
+				'title'       => __( 'Client Settings', 'gravityformsfreshbooks' ),
+				'description' => '',
+				'fields'      => array(
 					array(
 						'name'     => 'email',
 						'label'    => __( 'Email', 'gravityformsfreshbooks' ),
@@ -206,7 +227,7 @@ class GFFreshBooks extends GFFeedAddOn {
 						'label'    => __( 'Organization', 'gravityformsfreshbooks' ),
 						'type'     => 'select',
 						'choices'  => $this->get_field_map_choices( rgget( 'id' ) ),
-						'required' => true,
+						'required' => false,
 					),
 					array(
 						'name'     => 'address',
@@ -233,8 +254,14 @@ class GFFreshBooks extends GFFeedAddOn {
 						'name'  => 'notes',
 						'label' => __( 'Notes', 'gravityformsfreshbooks' ),
 						'type'  => 'textarea',
-						'class' => 'medium',
+						'class' => 'medium merge-tag-support mt-position-right',
 					),
+				),
+			),
+			array(
+				'title'       => __( 'Invoice/Estimate Settings', 'gravityformsfreshbooks' ),
+				'description' => '',
+				'fields'      => array(
 					array(
 						'name'          => 'alsoCreate',
 						'label'         => __( 'Also Create', 'gravityformsfreshbooks' ),
@@ -250,17 +277,30 @@ class GFFreshBooks extends GFFeedAddOn {
 						'onchange'      => 'jQuery(this).parents("form").submit();',
 					),
 					array(
-						'name'    => 'sendByEmail',
-						'label'   => '',
-						'type'    => 'checkbox',
+						'name'       => 'sendByEmail',
+						'label'      => '',
+						'type'       => 'checkbox',
 						'dependency' => array( 'field' => 'alsoCreate', 'values' => array( 'invoice', 'estimate' ) ),
-						'choices' => array(
-										array(
-											'label'   => __( 'Send Invoice/Estimate By Email', 'gravityformsfreshbooks' ),
-											'name'    => 'sendByEmail',
-											'tooltip' => '<h6>' . __( 'Send Invoice/Estimate By Email', 'gravityformsfreshbooks' ) . '</h6>' . __( 'By checking this option, the invoice/estimate will automatically be emailed to the client, instead of left in Draft form.', 'gravityformsfreshbooks' ),
-										),
-									)
+						'choices'    => array(
+							array(
+								'label'   => __( 'Send Invoice/Estimate By Email', 'gravityformsfreshbooks' ),
+								'name'    => 'sendByEmail',
+								'tooltip' => '<h6>' . __( 'Send Invoice/Estimate By Email', 'gravityformsfreshbooks' ) . '</h6>' . __( 'By checking this option, the invoice/estimate will automatically be emailed to the client, instead of left in Draft form.', 'gravityformsfreshbooks' ),
+							),
+						)
+					),
+					array(
+						'name'       => 'createPayment',
+						'label'      => '',
+						'type'       => 'checkbox',
+						'dependency' => array( $this, 'maybe_show_create_payment' ),
+						'choices'    => array(
+							array(
+								'label'   => __( 'Mark Invoice as Paid', 'gravityformsfreshbooks' ),
+								'name'    => 'createPayment',
+								'tooltip' => '<h6>' . __( 'Mark Invoice as Paid', 'gravityformsfreshbooks' ) . '</h6>' . __( 'By checking this option, once the user has completed his/her payment transaction, a Freshbooks payment for the invoice amount will automatically be created, changing the invoice status to Paid.', 'gravityformsfreshbooks' ),
+							),
+						)
 					),
 					array(
 						'name'       => 'poNumber',
@@ -268,15 +308,18 @@ class GFFreshBooks extends GFFeedAddOn {
 						'type'       => 'select',
 						'choices'    => $this->get_field_map_choices( rgget( 'id' ) ),
 						'tooltip'    => '<h6>' . __( 'PO Number', 'gravityformsfreshbooks' ) . '</h6>' . __( 'Map the PO number to the appropriate form field. The data will be truncated to 25 characters per a requirement by FreshBooks.', 'gravityformsfreshbooks' ),
-						'dependency' => array( 'field' => 'alsoCreate', 'values' => array( 'invoice', 'estimate' ) )
+						'dependency' => array( 'field' => 'alsoCreate', 'values' => array( 'invoice', 'estimate' ) ),
 					),
 					array(
-						'name'       => 'discount',
-						'label'      => __( 'Discount', 'gravityformsfreshbooks' ),
-						'type'       => 'discount',
-						'tooltip'    => '<h6>' . __( 'Discount', 'gravityformsfreshbooks' ) . '</h6>' . __( 'When creating an invoice or estimate, this discount will be applied to the total invoice/estimate cost.', 'gravityformsfreshbooks' ),
-						'dependency' => array( 'field' => 'alsoCreate', 'values' => array( 'invoice', 'estimate' ) ),
-						'validation_callback' => array( $this, 'validate_discount' )
+						'name'                => 'discount',
+						'label'               => __( 'Discount', 'gravityformsfreshbooks' ),
+						'type'                => 'discount',
+						'tooltip'             => '<h6>' . __( 'Discount', 'gravityformsfreshbooks' ) . '</h6>' . __( 'When creating an invoice or estimate, this discount will be applied to the total invoice/estimate cost.', 'gravityformsfreshbooks' ),
+						'dependency'          => array(
+							'field'  => 'alsoCreate',
+							'values' => array( 'invoice', 'estimate' ),
+						),
+						'validation_callback' => array( $this, 'validate_discount' ),
 					),
 					array(
 						'name'       => 'lineItems',
@@ -284,38 +327,55 @@ class GFFreshBooks extends GFFeedAddOn {
 						'type'       => 'line_items',
 						'tooltip'    => '<h6>' . __( 'Line Items', 'gravityformsfreshbooks' ) . '</h6>' . __( 'Create one or more line item(s) for your invoice or estimate.', 'gravityformsfreshbooks' ),
 						'onchange'   => 'ResetLineItemValues(this);jQuery(this).parents("form").submit();',
-						'dependency' => array( 'field' => 'alsoCreate', 'values' => array( 'invoice', 'estimate' ) )
+						'dependency' => array( 'field' => 'alsoCreate', 'values' => array( 'invoice', 'estimate' ) ),
 					),
 					array(
 						'name'       => 'fixedCosts',
 						'type'       => 'fixed_costs',
-						'label'		 => '',
-						'dependency' => array( 'field' => 'lineItems', 'values' => array( 'fixed', 'dynamic' ) )
+						'label'      => '',
+						'dependency' => array( 'field' => 'lineItems', 'values' => array( 'fixed', 'dynamic' ) ),
 					),
 					array(
 						'name'       => 'notes2',
 						'label'      => __( 'Notes', 'gravityformsfreshbooks' ),
 						'type'       => 'textarea',
-						'class'      => 'medium',
-						'dependency' => array( 'field' => 'alsoCreate', 'values' => array( 'invoice', 'estimate' ) )
+						'class'      => 'medium merge-tag-support mt-position-right',
+						'dependency' => array( 'field' => 'alsoCreate', 'values' => array( 'invoice', 'estimate' ) ),
 					),
 					array(
 						'name'       => 'terms',
 						'label'      => __( 'Terms', 'gravityformsfreshbooks' ),
 						'type'       => 'textarea',
 						'class'      => 'medium',
-						'dependency' => array( 'field' => 'alsoCreate', 'values' => array( 'invoice', 'estimate' ) )
+						'dependency' => array( 'field' => 'alsoCreate', 'values' => array( 'invoice', 'estimate' ) ),
 					),
+				),
+			),
+			array(
+				'title'       => __( 'Other Settings', 'gravityformsfreshbooks' ),
+				'description' => '',
+				'fields'      => array(
 					array(
 						'name'    => 'optin',
 						'label'   => __( 'Export Condition', 'gravityformsfreshbooks' ),
 						'type'    => 'feed_condition',
 						'tooltip' => '<h6>' . __( 'Export Condition', 'gravityformsfreshbooks' ) . '</h6>' . __( 'When the export condition is enabled, form submissions will only be exported to FreshBooks when the condition is met. When disabled all form submissions will be exported.', 'gravityformsfreshbooks' )
 					),
-				)
+				),
 			),
+
 		);
 
+	}
+
+	/**
+	 * Only show the createPayment setting if the form has an active Product & Services type feed and if an invoice is being created.
+	 *
+	 * @return bool
+	 */
+	public function maybe_show_create_payment() {
+
+		return $this->get_setting( 'alsoCreate' ) == 'invoice' && $this->has_product_feed();
 	}
 
 	public function settings_email( $field, $echo = true ) {
@@ -372,23 +432,23 @@ class GFFreshBooks extends GFFeedAddOn {
 		$dynamic_tooltip_content = '<h6>' . __( 'Dynamic Cost and Quantity', 'gravityformsfreshbooks' ) . '</h6>' . __( 'Allow line item cost and quantity to be populated from a form field.', 'gravityformsfreshbooks' );
 		$options                 = array(
 			array(
-				'label'		=> __( 'Fixed Costs and Quantities', 'gravityformsfreshbooks' ),
-				'id'		=> 'fixed',
-				'value'		=> 'fixed',
-				'tooltip'	=> $fixed_tooltip_content,
+				'label'   => __( 'Fixed Costs and Quantities', 'gravityformsfreshbooks' ),
+				'id'      => 'fixed',
+				'value'   => 'fixed',
+				'tooltip' => $fixed_tooltip_content,
 			),
 			array(
-				'label'		=> __( 'Use Pricing Fields', 'gravityformsfreshbooks' ),
-				'id'		=> 'pricing',
-				'value'		=> 'pricing',
-				'tooltip'	=> $pricing_tooltip_content,
+				'label'   => __( 'Use Pricing Fields', 'gravityformsfreshbooks' ),
+				'id'      => 'pricing',
+				'value'   => 'pricing',
+				'tooltip' => $pricing_tooltip_content,
 			),
 			array(
-				'label'		=> $this->enable_dynamic_costs() ? __( 'Pull Costs and Quantities from Form Fields', 'gravityformsfreshbooks' ) : '',
-				'id'		=> 'dynamic',
-				'value'		=> 'dynamic',
-				'tooltip'	=> $this->enable_dynamic_costs() ? $dynamic_tooltip_content : '',
-				'style'		=> $this->enable_dynamic_costs() ? 'display:inline-block' : 'display:none',
+				'label'   => $this->enable_dynamic_costs() ? __( 'Pull Costs and Quantities from Form Fields', 'gravityformsfreshbooks' ) : '',
+				'id'      => 'dynamic',
+				'value'   => 'dynamic',
+				'tooltip' => $this->enable_dynamic_costs() ? $dynamic_tooltip_content : '',
+				'style'   => $this->enable_dynamic_costs() ? 'display:inline-block' : 'display:none',
 			),
 
 		);
@@ -434,8 +494,9 @@ class GFFreshBooks extends GFFeedAddOn {
 
 	}
 
-	public function enable_dynamic_costs(){
+	public function enable_dynamic_costs() {
 		$enable_dynamic = apply_filters( 'gform_freshbooks_enable_dynamic_field_mapping', false );
+
 		return $enable_dynamic;
 	}
 
@@ -496,16 +557,15 @@ class GFFreshBooks extends GFFeedAddOn {
 
 		$items = $this->get_setting( 'item' );
 
-		$feed = $this->get_current_feed(); //needed to check fixed cost setting
-		$form = $this->get_current_form(); //needed to build fields drop down
+		$feed         = $this->get_current_feed(); //needed to check fixed cost setting
+		$form         = $this->get_current_form(); //needed to build fields drop down
 		$show_dynamic = false;
 		if ( ! empty( $_POST['_gaddon_setting_lineItems'] ) ) {
-			if ( $_POST['_gaddon_setting_lineItems'] == 'dynamic' ){
+			if ( $_POST['_gaddon_setting_lineItems'] == 'dynamic' ) {
 				$show_dynamic = true;
 			}
-		}
-		else{
-			if ( rgar( $feed['meta'], 'lineItems') == 'dynamic' ){
+		} else {
+			if ( rgar( $feed['meta'], 'lineItems' ) == 'dynamic' ) {
 				$show_dynamic = true;
 			}
 		}
@@ -519,45 +579,44 @@ class GFFreshBooks extends GFFeedAddOn {
 
 
 				$html .= '<td>' . $this->settings_select( array(
-							'name'    => 'item[0]',
-							'type'    => 'select',
-							'choices' => $this->get_freshbooks_items()
+						'name'    => 'item[0]',
+						'type'    => 'select',
+						'choices' => $this->get_freshbooks_items()
 
-						), false ) . '</td>';
+					), false ) . '</td>';
 
 				$html .= '<td>' . $this->settings_text( array(
-							'name'  => 'description[0]',
+						'name'  => 'description[0]',
+						'type'  => 'text',
+						'class' => 'small',
+					), false ) . '</td>';
+
+				if ( $show_dynamic ) {
+					//make costs drop down
+					$html .= '<td>' . $this->settings_select( array(
+							'name'    => 'cost[0]',
+							'type'    => 'select',
+							'choices' => $this->get_form_fields_as_choices( $form ),
+						), false ) . '</td>';
+
+					//make quantity drop down
+					$html .= '<td>' . $this->settings_select( array(
+							'name'    => 'quantity[0]',
+							'type'    => 'select',
+							'choices' => $this->get_form_fields_as_choices( $form ),
+						), false ) . '</td>';
+				} else {
+					$html .= '<td>' . $this->settings_text( array(
+							'name'  => 'cost[0]',
 							'type'  => 'text',
 							'class' => 'small',
 						), false ) . '</td>';
 
-				if ( $show_dynamic ){
-					//make costs drop down
-					$html .= '<td>' . $this->settings_select( array(
-								'name'  => 'cost[0]',
-								'type'  => 'select',
-								'choices' => $this->get_form_fields_as_choices( $form ),
-							), false ) . '</td>';
-
-					//make quantity drop down
-					$html .= '<td>' . $this->settings_select( array(
-								'name'  => 'quantity[0]',
-								'type'  => 'select',
-								'choices' => $this->get_form_fields_as_choices( $form ),
-							), false ) . '</td>';
-				}
-				else {
 					$html .= '<td>' . $this->settings_text( array(
-								'name'  => 'cost[0]',
-								'type'  => 'text',
-								'class' => 'small',
-							), false ) . '</td>';
-
-					$html .= '<td>' . $this->settings_text( array(
-								'name'  => 'quantity[0]',
-								'type'  => 'text',
-								'class' => 'small',
-							), false ) . '</td>';
+							'name'  => 'quantity[0]',
+							'type'  => 'text',
+							'class' => 'small',
+						), false ) . '</td>';
 				}
 				$html .= "<td>
 							<input type='image' src='" . $this->get_base_url() . "/images/remove.png' onclick='DeleteLineItem(this); return false;' alt='Delete' title='Delete' />
@@ -576,53 +635,52 @@ class GFFreshBooks extends GFFeedAddOn {
 				$html .= "<tr class='gf_freshbooks_lineitem_row'>";
 
 				$html .= '<td>' . $this->settings_select( array(
-							'name'          => 'item[' . $i . ']',
-							'type'          => 'select',
-							'choices'       => $choices,
-							'default_value' => $item,
+						'name'          => 'item[' . $i . ']',
+						'type'          => 'select',
+						'choices'       => $choices,
+						'default_value' => $item,
 
-						), false ) . '</td>';
+					), false ) . '</td>';
 
 				$html .= '<td>' . $this->settings_text( array(
-							'name'  => 'description[' . $i . ']',
-							'type'  => 'text',
-							'class' => 'small',
-							'value' => $descriptions[ $i ],
-						), false ) . '</td>';
+						'name'  => 'description[' . $i . ']',
+						'type'  => 'text',
+						'class' => 'small',
+						'value' => $descriptions[ $i ],
+					), false ) . '</td>';
 
-				if ( $show_dynamic ){
+				if ( $show_dynamic ) {
 					//make costs drop down
 					$html .= '<td>' . $this->settings_select( array(
-								'name'  => 'cost[' . $i . ']',
-								'type'  => 'select',
-								'choices' => $this->get_form_fields_as_choices( $form ),
-								'default_value' => is_array( $costs ) ? $costs[ $i ] : '',
-							), false ) . '</td>';
+							'name'          => 'cost[' . $i . ']',
+							'type'          => 'select',
+							'choices'       => $this->get_form_fields_as_choices( $form ),
+							'default_value' => is_array( $costs ) ? $costs[ $i ] : '',
+						), false ) . '</td>';
 
 					//make quantity drop down
 					$html .= '<td>' . $this->settings_select( array(
-								'name'  => 'quantity[' . $i . ']',
-								'type'  => 'select',
-								'choices' => $this->get_form_fields_as_choices( $form ),
-								'default_value' => is_array ( $quantities ) ? $quantities[ $i ] : '',
-							), false ) . '</td>';
-				}
-				else{
+							'name'          => 'quantity[' . $i . ']',
+							'type'          => 'select',
+							'choices'       => $this->get_form_fields_as_choices( $form ),
+							'default_value' => is_array( $quantities ) ? $quantities[ $i ] : '',
+						), false ) . '</td>';
+				} else {
 					$html .= '<td>' . $this->settings_text( array(
-								'name'  => 'cost[' . $i . ']',
-								'type'  => 'text',
-								'class' => 'small',
-								'value' => is_array ( $costs ) ? $costs[ $i ] : '',
-								'default_value' => is_array ( $costs ) ? $costs[ $i ] : '',
-							), false ) . '</td>';
+							'name'          => 'cost[' . $i . ']',
+							'type'          => 'text',
+							'class'         => 'small',
+							'value'         => is_array( $costs ) ? $costs[ $i ] : '',
+							'default_value' => is_array( $costs ) ? $costs[ $i ] : '',
+						), false ) . '</td>';
 
 					$html .= '<td>' . $this->settings_text( array(
-								'name'  => 'quantity[' . $i . ']',
-								'type'  => 'text',
-								'class' => 'small',
-								'value' => is_array ( $quantities ) ? $quantities[ $i ] : '',
-								'default_value' => is_array ( $quantities ) ? $quantities[ $i ] : '',
-							), false ) . '</td>';
+							'name'          => 'quantity[' . $i . ']',
+							'type'          => 'text',
+							'class'         => 'small',
+							'value'         => is_array( $quantities ) ? $quantities[ $i ] : '',
+							'default_value' => is_array( $quantities ) ? $quantities[ $i ] : '',
+						), false ) . '</td>';
 				}
 				$html .= "<td>
 							<input type='image' src='" . $this->get_base_url() . "/images/remove.png' onclick='DeleteLineItem(this); return false;' alt='Delete' title='Delete' />
@@ -676,9 +734,9 @@ class GFFreshBooks extends GFFeedAddOn {
 	// ------- Plugin list page -------
 	public function feed_list_columns() {
 		return array(
-			'feedName'		=> __( 'Name', 'gravityformsfreshbooks' ),
-			'listInvoice'	=> __( 'Invoice', 'gravityformsfreshbooks' ),
-			'listEstimate'	=> __( 'Estimate', 'gravityformsfreshbooks' )
+			'feedName'     => __( 'Name', 'gravityformsfreshbooks' ),
+			'listInvoice'  => __( 'Invoice', 'gravityformsfreshbooks' ),
+			'listEstimate' => __( 'Estimate', 'gravityformsfreshbooks' )
 		);
 	}
 
@@ -734,19 +792,20 @@ class GFFreshBooks extends GFFeedAddOn {
 		}
 
 		//Creating client
-		$this->log_debug( 'Checking to see if client exists or a new client needs to be created.' );
+		$this->log_debug( __METHOD__ . '(): Checking to see if client exists or a new client needs to be created.' );
 		$client = $this->get_client( $form, $entry, $settings, $name_fields );
 
 		//if client could not be created, ignore invoice and estimate
 		if ( ! $client ) {
-			$this->log_debug( 'Unable to create client, not creating invoice/estimate.' );
+			$this->log_debug( __METHOD__ . '(): Unable to create client, not creating invoice/estimate.' );
 
 			return;
 		}
 
-		if ( $settings['meta']['alsoCreate'] == 'invoice' ) {
+		$type = rgars( $settings, 'meta/alsoCreate' );
+		if ( $type == 'invoice' ) {
 			$invoice_estimate = new FreshBooks_Invoice();
-		} else if ( $settings['meta']['alsoCreate'] == 'estimate' ) {
+		} elseif ( $type == 'estimate' ) {
 			$invoice_estimate = new FreshBooks_Estimate();
 		} else {
 			return;
@@ -758,12 +817,14 @@ class GFFreshBooks extends GFFeedAddOn {
 			$invoice_estimate->poNumber = substr( $po_number, 0, 25 );
 		}
 		$invoice_estimate->discount = $settings['meta']['discount'];
-		$invoice_estimate->notes    = esc_html( $settings['meta']['notes2'] );
+		$invoice_estimate->notes    = esc_html( GFCommon::replace_variables( $settings['meta']['notes2'], $form, $entry, false, false, false, 'text' ) );
 		$invoice_estimate->terms    = esc_html( $settings['meta']['terms'] );
 
 		$total = 0;
 		$lines = array();
 		if ( $settings['meta']['lineItems'] == 'pricing' ) {
+
+			$this->log_debug( __METHOD__ . '(): Creating line items based on pricing fields.' );
 
 			//creating line items based on pricing fields
 			$products = GFCommon::get_product_fields( $form, $entry, true, false );
@@ -804,6 +865,9 @@ class GFFreshBooks extends GFFeedAddOn {
 			}
 		} else {
 			$i = 0;
+
+			$this->log_debug( __METHOD__ . '(): Creating line items based on fixed costs and quantities.' );
+
 			//creating line items based on fixed cost or mapped fields
 			$send_item_id = apply_filters( 'gform_freshbooks_send_item_id_for_fixed_dynamic', false );
 			foreach ( $settings['meta']['item'] as $item ) {
@@ -813,14 +877,13 @@ class GFFreshBooks extends GFFeedAddOn {
 				$quantity = $settings['meta']['lineItems'] == 'fixed' ? $settings['meta']['quantity'][ $i ] : $this->get_entry_value( $settings['meta']['quantity'][ $i ], $entry, $name_fields );
 				$amount   = $quantity * $cost;
 				$total += $amount;
-				if ( $send_item_id ){
+				if ( $send_item_id ) {
 					//item id is what is saved in the database, use it
 					$item_name = $item;
-				}
-				else {
+				} else {
 					//get item name using saved item id
 					$item_name = $this->get_item_name( $item );
-					if ( empty( $item_name ) ){
+					if ( empty( $item_name ) ) {
 						//default to item id if no name found
 						$item_name = $item;
 					}
@@ -848,25 +911,111 @@ class GFFreshBooks extends GFFeedAddOn {
 		$invoice_estimate->pState       = $client->pState;
 		$invoice_estimate->pCode        = $client->pCode;
 		$invoice_estimate->pCountry     = $client->pCountry;
-		$this->log_debug( 'Creating invoice/estimate.' );
+
+		$invoice_estimate = apply_filters( 'gform_freshbooks_args_pre_create', $invoice_estimate, $form, $entry );
+
+		$this->log_debug( __METHOD__ . '(): Creating invoice/estimate => ' . print_r( $invoice_estimate, 1 ) );
 		$invoice_estimate->create();
 		$lastError = $invoice_estimate->lastError;
 		if ( empty( $lastError ) ) {
-			$this->log_debug( 'Invoice/estimate created.' );
-			//see if invoice/estimate should automatically be emailed
-			if ( rgar( $settings['meta'], 'sendByEmail') ){
-				$this->log_debug( 'Sending invoice/estimate automatically by email.' );
-				$sentByEmail = $invoice_estimate->sendByEmail();
-				if ( $sentByEmail ){
-					$this->log_debug( 'The invoice/estimate was successfully scheduled to be automatically sent by FreshBooks.' );
-				}
-				else{
-					$this->log_error( 'Unable to schedule invoice/estimate to be automatically sent.' );
-				}
+			$this->log_debug( __METHOD__ . '(): Invoice/estimate created.' );
+			$id            = $type == 'invoice' ? $invoice_estimate->invoiceId : $invoice_estimate->estimateId;
+			$createPayment = rgar( $settings['meta'], 'createPayment' );
+			if ( ! $this->has_product_feed( $form, $entry ) || ! $createPayment ) {
+				$this->handle_note_and_send_by_email( rgar( $settings['meta'], 'sendByEmail' ), $type, $id, $entry );
+			} elseif ( $createPayment ) {
+				gform_update_meta( $entry['id'], 'freshbooks_invoice_id', $id );
 			}
 		} else {
-			$this->log_error( "The following error occurred when trying to create an invoice/estimate: {$lastError}" );
+			$this->log_error( __METHOD__ . "(): The following error occurred when trying to create an invoice/estimate: {$lastError}" );
 		}
+	}
+
+	public function create_payment( $entry, $action ) {
+		if ( ! $this->is_valid_credentials() ) {
+			return;
+		}
+
+		$feeds = $this->get_feeds_by_entry( $entry['id'] );
+		$feed  = $this->get_feed( rgar( $feeds, 0 ) );
+
+		// see if a payment should automatically be created for the invoice.
+		if ( rgar( $feed['meta'], 'createPayment' ) ) {
+			$id                 = gform_get_meta( $entry['id'], 'freshbooks_invoice_id' );
+			$payment            = new FreshBooks_Payment();
+			$payment->invoiceId = $id;
+			$payment->amount    = rgar( $action, 'amount' );
+			$payment->type      = rgar( $action, 'payment_method' ) == 'PayPal' ? 'PayPal' : 'Credit Card';
+			$payment->notes     = rgar( $action, 'note' );
+
+			$this->log_debug( __METHOD__ . '(): Creating a payment => ' . print_r( $payment, 1 ) );
+			$payment->create();
+			$lastError = $payment->lastError;
+
+			if ( empty( $lastError ) ) {
+				$this->log_debug( __METHOD__ . '(): Payment created.' );
+				$this->handle_note_and_send_by_email( rgar( $feed['meta'], 'sendByEmail' ), 'invoice', $id, $entry );
+				gform_delete_meta( $entry['id'], 'freshbooks_invoice_id' );
+			} else {
+				$this->log_error( __METHOD__ . "(): The following error occurred when trying to create the payment: {$lastError}" );
+			}
+		}
+	}
+
+	public function handle_note_and_send_by_email( $sendByEmail, $type, $id, $entry ) {
+		if ( $type == 'invoice' ) {
+			$invoice_estimate            = new FreshBooks_Invoice();
+			$invoice_estimate->invoiceId = $id;
+		} elseif ( $type == 'estimate' ) {
+			$invoice_estimate             = new FreshBooks_Estimate();
+			$invoice_estimate->estimateId = $id;
+		} else { // abort, no need to sendByEmail or add note.
+			return;
+		}
+
+		// see if invoice/estimate should automatically be emailed.
+		if ( $sendByEmail ) {
+			$this->log_debug( __METHOD__ . '(): Sending invoice/estimate automatically by email.' );
+			$sentByEmail = $invoice_estimate->sendByEmail();
+			if ( $sentByEmail ) {
+				$this->log_debug( __METHOD__ . '(): The invoice/estimate was successfully scheduled to be automatically sent by FreshBooks.' );
+			} else {
+				$this->log_error( __METHOD__ . '(): Unable to schedule invoice/estimate to be automatically sent.' );
+			}
+		}
+
+		// add note to entry.
+		$invoice_estimate->get( $id );
+		$amount_formatted = GFCommon::to_money( $invoice_estimate->amount, $entry['currency'] );
+		$note             = sprintf( __( '%s #%s has been successfully created. Amount: %s. Status: %s.', 'gravityformsfreshbooks' ), ucfirst( $type ), $invoice_estimate->number, $amount_formatted, ucfirst( $invoice_estimate->status ) );
+		GFFormsModel::add_note( $entry['id'], 0, $this->_short_title, $note, 'success' );
+	}
+
+	/**
+	 * Determines if a form has an active feed with the transactionType of product. If an entry is supplied the feed condition is also checked.
+	 *
+	 * @param array $form
+	 * @param array $entry
+	 *
+	 * @return bool
+	 */
+	public function has_product_feed( $form = array(), $entry = array() ) {
+		if ( empty( $form ) ) {
+			$form = $this->get_current_form();
+		}
+
+		$feeds = GFAPI::get_feeds( null, $form['id'] );
+		foreach ( $feeds as $feed ) {
+			if ( rgars( $feed, 'meta/transactionType' ) == 'product' ) {
+				if ( ! empty( $entry ) && ! $this->is_feed_condition_met( $feed, $form, $entry ) ) {
+					continue;
+				}
+
+				return true;
+			}
+		}
+
+		return false;
 	}
 
 	private function init_api() {
@@ -874,26 +1023,27 @@ class GFFreshBooks extends GFFeedAddOn {
 		require_once GFFreshBooks::get_base_path() . '/api/Invoice.php';
 		require_once GFFreshBooks::get_base_path() . '/api/Estimate.php';
 		require_once GFFreshBooks::get_base_path() . '/api/Item.php';
+		require_once GFFreshBooks::get_base_path() . '/api/Payment.php';
 
 		$settings  = $this->get_plugin_settings();
 		$url       = 'https://' . $settings['siteName'] . '.freshbooks.com/api/2.1/xml-in';
 		$authtoken = $settings['authToken'];
-		$this->log_debug( "Initializing API - url: {$url} - token: {$authtoken}" );
+		$this->log_debug( __METHOD__ . "(): Initializing API - url: {$url} - token: {$authtoken}" );
 		FreshBooks_HttpClient::init( $url, $authtoken );
-		$this->log_debug( 'API Initialized.' );
+		$this->log_debug( __METHOD__ . '(): API Initialized.' );
 	}
 
 	public function is_valid_credentials() {
-		$this->log_debug( 'Validating credentials.' );
+		$this->log_debug( __METHOD__ . '(): Validating credentials.' );
 		$this->init_api();
 		$items = new FreshBooks_Item();
 
 		$dummy      = array();
 		$return_val = $items->listing( $dummy, $dummy );
 		if ( $return_val ) {
-			$this->log_debug( 'Valid site name and authorization token.' );
+			$this->log_debug( __METHOD__ . '(): Valid site name and authorization token.' );
 		} else {
-			$this->log_error( 'Invalid site name and/or authorization token.' );
+			$this->log_error( __METHOD__ . '(): Invalid site name and/or authorization token.' );
 		}
 
 		return $return_val;
@@ -902,7 +1052,7 @@ class GFFreshBooks extends GFFeedAddOn {
 	private function get_number( $number ) {
 
 		//Removing all non-numeric characters
-		$array = str_split( $number );
+		$array        = str_split( $number );
 		$clean_number = '';
 		foreach ( $array as $char ) {
 			if ( ( $char >= '0' && $char <= '9' ) || $char == ',' || $char == '.' ) {
@@ -911,13 +1061,13 @@ class GFFreshBooks extends GFFeedAddOn {
 		}
 
 		//Removing thousand separators but keeping decimal point
-		$array = str_split( $clean_number );
+		$array        = str_split( $clean_number );
 		$float_number = '';
 		for ( $i = 0, $count = sizeof( $array ); $i < $count; $i ++ ) {
 			$char = $array[ $i ];
 			if ( $char >= '0' && $char <= '9' ) {
 				$float_number .= $char;
-			} else if ( ( $char == '.' || $char == ',' ) && strlen( $clean_number ) - $i <= 3 ) {
+			} elseif ( ( $char == '.' || $char == ',' ) && strlen( $clean_number ) - $i <= 3 ) {
 				$float_number .= '.';
 			}
 		}
@@ -935,7 +1085,7 @@ class GFFreshBooks extends GFFeedAddOn {
 			}
 		}
 
-		return $entry[ $field_id ];
+		return rgar( $entry, $field_id );
 	}
 
 	private function get_client( $form, $entry, $settings, $name_fields ) {
@@ -944,16 +1094,16 @@ class GFFreshBooks extends GFFeedAddOn {
 		$email  = strtolower( $entry[ $settings['meta']['email'] ] );
 		$is_new = true;
 
-		if( $settings['meta']['updateClient'] ) {
+		if ( $settings['meta']['updateClient'] ) {
 			$existing_clients = '';
-			$result_info = '';
+			$result_info      = '';
 
 			// is there an existing client with the same email? If so, use it, if not, create one
 			$email = $entry[ $settings['meta']['email'] ];
 
 			$client->listing( $existing_clients, $result_info, 1, 1, array( 'email' => $email, 'username' => '' ) );
 
-			if( ! empty( $existing_clients ) ) {
+			if ( ! empty( $existing_clients ) ) {
 				$client = $existing_clients[0];
 				$is_new = false;
 			}
@@ -980,19 +1130,19 @@ class GFFreshBooks extends GFFeedAddOn {
 		if ( ! empty( $settings['meta']['fax'] ) ) {
 			$client->fax = esc_html( self::get_entry_value( $settings['meta']['fax'], $entry, $name_fields ) );
 		}
-		$client->notes = esc_html( $settings['meta']['notes'] );
+		$client->notes = esc_html( GFCommon::replace_variables( $settings['meta']['notes'], $form, $entry, false, false, false, 'text' ) );
 
 		if ( $is_new ) {
-			$this->log_debug( "Client not found; creating new client with email address {$email}." );
+			$this->log_debug( __METHOD__ . "(): Client not found; creating new client with email address {$email}." );
 			$client->create();
 			$lastError = $client->lastError;
 			if ( empty( $lastError ) ) {
-				$this->log_debug( 'New client created.' );
+				$this->log_debug( __METHOD__ . '(): New client created.' );
 			} else {
-				$this->log_error( "The following error occurred when trying to create a new client: {$lastError}" );
+				$this->log_error( __METHOD__ . "(): The following error occurred when trying to create a new client: {$lastError}" );
 			}
 		} else {
-			$this->log_debug( "Existing client found with email address {$email}, not creating new one." );
+			$this->log_debug( __METHOD__ . "(): Existing client found with email address {$email}, not creating new one." );
 			$id = $client->clientId;
 			$client->update();
 			$client->clientId = $id;
@@ -1015,12 +1165,12 @@ class GFFreshBooks extends GFFeedAddOn {
 
 			$counter = 1;
 			foreach ( $old_feeds as $old_feed ) {
-				$feed_name  = 'Feed ' . $counter;
+				$feed_name = 'Feed ' . $counter;
 				$form_id   = $old_feed['form_id'];
 				$is_active = $old_feed['is_active'];
 
 				$line_items = '';
-				switch (rgar( $old_feed['meta'], 'is_fixed_cost' ) ){
+				switch ( rgar( $old_feed['meta'], 'is_fixed_cost' ) ) {
 					case "1" :
 						$line_items = 'fixed';
 					case "2" :
@@ -1030,7 +1180,7 @@ class GFFreshBooks extends GFFeedAddOn {
 				}
 
 				$new_meta = array(
-					'feedName'    => $feed_name,
+					'feedName'     => $feed_name,
 					'email'        => rgar( $old_feed['meta'], 'email' ),
 					'firstName'    => rgar( $old_feed['meta'], 'first_name' ),
 					'lastName'     => rgar( $old_feed['meta'], 'last_name' ),
@@ -1092,14 +1242,14 @@ class GFFreshBooks extends GFFeedAddOn {
 
 	}
 
-	public function ensure_upgrade(){
+	public function ensure_upgrade() {
 
-		if ( get_option( 'gf_freshbooks_upgrade' ) ){
+		if ( get_option( 'gf_freshbooks_upgrade' ) ) {
 			return false;
 		}
 
 		$feeds = $this->get_feeds();
-		if ( empty( $feeds ) ){
+		if ( empty( $feeds ) ) {
 
 			//Force Add-On framework upgrade
 			$this->upgrade( '1.0' );
@@ -1127,11 +1277,12 @@ class GFFreshBooks extends GFFeedAddOn {
 		return $results;
 	}
 
-	public function get_item_name( $item_id ){
+	public function get_item_name( $item_id ) {
 		$this->init_api();
 		$item = new FreshBooks_Item();
 		$item->get( $item_id );
 		$item_name = $item->name;
+
 		return $item_name;
 	}
 

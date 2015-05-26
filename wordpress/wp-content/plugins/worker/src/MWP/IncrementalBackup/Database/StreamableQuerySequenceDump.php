@@ -140,7 +140,7 @@ class MWP_IncrementalBackup_Database_StreamableQuerySequenceDump
             new MWP_Stream_Callable(array($this, 'createExportRowStream'), array($statement, $tableName, $columns))
         );
 
-        $stream->addStream(MWP_Stream_Stream::factory(";\n"));
+        $stream->addStream(MWP_Stream_Stream::factory("\n"));
         $stream->addStream(MWP_Stream_Stream::factory("/*!40000 ALTER TABLE `$tableName` ENABLE KEYS */;\n"));
 
         if (!$this->options->isSkipLockTables()) {
@@ -157,7 +157,7 @@ class MWP_IncrementalBackup_Database_StreamableQuerySequenceDump
             return false;
         }
 
-        return $this->createRowInsertStatement($tableName, $row, $columns);
+        return $this->createRowInsertStatement($tableName, $row, $columns)."\n";
     }
 
     /**

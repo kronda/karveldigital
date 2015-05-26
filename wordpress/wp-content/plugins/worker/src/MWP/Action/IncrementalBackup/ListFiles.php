@@ -193,7 +193,7 @@ class MWP_Action_IncrementalBackup_ListFiles extends MWP_Action_IncrementalBacku
     }
 
     /**
-     * Create a recursive or non-recursive iterator for $path. Handles php 5.2 incompatiblity.
+     * Create a recursive or non-recursive iterator for $path. Handles php 5.2 incompatibility.
      *
      * @param bool   $recursive
      * @param string $path
@@ -213,9 +213,9 @@ class MWP_Action_IncrementalBackup_ListFiles extends MWP_Action_IncrementalBacku
                 $directory = new RecursiveDirectoryIterator($path, RecursiveDirectoryIterator::SKIP_DOTS);
             }
 
-            $iterator = new RecursiveIteratorIterator($directory, RecursiveIteratorIterator::SELF_FIRST);
+            $iterator = new RecursiveIteratorIterator($directory, RecursiveIteratorIterator::SELF_FIRST, RecursiveIteratorIterator::CATCH_GET_CHILD);
         } else {
-            $directory = new Symfony_Filesystem_FilesystemIterator($path, FilesystemIterator::SKIP_DOTS);
+            $directory = new Symfony_Filesystem_FilesystemIterator($path, Symfony_Filesystem_FilesystemIterator::SKIP_DOTS);
             $iterator  = new IteratorIterator($directory);
         }
 

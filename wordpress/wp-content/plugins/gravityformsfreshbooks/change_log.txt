@@ -1,4 +1,23 @@
 ---------------------------------------------------------------------
+Version 2.2
+    - Fixed a low severity security vulnerability in the admin area which could be exploited by authenticated users with form administration permissions.
+
+---------------------------------------------------------------------
+Version 2.1
+    - Added option to mark invoice as Paid. Only available for Product and Services type payment feeds. When enabled and a compatible payment feed runs, if the payment is successfully completed, a payment will be created in Freshbooks, updating the invoice status to paid. sendByEmail will also be delayed until after the payment has been created.
+    - Added note to entry upon successful invoice/estimate creation.
+    - Added merge tag support to the client & invoice/estimate Notes.
+    - Added the 'gform_freshbooks_args_pre_create' filter so the invoice/estimate field values can be overridden.
+        add_filter( 'gform_freshbooks_args_pre_create', function ( $args, $form, $entry ) {
+            // do stuff with the $args
+            return $args;
+        }, 10, 3 );
+    - Updated feed settings page so Client and Invoice/Estimate settings are organised into their own sections.
+    - Updated gravityformsfreshbooks.pot
+    - Updated Organization so that it is not required when mapping fields (since Freshbooks does not require it).
+    - Updated logging statements.
+
+---------------------------------------------------------------------
 Version 2.0
 	- Added validation to discount to make sure it is between 0 and 100 percent.
 	- Added ability to have invoice automatically emailed to the client, instead of remaining in Draft status in FreshBooks.

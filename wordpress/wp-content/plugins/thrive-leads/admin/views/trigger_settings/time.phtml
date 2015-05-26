@@ -1,0 +1,34 @@
+<label class="form-label tve-control-label"><?php echo __('Seconds after page load', 'thrive-leads') ?></label>
+<div class="form-field">
+    <div class="tve-slider" style="width: 300px; display: inline-block;">
+        <div class="tve-slider-element" id="slider-timer"></div>
+    </div>
+    &nbsp;&nbsp;
+    <input class="trigger-config tve-input-small inline input-slider" type="text" name="s" id="slider-timer-input" value="<?php echo $config['s'] ?>" size="3">&nbsp; <?php echo __('Seconds', 'thrive-leads') ?>
+</div>
+
+<script type="text/javascript">
+    (function ($) {
+        $(function() {
+            var $slider_input = $('#slider-timer-input').change(function () {
+                    var _value = parseInt(this.value);
+                    if (isNaN(_value) || _value < 0 || _value > 100) {
+                        _value = 10;
+                    }
+                    if (_value != this.value) {
+                        this.value = _value;
+                    }
+                    $t_slider.slider('value', _value);
+                }),
+                $t_slider = $('#slider-timer').slider({
+                    min: 0,
+                    max: 100,
+                    step: 1,
+                    slide: function (event, ui) {
+                        $slider_input.val(ui.value);
+                    }
+                });
+            $slider_input.change();
+        });
+    })(jQuery);
+</script>

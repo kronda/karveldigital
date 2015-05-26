@@ -112,7 +112,7 @@ namespace :db do
       temp = "/tmp/#{release_name}_#{application}_#{filename}"
       run "touch #{temp} && chmod 600 #{temp}"
       run_locally "mkdir -p db"
-      run "source /home/krondaco/.bash_profile && cd #{deploy_to}/current/webroot && #{wp} db export #{temp} && cd -"
+      run "source /home/krondaco/.bash_profile && cd #{deploy_to}/current/wordpress && #{wp} db export #{temp}"
       download("#{temp}", "db/#{filename}", :via=> :scp)
       if "#{stage}" == "prod"
         search = "karveldigital.com"
@@ -141,7 +141,7 @@ namespace :db do
       temp = "/tmp/#{release_name}_#{application}_#{filename}"
       run "touch #{temp} && chmod 600 #{temp}"
       if "#{stage}" == "prod"
-        replace = "karveldigital.com"
+        replace = "#{application}.com"
       else
         replace = "#{application}-#{stage}.kronda.com"
       end
@@ -174,9 +174,9 @@ namespace :files do
   task :pull, :roles => :web do
     domains.each do |domain|
       if exists?(:gateway)
-        run_locally("rsync --recursive --times --omit-dir-times --chmod=ugo=rwX --rsh='ssh #{ssh_options[:user]}@#{gateway} ssh  #{ssh_options[:user]}@#{find_servers(:roles => :web).first.host}' --compress --human-readable --progress --exclude 'webroot/plugins' --exclude 'webroot/themes' :#{deploy_to}/#{shared_dir}/#{domain}/files/ webroot/wp-content/")
+        run_locally("rsync --recursive --times --omit-dir-times --chmod=ugo=rwX --rsh='ssh #{ssh_options[:user]}@#{gateway} ssh  #{ssh_options[:user]}@#{find_servers(:roles => :web).first.host}' --compress --human-readable --progress --exclude 'wordpress/plugins' --exclude 'wordpress/themes' :#{deploy_to}/#{shared_dir}/#{domain}/files/uploads/ wordpress/wp-content/uploads/")
       else
-        run_locally("rsync --recursive --times --omit-dir-times --chmod=ugo=rwX --rsh=ssh --compress --human-readable --progress --exclude 'webroot/plugins' --exclude 'webroot/themes' #{ssh_options[:user]}@#{find_servers(:roles => :web).first.host}:#{deploy_to}/#{shared_dir}/#{domain}/files/ webroot/wp-content/")
+        run_locally("rsync --recursive --times --omit-dir-times --chmod=ugo=rwX --rsh=ssh --compress --human-readable --progress --exclude 'wordpress/plugins' --exclude 'wordpress/themes' #{ssh_options[:user]}@#{find_servers(:roles => :web).first.host}:#{deploy_to}/#{shared_dir}/#{domain}/files/uploads/ wordpress/wp-content/uploads/")
       end
     end
   end

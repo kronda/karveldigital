@@ -1,0 +1,85 @@
+.ptp-dg5-pricing-table{ white-space: nowrap; width: 100%; text-align: center; margin-right: 2em; }
+.ptp-dg5-5-cols { white-space: normal; }
+.ptp-dg5-col  {
+    padding-left: 0.4em; padding-right: 0.4em;
+    display: inline-block;
+    white-space: normal;
+    border-radius: 5px;
+    -webkit-border-radius: 5px;
+    border: 1px solid #E4E4E4;
+    vertical-align: bottom;
+}
+.ptp-dg5-table-holder{margin: 25px auto;}
+
+/*.ptp-dg5-price-holder {
+    background: white;
+}*/
+
+.ptp-dg5-one-col   { width: 40%; }
+.ptp-dg5-two-col   { width: 44%;margin:10px 2%; }
+.ptp-dg5-two-col.ptp-dg5-highlight { width:47%;margin:10px 1%;  }
+.ptp-dg5-three-col { width: 28%; margin:10px 1.5%; }
+.ptp-dg5-three-col.ptp-dg5-highlight { width:32%; }
+.ptp-dg5-four-col { width: 21%; margin:10px 1%; }
+.ptp-dg5-four-col.ptp-dg5-highlight { width:24%; }
+.ptp-dg5-five-col { width: 16%; margin:10px 1%; }
+.ptp-dg5-five-col.ptp-dg5-highlight { width:18%; }
+.ptp-dg5-six-col { width: 14%; margin: 10px 0.4%;margin-bottom: 30px;padding: 0 0.4%;}
+.ptp-dg5-six-col.ptp-dg5-highlight { width:17%; }
+.ptp-dg5-seven-col { width: 11.6%; margin: 10px 0.3%;margin-bottom: 30px; padding: 0 0.4%;}
+.ptp-dg5-seven-col.ptp-dg5-highlight { width:16%; }
+.ptp-dg5-eight-col { width: 10.3%; margin: 10px 0.3%;margin-bottom: 30px; padding: 0 0.4%;}
+.ptp-dg5-eight-col.ptp-dg5-highlight { width:14%; }
+.ptp-dg5-nine-col { width: 9%; margin: 10px 0.4%;margin-bottom: 30px;padding: 0 0.3%;}
+.ptp-dg5-nine-col.ptp-dg5-highlight { width:12%; }
+.ptp-dg5-ten-col { width: 8%; margin: 10px 0.4%;margin-bottom: 30px;padding: 0 0.3%;}
+.ptp-dg5-ten-col.ptp-dg5-highlight { width:11%; }
+.ptp-dg5-more-col { width: 16%; margin: 10px 1%;margin-bottom: 30px; }
+.ptp-dg5-more-col.ptp-dg5-highlight { width:18%; }
+
+div.ptp-dg5-item-container { margin: 0; padding-left: 0px; padding-bottom: 0px; font-size: 1em; line-height: 1.6; font-family: inherit;}
+div.ptp-dg5-plan{ text-align: center; font-weight: bold; font-size: 20px; color: #333333; margin-top: 10px;}
+.ptp-dg5-most-popular{border: 1px solid transparent;padding: 0.3em;text-align: center;font-weight: bold;line-height: 1.4em;margin-top: 10px;background-color: #e74c3c;
+                         color: #ffffff;min-height: 33px;border-radius: 5px;-webkit-border-radius: 5px;position: absolute;text-align: center;top: -15px;
+                        left: -1px;padding: 0 0 10px 0;font-family: 'Open Sans Condensed',sans-serif;-webkit-transition: all 100ms ease;-moz-transition: all 100ms ease; -ms-transition: all 100ms ease;
+                        -o-transition: all 100ms ease; transition: all 100ms ease;width: 100%; font-size: 18px;z-index: -1;}
+
+.ptp-dg5-highlight:hover div.ptp-dg5-most-popular{top:-40px;}
+div.ptp-dg5-price{ text-align: center; font-weight: bold; font-size: 36px; color: #333333;margin: 10px auto;line-height: 1}
+div.ptp-dg5-pay-duration{ text-align: center; font-weight: bold; font-size: 14px; color: #818181 ;margin-bottom: 10px;}
+div.ptp-dg5-bullet-item{text-align: center; font-size: 14px; color: #333333; border:none }
+div.ptp-dg5-cta{ text-align: center; }
+
+a.ptp-dg5-button{
+  border-style: solid;
+  cursor: pointer;
+  font-family: inherit;
+  font-weight: bold;
+  line-height: 1.3;
+  position: relative;
+  text-decoration: none;
+  text-align: center;
+  display: inline-block;
+  width: 80%;
+  margin: 0 0 1.25em;
+  padding: 0.45em;
+  font-size: 1em;
+  border-top: 0px;
+  border-left: 0px;
+  border-right: 0px;
+  border-radius: 5px;
+/*   from zurb 
+  -webkit-box-shadow: 0 3px 0 rgba(255, 255, 255, 0.5) inset;
+  box-shadow: 0 3px 0 rgba(255, 255, 255, 0.5) inset;*/
+  -webkit-transition: background-color 300ms ease-out;
+  -moz-transition: background-color 300ms ease-out;
+  transition: background-color 300ms ease-out;
+}
+
+/* smart phones */
+@media only screen and (max-width: 765px) {
+  .ptp-dg5-col { width: 90% !important; }
+  .ptp-dg5-col.ptp-dg5-highlight { margin-top: 25px!important;}
+  .ptp-dg5-pricing-table{ white-space: normal; }
+  .tt-ptp-empty-row { display: none  }
+}

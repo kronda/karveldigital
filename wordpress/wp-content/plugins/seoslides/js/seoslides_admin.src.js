@@ -1,4 +1,4 @@
-/*! seoslides - v1.2.4
+/*! seoslides - v1.6.1
  * https://seoslides.com
  * Copyright (c) 2014 Alroum; * Licensed GPLv2+ */
 ;(function ($, window, undefined) {
@@ -2721,13 +2721,16 @@
 		return defaultControl;
 	};
 	plugin.renderControlWithData = function( data ) {
-		var control = '';
+		var control = '',
+			content = data.settings.content.trim();
 
-		if ( I18N.layout_image === data.settings.content ) {
+		if ( I18N.layout_image === content ) {
 			control = defaultControl;
 		} else {
+			var url = isUrlValid( content ) ? content : '';
+
 			control += '<div style="position:absolute;top:0;bottom:0;left:0;right:0;">';
-			control += '<img style="height:100%;width:100%;" class="plugin-image" src="' + data.settings.content + '" />';
+			control += '<img style="height:100%;width:100%;" class="plugin-image" data-content="' + content + '" src="' + url + '" />';
 			control += '</div>';
 		}
 
@@ -2827,6 +2830,7 @@
 				var image = document.createElement( 'img' );
 				image.className = 'plugin-image';
 				image.setAttribute( 'src', newUri );
+				image.setAttribute( 'data-contnet', newUri );
 
 				plugin.setData( uuid, 'content', newUri );
 
@@ -2886,7 +2890,7 @@
 		swapper.setImageSize();
 	};
 
-	var handleResize = function( element, height, width ) {
+	function handleResize( element, height, width ) {
 		var img = element.querySelector( 'img' ),
 			style = window.getComputedStyle( img ),
 			ratio = window.parseFloat( style.height ) / window.parseFloat( style.width ),
@@ -2910,10 +2914,10 @@
 
 		img.style.height = realHeight + 'px';
 		img.style.width = realWidth + 'px';
-	};
+	}
 	CORE.Events.addAction( 'plugin.resize.' + UUID, handleResize );
 
-	var handleCanvasResize = function( $slide ) {
+	function handleCanvasResize( $slide ) {
 		$( '.plugin-image', $slide ).each( function( i, el ) {
 			var $el = $( el ),
 				$parent = $el.parent();
@@ -2923,7 +2927,7 @@
 				'width':  $parent.width()
 			} );
 		} );
-	};
+	}
 	CORE.Events.addAction( 'debounced.canvas.resize', handleCanvasResize, 11 );
 
 	/**
@@ -2933,14 +2937,26 @@
 	 * @param {Object} $slide
 	 * @returns {{w: number, h: number}}
 	 */
-	var getPluginSize = function( $element, $slide ) {
+	function getPluginSize( $element, $slide ) {
 		$slide = $slide || CORE.Bucket.getCurrentSlideElement();
 
 		return {
 			w : 1600 / $slide.width() * $element.width(),
 			h : 900 / $slide.height() * $element.height()
 		};
-	};
+	}
+
+	/**
+	 * Validate a url
+	 *
+	 * @param {string} maybeValid
+	 * @returns {boolean}
+	 */
+	function isUrlValid( maybeValid ) {
+		var regExp = /^(https?|ftp):\/\/(((([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(%[\da-f]{2})|[!\$&'\(\)\*\+,;=]|:)*@)?(((\d|[1-9]\d|1\d\d|2[0-4]\d|25[0-5])\.(\d|[1-9]\d|1\d\d|2[0-4]\d|25[0-5])\.(\d|[1-9]\d|1\d\d|2[0-4]\d|25[0-5])\.(\d|[1-9]\d|1\d\d|2[0-4]\d|25[0-5]))|((([a-z]|\d|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(([a-z]|\d|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])*([a-z]|\d|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])))\.)+(([a-z]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(([a-z]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])*([a-z]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])))\.?)(:\d*)?)(\/((([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(%[\da-f]{2})|[!\$&'\(\)\*\+,;=]|:|@)+(\/(([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(%[\da-f]{2})|[!\$&'\(\)\*\+,;=]|:|@)*)*)?)?(\?((([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(%[\da-f]{2})|[!\$&'\(\)\*\+,;=]|:|@)|[\uE000-\uF8FF]|\/|\?)*)?(\#((([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(%[\da-f]{2})|[!\$&'\(\)\*\+,;=]|:|@)|\/|\?)*)?$/i;
+
+		return regExp.test( maybeValid );
+	}
 } )( this, jQuery );
 
 ( function( window, $, undefined ) {
@@ -3109,7 +3125,7 @@
 					slideEl.style.backgroundImage = 'url(' + slide['bg_thumb'] + ')';
 				}
 			} else {
-				if ( undefined !== slide['bg_image'] && typeof slide['bg_image'] === 'string' && '' !== slide['bg_image'].trim() ) {
+				if ( undefined !== slide['bg_image'] && typeof slide['bg_image'] === 'string' && '' !== slide['bg_image'].trim() && 'noimage' !== slide['bg_image'].trim() ) {
 					slideEl.style.backgroundImage = 'url(' + slide['bg_image'] + ')';
 				}
 			}
@@ -3120,7 +3136,7 @@
 				slide.title = I18N.label_notitle;
 			}
 
-			var title = '<div class="title">' + slide.title + '</div>';
+			var title = '<div class="title"><a data-id="' + slide.id + '" class="editslide" href="javascript:void;" title="' + I18N.label_edit_slide + '">' + slide.title + '</a></div>';
 			title += '<div class="row-actions">';
 			title += '<span class="edit"><a data-id="' + slide.id + '" class="editslide" href="javascript:void;" title="' + I18N.label_edit_slide + '">' + I18N.label_edit + '</a> | </span>';
 			title += '<span class="trash"><a data-id="' + slide.id + '" class="submittrash" href="javascript:void;" title="' + I18N.label_trash_slide + '">' + I18N.label_trash + '</a></span>';
@@ -3964,7 +3980,7 @@
 		var master = CORE.slideBuilder.createSlide( INTERNALS.slide_default, rowTemplate );
 		master.find( '.editslide' ).attr( 'title', I18N.label_master );
 
-		var title = '<div class="title"><strong>' + I18N.label_master + '</strong></div>';
+		var title = '<div class="title"><strong><a data-id="master" class="editslide" href="javascript:void;" title="' + I18N.label_master + '">' + I18N.label_master + '</a></strong></div>';
 		title += '<div class="row-actions">';
 		title += '<span class="edit"><a data-id="master" class="editslide" href="javascript:void;" title="' + I18N.label_master + '">' + I18N.label_edit + '</a></span>';
 		title += '</div>';
@@ -5186,6 +5202,7 @@
 		var options = {
 			'data':   {
 				'action':   'new-slide',
+				'title':    $( document.getElementById( 'titlewrap' ) ).find( 'input[name="post_title"]' ).val(),
 				'_nonce':   INTERNALS.create_nonce,
 				'slideset': INTERNALS.slideset
 			}
@@ -5264,7 +5281,7 @@
 
 		bucket.style.backgroundColor = data.fill_color;
 
-		if ( undefined !== data.bg_image && null !== data.bg_image && '' !== data.bg_image.trim() ) {
+		if ( undefined !== data.bg_image && null !== data.bg_image && '' !== data.bg_image.trim() && 'noimage' !== data.bg_image.trim() ) {
 			document.getElementById( 'modal_seoslides_image_src' ).value = data.bg_image;
 			var picker = document.getElementById( 'modal_seoslides_image_picker' );
 			picker.value = I18N.remove_media;
@@ -5488,7 +5505,118 @@
 			window.location.href = redirect;
 		} );
 	}
-	$( document.getElementById( 'use_in_post' ) ).on( 'click', use_in_post );
+
+	function ModalContainer() {
+		// Container for the media modal created to add from the gallery
+		var modal;
+
+		/**
+		 * Ensure the modal exists - if not, create it.
+		 *
+		 * @private
+		 */
+		function _ensureModal() {
+			if ( undefined === modal ) {
+				modal = window.wp.media( {
+					title: I18N.modal_title,
+					button: {
+						text: I18N.modal_button,
+						close: false
+					},
+					multiple: 'add',
+					freeze: true
+				} );
+			}
+		}
+
+		/**
+		 * Open the modal
+		 */
+		function openModal() {
+			_ensureModal();
+			modal.open();
+		}
+
+		/**
+		 * Close the modal
+		 */
+		function closeModal() {
+			modal.close();
+		}
+
+		/**
+		 * Add a callback to the modal for selection purposes.
+		 *
+		 * @param {Function} callback
+		 */
+		function addModalCallback( callback ) {
+			_ensureModal();
+			modal.on( 'select', _wrapModalCallback( callback ) );
+		}
+
+		/**
+		 * Wrap a callback function.
+		 *
+		 * @param {Function} callback
+		 *
+		 * @returns {Function}
+		 * @private
+		 */
+		function _wrapModalCallback( callback ) {
+			return function() {
+				callback( modal.state().get( 'selection' ).toJSON() );
+			};
+		}
+
+		return {
+			open: openModal,
+			close: closeModal,
+			addCallback: addModalCallback
+		};
+	}
+
+	$( document.getElementById( 'add-from-media' ) ).on( 'click', function ( e ) {
+		e.preventDefault();
+
+		var modal_container = window.modal_container = new ModalContainer();
+
+		// After the images are added, we'll build an array of image IDs and POST them back
+		// to WordPress for slide generation.
+		modal_container.addCallback( function( elements ) {
+			var element_ids = [];
+
+			$.map( elements, function( item ) {
+				element_ids.push( item.id );
+			} );
+
+			var options = {
+				'data':   {
+					'action':   'create-media-slides',
+					'slides':   element_ids,
+					'_nonce':   INTERNALS.media_nonce,
+					'slideset': INTERNALS.slideset
+				}
+			};
+
+			CORE.ajax( options ).done( function( data ) {
+				var deferreds = [];
+
+				for( var i = 0; i < data.length; i++ ) {
+					var slide = data[ i ],
+						slide_id = slide.id;
+
+					CORE.Events.doAction( 'seoslides.slideAdded', slide_id );
+
+					deferreds.push( refreshSlideRow( slide_id ) );
+				}
+
+				$.when.apply( null, deferreds ).done( modal_container.close );
+			} );
+		} );
+		modal_container.open();
+	} );
+
+	$( 'a[data-action=use_in_post]' ).on( 'click', use_in_post );
 })( this, jQuery );
 /* Load links with a class of .popup in small window. Dimensions hardcoded for now. Parameterize later if needed. */
 ( function( window, $, undefined ) {

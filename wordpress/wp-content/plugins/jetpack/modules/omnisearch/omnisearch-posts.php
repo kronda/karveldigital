@@ -10,6 +10,12 @@ class Jetpack_Omnisearch_Posts extends WP_List_Table {
 	function __construct( $post_type = 'post' ) {
 		$this->post_type = $post_type;
 		add_filter( 'omnisearch_results', array( $this, 'search'), 10, 2 );
+
+		// Push 'post_type_obj' to accepted fields for WP_List_Table (since WP 4.2)
+		global $wp_version;
+		if ( version_compare( $wp_version, '4.2-z', '>=' ) && $this->compat_fields && is_array( $this->compat_fields ) ) {
+			array_push( $this->compat_fields, 'post_type_obj', 'posts' );
+		}
 	}
 
 	function search( $results, $search_term ) {
@@ -26,7 +32,13 @@ class Jetpack_Omnisearch_Posts extends WP_List_Table {
 
 		$num_results = apply_filters( 'omnisearch_num_results', 5 );
 
-		$this->posts = get_posts( array( 's' => $search_term, 'post_type' => $this->post_type, 'posts_per_page' => $num_results, 'post_status' => 'any' ) );
+		$this->posts = get_posts( array(
+			's'                => $search_term,
+			'post_type'        => $this->post_type,
+			'posts_per_page'   => $num_results,
+			'post_status'      => 'any',
+			'suppress_filters' => false,
+		) );
 
 		$this->prepare_items();
 

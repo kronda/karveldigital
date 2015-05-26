@@ -1,0 +1,34 @@
+.pricing_container.cobalt .pricing_title_block,
+.pricing_container .pricing_item.cobalt .pricing_title_block {
+    background: #6b89c9;
+    background: -moz-linear-gradient(top,  #6b89c9 0%, #4c5ab2 100%);
+    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#6b89c9), color-stop(100%,#4c5ab2));
+    background: -webkit-linear-gradient(top, #6b89c9 0%,#4c5ab2 100%);
+    background: -o-linear-gradient(top,  #6b89c9 0%,#4c5ab2 100%);
+    background: -ms-linear-gradient(top,  #6b89c9 0%,#4c5ab2 100%);
+    background: linear-gradient(to bottom,  #6b89c9 0%,#4c5ab2 100%);
+    border: 1px solid #424e9a;
+}
+
+.pricing_container.cobalt .pricing_title_block .name,
+.pricing_container .pricing_item.cobalt .pricing_title_block .name {
+    color: #2a3856;
+}
+
+.pricing_container.cobalt .pricing_title_block .name .has-tip,
+.pricing_container .pricing_item.cobalt .pricing_title_block .name .has-tip{
+    color: #2a3856;
+    border-bottom: dotted 1px #2a3856;
+}
+
+.pricing_container.cobalt .pt_description,
+.pricing_container .pricing_item.cobalt .pt_description {
+    background: #bac6df;
+    color: #485167;
+}
+
+.pricing_container.cobalt .ptp-fancy-button.pricing:hover,
+.pricing_container .pricing_item.cobalt .ptp-fancy-button.pricing:hover {
+    background: #4c5ab2;
+    border: 1px solid #424e9a;
+}

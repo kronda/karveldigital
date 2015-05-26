@@ -1,0 +1,33 @@
+.category-work {
+
+  .entry-content {
+    font-size: 0.9em;
+  }
+  .entry-footer {
+    clear: both;
+  }
+
+  .entry-date {
+    display: block;
+    margin-bottom: 5px;
+  }
+}
+.single .post {
+  margin-bottom: 1em;
+}
+
+.single-post {
+
+  .post {
+    border-bottom: none;
+  }
+}
+#social {
+  margin: 0;
+}
+
+#social #reply-title,
+#social .social-nav .social-current-tab {
+  background-position: 0px -213px;
+  //background: none;
+}

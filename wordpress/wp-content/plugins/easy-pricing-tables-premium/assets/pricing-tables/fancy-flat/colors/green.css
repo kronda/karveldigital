@@ -1,0 +1,34 @@
+.pricing_container.green .pricing_title_block,
+.pricing_container .pricing_item.green .pricing_title_block {
+    background: #b9c869;
+    background: -moz-linear-gradient(top,  #b9c869 0%, #8dae41 100%);
+    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#b9c869), color-stop(100%,#8dae41));
+    background: -webkit-linear-gradient(top, #b9c869 0%,#8dae41 100%);
+    background: -o-linear-gradient(top,  #b9c869 0%,#8dae41 100%);
+    background: -ms-linear-gradient(top,  #b9c869 0%,#8dae41 100%);
+    background: linear-gradient(to bottom,  #b9c869 0%,#8dae41 100%);
+    border: 1px solid #799538;
+}
+
+.pricing_container.green .pricing_title_block .name,
+.pricing_container .pricing_item.green .pricing_title_block .name {
+    color: #434c14;
+}
+
+.pricing_container.green .pricing_title_block .name .has-tip,
+.pricing_container .pricing_item.green .pricing_title_block .name .has-tip{
+    color: #434c14;
+    border-bottom: dotted 1px #434c14;
+}
+
+.pricing_container.green .pt_description,
+.pricing_container .pricing_item.green .pt_description {
+    background: #d8ddb6;
+    color: #565c33;
+}
+
+.pricing_container.green .ptp-fancy-button.pricing:hover,
+.pricing_container .pricing_item.green .ptp-fancy-button.pricing:hover {
+    background: #8dae41;
+    border: 1px solid #799538;
+}

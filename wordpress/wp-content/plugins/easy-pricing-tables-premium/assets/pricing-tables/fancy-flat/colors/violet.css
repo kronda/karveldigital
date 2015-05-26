@@ -1,0 +1,35 @@
+.pricing_container.violet .pricing_title_block,
+.pricing_container .pricing_item.violet .pricing_title_block {
+    background: #a176c3;
+    background: -moz-linear-gradient(top,  #a176c3 0%, #9150aa 100%);
+    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#a176c3), color-stop(100%,#9150aa));
+    background: -webkit-linear-gradient(top, #a176c3 0%,#9150aa 100%);
+    background: -o-linear-gradient(top,  #a176c3 0%,#9150aa 100%);
+    background: -ms-linear-gradient(top,  #a176c3 0%,#9150aa 100%);
+    background: linear-gradient(to bottom,  #a176c3 0%,#9150aa 100%);
+
+    border: 1px solid #7c4592;
+}
+
+.pricing_container.violet .pricing_title_block .name,
+.pricing_container .pricing_item.violet .pricing_title_block .name {
+    color: #3f2a50;
+}
+
+.pricing_container.violet .pricing_title_block .name .has-tip,
+.pricing_container .pricing_item.violet .pricing_title_block .name .has-tip{
+    color: #3f2a50;
+    border-bottom: dotted 1px #3f2a50;
+}
+
+.pricing_container.violet .pt_description,
+.pricing_container .pricing_item.violet .pt_description {
+    background: #d0bdde;
+    color: #564762;
+}
+
+.pricing_container.violet .ptp-fancy-button.pricing:hover,
+.pricing_container .pricing_item.violet .ptp-fancy-button.pricing:hover {
+    background: #9150aa;
+    border: 1px solid #7c4592;
+}

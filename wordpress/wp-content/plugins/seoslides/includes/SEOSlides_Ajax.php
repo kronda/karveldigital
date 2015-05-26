@@ -33,6 +33,7 @@ class SEOSlides_Ajax {
 		add_action( 'wp_ajax_restore-slide',             array( $this, 'restore_slide' ) );
 		add_action( 'wp_ajax_check_omebed',              array( $this, 'check_oembed' ) );
 		add_action( 'wp_ajax_post-from-presentation',    array( $this, 'post_from_slideset' ) );
+		add_action( 'wp_ajax_create-media-slides',       array( $this, 'create_from_media' ) );
 	}
 
 	/**
@@ -64,8 +65,8 @@ class SEOSlides_Ajax {
 			// Build an array containing each slide in a separate associative array
 			/** @var SEOSlides_Slide $slide */
 			foreach( $slideset->slides as $slide ) {
-				$bg_image = $slide->bg_image;
-				$bg_id = SEOSlides_Core::get_attachment_id_from_url( $bg_image );
+				$bg_image = $slide->get_bg_image();
+				$bg_id = SEOSlides_Util::get_attachment_id_from_url( $bg_image );
 				if ( false !== $bg_id ) {
 					$bg_arr = wp_get_attachment_image_src( $bg_id, 'seoslides-thumb' );
 					$bg_image = $bg_arr[0];
@@ -88,8 +89,8 @@ class SEOSlides_Ajax {
 					'status'          => $slide->status,
 				);
 
-				if ( isset( $data['bg-image'] ) && function_exists( 'jetpack_photon_url' ) ) {
-					$data['bg-image'] = jetpack_photon_url( $data['bg-image'], array(), '//' );
+				if ( isset( $data['bg_image'] ) && function_exists( 'jetpack_photon_url' ) ) {
+					$data['bg_image'] = jetpack_photon_url( $data['bg_image'], array(), '//' );
 				}
 
 				$oembed = SEOSlides_Slide::get_embed_url( $slide->oembed );
@@ -210,27 +211,36 @@ class SEOSlides_Ajax {
 			/** @var SEOSlides_Slideset $slideset  */
 			$slideset = SEOSlides_Module_Provider::get( 'SEOSlides Core' )->get_slideset( $slideset_id );
 
-			$sections = '';
-
-			$slide_number = 1;
-			/** @var SEOSlides_Slide $slide */
-			foreach( $slideset->slides as $slide ) {
-				if ( 'publish' !== $slide->status ) {
-					continue;
-				}
-
-				$sections .= $slide->render();
-
-				$slide_number++;
-			}
-
-			$sections .= $slideset->last_slide();
-
 			$response['success'] = true;
-			$response['sections'] = $sections;
+			$response['sections'] = $this->render_slide_sections( $slideset );
 		}
 
 		wp_send_json( $response );
+	}
+
+	/**
+	 * Generate the JSON response for a given slideset.
+	 *
+	 * @param SEOSlides_Slideset $slideset
+	 *
+	 * @return string
+	 */
+	public function render_slide_sections( $slideset ) {
+		$sections = '';
+
+		$slide_number = 1;
+		/** @var SEOSlides_Slide $slide */
+		foreach( $slideset->slides as $slide ) {
+			if ( 'publish' !== $slide->status ) {
+				continue;
+			}
+
+			$sections .= $slide->render();
+
+			$slide_number++;
+		}
+
+		return $sections;
 	}
 
 	/**
@@ -286,8 +296,11 @@ class SEOSlides_Ajax {
 			$slide->oembed = esc_url_raw( $_POST['oembed'] );
 
 			// Background information
+			$default = get_post_meta( $slide->slideset, '_default_slide', true );
+			$default_fill = isset( $default->fill_color ) ? $default->fill_color : '#ffffff';
+
 			$fill_color = sanitize_text_field( $_POST['fill_color'] );
-			$slide->fill_color = ( $fill_color === $slide->fill_color ) ? '' : $fill_color;
+			$slide->fill_color = ( $fill_color === $default_fill ) ? '' : $fill_color;
 			$slide->bg_image = sanitize_text_field( $_POST['bg_image'] );
 
 			// Update SEO
@@ -398,8 +411,21 @@ class SEOSlides_Ajax {
 		$slideset = new SEOSlides_Slideset( $slideset_id );
 		$defaults = $slideset->default_slide();
 
+		$position = count( $slideset->slides );
+
+		if ( isset( $_POST['title'] ) ) {
+			$title = sanitize_text_field( $_POST['title'] );
+
+			// Use a non-textdomained translation for Auto Draft so we grab the core version for comparison.
+			if ( empty( $title ) ) {
+				$title = $slideset->title;
+			}
+		} else {
+			$title = $slideset->title;
+		}
+
 		$content = array(
-			'title'    => $defaults->title,
+			'title'    => $title . ' - ' . ( $position + 1 ),
 			'content'  => '',
 			'image'    => '',
 			'bg-image' => 'noimage',
@@ -410,7 +436,7 @@ class SEOSlides_Ajax {
 			array(
 			     'post_parent'  => $slideset_id,
 			     'post_type'    => 'seoslides-slide',
-			     'menu_order'   => count( $slideset->slides ), // Insert at the end of the presentation
+			     'menu_order'   => $position, // Insert at the end of the presentation
 			     'post_status'  => 'publish',
 			     'post_content' => serialize( $content )
 			)
@@ -657,6 +683,80 @@ class SEOSlides_Ajax {
 			'permalink' => get_permalink( $post ),
 			'edit_url'  => $edit_url
 		);
+
+		wp_send_json( $response );
+	}
+
+	public function create_from_media() {
+		$response = array();
+		$response['success'] = false;
+		$response['data']    = array();
+
+		if ( ! wp_verify_nonce( $_POST['_nonce'], 'seoslides-media' ) ) {
+			wp_send_json( $response );
+		}
+
+		// First, get our slideset
+		$slideset_id = (int) $_POST['slideset'];
+		$slideset = new SEOSlides_Slideset( $slideset_id );
+		$defaults = $slideset->default_slide();
+
+		// Now get our attachments
+		$attachment_ids = $_POST['slides'];
+		$attachment_ids = array_map( 'intval', $attachment_ids );
+
+		// Initial position of new slide
+		$position = count( $slideset->slides );
+
+		// Iteratively insert new slides
+		foreach( $attachment_ids as $attachment_id ) {
+			$image = wp_get_attachment_image_src( $attachment_id, 'full' );
+
+			// Create our slide content
+			$content = array(
+				'title'    => $slideset->title . ' - ' . ( $position + 1 ),
+				'content'  => '',
+				'image'    => '',
+				'bg-image' => $image[0],
+			);
+
+			// Create the slide
+			$slide = wp_insert_post(
+				array(
+					'post_parent'  => $slideset_id,
+					'post_type'    => 'seoslides-slide',
+					'menu_order'   => $position, // Insert at the end of the presentation
+					'post_status'  => 'publish',
+					'post_content' => serialize( $content )
+				)
+			);
+
+			if ( 0 !== $slide && ! is_wp_error( $slide ) ) {
+				update_post_meta( $slide, 'seoslides_fillcolor', '' );
+				update_post_meta( $slide, 'seoslides_oembed', $defaults->oembed );
+
+				// Update SEO
+				$seo = array(
+					'title'       => $defaults->title,
+					'description' => $defaults->seo_description,
+					'keywords'    => $defaults->seo_keywords
+				);
+				update_post_meta( $slide, 'seoslides_seo_settings', $seo );
+
+				/** @var SEOSlides_CanvasObject $object */
+				foreach( $defaults->objects as $object ) {
+					add_post_meta( $slide, 'seoslides_canvas_object', $object );
+				}
+
+				// Add our slide to the response array
+				$response['data'][] = array( 'id' => $slide );
+
+				// Increment the position for next time
+				$position += 1;
+			}
+		}
+
+		$response['success'] = true;
 
 		wp_send_json( $response );
 	}

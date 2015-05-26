@@ -1,23 +1,31 @@
-wordpress/.htaccess
-wordpress/wp-content/themes/krondafrank/compass_app_log.txt
+# !wordpress/wp-content
+*.sass-cache/
+*compass_app_log.txt*
 wordpress/wp-content/uploads
 wordpress/wp-content/w3tc
 wordpress/wp-content/avatars
 wordpress/wp-content/cache
 wordpress/local-config.php
-debug_log.txt
+wordpress/.htaccess
+wordpress/wp-content/debug.log
+wordpress/wp-content/themes/krondafrank/.sass-cache/
+wordpress/wp-content/themes/krondafrank/.sass-cache/*
 .buildpath
 .project
 .settings
-db
+db/
 docs/
+dev/
+static_files
+debug_log.txt
+*.sublime*
+backups
+backup
+webroot
+vaultpress.zip
 *~
 .DS_Store
-/.gitattributes
-*.sass-cache/
 *.sublime*
-webroot
-backups
 
 
 

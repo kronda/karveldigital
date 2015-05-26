@@ -7,7 +7,6 @@
  * Author:      10up
  */
 
-// Object requirements
 require_once 'objects/SEOSlides_Slideset.php';
 require_once 'objects/SEOSlides_Slide.php';
 require_once 'objects/SEOSlides_CanvasObject.php';
@@ -38,10 +37,13 @@ class SEOSlides_Core {
 		add_action( 'init',                                          array( $this, 'register_flags' ) );
 		add_action( 'seoslides_register_cpts',                       array( $this, 'custom_rewrites' ), 11 );
 		add_action( 'seoslides_register_cpts',                       array( $this, 'register_cpts' ) );
+		add_action( 'admin_enqueue_scripts',                         array( $this, 'register_assets' ), 5 );
+		add_action( 'wp_enqueue_scripts',                            array( $this, 'register_assets' ), 5 );
 		add_action( 'admin_enqueue_scripts',                         array( $this, 'admin_enqueue_scripts' ) );
 		add_action( 'wp_enqueue_scripts',                            array( $this, 'slideset_enqueue_scripts' ) );
 		add_action( 'wp_print_styles',                               array( $this, 'remove_theme_styles' ) );
 		add_action( 'right_now_content_table_end',                   array( $this, 'display_presentation_count' ) );
+		add_action( 'dashboard_glance_items',                        array( $this, 'right_now_presentation_count' ) );
 		add_action( 'manage_seoslides-slideset_posts_custom_column', array( $this, 'filter_custom_columns' ), 10, 2 );
 		add_action( 'wp_headers',                                    array( $this, 'redirect_to_first' ), 10, 2 );
 		add_action( 'admin_bar_menu',                                array( $this, 'presentation_toolbar' ) );
@@ -50,6 +52,7 @@ class SEOSlides_Core {
 		add_action( 'admin_head-post.php',                           array( $this, 'presentation_help_tabs' ) );
 		add_action( 'admin_head-edit.php',                           array( $this, 'hide_view_switcher' ), 100 );
 		add_action( 'after_setup_theme',                             array( $this, 'add_thumbnail_sizes' ) );
+		add_action( 'template_redirect',                             array( $this, 'endpoint_override' ) );
 
 		// Wire filters
 		add_filter( 'manage_seoslides-slideset_posts_columns',         array( $this, 'filter_list_table_columns' ) );
@@ -82,38 +85,36 @@ class SEOSlides_Core {
 	public function install() {
 		$installed = get_option( 'seoslides_version' );
 
-		switch( $installed ) {
-			case '1.2':
-			case '1.1.1':
-			case '1.1':
-			case '1.0.5':
-			case '1.0.4':
-			case '1.0.3':
-			case '1.0.2':
-			case '1.0.1':
-			case '1.0':
-			case '0.1.0':
-				// Upgrade the option
-				delete_option( 'seoslides_version' );
-				add_option( 'seoslides_version', SEOSLIDES_VERSION, '', 'no' );
+		// Not previously installed
+		if ( false === $installed ) {
+			add_option( 'seoslides_version', SEOSLIDES_VERSION, '', 'no' );
+			add_option( 'seoslides_logo', 'seoslides', '', 'no' );
+			add_option( 'seoslides_logo_url', 'https://seoslides.com', '', 'no' );
+			add_option( 'seoslides_logo_title', 'seoslides', '', 'no' );
+			add_option( 'seoslides_logo_enabled', 'no', '', 'no' );
+			add_option( 'seoslides_hideimports', 'yes', '', 'no' );
 
-				// Add new options that didn't exist in legacy systems
-				add_option( 'seoslides_hideimports', 'yes', '', 'no' );
-				break;
-			case false:
-				// Plugin not previously installed.
-				add_option( 'seoslides_version', SEOSLIDES_VERSION, '', 'no' );
-				add_option( 'seoslides_logo', 'seoslides', '', 'no' );
-				add_option( 'seoslides_logo_url', 'https://seoslides.com', '', 'no' );
-				add_option( 'seoslides_logo_title', 'seoslides', '', 'no' );
-				add_option( 'seoslides_logo_enabled', 'no', '', 'no' );
-				add_option( 'seoslides_hideimports', 'yes', '', 'no' );
+			// Remove default content filter and inject our template presenatation
+			remove_filter( 'default_content', array( $this, 'default_content' ), 10, 2 );
+			$this->insert_default_presentation();
+			add_filter( 'default_content', array( $this, 'default_content' ), 10, 2 );
 
-				// Remove default content filter and inject our template presenatation
-				remove_filter( 'default_content', array( $this, 'default_content' ), 10, 2 );
-				$this->insert_default_presentation();
-				add_filter( 'default_content', array( $this, 'default_content' ), 10, 2 );
-				break;
+			return;
+		}
+
+		// Generic upgrade
+		if ( version_compare( SEOSLIDES_VERSION, $installed, '>' ) ) {
+			// Upgrade the option
+			delete_option( 'seoslides_version' );
+			add_option( 'seoslides_version', SEOSLIDES_VERSION, '', 'no' );
+
+			// Add new options that didn't exist in legacy systems
+			add_option( 'seoslides_hideimports', 'yes', '', 'no' );
+
+			// Flush permalinks to make sure our new rules take effect
+			add_action( 'init', 'flush_rewrite_rules' );
+
+			return;
 		}
 	}
 
@@ -128,6 +129,10 @@ class SEOSlides_Core {
 		return 'seoslides_api_key';
 	}
 
+	/****************************************************************/
+	/**                          Structure                         **/
+	/****************************************************************/
+
 	/**
 	 * Shortcut to register all CPTs
 	 *
@@ -141,7 +146,7 @@ class SEOSlides_Core {
 	/**
 	 * Register the presentation post type.
 	 */
-	public function register_presentations() {
+	protected function register_presentations() {
 		$labels = array(
 			'name'               => __( 'Presentations', 'seoslides_translate' ),
 			'singular_name'      => __( 'Presentation', 'seoslides_translate' ),
@@ -165,7 +170,11 @@ class SEOSlides_Core {
 			'show_ui'            => true,
 			'show_in_menu'       => true,
 			'query_var'          => true,
-			'rewrite'            => array( 'slug' => 'slides', 'with_front' => false ),
+			'rewrite'            => array(
+				'slug'       => 'slides',
+				'with_front' => false,
+			    'ep_mask'    => EP_PERMALINK | EP_SEOSLIDES,
+			),
 			'capability_type'    => 'post',
 			'has_archive'        => false,
 			'hierarchical'       => false,
@@ -179,7 +188,7 @@ class SEOSlides_Core {
 	/**
 	 * Register the slide post type.
 	 */
-	public function register_slides() {
+	protected function register_slides() {
 		$labels = array(
 			'name'               => __( 'Presentation Slides', 'seoslides_translate' ),
 			'singular_name'      => __( 'Presentation Slide', 'seoslides_translate' ),
@@ -253,13 +262,53 @@ class SEOSlides_Core {
 	}
 
 	/**
+	 * Register the default scripts and styles used by the plugin.
+	 *
+	 * @uses wp_register_script()
+	 * @uses wp_register_style()
+	 */
+	public function register_assets() {
+		// Deck JS Scripts
+		wp_register_script( 'deck',            SEOSLIDES_URL . 'vendor/deck/core/deck.core.js',                        array( 'jquery' ), '1.1.0', true );
+		wp_register_script( 'deck.menu',       SEOSLIDES_URL . 'vendor/deck/extensions/menu/deck.menu.js',             array( 'deck' ),   '1.1.0', true );
+		wp_register_script( 'deck.goto',       SEOSLIDES_URL . 'vendor/deck/extensions/goto/deck.goto.js',             array( 'deck' ),   '1.1.0', true );
+		wp_register_script( 'deck.status',     SEOSLIDES_URL . 'vendor/deck/extensions/status/deck.status.js',         array( 'deck' ),   '1.1.0', true );
+		wp_register_script( 'deck.navigation', SEOSLIDES_URL . 'vendor/deck/extensions/navigation/deck.navigation.js', array( 'deck' ),   '1.1.0', true );
+
+		// Deck JS Styles
+		wp_register_style( 'deck',            SEOSLIDES_URL . 'vendor/deck/core/deck.core.css',                        array(),         '1.1.0', 'screen' );
+		wp_register_style( 'deck.menu',       SEOSLIDES_URL . 'vendor/deck/extensions/menu/deck.menu.css',             array( 'deck' ), '1.1.0', 'screen' );
+		wp_register_style( 'deck.goto',       SEOSLIDES_URL . 'vendor/deck/extensions/goto/deck.goto.css',             array( 'deck' ), '1.1.0', 'screen' );
+		wp_register_style( 'deck.status',     SEOSLIDES_URL . 'vendor/deck/extensions/status/deck.status.css',         array( 'deck' ), '1.1.0', 'screen' );
+		wp_register_style( 'deck.navigation', SEOSLIDES_URL . 'vendor/deck/extensions/navigation/deck.navigation.css', array( 'deck' ), '1.1.0', 'screen' );
+		wp_register_style( 'deck.print',      SEOSLIDES_URL . 'vendor/deck/core/print.css',                            array( 'deck' ), '1.1.0', 'print'  );
+
+		// Deck JS Transitions and Themes
+		wp_register_style( 'deck.theme.neon',            SEOSLIDES_URL . 'vendor/deck/themes/style/neon.css',           array( 'deck' ), '1.1.0', 'screen' );
+		wp_register_style( 'deck.theme.swiss',           SEOSLIDES_URL . 'vendor/deck/themes/style/swiss.css',          array( 'deck' ), '1.1.0', 'screen' );
+		wp_register_style( 'deck.theme.web20',           SEOSLIDES_URL . 'vendor/deck/themes/style/web-2.0.css',        array( 'deck' ), '1.1.0', 'screen' );
+		wp_register_style( 'deck.transition.none',       SEOSLIDES_URL . 'css/deck.no-transition.css',                  array( 'deck' ), '1.1.0', 'screen' );
+		wp_register_style( 'deck.transition.fade',       SEOSLIDES_URL . 'vendor/deck/transition/fade.css',             array( 'deck' ), '1.1.0', 'screen' );
+		wp_register_style( 'deck.transition.horizontal', SEOSLIDES_URL . 'vendor/deck/transition/horizontal-slide.css', array( 'deck' ), '1.1.0', 'screen' );
+		wp_register_style( 'deck.transition.vertical',   SEOSLIDES_URL . 'vendor/deck/transition/vertical-slide.css',   array( 'deck' ), '1.1.0', 'screen' );
+	}
+
+	/****************************************************************/
+	/**                  Redirection and Rewrites                  **/
+	/****************************************************************/
+
+	/**
 	 * Add custom rewrite rules to make sure individual slide URLs direct to the appropriate slideset.
 	 */
 	public function custom_rewrites() {
 		add_rewrite_tag( '%seoslides-slide%', '(.+)' );
 		add_rewrite_tag( '%seoslides-first%', '([0-9])' );
-		add_rewrite_rule( '^slides/?$', 'index.php?seoslides-first=1', 'top' );
-		add_rewrite_rule( '^slides/(.+)/(.+)/?$', 'index.php?seoslides-slideset=$matches[1]&seoslides-slide=$matches[2]', 'top' );
+
+		add_rewrite_endpoint( 'allslides', EP_SEOSLIDES );
+
+		add_rewrite_rule( '^slides/?$',           'index.php?seoslides-first=1',                                          'top' );
+		//add_rewrite_rule( '^slides/(.+)/(.+)/?$', 'index.php?seoslides-slideset=$matches[1]&seoslides-slide=$matches[2]', 'top' );
+		add_rewrite_rule( '^slides/(.+)/((?!allslides).+)/?$', 'index.php?seoslides-slideset=$matches[1]&seoslides-slide=$matches[2]', 'top' );
 	}
 
 	/**
@@ -296,11 +345,62 @@ class SEOSlides_Core {
 	}
 
 	/**
-	 * Force a PHP exit. Useful for wiring to action hooks.
+	 * Intercept the template redirect request and inject the one bundled by the plugin if it's not set by the theme.
+	 *
+	 * If there is no global $post, or if the post type for the global $post is not 'seoslides-slideset,' skip any changes.
+	 * Also, if the theme defines a template for 'seoslides-slideset,' skip changes and use that template instead.
+	 *
+	 * @param string $template Template file.
+	 *
+	 * @return string
 	 */
-	public static function force_exit() {
-		exit();
+	public function template_override( $template ) {
+		global $post;
+
+		if ( null === $post || 'seoslides-slideset' !== $post->post_type  ) {
+			return $template;
+		}
+
+		// Remove the admin bar since, really, we don't want it
+		$this->remove_incompatible_third_party_hooks();
+
+		if ( strpos( $template, 'seoslides-slideset' ) > 0 ) {
+			return $template;
+		}
+
+		return SEOSLIDES_PATH . 'templates/single-seoslides-slideset.php';
 	}
+
+	/**
+	 * Intercept a request for the entire presentation markup (the AJAX request for "allslides") and return all slides
+	 *
+	 * @global WP_Query $wp_query
+	 */
+	public function endpoint_override() {
+		global $wp_query;
+
+		// if this is not a request for all slides or a singular object then bail
+		if ( ! isset( $wp_query->query_vars['allslides'] ) || ! is_singular() ) {
+			return;
+		}
+
+		// Set our content type
+		header( 'Content-Type: application/json' );
+
+		$slideset = new SEOSlides_Slideset( get_queried_object() );
+
+		$sections = SEOSlides_Module_Provider::get( 'SEOSlides Ajax' )->render_slide_sections( $slideset );
+		$response = array(
+			'success'  => true,
+		    'sections' => $sections,
+		);
+
+		wp_send_json( $response );
+	}
+
+	/****************************************************************/
+	/**                    Scripts and Styles                      **/
+	/****************************************************************/
 
 	/**
 	 * Build out the strings needed for JS to display properly in a local language.
@@ -375,6 +475,8 @@ class SEOSlides_Core {
 			'insert_link'         => __( 'Save Backlink', 'seoslides_translate' ),
 			'link_title'          => __( 'Insert/Edit Embed Backlink', 'seoslides_translate' ),
 			'close_modal_conf'    => __( 'You have unsaved changes on this slide. Are you sure you wish to close the window?', 'seoslides_translate' ),
+		    'modal_title'         => __( 'Insert Slides from the Media Gallery', 'seoslides_translate' ),
+		    'modal_button'        => __( 'Insert', 'seoslides_translate' ),
 		);
 
 		wp_localize_script( $handle, 'seoslides_i18n', $strings );
@@ -385,11 +487,11 @@ class SEOSlides_Core {
 	 */
 	protected function enqueue_mediaelement() {
 		if ( 1 === version_compare( '3.6', get_bloginfo( 'version' ) ) ) {
-			wp_register_script( 'mediaelement', SEOSLIDES_URL . 'js/lib/mediaelement/mediaelement-and-player.js', array( 'jquery' ), '2.11.3', 1 );
-			wp_register_script( 'wp-mediaelement', SEOSLIDES_URL . 'js/lib/mediaelement/wp-mediaelement.js', array( 'mediaelement' ), false, 1 );
+			wp_register_script( 'mediaelement', SEOSLIDES_URL . 'vendor/mediaelement/mediaelement-and-player.js', array( 'jquery' ), '2.11.3', 1 );
+			wp_register_script( 'wp-mediaelement', SEOSLIDES_URL . 'vendor/mediaelement/wp-mediaelement.js', array( 'mediaelement' ), false, 1 );
 
-			wp_register_style( 'mediaelement', SEOSLIDES_URL . 'js/lib/mediaelement/mediaelementplayer.css' );
-			wp_register_style( 'wp-mediaelement', SEOSLIDES_URL . 'js/lib/mediaelement/wp-mediaelement.css', array( 'mediaelement' ) );
+			wp_register_style( 'mediaelement', SEOSLIDES_URL . 'vendor/mediaelement/mediaelementplayer.css' );
+			wp_register_style( 'wp-mediaelement', SEOSLIDES_URL . 'vendor/mediaelement/wp-mediaelement.css', array( 'mediaelement' ) );
 		}
 		wp_enqueue_script( 'wp-mediaelement' );
 		wp_enqueue_style( 'wp-mediaelement' );
@@ -417,9 +519,7 @@ class SEOSlides_Core {
 		$current_screen = get_current_screen();
 
 		if ( 'seoslides-slideset' === $current_screen->post_type ) {
-			wp_register_style( 'dashicons', SEOSLIDES_URL . 'css/dashicons.css', array(), SEOSLIDES_VERSION );
 			wp_register_style( 'seoslides-iconography', SEOSLIDES_URL . 'css/seoslides-iconography.css', array(), SEOSLIDES_VERSION );
-			wp_enqueue_style( 'dashicons' );
 			wp_enqueue_style( 'seoslides-iconography' );
 
 			if ( 'post' === $current_screen->base ) {
@@ -428,6 +528,7 @@ class SEOSlides_Core {
 				wp_enqueue_script( 'wp-color-picker' );
 				wp_enqueue_style( 'wp-color-picker' );
 				wp_enqueue_style( 'wp-jquery-ui-dialog' );
+				wp_enqueue_media();
 
 				// Thickbox for selecting background images
 				wp_enqueue_script( 'media-upload' );
@@ -450,6 +551,7 @@ class SEOSlides_Core {
 					'delete_nonce'     => wp_create_nonce( 'seoslides_delete' ),
 					'trash_nonce'      => wp_create_nonce( 'seoslides_trash' ),
 					'restore_nonce'    => wp_create_nonce( 'seoslides_restore' ),
+					'media_nonce'      => wp_create_nonce( 'seoslides-media' ),
 					'menu_order_nonce' => wp_create_nonce( 'seoslides_order' ),
 					'thickbox_noimage' => esc_url( admin_url( 'images/no.png' ) ),
 					'thickbox_spinner' => esc_url( admin_url( 'images/wpspin_light.gif' ) ),
@@ -458,10 +560,10 @@ class SEOSlides_Core {
 				);
 
 				wp_localize_script( 'seoslides_admin', 'seoslides', $js_variables );
-				wp_localize_script( 'seoslides_admin', 'CKEDITOR_BASEPATH', SEOSLIDES_URL . 'js/lib/ckeditor/' );
+				wp_localize_script( 'seoslides_admin', 'CKEDITOR_BASEPATH', SEOSLIDES_URL . 'vendor/ckeditor/' );
 				$this->script_translations( 'seoslides_admin' );
 
-				wp_enqueue_script( 'ckeditor', SEOSLIDES_URL . 'js/lib/ckeditor/ckeditor.js', null, SEOSLIDES_VERSION, true );
+				wp_enqueue_script( 'ckeditor', SEOSLIDES_URL . 'vendor/ckeditor/ckeditor.js', null, SEOSLIDES_VERSION, true );
 			} else {
 				$js_variables = array(
 					'ajaxurl' => admin_url( 'admin-ajax.php' ),
@@ -473,6 +575,11 @@ class SEOSlides_Core {
 			}
 
 			wp_enqueue_style( 'seoslides-admin-slides', SEOSLIDES_URL . '/css/admin-styles-slides.css', array(), SEOSLIDES_VERSION, 'all' );
+		}
+
+		if ( 'post' === $current_screen->post_type ) {
+			wp_enqueue_script( 'wpdialogs' );
+			wp_enqueue_style( 'wp-jquery-ui-dialog' );
 		}
 		wp_enqueue_style( 'seoslides-bucket', SEOSLIDES_URL . '/js/lib/canvas/css/bucket.css', array(), SEOSLIDES_VERSION, 'all' );
 		wp_enqueue_style( 'seoslides-admin', SEOSLIDES_URL . '/css/admin-styles.css', array(), SEOSLIDES_VERSION, 'all' );
@@ -514,16 +621,20 @@ class SEOSlides_Core {
 			return;
 		}
 
-		wp_register_script( 'seoslides-modernizr', SEOSLIDES_URL . 'js/lib/modernizr.js', array(), '2.6.2' );
+		wp_register_script( 'seoslides-modernizr',               SEOSLIDES_URL . 'js/lib/modernizr.js',                             array(),                                                   '2.6.2' );
+		wp_register_script( 'seoslides-mobile-detect',           SEOSLIDES_URL . 'vendor/mobile-detect/mobile-detect.min.js',       array(),                                                   '0.1.1' );
+		wp_register_script( 'seoslides-mobile-detect-modernizr', SEOSLIDES_URL . 'vendor/mobile-detect/mobile-detect-modernizr.js', array( 'seoslides-modernizr', 'seoslides-mobile-detect' ), '0.1.1' );
 
 		// Get presentation theme
-		$theme = get_post_meta( get_the_ID(), '_slideset_theme', true );
-		$theme = empty( $theme ) ? 'swiss-horizontal' : $theme;
+		$theme_name = get_post_meta( get_the_ID(), '_slideset_theme', true );
+		$theme_name = empty( $theme_name ) ? 'swiss-horizontal' : $theme_name;
 		$all_themes = $this->available_themes();
-		$theme = isset( $all_themes[ $theme ] ) ? $all_themes[ $theme ] : $all_themes[ 'swiss-horizontal'];
+		$theme = isset( $all_themes[ $theme_name ] ) ? $all_themes[ $theme_name ] : $all_themes[ 'swiss-horizontal'];
 
 		// Styles
-		wp_enqueue_style( 'seoslides-front', $theme['src'], array(), SEOSLIDES_VERSION, 'screen' );
+		if ( null !== $theme['theme'] ) wp_enqueue_style( 'seoslides-theme-' . $theme_name, $theme['theme'], array( 'deck', 'deck.menu', 'deck.goto', 'deck.status', 'deck.navigation' ), SEOSLIDES_VERSION, 'screen' );
+		if ( null !== $theme['transition'] ) wp_enqueue_style( 'seoslides-transition-' . $theme_name, $theme['transition'], array( 'deck', 'deck.menu', 'deck.goto', 'deck.status', 'deck.navigation' ), SEOSLIDES_VERSION, 'screen' );
+		wp_enqueue_style( 'seoslides-front', SEOSLIDES_URL . 'css/front-end.css', array( 'deck', 'deck.menu', 'deck.goto', 'deck.status', 'deck.navigation' ), SEOSLIDES_VERSION, 'screen' );
 		wp_enqueue_style( 'seoslides-print', SEOSLIDES_URL . 'css/print.css', array(), SEOSLIDES_VERSION, 'print' );
 		wp_register_style( 'dashicons', SEOSLIDES_URL . 'css/dashicons.css', array(), SEOSLIDES_VERSION );
 		wp_register_style( 'seoslides-iconography', SEOSLIDES_URL . 'css/seoslides-iconography.css', array(), SEOSLIDES_VERSION );
@@ -534,7 +645,7 @@ class SEOSlides_Core {
 		$this->enqueue_mediaelement();
 
 		// Scripts
-		$this->enqueue_script( 'seoslides_front', array( 'jquery', 'seoslides-modernizr', 'wp-mediaelement' ), true );
+		$this->enqueue_script( 'seoslides_front', array( 'jquery', 'seoslides-mobile-detect-modernizr', 'wp-mediaelement', 'deck', 'deck.menu', 'deck.goto', 'deck.status', 'deck.navigation' ), true );
 		$this->script_translations( 'seoslides_front' );
 
 		$embedID = '';
@@ -547,10 +658,10 @@ class SEOSlides_Core {
 			'seoslides_front',
 			'seoslides',
 			array(
-			     'ajaxurl'    => admin_url( 'admin-ajax.php' ),
-			     'slideset'   => get_the_ID(),
-			     'embedID'    => $embedID,
-			     'photon_url' => function_exists( 'jetpack_photon_url' ) ? 'enabled' : 'disabled',
+				'ajaxurl'    => admin_url( 'admin-ajax.php' ),
+				'slideset'   => get_the_ID(),
+				'embedID'    => $embedID,
+				'photon_url' => function_exists( 'jetpack_photon_url' ) ? 'enabled' : 'disabled',
 			)
 		);
 	}
@@ -563,18 +674,62 @@ class SEOSlides_Core {
 			return;
 		}
 
-		global $wp_styles;
+		global $wp_styles, $wp_scripts;
 
 		$theme_ss_uri = get_stylesheet_directory_uri();
 		$child_ss_uri = get_template_directory_uri();
 
 		foreach( $wp_styles->queue as $queued ) {
+			if ( ! isset( $wp_styles->registered[ $queued ] ) ) {
+				continue;
+			}
+
 			$sheet = $wp_styles->registered[ $queued ];
 
 			if ( false !== strpos( $sheet->src, $theme_ss_uri ) || false !== strpos( $sheet->src, $child_ss_uri ) ) {
 				$wp_styles->dequeue( $queued );
 			}
 		}
+
+		foreach( $wp_scripts->queue as $queued ) {
+			if ( ! isset( $wp_scripts->registered[ $queued ] ) ) {
+				continue;
+			}
+
+			$script = $wp_scripts->registered[ $queued ];
+
+			if ( false !== strpos( $script->src, $theme_ss_uri ) || false !== strpos( $script->src, $child_ss_uri ) ) {
+				$wp_scripts->dequeue( $queued );
+			}
+		}
+	}
+
+	/**
+	 * Unhook some scripts and styles that are known to cause issues with the front-end.
+	 */
+	protected function remove_incompatible_third_party_hooks() {
+		// WordPress admin toolbar
+		if ( wp_script_is( 'admin-bar', 'enqueued' ) ) {
+			wp_dequeue_script( 'admin-bar' );
+			wp_dequeue_style( 'admin-bar' );
+		}
+
+		remove_action( 'wp_footer', 'wp_admin_bar_render', 1000 );
+		remove_action( 'wp_head',   'wp_admin_bar_header'       );
+		remove_action( 'wp_head',   '_admin_bar_bump_cb'        );
+
+		// Remove some known incompatibilities with Genesis Framework themes
+		remove_filter( 'wp_title', 'genesis_doctitle_wrap', 20 );
+		remove_filter( 'wp_title', 'genesis_default_title', 10, 3 );
+	}
+
+	/****************************************************************/
+
+	/**
+	 * Force a PHP exit. Useful for wiring to action hooks.
+	 */
+	public static function force_exit() {
+		exit();
 	}
 
 	/**
@@ -593,6 +748,20 @@ class SEOSlides_Core {
 
 		echo '<tr><td class="first b b">' . $num . '</td>';
 		echo '<td class="t">' . $text . '</td></tr>';
+	}
+
+	/**
+	 * Add presentations to the At a Glance widget in WordPress.
+	 */
+	public function right_now_presentation_count() {
+		if ( current_user_can( 'edit_posts' ) ) {
+			$num_pres = wp_count_posts( 'seoslides-slideset' );
+
+			$text = _n( '%s Presentation', '%s Presentations', intval( $num_pres->publish ), 'seoslides_translate' );
+			$text = sprintf( $text, number_format_i18n( $num_pres->publish ) );
+
+			printf( "<li class='presentation-count'><a href='edit.php?post_type=seoslides-slideset'>%s</a></li>", $text );
+		}
 	}
 
 	/**
@@ -648,7 +817,7 @@ class SEOSlides_Core {
 						$style = ' style="';
 						if ( '' !== $cover->bg_image ) {
 							$image = $cover->bg_image;
-							$image_id = SEOSlides_Core::get_attachment_id_from_url( $cover->bg_image );
+							$image_id = SEOSlides_Util::get_attachment_id_from_url( $cover->bg_image );
 
 							if ( false === $image_id ) {
 								if ( function_exists( 'jetpack_photon_url' ) ) {
@@ -764,51 +933,6 @@ class SEOSlides_Core {
 	}
 
 	/**
-	 * Intercept the template redirect request and inject the one bundled by the plugin if it's not set by the theme.
-	 *
-	 * If there is no global $post, or if the post type for the global $post is not 'seoslides-slideset,' skip any changes.
-	 * Also, if the theme defines a template for 'seoslides-slideset,' skip changes and use that template instead.
-	 *
-	 * @param string $template Template file.
-	 *
-	 * @return string
-	 */
-	public function template_override( $template ) {
-		global $post;
-
-		if ( null == $post || 'seoslides-slideset' != $post->post_type || strpos( $template, 'seoslides-slideset' ) > 0 ) {
-			return $template;
-		}
-
-		return SEOSLIDES_PATH . 'templates/single-seoslides-slideset.php';
-	}
-
-	/**
-	 * Populate a static template with actual slide parameters.
-	 *
-	 * @param string $template  Template to populate.
-	 * @param array  $slideargs Associative array of parameters to use for population.
-	 *
-	 * @return string
-	 */
-	public static function populate_template( $template, $slideargs ) {
-		foreach( $slideargs as $key => $value ) {
-			switch( $key ) {
-				case 'image':
-					$template = str_replace( "<%= $key %>", "<div class='seoslide_image'>{$value}</div>", $template );
-					break;
-				case 'content':
-					$template = str_replace( "<%= $key %>", "<div class='seoslide_content'>{$value}</div>", $template );
-					break;
-				default:
-					$template = str_replace( "<%= $key %>", $value, $template );
-			}
-		}
-
-		return $template;
-	}
-
-	/**
 	 * Get the total number of slides assigned to a particular presentation.
 	 *
 	 * @param int $slideset_id
@@ -907,7 +1031,7 @@ class SEOSlides_Core {
 
 		// Build and insert slide Headline
 		$headline = array(
-			'element_id' => SEOSlides_Core::generate_guid(),
+			'element_id' => SEOSlides_Util::generate_guid(),
 			'plugin_id'  => '1798dfc0-8695-11e2-9e96-0800200c9a66',
 			'settings'   => array(
 				'size'     => array(
@@ -929,7 +1053,7 @@ class SEOSlides_Core {
 
 		// Build and insert slide Subheading
 		$sub_headline = array(
-			'element_id' => SEOSlides_Core::generate_guid(),
+			'element_id' => SEOSlides_Util::generate_guid(),
 			'plugin_id' => '1798dfc0-8695-11e2-9e96-0800200c9a66',
 			'settings' => array(
 				'size' => array(
@@ -951,7 +1075,7 @@ class SEOSlides_Core {
 
 		// Build and insert slide Subheading
 		$sub_headline = array(
-			'element_id' => SEOSlides_Core::generate_guid(),
+			'element_id' => SEOSlides_Util::generate_guid(),
 			'plugin_id' => '1798dfc0-8695-11e2-9e96-0800200c9a66',
 			'settings' => array(
 				'size' => array(
@@ -1022,7 +1146,7 @@ class SEOSlides_Core {
 	public function presentation_messages( $messages = array() ) {
 		global $post, $post_ID;
 
-		$use_in_post = ' ' . sprintf( __( 'Use presentatation <a data-nonce="%s" data-presentation="%s" id="%s" href="%s">in a new post</a>.', 'seoslides_translate' ), wp_create_nonce( 'use_in_post' ), $post_ID, 'use_in_post', esc_url( get_permalink( $post_ID ) . '#use_in_post' ) );
+		$use_in_post = ' ' . sprintf( __( 'Use presentatation <a data-nonce="%s" data-presentation="%s" data-action="%s" href="%s">in a new post</a>.', 'seoslides_translate' ), wp_create_nonce( 'use_in_post' ), $post_ID, 'use_in_post', esc_url( get_permalink( $post_ID ) . '#use_in_post' ) );
 
 		$messages['seoslides-slideset'] = array(
 			0  => '', // Unused. Messages start at index 1.
@@ -1071,7 +1195,7 @@ class SEOSlides_Core {
 			__( 'Settings', 'seoslides_translate' ),
 			__( 'Settings', 'seoslides_translate' ),
 			'edit_posts',
-			'settings',
+			'seoslides_settings',
 			array( $this, 'menu' )
 		);
 
@@ -1086,7 +1210,7 @@ class SEOSlides_Core {
 			__( 'Support', 'seoslides_translate' ),
 			__( 'Support', 'seoslides_translate' ),
 			'edit_posts',
-			'support',
+			'seoslides_support',
 			array( $this, 'support' )
 		);
 	}
@@ -1099,7 +1223,6 @@ class SEOSlides_Core {
 		$api_key = get_option( 'seoslides_api_key', '' );
 		$product_key = get_option( 'seoslides_product_key', '' );
 		$hideimports = 'yes' === get_option( 'seoslides_hideimports', 'yes' );
-		$social_slide = 'yes' === get_option( 'seoslides_add_social_slide', 'no' );
 
 		settings_errors( 'seoslides' );
 
@@ -1157,20 +1280,6 @@ class SEOSlides_Core {
 						</td>
 					</tr>
 
-					<?php if ( defined( 'SEOSLIDES_ALPHA' ) && SEOSLIDES_ALPHA ) : ?>
-					<tr valign="top">
-						<th scope="row">
-							<?php _e( 'Add Social Sharing Slide', 'seoslides_translate' ); ?>
-						</th>
-						<td>
-							<label for="add_social_slide">
-								<input name="add_social_slide" type="checkbox" id="add_social_slide" <?php checked( $social_slide, true, true ); ?> />
-								<?php _e( 'Add a social sharing slide to the end of each presentation. Includes seoslides logo and link.', 'seolides_translate' ); ?>
-							</label>
-						</td>
-					</tr>
-					<?php endif; ?>
-
 					<?php do_action( 'seoslides_settings_form_bottom_rows' ); ?>
 
 					</tbody>
@@ -1206,7 +1315,7 @@ class SEOSlides_Core {
 
 			<form id="support-form" method="post" action="<?php echo $api_root; ?>/wp-admin/admin-post.php">
 				<input id="seoslides-api_key" name="seoslides-api_key" type="hidden" value="<?php echo esc_attr( $api_key ); ?>" />
-				<input id="seoslides-redirect" name="seoslides-redirect" type="hidden" value="<?php echo esc_attr( admin_url( 'edit.php?post_type=seoslides-slideset&page=support&step=1' ) ); ?>" />
+				<input id="seoslides-redirect" name="seoslides-redirect" type="hidden" value="<?php echo esc_attr( admin_url( 'edit.php?post_type=seoslides-slideset&page=seoslides_support&step=1' ) ); ?>" />
 				<input id="action" name="action" type="hidden" value="support-request" />
 
 				<p><?php echo sprintf( __( 'Please check our <a href="%s">comprehensive list of FAQs</a>.', 'seoslides_translate' ), 'https://seoslides.com/faq/'); ?></p>
@@ -1272,6 +1381,20 @@ class SEOSlides_Core {
 			return;
 		}
 
+		// This test must pass before checking the api_key since the product_key is used in the validate_key() request.
+		if ( isset( $_POST['product_key'] ) ) {
+			$old_key = get_option( 'seoslides_product_key' );
+			$new_key = sanitize_text_field( $_POST['product_key'] );
+
+			if ( $old_key !== $new_key ) {
+				if ( $old_key !== false ) {
+					update_option( 'seoslides_product_key', $new_key );
+				} else {
+					add_option( 'seoslides_product_key', $new_key, '', 'no' );
+				}
+			}
+		}
+
 		if ( isset( $_POST['api_key'] ) ) {
 			delete_transient( 'seoslides_level' );
 
@@ -1288,10 +1411,8 @@ class SEOSlides_Core {
 					add_settings_error( 'seoslides', 'settings_updated', __( 'Settings Saved!', 'seoslides_translate' ), 'updated' );
 				} elseif( ! empty( $catalyst->request_error ) ) {
 					add_settings_error( 'seoslides', 'invalid_key', __( 'Could Not Validate Key.', 'seoslides_translate' ) . " <span style=\"font-style: italic;font-weight: normal;float: right;\">({$catalyst->request_error})</span>", 'error' );
-					$api_key = '';
 				} else {
 					add_settings_error( 'seoslides', 'invalid_key', __( 'Invalid License Key!', 'seoslides_translate' ), 'error' );
-					$api_key = '';
 				}
 
 				if ( $old_key !== false ) {
@@ -1302,24 +1423,8 @@ class SEOSlides_Core {
 			}
 		}
 
-		if ( isset( $_POST['product_key'] ) ) {
-			$old_key = get_option( 'seoslides_product_key' );
-			$new_key = sanitize_text_field( $_POST['product_key'] );
-
-			if ( $old_key !== $new_key ) {
-				if ( $old_key !== false ) {
-					update_option( 'seoslides_product_key', $new_key );
-				} else {
-					add_option( 'seoslides_product_key', $new_key, '', 'no' );
-				}
-			}
-		}
-
 		$hideimports = ( isset( $_POST['showimports'] ) && 'on' === $_POST['showimports'] ) ? 'no' : 'yes';
 		update_option( 'seoslides_hideimports', $hideimports );
-
-		$social_slide = ( isset( $_POST['add_social_slide'] ) && 'on' === $_POST['add_social_slide'] ) ? 'yes' : 'no';
-		update_option( 'seoslides_add_social_slide', $social_slide );
 
 		do_action( 'seoslides_settings_postback' );
 	}
@@ -1582,7 +1687,7 @@ class SEOSlides_Core {
 		update_post_meta( $title_slide, 'seoslides_seo_settings', $title_seo );
 
 		$title_headline = array(
-			'element_id' => SEOSlides_Core::generate_guid(),
+			'element_id' => SEOSlides_Util::generate_guid(),
 			'plugin_id' => '1798dfc0-8695-11e2-9e96-0800200c9a66',
 			'settings' => array(
 				'size' => array(
@@ -1600,7 +1705,7 @@ class SEOSlides_Core {
 		add_post_meta( $title_slide, 'seoslides_canvas_object', $title_headline );
 
 		$title_sub_headline = array(
-			'element_id' => SEOSlides_Core::generate_guid(),
+			'element_id' => SEOSlides_Util::generate_guid(),
 			'plugin_id' => '1798dfc0-8695-11e2-9e96-0800200c9a66',
 			'settings' => array(
 				'size' => array(
@@ -1647,7 +1752,7 @@ class SEOSlides_Core {
 		update_post_meta( $first_slide, 'seoslides_seo_settings', $first_seo );
 
 		$first_headline = array(
-			'element_id' => SEOSlides_Core::generate_guid(),
+			'element_id' => SEOSlides_Util::generate_guid(),
 			'plugin_id' => '1798dfc0-8695-11e2-9e96-0800200c9a66',
 			'settings' => array(
 				'size' => array(
@@ -1669,7 +1774,7 @@ class SEOSlides_Core {
 		$first_content_text .= '<p><span style="color:#ffffff"><span style="font-size:2.769em">' . __( 'Then start presenting!', 'seoslides_translate' ) . '</span></span></p>';
 
 		$first_content = array(
-			'element_id' => SEOSlides_Core::generate_guid(),
+			'element_id' => SEOSlides_Util::generate_guid(),
 			'plugin_id' => '1798dfc0-8695-11e2-9e96-0800200c9a66',
 			'settings' => array(
 				'size' => array(
@@ -1701,21 +1806,25 @@ class SEOSlides_Core {
 
 		// Swiss styled theme
 		$themes['swiss-horizontal'] = array(
-				'name' => __( 'Horizontal Slide (Default)', 'seoslides_translate' ),
-				'src'  => SEOSLIDES_URL . 'css/front-end.css',
-			);
+			'name'       => __( 'Horizontal Slide (Default)', 'seoslides_translate' ),
+			'theme'      => SEOSLIDES_URL . 'vendor/deck/themes/style/swiss.css',
+			'transition' => SEOSLIDES_URL . 'vendor/deck/themes/transition/horizontal-slide.css',
+		);
 		$themes['swiss-vertical'] = array(
-				'name' => __( 'Vertical Slide', 'seoslides_translate' ),
-				'src'  => SEOSLIDES_URL . 'css/front-end.vertical.css',
-			);
+			'name'       => __( 'Vertical Slide', 'seoslides_translate' ),
+			'theme'      => SEOSLIDES_URL . 'vendor/deck/themes/style/swiss.css',
+			'transition' => SEOSLIDES_URL . 'vendor/deck/themes/transition/vertical-slide.css',
+		);
 		$themes['swiss-fade'] = array(
-				'name' => __( 'Fade', 'seoslides_translate' ),
-				'src'  => SEOSLIDES_URL . 'css/front-end.fade.css',
-			);
+			'name'       => __( 'Fade', 'seoslides_translate' ),
+			'theme'      => SEOSLIDES_URL . 'vendor/deck/themes/style/swiss.css',
+			'transition' => SEOSLIDES_URL . 'vendor/deck/themes/transition/fade.css',
+		);
 		$themes['swiss-none'] = array(
-				'name' => __( 'No Transition', 'seoslides_translate' ),
-				'src' => SEOSLIDES_URL . 'css/front-end.none.css',
-			);
+			'name'       => __( 'No Transition', 'seoslides_translate' ),
+			'theme'      => SEOSLIDES_URL . 'vendor/deck/themes/style/swiss.css',
+			'transition' => SEOSLIDES_URL . 'css/deck.no-transition.css',
+		);
 
 		return apply_filters( 'seoslides_frontend_themes', $themes );
 	}
@@ -1729,81 +1838,83 @@ class SEOSlides_Core {
 	 */
 	public function alpha_themes ( $themes ) {
 		// First, remove the old Swiss themes
+		$old = array();
+		$old['swiss-horizontal'] = $themes['swiss-horizontal'];
+		$old['swiss-vertical'] = $themes['swiss-vertical'];
+		$old['swiss-fade'] = $themes['swiss-fade'];
+		$old['swiss-none'] = $themes['swiss-none'];
 		unset( $themes['swiss-horizontal'] );
 		unset( $themes['swiss-vertical'] );
 		unset( $themes['swiss-fade'] );
 		unset( $themes['swiss-none'] );
 
 		// Neon styled theme
-		$themes['neon-horizontal'] = array (
-			'name' => __ ( 'Neon - Horizontal Slide', 'seoslides_translate' ),
-			'src'  => SEOSLIDES_URL . 'css/front-end.neon.horizontal.css',
+		$themes['neon-horizontal'] = array(
+			'name'       => __( 'Neon - Horizontal Slide', 'seoslides_translate' ),
+			'theme'      => SEOSLIDES_URL . 'vendor/deck/themes/style/neon.css',
+			'transition' => SEOSLIDES_URL . 'vendor/deck/themes/transition/horizontal-slide.css',
 		);
-		$themes['neon-vertical']   = array (
-			'name' => __ ( 'Neon - Vertical Slide', 'seoslides_translate' ),
-			'src'  => SEOSLIDES_URL . 'css/front-end.neon.vertical.css',
+		$themes['neon-vertical']   = array(
+			'name'       => __( 'Neon - Vertical Slide', 'seoslides_translate' ),
+			'theme'      => SEOSLIDES_URL . 'vendor/deck/themes/style/neon.css',
+			'transition' => SEOSLIDES_URL . 'vendor/deck/themes/transition/vertical-slide.css',
 		);
-		$themes['neon-fade']       = array (
-			'name' => __ ( 'Neon - Fade', 'seoslides_translate' ),
-			'src'  => SEOSLIDES_URL . 'css/front-end.neon.fade.css',
+		$themes['neon-fade']       = array(
+			'name'       => __( 'Neon - Fade', 'seoslides_translate' ),
+			'theme'      => SEOSLIDES_URL . 'vendor/deck/themes/style/neon.css',
+			'transition' => SEOSLIDES_URL . 'vendor/deck/themes/transition/fade.css',
 		);
-		$themes['neon-none']       = array (
-			'name' => __ ( 'Neon - No Transition', 'seoslides_translate' ),
-			'src'  => SEOSLIDES_URL . 'css/front-end.neon.none.css',
+		$themes['neon-none']       = array(
+			'name'       => __( 'Neon - No Transition', 'seoslides_translate' ),
+			'theme'      => SEOSLIDES_URL . 'vendor/deck/themes/style/neon.css',
+			'transition' => SEOSLIDES_URL . 'css/deck.no-transition.css',
 		);
 
 		// Swiss styled theme
-		$themes['swiss-horizontal'] = array(
-			'name' => __( 'Swiss - Horizontal Slide (Default)', 'seoslides_translate' ),
-			'src'  => SEOSLIDES_URL . 'css/front-end.css',
-		);
-		$themes['swiss-vertical'] = array(
-			'name' => __( 'Swiss - Vertical Slide', 'seoslides_translate' ),
-			'src'  => SEOSLIDES_URL . 'css/front-end.vertical.css',
-		);
-		$themes['swiss-fade'] = array(
-			'name' => __( 'Swiss - Fade', 'seoslides_translate' ),
-			'src'  => SEOSLIDES_URL . 'css/front-end.fade.css',
-		);
-		$themes['swiss-none'] = array(
-			'name' => __( 'Swiss - No Transition', 'seoslides_translate' ),
-			'src' => SEOSLIDES_URL . 'css/front-end.none.css',
-		);
+		$themes = array_merge( $themes, $old );
 
 		// No styled theme
-		$themes['none-horizontal'] = array (
-			'name' => __ ( 'No Theme - Horizontal Slide', 'seoslides_translate' ),
-			'src'  => SEOSLIDES_URL . 'css/front-end.none.horizontal.css',
+		$themes['none-horizontal'] = array(
+			'name'       => __( 'No Theme - Horizontal Slide', 'seoslides_translate' ),
+			'theme'      => null,
+			'transition' => SEOSLIDES_URL . 'vendor/deck/themes/transition/horizontal-slide.css',
 		);
-		$themes['none-vertical']   = array (
-			'name' => __ ( 'No Theme - Vertical Slide', 'seoslides_translate' ),
-			'src'  => SEOSLIDES_URL . 'css/front-end.none.vertical.css',
+		$themes['none-vertical']   = array(
+			'name'       => __( 'No Theme - Vertical Slide', 'seoslides_translate' ),
+			'theme'      => null,
+			'transition' => SEOSLIDES_URL . 'vendor/deck/themes/transition/vertical-slide.css',
 		);
-		$themes['none-fade']       = array (
-			'name' => __ ( 'No Theme - Fade', 'seoslides_translate' ),
-			'src'  => SEOSLIDES_URL . 'css/front-end.none.fade.css',
+		$themes['none-fade']       = array(
+			'name'       => __( 'No Theme - Fade', 'seoslides_translate' ),
+			'theme'      => null,
+			'transition' => SEOSLIDES_URL . 'vendor/deck/themes/transition/fade.css',
 		);
-		$themes['none-none']       = array (
-			'name' => __ ( 'No Theme - No Transition', 'seoslides_translate' ),
-			'src'  => SEOSLIDES_URL . 'css/front-end.none.none.css',
+		$themes['none-none']       = array(
+			'name'       => __( 'No Theme - No Transition', 'seoslides_translate' ),
+			'theme'      => null,
+			'transition' => SEOSLIDES_URL . 'css/deck.no-transition.css',
 		);
 
 		// Web 2.0 styled theme
-		$themes['web-horizontal'] = array (
-			'name' => __ ( 'Web 2.0 - Horizontal Slide', 'seoslides_translate' ),
-			'src'  => SEOSLIDES_URL . 'css/front-end.web.horizontal.css',
+		$themes['web-horizontal'] = array(
+			'name'       => __( 'Web 2.0 - Horizontal Slide', 'seoslides_translate' ),
+			'theme'      => SEOSLIDES_URL . 'vendor/deck/themes/style/web-2.0.css',
+			'transition' => SEOSLIDES_URL . 'vendor/deck/themes/transition/horizontal-slide.css',
 		);
-		$themes['web-vertical']   = array (
-			'name' => __ ( 'Web 2.0 - Vertical Slide', 'seoslides_translate' ),
-			'src'  => SEOSLIDES_URL . 'css/front-end.web.vertical.css',
+		$themes['web-vertical']   = array(
+			'name'       => __( 'Web 2.0 - Vertical Slide', 'seoslides_translate' ),
+			'theme'      => SEOSLIDES_URL . 'vendor/deck/themes/style/web-2.0.css',
+			'transition' => SEOSLIDES_URL . 'vendor/deck/themes/transition/vertical-slide.css',
 		);
-		$themes['web-fade']       = array (
-			'name' => __ ( 'Web 2.0 - Fade', 'seoslides_translate' ),
-			'src'  => SEOSLIDES_URL . 'css/front-end.web.fade.css',
+		$themes['web-fade']       = array(
+			'name'       => __( 'Web 2.0 - Fade', 'seoslides_translate' ),
+			'theme'      => SEOSLIDES_URL . 'vendor/deck/themes/style/web-2.0.css',
+			'transition' => SEOSLIDES_URL . 'vendor/deck/themes/transition/fade.css',
 		);
-		$themes['web-none']       = array (
-			'name' => __ ( 'Web 2.0 - No Transition', 'seoslides_translate' ),
-			'src'  => SEOSLIDES_URL . 'css/front-end.web.none.css',
+		$themes['web-none']       = array(
+			'name'       => __( 'Web 2.0 - No Transition', 'seoslides_translate' ),
+			'theme'      => SEOSLIDES_URL . 'vendor/deck/themes/style/web-2.0.css',
+			'transition' => SEOSLIDES_URL . 'css/deck.no-transition.css',
 		);
 
 		return $themes;
@@ -1917,18 +2028,21 @@ class SEOSlides_Core {
 			return $query;
 		}
 
+		$tax_query = $query->get( 'tax_query' );
+		if ( empty( $tax_query ) ) {
+			$tax_query = array();
+		}
+
 		// Create the new tax query
-		$query->set(
-			'tax_query',
-			array(
-			     array(
-				     'taxonomy' => 'seoslides-flag',
-				     'terms'    => array( 'imported' ),
-				     'field'    => 'slug',
-				     'operator' => 'NOT IN',
-			     ),
-			)
+		$tax_query[] = array(
+			'taxonomy' => 'seoslides-flag',
+			'terms'    => array( 'imported' ),
+			'field'    => 'slug',
+			'operator' => 'NOT IN',
 		);
+
+		// Update the tax query
+		$query->set( 'tax_query', $tax_query );
 
 		return $query;
 	}
@@ -1971,64 +2085,5 @@ class SEOSlides_Core {
 		$counts['trash'] = $wpdb->get_var( "SELECT COUNT( * ) FROM $wpdb->posts WHERE post_type = 'attachment' AND post_status = 'trash' $hide_and $and");
 
 		return $counts;
-	}
-
-	/****************************************************************/
-	/**                     Utility Functions                      **/
-	/****************************************************************/
-
-	/**
-	 * Generate a random GUID/UUID.
-	 *
-	 * @return string
-	 */
-	public static function generate_guid() {
-		$charid = strtoupper(md5(uniqid(rand(), true)));
-		$hyphen = chr(45);// "-"
-		$uuid = substr($charid, 0, 8).$hyphen
-			.substr($charid, 8, 4).$hyphen
-			.substr($charid,12, 4).$hyphen
-			.substr($charid,16, 4).$hyphen
-			.substr($charid,20,12);
-
-		return $uuid;
-	}
-
-	/**
-	 * Get the ID for a given attachment.
-	 *
-	 * @param string $attachment_url
-	 *
-	 * @global wpdb $wpdb
-	 *
-	 * @return bool|int
-	 */
-	public static function get_attachment_id_from_url( $attachment_url = '' ) {
-		global $wpdb;
-		$attachment_id = false;
-
-		// If there is no url, return.
-		if ( '' == $attachment_url ) {
-			return $attachment_id;
-		}
-
-		// Get the upload directory paths
-		$upload_dir_paths = wp_upload_dir();
-
-		// Make sure the upload path base directory exists in the attachment URL, to verify that we're working with a media library image
-		if ( false !== strpos( $attachment_url, $upload_dir_paths['baseurl'] ) ) {
-
-			// If this is the URL of an auto-generated thumbnail, get the URL of the original image
-			$attachment_url = preg_replace( '/-\d+x\d+(?=\.(jpg|jpeg|png|gif)$)/i', '', $attachment_url );
-
-			// Remove the upload path base directory from the attachment URL
-			$attachment_url = str_replace( $upload_dir_paths['baseurl'] . '/', '', $attachment_url );
-
-			// Finally, run a custom database query to get the attachment ID from the modified attachment URL
-			$attachment_id = $wpdb->get_var( $wpdb->prepare( "SELECT wposts.ID FROM $wpdb->posts wposts, $wpdb->postmeta wpostmeta WHERE wposts.ID = wpostmeta.post_id AND wpostmeta.meta_key = '_wp_attached_file' AND wpostmeta.meta_value = '%s' AND wposts.post_type = 'attachment'", $attachment_url ) );
-
-		}
-
-		return $attachment_id;
 	}
 }

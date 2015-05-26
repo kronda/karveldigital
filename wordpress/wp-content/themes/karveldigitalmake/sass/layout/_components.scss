@@ -1,0 +1,13 @@
+.tribe-events-before-html {
+  @include media($tablet) {
+    width: 65.812%;
+  }
+}
+
+#rpwe_widget-2 {
+  padding: 1em;
+}
+
+.events-archive #breadcrumbs br {
+  display: none;
+}

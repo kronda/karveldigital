@@ -44,15 +44,15 @@ class TTFMP_Post_List_Section_Definitions {
 	 * @return TTFMP_Post_List_Section_Definitions
 	 */
 	public function __construct() {
-		// Register all of the sections via the section API
-		$this->register_post_list_section();
-
 		// Add the section styles and scripts
 		add_action( 'admin_enqueue_scripts', array( $this, 'admin_enqueue_scripts' ) );
 
 		// Add section settings
 		add_filter( 'ttfmake_section_defaults', array( $this, 'section_defaults' ) );
 		add_filter( 'ttfmake_section_choices', array( $this, 'section_choices' ), 10, 3 );
+
+		// Add the section
+		add_action( 'after_setup_theme', array( $this, 'register_post_list_section' ), 11 );
 	}
 
 	/**
@@ -71,7 +71,7 @@ class TTFMP_Post_List_Section_Definitions {
 			array( $this, 'save_post_list' ),
 			'sections/builder-templates/post-list',
 			'sections/front-end-templates/post-list',
-			500,
+			810,
 			ttfmp_get_post_list()->component_root,
 			array(
 				100 => array(
@@ -79,6 +79,33 @@ class TTFMP_Post_List_Section_Definitions {
 					'name'  => 'title',
 					'label' => __( 'Enter section title', 'make' ),
 					'class' => 'ttfmake-configuration-title ttfmake-section-header-title-input',
+				),
+				200 => array(
+					'type'  => 'image',
+					'name'  => 'background-image',
+					'label' => __( 'Background image', 'make' ),
+					'class' => 'ttfmake-configuration-media',
+					'default' => ttfmake_get_section_default( 'background-image', 'post-list' ),
+				),
+				300 => array(
+					'type'    => 'checkbox',
+					'label'   => __( 'Darken background to improve readability', 'make' ),
+					'name'    => 'darken',
+					'default' => ttfmake_get_section_default( 'darken', 'post-list' ),
+				),
+				400 => array(
+					'type'    => 'select',
+					'name'    => 'background-style',
+					'label'   => __( 'Background style', 'make' ),
+					'default' => ttfmake_get_section_default( 'background-style', 'post-list' ),
+					'options' => ttfmake_get_section_choices( 'background-style', 'post-list' ),
+				),
+				500 => array(
+					'type'    => 'color',
+					'label'   => __( 'Background color', 'make' ),
+					'name'    => 'background-color',
+					'class'   => 'ttfmake-text-background-color ttfmake-configuration-color-picker',
+					'default' => ttfmake_get_section_default( 'background-color', 'post-list' ),
 				),
 			)
 		);
@@ -103,6 +130,10 @@ class TTFMP_Post_List_Section_Definitions {
 		// Data to sanitize and save
 		$defaults = array(
 			'title' => ttfmake_get_section_default( 'title', 'post-list' ),
+			'background-image' => ttfmake_get_section_default( 'background-image', 'post-list' ),
+			'darken' => ttfmake_get_section_default( 'darken', 'post-list' ),
+			'background-style' => ttfmake_get_section_default( 'background-style', 'post-list' ),
+			'background-color' => ttfmake_get_section_default( 'background-color', 'post-list' ),
 			'columns' => ttfmake_get_section_default( 'columns', 'post-list' ),
 			'type' => ttfmake_get_section_default( 'type', 'post-list' ),
 			'sortby' => ttfmake_get_section_default( 'sortby', 'post-list' ),
@@ -125,6 +156,18 @@ class TTFMP_Post_List_Section_Definitions {
 
 		// Title
 		$clean_data['title'] = $clean_data['label'] = apply_filters( 'title_save_pre', $parsed_data['title'] );
+
+		// Background image
+		$clean_data['background-image'] = ttfmake_sanitize_image_id( $parsed_data['background-image']['image-id'] );
+
+		// Darken
+		$clean_data['darken'] = absint( $parsed_data['darken'] );
+
+		// Background style
+		$clean_data['background-style'] = ttfmake_sanitize_section_choice( $parsed_data['background-style'], 'background-style', 'post-list' );
+
+		// Background color
+		$clean_data['background-color'] = maybe_hash_hex_color( $parsed_data['background-color'] );
 
 		// Columns
 		$clean_data['columns'] = ttfmake_sanitize_section_choice( $parsed_data['columns'], 'columns', 'post-list' );
@@ -173,6 +216,10 @@ class TTFMP_Post_List_Section_Definitions {
 	public function section_defaults( $defaults ) {
 		$new_defaults = array(
 			'post-list-title' => '',
+			'post-list-background-image' => 0,
+			'post-list-darken' => 0,
+			'post-list-background-style' => 'tile',
+			'post-list-background-color' => '',
 			'post-list-columns' => 2,
 			'post-list-type' => 'post',
 			'post-list-sortby' => 'date-desc',
@@ -211,6 +258,12 @@ class TTFMP_Post_List_Section_Definitions {
 		$choice_id = "$section_type-$key";
 
 		switch ( $choice_id ) {
+			case 'post-list-background-style' :
+				$choices = array(
+					'tile'  => __( 'Tile', 'make' ),
+					'cover' => __( 'Cover', 'make' ),
+				);
+				break;
 			case 'post-list-columns' :
 				$choices = array(
 					1 => __( '1', 'make-plus' ),

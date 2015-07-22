@@ -1,0 +1,129 @@
+/*---------------------------------------------------------
+ Panels section (panels-admin.scss)
+-------------------------------------------------------- */
+.ttfmp-panels-item {
+	position: relative;
+	margin-bottom: 20px;
+	.ttfmake-iframe-wrapper {
+		border-top: 0;
+		iframe {
+			max-height: 220px;
+		}
+	}
+	.ttfmake-iframe-overlay {
+		height: 220px;
+	}
+}
+* html .wrapper-panels-item-links {
+	height: 1%;
+}
+.ttfmp-panels-item:hover .sortable-background {
+	opacity: 1; /*reset*/
+}
+.ttfmake-section-configure.configure-panels-item-link {
+	padding: 0 12px;
+}
+/*---------------------------------------------------------
+ Add new panel button (panels-admin.scss)
+-------------------------------------------------------- */
+.ttfmp-panels-add-item {
+	clear: both;
+	height: 76px;
+	background-color: #fff;
+	border: 1px solid #dfdfdf;
+	&:before {
+		content: "\f502";
+		display: block;
+		color: #1bc865;
+		font: 36px/76px dashicons;
+		text-align: center;
+	}
+}
+.ttfmp-panels-add-item-link {
+	text-decoration: none; /*reset*/
+}
+.ttfmp-panels-add-item span {
+	display: none; /*reset*/
+	text-indent: -9999px;
+	white-space: nowrap;
+	overflow: hidden;
+}
+/*---------------------------------------------------------
+ Configure, Edit and Remove buttons (panels-admin.scss)
+-------------------------------------------------------- */
+.wrapper-panels-item-links {
+	display: block;
+	clear: both;
+	height: 41px;
+	border: 1px solid #d9d9d9;
+	background-color: #fafafa;
+	a {
+		height: 41px;
+		border-bottom: 0;
+		&:before {
+			line-height: 40px;
+		}
+	}
+	&:after {
+		 visibility: hidden;
+		 display: block;
+		 font-size: 0;
+		 content: " ";
+		 clear: both;
+		 height: 0;
+	}
+}
+.edit-content-link.item-has-content.edit-panels-item-link:before {
+	content: "\f214";
+}
+.edit-panels-item-link,
+.remove-panels-item-link,
+.configure-panels-item-link {
+	display: inline-block;
+	position: absolute;
+	clear: both;
+	top: 20px;
+	right: 45px;
+	height: 39px;
+	margin-bottom: 0; /*reset*/
+	padding: 0 12px;
+	border: 1px solid #d9d9d9;
+	background-color: #eeeeee;
+	color: #aaaaaa;
+	text-decoration: none;  /*reset*/
+	outline: none !important;
+}
+.remove-panels-item-link {
+	right: 0; /*reset*/
+}
+.edit-panels-item-link:hover,
+.remove-panels-item-link:hover,
+.ttfmake-section-open .ttfmp-panels-item .configure-panels-item-link:hover {
+	color: #222222;
+}
+.edit-panels-item-link span,
+.remove-panels-item-link span,
+.configure-panels-item-link span {
+	display: none;
+	text-indent: -9999px;
+	white-space: nowrap;
+	overflow: hidden;
+}
+.edit-panels-item-link:before {
+	content: "\f464";
+	font: 400 20px/39px dashicons;
+	speak: none; /*reset*/
+}
+.remove-panels-item-link:before {
+	content: "\f182";
+	font: 400 20px/39px dashicons;
+	speak: none; /*reset*/
+}
+.configure-panels-item-link {
+	float: right;
+	position: relative;
+	top: 0;
+	right: 90px;
+	border: 0;
+	border-left: 1px solid #d9d9d9;
+}

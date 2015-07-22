@@ -1,6 +1,54 @@
+//Grid
+$width:				960px;
+$col:				92px;
+$gut:				32px;
+
+//Baseline
+$base: 				22px;
+
+$baseline-px: 10px;
+
+@mixin rem($property, $px-values) {
+	// Convert the baseline into rems
+	$baseline-rem: $baseline-px / 1rem;
+	// Print the first line in pixel values
+	#{$property}: $px-values;
+	// If there is only one (numeric) value, return the property/value line for it.
+	@if type-of($px-values) == "number" {
+		#{$property}: $px-values / $baseline-rem; }
+	@else {
+		// Create an empty list that we can dump values into
+		$rem-values: unquote("");
+		@each $value in $px-values {
+			// If the value is zero, return 0
+			@if $value == 0 {
+				$rem-values: append($rem-values, $value); }
+			@else {
+				$rem-values: append($rem-values, $value / $baseline-rem); } }
+		// Return the property and its list of converted values
+		#{$property}: $rem-values; } }
+
 /*---------------------------------------------------------
  EDD (edd.scss)
 -------------------------------------------------------- */
+.builder-section-downloads {
+	.builder-section-content {
+		max-width: $width+($gut*2);
+		margin: 0 auto;
+		@include rem('padding', 0 $gut);
+	}
+	&.has-background {
+		@include rem('padding', $base*2+$gut/4 0 $base*2);
+	}
+}
+.builder-edd-downloads-section-title {
+	position: relative;
+	z-index: 2;
+	max-width: $width+($gut*2);
+	margin-left: auto;
+	margin-right: auto;
+	@include rem('padding', 0 $gut);
+}
 .edd_download_inner {
 	padding: 0; //reset
 	margin: 0; //reset
@@ -9,9 +57,6 @@
 .edd_download_title {
 	margin-bottom: 6px;
 	font-size: 17px;
-}
-.builder-section-downloads .builder-section-header {
-	padding: 0; //reset
 }
 .edd-submit.button.blue,
 #edd-purchase-button,

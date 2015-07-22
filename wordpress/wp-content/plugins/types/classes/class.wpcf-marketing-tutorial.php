@@ -3,10 +3,6 @@
  *
  * Types Tutorial Class
  *
- * $HeadURL: http://plugins.svn.wordpress.org/types/tags/1.6.6.5/classes/class.wpcf-marketing-tutorial.php $
- * $LastChangedDate: 2015-02-18 14:28:53 +0000 (Wed, 18 Feb 2015) $
- * $LastChangedRevision: 1093394 $
- * $LastChangedBy: iworks $
  *
  */
 
@@ -73,7 +69,7 @@ class WPCF_Types_Marketing_Tutorial extends WPCF_Types_Marketing
         }
         $url = $this->add_ga_campain($url, 'fetch-data');
 
-        $resp = wp_remote_get($url);
+        $resp = wp_remote_get($url, array('timeout' => 30));
 
         if ( is_wp_error( $resp ) ) {
             /**
@@ -89,11 +85,11 @@ class WPCF_Types_Marketing_Tutorial extends WPCF_Types_Marketing
         if ( 200 != $resp['response']['code'] ) {
             return $this->error('wrong response status');
         }
-
-        $title = preg_split('/<header class="masthead">/', $resp['body']);
-        $title = preg_split('/<h1>/', $title[1]);
-        $title = preg_split('@</h1>@', $title[1]);
-        $title = $title[0];
+		
+		//$title = preg_split('/<header class="masthead">/', $resp['body']);// WARNING this HTL element no longer exists!!!!
+        $title_temp = preg_split('/<h1>/', $resp['body']);
+        $title_temp_temp = isset( $title_temp[1] ) ? preg_split('@</h1>@', $title_temp[1]) : array( '' );
+        $title = $title_temp_temp[0];
 
         $body = '';
         $containers = preg_split( '/<div class="container">/', $resp['body'] );

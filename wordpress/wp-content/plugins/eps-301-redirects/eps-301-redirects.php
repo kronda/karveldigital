@@ -15,7 +15,7 @@
  *
  * @package    EPS 301 Redirects
  * @author     Shawn Wernig ( shawn@eggplantstudios.ca )
- * @version    2.2.6
+ * @version    2.3.0
  */
 
 
@@ -25,7 +25,7 @@
 Plugin Name: Eggplant 301 Redirects
 Plugin URI: http://www.eggplantstudios.ca
 Description: Create your own 301 redirects using this powerful plugin.
-Version: 2.2.6
+Version: 2.3.0
 Author: Shawn Wernig http://www.eggplantstudios.ca
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
@@ -36,16 +36,16 @@ if( ! defined( 'EPS_REDIRECT_PRO' ) )
 
 define ( 'EPS_REDIRECT_PATH',       plugin_dir_path(__FILE__) );
 define ( 'EPS_REDIRECT_URL',        plugins_url() . '/eps-301-redirects/');
-define ( 'EPS_REDIRECT_VERSION',    '2.2.6');
+define ( 'EPS_REDIRECT_VERSION',    '2.3.0');
 define ( 'EPS_REDIRECT_PRO',        false);
 
 include( EPS_REDIRECT_PATH.'eps-form-elements.php');
 include( EPS_REDIRECT_PATH.'class.drop-down-pages.php');
-include( EPS_REDIRECT_PATH.'libs/eps-plugin.php');
 include( EPS_REDIRECT_PATH.'libs/eps-plugin-options.php');
 include( EPS_REDIRECT_PATH.'plugin.php');
 
-
+register_activation_hook(	__FILE__, array('EPS_Redirects_Plugin', '_activation'));
+register_deactivation_hook(	__FILE__, array('EPS_Redirects_Plugin', '_deactivation'));
 
 class EPS_Redirects {
     
@@ -115,7 +115,6 @@ class EPS_Redirects {
         foreach ($redirects as $redirect )
         {
             $from = urldecode( $redirect->url_from );
-            $to   = ($redirect->type == "url" && !is_numeric( $redirect->url_to )) ? urldecode($redirect->url_to) : get_permalink( $redirect->url_to );
 
                 if( $redirect->status != 'inactive' && rtrim( trim($url_request),'/')  === self::format_from_url( trim($from) )  )
                 {
@@ -123,13 +122,17 @@ class EPS_Redirects {
                     // Match, this needs to be redirected
                     // increment this hit counter.
                     self::increment_field($redirect->id, 'count');
-                    
-                    if( $redirect->status        == '301' ) {
+
+                    if( $redirect->status == '301' )
+                    {
                         header ('HTTP/1.1 301 Moved Permanently');
-                    } elseif ( $redirect->status == '302' ) {
-                        header ('HTTP/1.1 301 Moved Temporarily');
+                    }
+                    elseif ( $redirect->status == '302' )
+                    {
+                        header ('HTTP/1.1 302 Moved Temporarily');
                     }
 
+                    $to = ($redirect->type == "url" && !is_numeric( $redirect->url_to )) ? urldecode($redirect->url_to) : get_permalink( $redirect->url_to );
                     $to = ( $query_string ) ? $to . "?" . $query_string : $to;
 
                     header ('Location: ' . $to, true, (int) $redirect->status);
@@ -354,10 +357,17 @@ class EPS_Redirects {
     public static function get_redirects( $active_only = false ) {
         global $wpdb;
         $table_name = $wpdb->prefix . "redirects";
+        $orderby = ( isset($_GET['orderby']) )  ?  esc_sql( $_GET['orderby'] ) : 'id';
+        $order = ( isset($_GET['order']) )    ? esc_sql( $_GET['order'] ) : 'desc';
+        $orderby = ( in_array( strtolower($orderby), array('id','url_from','url_to','count') ) ) ? $orderby : 'id';
+        $order = ( in_array( strtolower($order), array('asc','desc') ) ) ? $order : 'desc';
 
-        $results = $wpdb->get_results( 
-            "SELECT * FROM $table_name WHERE status != 404 " . ( ( $active_only ) ? "AND status != 'inactive'" : null ) . " ORDER BY id DESC"
-        );
+        $query = "SELECT *
+            FROM $table_name
+            WHERE status != 404 " . ( ( $active_only ) ? "AND status != 'inactive'" : null ) . "
+            ORDER BY $orderby $order";
+        //die($query);
+        $results = $wpdb->get_results( $query );
 
         return $results;
     }
@@ -578,4 +588,6 @@ else
         }
     }
 }
+
+
 ?>

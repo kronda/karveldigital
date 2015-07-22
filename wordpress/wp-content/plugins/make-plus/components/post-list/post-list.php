@@ -128,14 +128,42 @@ class TTFMP_Post_List {
 	 * @return void
 	 */
 	public function enqueue() {
-		// Styles
-		wp_enqueue_style(
-			'ttfmp-post-list',
-			trailingslashit( $this->url_base ) . 'css/post-list.css',
-			array(),
-			ttfmp_get_app()->version,
-			'all'
-		);
+		$load = false;
+
+		// Check for a Builder section
+		if ( function_exists( 'ttfmake_is_builder_page' ) && ttfmake_is_builder_page() ) {
+			$sections = ttfmake_get_section_data( get_the_ID() );
+			if ( ! empty( $sections ) ) {
+				// Parse the sections included on the page.
+				$section_types = wp_list_pluck( $sections, 'section-type' );
+				$matched_sections = array_keys( $section_types, 'postlist' );
+
+				// Only enqueue if there is at least one Posts List section.
+				if ( ! empty( $matched_sections ) ) {
+					$load = true;
+				}
+			}
+		}
+
+		// Check for a widget
+		if ( is_active_widget( false, false, 'ttfmp-post-list', true ) ) {
+			$load = true;
+		}
+
+		// Check for passive mode
+		if ( true === ttfmp_get_app()->passive ) {
+			$load = true;
+		}
+
+		if ( true === $load ) {
+			wp_enqueue_style(
+				'ttfmp-post-list',
+				trailingslashit( $this->url_base ) . 'css/post-list.css',
+				array(),
+				ttfmp_get_app()->version,
+				'all'
+			);
+		}
 	}
 
 	/**
@@ -189,6 +217,16 @@ class TTFMP_Post_List {
 				}
 			}
 		}
+
+		/**
+		 * Filter the arguments that are used to create the Posts List query object.
+		 *
+		 * @since 1.6.0.
+		 *
+		 * @param array    $args       The query arguments.
+		 * @param array    $options    The section/widget options used to determine the arguments.
+		 */
+		$args = apply_filters( 'ttfmp_post_list_query_args', $args, $options );
 
 		return new WP_Query( $args );
 	}

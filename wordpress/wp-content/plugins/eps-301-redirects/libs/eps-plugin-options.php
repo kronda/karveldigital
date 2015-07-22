@@ -11,10 +11,10 @@
  *
  */
 
-if( ! class_exists('EPS_Plugin_Options') )
+if( ! class_exists('EPS_Redirects_Plugin_Options') )
 {
 
-class EPS_Plugin_Options {
+class EPS_Redirects_Plugin_Options {
 
     /**
      *
@@ -37,12 +37,13 @@ class EPS_Plugin_Options {
      * Initialize the Theme Options, and register some actions.
      *
      */
-    public function __construct( EPS_Plugin $Plugin ){
+    public function __construct( EPS_Redirects_Plugin $Plugin ){
         $this->plugin = $Plugin;
         $this->build_settings();
         add_action( 'admin_init', array($this, 'options_defaults') );
         add_action( 'admin_init', array($this, 'register_settings') );
         add_action( 'admin_menu', array($this, 'add_options_page') );
+
     }
 
     /**

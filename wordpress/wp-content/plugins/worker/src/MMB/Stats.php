@@ -394,15 +394,22 @@ class MMB_Stats extends MMB_Core
         extract($params);
 
         if ($params['refresh'] == 'transient') {
-            if (function_exists('w3tc_pgcache_flush') || function_exists('wp_cache_clear_cache')) {
-                $this->mmb_delete_transient('update_core');
-                $this->mmb_delete_transient('update_plugins');
-                $this->mmb_delete_transient('update_themes');
-            }
+            global $wp_current_filter;
+            // Some plugins that hook to transient setting rely on get_plugin_data() function.
+            include_once ABSPATH.'wp-admin/includes/plugin.php';
+            $wp_current_filter[] = 'load-update-core.php';
 
             wp_version_check();
-            wp_update_plugins();
             wp_update_themes();
+
+            // THIS IS INTENTIONAL, please do not delete one of the calls to wp_update_plugins(), it is required for
+            // some custom plugins (read premium) to work with ManageWP :)
+            // the second call is not going to trigger the remote post invoked from the wp_update_plugins call
+            wp_update_plugins();
+
+            array_pop($wp_current_filter);
+
+            do_action('load-plugins.php');
         }
 
         /** @var $wpdb wpdb */
@@ -592,7 +599,7 @@ class MMB_Stats extends MMB_Core
 
     public function get_initial_stats()
     {
-        global $mmb_plugin_dir, $_mmb_item_filter;
+        global $mmb_plugin_dir, $_mmb_item_filter, $wpdb;
 
         $stats = array(
             'email'           => get_option('admin_email'),
@@ -611,6 +618,7 @@ class MMB_Stats extends MMB_Core
             'cookies'         => $this->get_stat_cookies(),
             'timezone'        => get_option('timezone_string'),
             'timezone_offset' => get_option('gmt_offset'),
+            'db_prefix'       => $wpdb->prefix,
         );
 
         if ($this->mmb_multisite) {

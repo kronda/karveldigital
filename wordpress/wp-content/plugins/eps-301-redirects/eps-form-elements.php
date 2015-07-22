@@ -184,4 +184,30 @@ function eps_get_term_archive_select(){
     $html .= '</select>';
     return $html;
 }
+
+function eps_get_ordered_filter( $field, $label, $classes = array() )
+{
+    global $EPS_Redirects_Plugin;
+    $nextOrder = 'asc';
+    $arrow = false;
+
+    if( isset( $_GET['orderby'] ) &&  $_GET['orderby']==  $field )
+    {
+        $arrow = '&darr;';
+
+        if( isset( $_GET['order'] ) && $_GET['order'] != 'desc' )
+        {
+            $nextOrder = 'desc';
+            $arrow = '&uarr;';
+        }
+    }
+
+    printf(
+        '<a class="%s" href="%s">%s %s</a>',
+        implode(' ', $classes ),
+        $EPS_Redirects_Plugin->admin_url( array( 'orderby' => $field, 'order' => $nextOrder) ),
+        $label,
+        $arrow
+    );
+}
 ?>

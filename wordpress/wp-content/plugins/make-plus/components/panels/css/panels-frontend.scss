@@ -1,0 +1,77 @@
+//Grid
+$width:				960px;
+$col:				92px;
+$gut:				32px;
+
+//Baseline
+$base: 				22px;
+
+$baseline-px: 10px;
+
+@mixin rem($property, $px-values) {
+	// Convert the baseline into rems
+	$baseline-rem: $baseline-px / 1rem;
+	// Print the first line in pixel values
+	#{$property}: $px-values;
+	// If there is only one (numeric) value, return the property/value line for it.
+	@if type-of($px-values) == "number" {
+		#{$property}: $px-values / $baseline-rem; }
+	@else {
+		// Create an empty list that we can dump values into
+		$rem-values: unquote("");
+		@each $value in $px-values {
+			// If the value is zero, return 0
+			@if $value == 0 {
+				$rem-values: append($rem-values, $value); }
+			@else {
+				$rem-values: append($rem-values, $value / $baseline-rem); } }
+		// Return the property and its list of converted values
+		#{$property}: $rem-values; } }
+
+@mixin border-radius($radius: 3px) {
+	-webkit-border-radius: $radius;
+	   -moz-border-radius: $radius;
+			border-radius: $radius;
+}
+
+@mixin no-select {
+	-webkit-user-select: none;
+	   -moz-user-select: none;
+		-ms-user-select: none;
+			user-select: none;
+}
+
+@import 'jquery-ui';
+
+/*! Additional styles */
+
+.builder-section-panels {
+	.builder-section-content {
+		max-width: $width+($gut*2);
+		margin: 0 auto;
+		@include rem('padding', $base $gut/2);
+	}
+}
+.builder-section-panels {
+	background-position: center;
+	background-repeat: repeat;
+	position: relative;
+	&.has-background {
+		@include rem('padding', $base*2+$gut/4 0 $base*2);
+	}
+}
+.ttfmp-panels-item-title {
+	margin-bottom: 0;
+	font-weight: bold;
+	@include border-radius;
+	@include no-select;
+}
+.builder-section-panels .ui-accordion .ui-accordion-header:focus {
+	outline: none;
+}
+.builder-section-panels .ui-accordion .ui-accordion-content {
+	@include rem('padding', $base $gut/2);
+}
+.builder-section-panels .ui-accordion .ui-accordion-header {
+	@include rem('padding', $base/2 $gut/2);
+}

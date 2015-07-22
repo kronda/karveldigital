@@ -2,7 +2,7 @@
 Contributors: freediver
 Donate link: https://www.networkforgood.org/donation/MakeDonation.aspx?ORGID2=520781390
 Tags: administration, admin,amazon, analytics, api, automate, automatic, backup, comments, clone, dashboard, database, debug, dropbox, duplicate, events, google analytics, google drive, google, integration, login, manage, managewp, migrate, multiple, multisite, mysql, page, performance, plugin, post, remote, s3, security, seo, spam, speed, stats
-Requires at least: 3.0
+Requires at least: 3.1
 Tested up to: 4.2.2
 Stable tag: trunk
 License: GPLv3 or later
@@ -45,6 +45,25 @@ https://www.youtube.com/watch?v=C5nBQJQIfH4
 ManageWP is also the creator of [ManageWP.org](https://managewp.org/ "WordPress news site"), community project capturing the pulse of the WordPress community.
 
 == Changelog ==
+
+= 4.1.9 =
+
+- Fix: Improve available update detection.
+- Fix: Improve the incremental ManageWP Worker plugin updating system.
+
+= 4.1.8 =
+
+- Fix: Potential security issue patched.
+- Fix: Optimize spam comment cleanup time.
+- Fix: Numerous improvements for [incremental backup system](https://managewp.com/managewp-orion-developer-diary-3-bulletproof-backup-solution).
+- Fix: Improve compatibility with other plugins.
+- Fix: Improve available update detection.
+
+= 4.1.7 =
+
+- Fix: Optimize memory usage with incremental backups.
+- Fix: Improve compatibility on sites with open_basedir restriction.
+- Fix: Numerous other fixes and improvements.
 
 = 4.1.6 =
 

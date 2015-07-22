@@ -7,10 +7,9 @@
  *
  */
 
-register_activation_hook(	__FILE__, array('EPS_Redirects_Plugin', '_activation'));
-register_deactivation_hook(	__FILE__, array('EPS_Redirects_Plugin', '_deactivation'));
 
-class EPS_Redirects_Plugin extends EPS_Plugin {
+
+class EPS_Redirects_Plugin {
 
     protected $config = array(
         'version'           => EPS_REDIRECT_VERSION,
@@ -28,9 +27,33 @@ class EPS_Redirects_Plugin extends EPS_Plugin {
 
     public $name = 'EPS Redirects';
 
+
+    protected $resources = array(
+        'css' => array(
+            'admin.css'
+        ),
+        'js' => array(
+            'admin.js'
+        )
+    );
+
+
+    protected $options;
+    protected $messages = array();
+
     public function __construct()
     {
-        parent::__construct();
+        $this->config['url'] = plugins_url() . $this->config['directory'] . '/';
+        $this->config['path'] = EPS_REDIRECT_PATH . $this->config['directory'] . '/';
+
+        if( class_exists('EPS_Redirects_Plugin_Options') )
+            $this->settings = new EPS_Redirects_Plugin_Options( $this );
+
+        register_activation_hook(	__FILE__, array($this, '_activation'));
+        register_deactivation_hook(	__FILE__, array($this, '_deactivation'));
+
+        if ( !self::is_current_version() )  self::update_self();
+        add_action('init',                  array($this, 'plugin_resources'));
 
         // Template Hooks
         add_action( 'redirects_admin_tab', array($this, 'admin_tab_redirects'), 10, 1 );
@@ -39,17 +62,51 @@ class EPS_Redirects_Plugin extends EPS_Plugin {
         add_action( 'import-export_admin_tab', array($this, 'admin_tab_import_export'), 10, 1 );
         add_action( 'eps_redirects_panels_left', array($this, 'admin_panel_cache'));
         add_action( 'eps_redirects_panels_right', array($this, 'admin_panel_donate'));
-        add_action( 'eps_redirects_admin_head', array($this, 'admin_header_notices'));
 
         // Actions
         add_action( 'admin_init',            array($this, 'check_plugin_actions'));
 
     }
 
-    public function _activation()
+    public function resolve_dependencies()
+    {
+        include_once( ABSPATH . 'wp-admin/includes/plugin.php' );
+        foreach( $this->dependencies as $name => $path_to_plugin )
+        {
+            if ( ! is_plugin_active( $path_to_plugin ) )
+            {
+                echo $name . ' IS NOT INSTALLED!';
+            }
+        }
+    }
+
+
+    private function resource_path( $path, $resource )
+    {
+        return strtolower(
+            $this->config['url']
+            . $path . '/'
+            . $resource );
+    }
+
+    private function resource_name( $resource )
+    {
+        return strtolower( $this->name . '_' . key( $resource ) );
+    }
+
+    public static function _activation()
     {
         self::_create_redirect_table(); // Maybe create the tables
         if ( !self::is_current_version() )  self::update_self();
+    }
+    public static function _deactivation() {}
+
+
+    public function admin_url( $vars = array() )
+    {
+        $vars = array( 'page' => $this->config['page_slug'] ) + $vars;
+        $url = 'options-general.php?' . http_build_query( $vars );
+        return admin_url( $url );
     }
     /**
      *
@@ -67,7 +124,7 @@ class EPS_Redirects_Plugin extends EPS_Plugin {
 
         if( version_compare($version, '2.0.0', '<')) {
             // migrate old format to new format.
-            $this->_migrate_to_v2();
+            add_action('admin_init', array($this, '_migrate_to_v2'), 1 );
         }
         $this->set_current_version( EPS_REDIRECT_VERSION );
         return EPS_REDIRECT_VERSION;
@@ -83,7 +140,7 @@ class EPS_Redirects_Plugin extends EPS_Plugin {
      * @author epstudios
      *
      */
-    protected function _migrate_to_v2() {
+    public static function _migrate_to_v2() {
         $redirects = get_option( self::$option_slug );
 
         if (empty($redirects)) return false; // No redirects to migrate.
@@ -130,7 +187,7 @@ class EPS_Redirects_Plugin extends EPS_Plugin {
        );";
 
         require_once( ABSPATH . 'wp-admin/includes/upgrade.php' );
-        dbDelta( $sql );
+        return dbDelta( $sql );
     }
 
 
@@ -141,7 +198,7 @@ class EPS_Redirects_Plugin extends EPS_Plugin {
      *
      * plugin_resources
      *
-     * Enqueues the resources
+     * Enqueues the resources, and makes sure we have what we need to proceed.
      *
      * @return nothing
      * @author epstudios
@@ -157,6 +214,21 @@ class EPS_Redirects_Plugin extends EPS_Plugin {
             wp_enqueue_script('eps_redirect_script', EPS_REDIRECT_URL .'js/scripts.js');
             wp_enqueue_style('eps_redirect_styles', EPS_REDIRECT_URL .'css/eps_redirect.css');
         }
+
+        global $wp_rewrite;
+        if( !isset($wp_rewrite->permalink_structure) || empty($wp_rewrite->permalink_structure) )
+        {
+            $EPS_Redirects_Plugin->add_admin_message('WARNING: EPS 301 Redirects requires that a permalink structure is set. The Default Wordpress permalink structure is not compatible. Please update the <a href="options-permalink.php" title="Permalinks">Permalink Structure</a>', "error" );
+        }
+
+        global $wpdb;
+        $table_name = $wpdb->prefix . "redirects";
+        if($wpdb->get_var("SHOW TABLES LIKE '$table_name'") != $table_name)
+        {
+            $url = $EPS_Redirects_Plugin->admin_url( array('action' => 'eps_create_tables') );
+            $EPS_Redirects_Plugin->add_admin_message('WARNING: It looks like we need to <a href="'.$url.'" title="Permalinks">Create the Database Tables First!</a>', "error" );
+        }
+
     }
 
     /**
@@ -177,23 +249,33 @@ class EPS_Redirects_Plugin extends EPS_Plugin {
                 self::_upload();
             }
             // Export a CSV
-            if( isset($_POST['eps_redirect_export']) && wp_verify_nonce( $_POST['eps_redirect_nonce_submit'], 'eps_redirect_nonce') ) {
+            if( isset($_POST['eps_redirect_export']) && wp_verify_nonce( $_POST['eps_redirect_nonce_submit'], 'eps_redirect_nonce') )
+            {
                 self::export_csv();
             }
 
             // Refresh the Transient Cache
-            if ( isset( $_POST['eps_redirect_refresh'] ) && wp_verify_nonce( $_POST['eps_redirect_nonce_submit'], 'eps_redirect_nonce') )  {
+            if ( isset( $_POST['eps_redirect_refresh'] ) && wp_verify_nonce( $_POST['eps_redirect_nonce_submit'], 'eps_redirect_nonce') )
+            {
                 $post_types = get_post_types(array('public'=>true), 'objects');
-                foreach ($post_types as $post_type ) {
+                foreach ($post_types as $post_type )
+                {
                     $options = eps_dropdown_pages( array('post_type'=>$post_type->name ) );
                     set_transient( 'post_type_cache_'.$post_type->name, $options, HOUR_IN_SECONDS );
                 }
-                add_action( 'admin_notices', array($this, 'admin_notice_refresh_cache') );
+                $this->add_admin_message("SUCCCESS: Cache Refreshed.", "updated" );
             }
 
             // Save Redirects
-            if ( isset( $_POST['eps_redirect_submit'] ) && wp_verify_nonce( $_POST['eps_redirect_nonce_submit'], 'eps_redirect_nonce') ) {
+            if ( isset( $_POST['eps_redirect_submit'] ) && wp_verify_nonce( $_POST['eps_redirect_nonce_submit'], 'eps_redirect_nonce') )
+            {
                 self::_save_redirects( EPS_Redirects::_parse_serial_array($_POST['redirect']) );
+            }
+
+            // Create tables
+            if( isset($_GET['action']) && $_GET['action'] == 'eps_create_tables' )
+            {
+                $result = self::_create_redirect_table();
             }
         }
     }
@@ -247,17 +329,41 @@ class EPS_Redirects_Plugin extends EPS_Plugin {
      */
     private function _upload() {
         $new_redirects = array();
-        $mimes = array('application/vnd.ms-excel','text/plain','text/csv','text/tsv');
+
+        $counter = array(
+            'new' => 0,
+            'updated' => 0,
+            'skipped' => 0,
+            'errors' => 0,
+            'total' => 0
+        );
+
+        $mimes = array(
+            'text/csv',
+            'text/tsv',
+            'text/plain',
+            'application/csv',
+            'text/comma-separated-values',
+            'application/excel',
+            'application/vnd.ms-excel',
+            'application/vnd.msexcel',
+            'text/anytext',
+            'application/octet-stream',
+            'application/txt'
+        );
         ini_set('auto_detect_line_endings',TRUE);
 
         if( !in_array($_FILES['eps_redirect_upload_file']['type'], $mimes) ) {
-            add_action( 'admin_notices', array($this, 'admin_notice_bad_csv') );
+            $this->add_admin_message(sprintf("WARNING: Not a valid CSV file - the Mime Type '%s' is wrong! No new redirects have been added.",
+                $_FILES['eps_redirect_upload_file']['type']
+            ), "error" );
             return false;
         }
 
         // open the file.
         if (($handle = fopen($_FILES['eps_redirect_upload_file']['tmp_name'], "r")) !== FALSE)
         {
+            $counter['total'] = 1;
             while (($redirect = fgetcsv($handle, 0, ",")) !== FALSE)
             {
                 $redirect = array_filter($redirect);
@@ -266,9 +372,15 @@ class EPS_Redirects_Plugin extends EPS_Plugin {
 
                 $args = count($redirect);
 
-                if( $args > 4 || $args < 2 ) {
+                if( $args > 4 || $args < 2 )
+                {
                     // Bad line. Too many/few arguments.
-                    add_action( 'admin_notices', array($this, 'admin_notice_bad_csv_entry') );
+                    $this->add_admin_message(
+                        sprintf("WARNING: Encountered a badly formed entry in your CSV file on line %d (we skipped it).",
+                            $counter['total']
+                        ),
+                        "error" );
+                    $counter['errors'] ++;
                     continue;
                 }
 
@@ -303,7 +415,7 @@ class EPS_Redirects_Plugin extends EPS_Plugin {
                 );
 
                 array_push($new_redirects, $new_redirect);
-
+                $counter['total'] ++;
             }
             fclose($handle); // close file.
         }
@@ -321,17 +433,29 @@ class EPS_Redirects_Plugin extends EPS_Plugin {
                         if( ! EPS_Redirects::redirect_exists( $redirect ) )
                         {
                             $save_redirects[] = $redirect;
+                            $counter['new'] ++;
+                        }
+                        else
+                        {
+                            $counter['skipped'] ++;
                         }
                         break;
                     case 'update':
                         if( $entry = EPS_Redirects::redirect_exists( $redirect ) )
                         {
                             $redirect['id'] = $entry->id;
+                            $counter['updated'] ++;
+                            $save_redirects[] = $redirect;
                         }
-                        $save_redirects[] = $redirect;
+                        else
+                        {
+                            $save_redirects[] = $redirect;
+                            $counter['new'] ++;
+                        }
                         break;
                     default:
                         $save_redirects[] = $redirect;
+                        $counter['new'] ++;
                         break;
                 }
             }
@@ -339,17 +463,21 @@ class EPS_Redirects_Plugin extends EPS_Plugin {
             if( ! empty( $save_redirects ) )
             {
                 EPS_Redirects::_save_redirects( $save_redirects );
-                add_action( 'admin_notices', array($this, 'admin_notice_upload_success') );
             }
-            else
-            {
-                add_action( 'admin_notices', array($this, 'admin_notice_upload_success_no_new') );
-            }
+
+            $this->add_admin_message(sprintf(
+                "SUCCCESS: %d New Redirects, %d Updated, %d Skipped, %d Errors. (Attempted to import %d redirects).",
+                $counter['new'],
+                $counter['updated'],
+                $counter['skipped'],
+                $counter['errors'],
+                $counter['total']
+            ), "updated" );
 
         }
         else
         {
-            add_action( 'admin_notices', array($this, 'admin_notice_upload_error') );
+            $this->add_admin_message("WARNING: Something's up. No new redirects were added, please review your CSV file.", "error" );
         }
         ini_set('auto_detect_line_endings',FALSE);
     }
@@ -389,16 +517,48 @@ class EPS_Redirects_Plugin extends EPS_Plugin {
         include ( EPS_REDIRECT_PATH . 'templates/admin-tab-error.php'  );
     }
 
-    public static function admin_header_notices()
+
+    /**
+     *
+     * CHECK VERSION
+     *
+     * This function will check the current version and do any fixes required
+     *
+     * @return string - version number.
+     * @author epstudios
+     *
+     */
+
+    public function config($name)
     {
-        global $wp_rewrite;
-        if( !isset($wp_rewrite->permalink_structure) || empty($wp_rewrite->permalink_structure) ) {
-            echo '<div class="error clear"><div class="eps-padding">';
-            echo '<strong>WARNING:</strong> EPS 301 Redirects requires that a permalink structure is set. The Default Wordpress permalink structure is not compatible. Please update the <a href="options-permalink.php" title="Permalinks">Permalink Structure</a>.</div>';
-            echo '</div></div>';
-        }
+        return ( isset($this->config[ $name ]) ) ? $this->config[ $name ] : false;
     }
 
+    /**
+     *
+     *
+     * Activation and Deactivation Handlers.
+     *
+     * @return nothing
+     * @author epstudios
+     */
+    public function activation_error() {
+        file_put_contents($this->config('path'). '/error_activation.html', ob_get_contents());
+    }
+
+
+    public static function is_current_version()
+    {
+        return version_compare( self::current_version(), EPS_REDIRECT_VERSION, '=') ? true : false; // TODO decouple
+    }
+    public static function current_version()
+    {
+        return get_option( 'eps_redirects_version' ); // TODO decouple
+    }
+    public static function set_current_version( $version )
+    {
+        update_option( 'eps_redirects_version', $version );
+    }
 
 
     /**
@@ -410,31 +570,35 @@ class EPS_Redirects_Plugin extends EPS_Plugin {
      * @author epstudios
      *
      */
-    function admin_notice_bad_csv() {
-        $this->admin_notice("WARNING: Not a valid CSV file! No new redirects have been added.", "error");
+    protected function add_admin_message( $message, $code )
+    {
+        $this->messages[] = array(  $code => $message );
+        add_action( 'admin_notices', array($this, 'display_admin_messages') );
     }
-    function admin_notice_upload_success() {
-        $this->admin_notice("SUCCCESS: New redirects have been added.");
+    public static function display_admin_messages()
+    {
+        global $EPS_Redirects_Plugin;
+        if( is_array( $EPS_Redirects_Plugin->messages ) && ! empty( $EPS_Redirects_Plugin->messages ) )
+        {
+            foreach(  $EPS_Redirects_Plugin->messages as $entry )
+            {
+                $code = key($entry);
+                $message = reset($entry);
+
+                if( ! in_array($code, array('error','updated') ) )
+                {
+                    $code = 'updated';
+                }
+                $EPS_Redirects_Plugin->admin_notice( $message, $code);
+            }
+        }
     }
-    function admin_notice_upload_success_no_new() {
-        $this->admin_notice("SUCCCESS: But no new redirects have been added. (Possibly Duplicates?)");
-    }
-    function admin_notice_upload_error() {
-        $this->admin_notice("WARNING: Something's up. No new redirects were added, please review your CSV file.", "error");
-    }
-    function admin_notice_bad_csv_entry() {
-        $this->admin_notice("WARNING: Encountered a bad Redirect entry in your CSV file.", "error");
-    }
-    function admin_notice_refresh_cache() {
-        $this->admin_notice("SUCCCESS: Cache Refreshed.");
-    }
-    protected function admin_notice( $string, $type = "updated" ) {
+    public function admin_notice( $string, $type = "updated" ) {
         printf('<div class="%s"><p>%s</p></div>',
-        $type,
-        $string
+            $type,
+            $string
         );
     }
-
 }
 
 // Init the plugin.

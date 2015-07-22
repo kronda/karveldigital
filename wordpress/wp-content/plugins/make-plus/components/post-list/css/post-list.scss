@@ -1,3 +1,33 @@
+//Grid
+$width:				960px;
+$col:				92px;
+$gut:				32px;
+
+//Baseline
+$base: 				22px;
+
+$baseline-px: 10px;
+
+@mixin rem($property, $px-values) {
+	// Convert the baseline into rems
+	$baseline-rem: $baseline-px / 1rem;
+	// Print the first line in pixel values
+	#{$property}: $px-values;
+	// If there is only one (numeric) value, return the property/value line for it.
+	@if type-of($px-values) == "number" {
+		#{$property}: $px-values / $baseline-rem; }
+	@else {
+		// Create an empty list that we can dump values into
+		$rem-values: unquote("");
+		@each $value in $px-values {
+			// If the value is zero, return 0
+			@if $value == 0 {
+				$rem-values: append($rem-values, $value); }
+			@else {
+				$rem-values: append($rem-values, $value / $baseline-rem); } }
+		// Return the property and its list of converted values
+		#{$property}: $rem-values; } }
+
 // Templates
 %clear {
 	zoom: 1;
@@ -99,6 +129,9 @@
  Post List section (post-list.scss)
 -------------------------------------------------------- */
 .builder-section-postlist {
+	&.has-background {
+		@include rem('padding', $base*2+$gut/4 0 $base*2);
+	}
 	.ttfmp-post-list-item {
 		margin-bottom: 44px;
 	}
@@ -181,6 +214,14 @@
 			}
 		}
 	}
+}
+.builder-post-list-section-title {
+	position: relative;
+	z-index: 2;
+	max-width: $width+($gut*2);
+	margin-left: auto;
+	margin-right: auto;
+	@include rem('padding', 0 $gut);
 }
 /*---------------------------------------------------------
  Post List grid (post-list.scss)

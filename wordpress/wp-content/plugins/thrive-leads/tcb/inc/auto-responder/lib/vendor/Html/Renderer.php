@@ -20,14 +20,14 @@ class Thrive_Api_Html_Renderer
                 'display' => 1,
                 'type' => 'text',
                 'name' => 'name',
-                'label' => __('Name', 'thrive-visual-editor'),
-                'required' => true,
+                'label' => __('Name', 'thrive-cb'),
+                'required' => false,
             ),
             'email' => array(
                 'display' => 1,
-                'type' => 'text',
+                'type' => 'email',
                 'name' => 'email',
-                'label' => __('Email', 'thrive-visual-editor'),
+                'label' => __('Email', 'thrive-cb'),
                 'validation' => 'email',
                 'required' => true,
             ),
@@ -35,7 +35,7 @@ class Thrive_Api_Html_Renderer
                 'display' => 1,
                 'type' => 'text',
                 'name' => 'phone',
-                'label' => __('Phone Number', 'thrive-visual-editor'),
+                'label' => __('Phone Number', 'thrive-cb'),
                 'validation' => 'phone',
             )
         );
@@ -105,13 +105,14 @@ class Thrive_Api_Html_Renderer
      */
     public function fieldsTable($elements = array())
     {
-        $html = '<table class="tcb-editor-table">';
+        $html = '<table class="tve_autoresponder_table">';
         $html .= $this->_tableHead() . '<tbody>';
         $input_index = 1;
         foreach ($elements as $element) {
             switch ($element['type']) {
                 case 'text':
-                    $html .= $this->_textRow($element, $input_index);
+                case 'email':
+                    $html .= $this->_textRow($element, $input_index, 'text');
                     break;
                 case 'radio':
                     $html .= $this->_radioRow($element, $input_index);
@@ -142,13 +143,13 @@ class Thrive_Api_Html_Renderer
     {
         ob_start();
         ?><thead><tr>
-        <?php if ($this->show_order) : ?><td width="5%">&nbsp;</td><?php endif ?>
-            <td style="width: 10%; text-align: center"><?php $this->show_display_options ? _e('Display', 'thrive-visual-editor') : _e('Field Number', 'thrive-visual-editor'); ?></td>
-            <td style="width: 20%;"><?php _e("Field Properties"); ?></td>
-            <td style="width: 25%;"><?php _e("Field Label / Description"); ?></td>
-            <td style="width: 10%;"><?php _e("Validation") ?></td>
-            <td style="width: 10%; text-align: center;"><?php _e("Required Field"); ?></td>
-            <td><?php _e('Show Icon') ?></td>
+        <?php if ($this->show_order) : ?><th style="width: 1%;">&nbsp;</th><?php endif ?>
+            <th style="width: 10%; text-align: center"><?php echo $this->show_display_options ? __('Display', 'thrive-cb') : __('Field Number', 'thrive-cb'); ?></th>
+            <th style="width: 17%;"><?php echo __("Field Properties", "thrive-cb"); ?></th>
+            <th style="width: 23%;"><?php echo __("Field Label / Description", "thrive-cb"); ?></th>
+            <th style="width: 16%;"><?php echo __("Validation", "thrive-cb") ?></th>
+            <th style="width: 10%;"><?php echo __("Required Field", "thrive-cb"); ?></th>
+            <th><?php echo __('Show Icon', "thrive-cb") ?></th>
         </tr></thead><?php
 
         $head = ob_get_contents();
@@ -165,17 +166,20 @@ class Thrive_Api_Html_Renderer
      *
      * @return string
      */
-    protected function _textRow($element, $input_index)
+    protected function _textRow($element, $input_index, $type = 'text')
     {
         $field_name = $field = $element['name'];
         $field = $this->encodeAttrName($field);
         ob_start();
-        ?><tr class="tcb-row-hover">
+        ?><tr>
         <?php if ($this->show_order) : ?><td class="tcb-text-center"><span class="tve_icm tve-ic-move tve-drag-handle"></span></td><?php endif ?>
-            <td style="text-align: center">
+            <td class="tve_text_center">
                 <?php if ($this->show_display_options) : ?>
                     <?php if ($field != 'email') : ?>
-                        <input class="tve-lg-display-elem" data-elem-field="display" type="checkbox" id="<?php echo 'elem_display_' . $field ?>"<?php echo !empty($element['display']) ? ' checked="checked"' : '' ?> />
+                        <label class="tve_switch">
+                            <input class="tve-lg-display-elem tve_lightbox_input" data-elem-field="display" type="checkbox" id="<?php echo 'elem_display_' . $field ?>"<?php echo !empty($element['display']) ? ' checked="checked"' : '' ?> />
+                            <span></span>
+                        </label>
                     <?php else : ?>
                         -
                     <?php endif ?>
@@ -186,13 +190,27 @@ class Thrive_Api_Html_Renderer
                 <?php echo isset($element['label']) ? $element['label'] : ucfirst($field_name) ?>
                 <input type="hidden" class="lg_elem_field" value="<?php echo $field ?>" />
             </td>
-            <td><input type="text" data-elem-field="label" value="<?php echo empty($element['label']) ? '' : $element['label'] ?>" class='thrive_txt_field_label' id='txt_label_<?php echo $field; ?>'/></td>
-            <td style="text-align: center"><?php $this->_validationOptions($field, $element) ?></td>
-            <td style="text-align: center"><input data-elem-field="required" type="checkbox"<?php echo !empty($element['required']) ? ' checked="checked"' : '' ?> id="required_<?php echo $field ?>"/></td>
             <td>
-                <input data-elem-field="show_icon" type="checkbox" id="icon_<?php echo $field ?>"/>
-                <button class="tve_lg_icon_picker tve_click" data-ctrl="function:auto_responder.open_icon_picker"
-                data-field="<?php echo $field; ?>"><?php _e('Choose icon') ?></button>
+                <input type="<?php echo $type;?>" data-elem-field="label" value="<?php echo empty($element['label']) ? '' : $element['label'] ?>" class='tve_lightbox_input' id='txt_label_<?php echo $field; ?>'/>
+            </td>
+            <td>
+                <div class="tve_lightbox_select_holder">
+                    <?php $this->_validationOptions($field, $element) ?>
+                </div>
+            </td>
+            <td class="tve_text_center">
+                <div class="tve_lightbox_input_holder tve_lightbox_no_label">
+                    <input data-elem-field="required" type="checkbox"<?php echo !empty($element['required']) ? ' checked="checked"' : '' ?> id="required_<?php echo $field ?>"/>
+                    <label for="required_<?php echo $field ?>"></label>
+                </div>
+            </td>
+            <td>
+                <div class="tve_lightbox_input_holder tve_lightbox_no_label">
+                    <input data-elem-field="show_icon" type="checkbox" id="icon_<?php echo $field ?>"/>
+                    <label for="icon_<?php echo $field ?>"></label>
+                </div>
+                <button class="tve_editor_button tve_editor_button_default tve_lightbox_input_inline tve_click tve_editor_small_button" data-ctrl="function:auto_responder.open_icon_picker"
+                data-field="<?php echo $field; ?>"><?php echo __('Add icon', "thrive-cb") ?></button>
             </td></tr><?php
 
         $row = ob_get_contents();
@@ -216,18 +234,28 @@ class Thrive_Api_Html_Renderer
         ob_start();
         ?><tr class="tcb-row-hover">
         <?php if ($this->show_order) : ?><td class="tcb-text-center"><span class="tve_icm tve-ic-move tve-drag-handle"></span></td><?php endif ?>
-        <td style="text-align: center"><?php echo $input_index; ?></td>
+        <td class="tve_text_center"><?php echo $input_index; ?></td>
         <td>
             <?php echo isset($element['label']) ? $element['label'] : ucfirst($field_name) ?>
             <input type="hidden" class="lg_elem_field" value="<?php echo $field ?>" />
         </td>
-        <td><input type="text" data-elem-field="label" value="<?php echo empty($element['default_value']) ? '' : $element['default_value'] ?>" class='thrive_txt_field_label' id='txt_label_<?php echo $field; ?>'/></td>
-        <td style="text-align: center">&nbsp;</td>
-        <td style="text-align: center"><input data-elem-field="required" type="checkbox"<?php echo !empty($element['required']) ? ' checked="checked"' : '' ?> id="required_<?php echo $field ?>"/></td>
         <td>
-            <input data-elem-field="show_icon" type="checkbox" id="icon_<?php echo $field ?>"/>
-            <button class="tve_lg_icon_picker tve_click" data-ctrl="function:auto_responder.open_icon_picker"
-                    data-field="<?php echo $field; ?>"><?php _e('Choose icon') ?></button>
+            <input type="text" data-elem-field="label" value="<?php echo empty($element['default_value']) ? '' : $element['default_value'] ?>" class='tve_lightbox_input' id='txt_label_<?php echo $field; ?>'/>
+        </td>
+        <td style="text-align: center">&nbsp;</td>
+        <td class="tve_text_center">
+            <div class="tve_lightbox_input_holder tve_lightbox_no_label">
+                <input data-elem-field="required" type="checkbox"<?php echo !empty($element['required']) ? ' checked="checked"' : '' ?> id="required_<?php echo $field ?>"/>
+                <label for="required_<?php echo $field ?>"></label>
+            </div>
+        </td>
+        <td>
+            <div class="tve_lightbox_input_holder tve_lightbox_no_label">
+                <input data-elem-field="show_icon" type="checkbox" id="icon_<?php echo $field ?>"/>
+                <label for="icon_<?php echo $field ?>"></label>
+            </div>
+            <button class="tve_editor_button tve_editor_button_default tve_click tve_editor_small_button" data-ctrl="function:auto_responder.open_icon_picker"
+                    data-field="<?php echo $field; ?>"><?php echo __('Add icon', "thrive-cb") ?></button>
         </td>
         </tr><?php
 
@@ -252,19 +280,24 @@ class Thrive_Api_Html_Renderer
         ob_start();
         ?><tr class="tcb-row-hover">
         <?php if ($this->show_order) : ?><td class="tcb-text-center"><span class="tve_icm tve-ic-move tve-drag-handle"></span></td><?php endif ?>
-        <td style="text-align: center"><?php echo $input_index; ?></td>
+        <td class="tve_text_center"><?php echo $input_index; ?></td>
         <td>
             <?php echo isset($element['label']) ? $element['label'] : ucfirst($field_name) ?>
         </td>
         <td>
             <?php foreach ($element['options'] as $encoded_value => $radio_label) : ?>
-                <input style="margin-bottom: 5px;" type="text" value="<?php echo $radio_label ?>"
-                       class="thrive_txt_field_label"
+                <input type="text" value="<?php echo $radio_label ?>"
+                       class="tve_lightbox_input"
                        id="txt_label_<?php echo $field . '_' . $encoded_value; ?>"/>
             <?php endforeach; ?>
         </td>
         <td style="text-align: center">&nbsp;</td>
-        <td style="text-align: center"><input data-elem-field="required" type="checkbox"<?php echo !empty($element['required']) ? ' checked="checked"' : '' ?> id="required_<?php echo $field ?>"/></td>
+        <td class="tve_text_center">
+            <div class="tve_lightbox_input_holder tve_lightbox_no_label">
+                <input data-elem-field="required" type="checkbox"<?php echo !empty($element['required']) ? ' checked="checked"' : '' ?> id="required_<?php echo $field ?>"/>
+                <label for="required_<?php echo $field ?>"></label>
+            </div>
+        </td>
         <td>&nbsp;</td>
         </tr><?php
 
@@ -289,16 +322,21 @@ class Thrive_Api_Html_Renderer
         ob_start();
         ?><tr class="tcb-row-hover">
         <?php if ($this->show_order) : ?><td class="tcb-text-center"><span class="tve_icm tve-ic-move tve-drag-handle"></span></td><?php endif ?>
-        <td style="text-align: center"><?php echo $input_index; ?></td>
+        <td class="tve_text_center"><?php echo $input_index; ?></td>
         <td>
             <?php echo isset($element['label']) ? $element['label'] : ucfirst($field_name) ?>
         </td>
         <td>
-            <input data-elem-field="label" type="text" value="<?php echo $element['value'] ?>" class='thrive_txt_field_label'
+            <input data-elem-field="label" type="text" value="<?php echo $element['value'] ?>" class='tve_lightbox_input'
                    id='txt_label_<?php echo $field; ?>'/>
         </td>
         <td style="text-align: center">&nbsp;</td>
-        <td style="text-align: center"><input data-elem-field="required" type="checkbox"<?php echo !empty($element['required']) ? ' checked="checked"' : '' ?> id="required_<?php echo $field ?>"/></td>
+        <td class="tve_text_center">
+            <div class="tve_lightbox_input_holder tve_lightbox_no_label">
+                <input data-elem-field="required" type="checkbox"<?php echo !empty($element['required']) ? ' checked="checked"' : '' ?> id="required_<?php echo $field ?>"/>
+                <label for="required_<?php echo $field ?>"></label>
+            </div>
+        </td>
         <td>&nbsp;</td>
         </tr><?php
 
@@ -331,9 +369,9 @@ class Thrive_Api_Html_Renderer
     {
         $selected = !empty($element['validation']) ? $element['validation'] : '';
         ?><select id="validation_<?php echo $field ?>" class="tve_lg_validation_options" data-elem-field="validation">
-            <option value="none"><?php _e("None") ?></option>
-            <option value="email"<?php echo $selected == 'email' ? ' selected="selected"' : '' ?>><?php _e('Email', 'thrive-visual-editor') ?></option>
-            <option value="phone"<?php echo $selected == 'phone' ? ' selected="selected"' : '' ?>><?php _e('Phone number', 'thrive-visual-editor') ?></option>
+            <option value="none"><?php echo __("None", "thrive-cb") ?></option>
+            <option value="email"<?php echo $selected == 'email' ? ' selected="selected"' : '' ?>><?php echo __('Email', 'thrive-cb') ?></option>
+            <option value="phone"<?php echo $selected == 'phone' ? ' selected="selected"' : '' ?>><?php echo __('Phone number', 'thrive-cb') ?></option>
         </select><?php
     }
 

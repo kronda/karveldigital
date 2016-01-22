@@ -26,7 +26,7 @@
     <div class="tve_cpanel_head tve_clearfix tve_click" id="tve_collapse_editor_btn" data-skip-undo="1" data-ctrl="controls.click.collapse_editor">
         <div class="tve_icm ed-side-right tve-ic-arrow-right2 tve_left"></div>
         <div class="tve_icm ed-side-left tve-ic-arrow-left tve_left"></div>
-        <span class="tve_left tve_expanded">Collapse Editor</span>
+        <span class="tve_left tve_expanded"><?php echo __("Collapse Editor", "thrive-cb") ?></span>
     </div>
     <a href="" class="tve_logo">
         <span class="tve_cpanel_logo"></span>

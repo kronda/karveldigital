@@ -2,12 +2,20 @@
     <span class="tve-shortcode-part collapse-table-part-condensed collapse-table-part tve-shortcode-title collapse-table-part-title">
 
             <strong class="bigger">
-                <#= shortcode.get('post_title') #>
+                <span class="group-title"><strong class="bigger"><#= shortcode.get('post_title') #></strong></span>
+                <input class="tve-form-control tve-input-small tve-input-inline tve-input-condensed tve-edit-title-input" style="display: none;">
+                <a href="javascript:void(0)" class="tve-btn tve-btn-icon tve-edit-title" style="margin-right: 5px;">
+                    <span class="tve-icon-pencil"></span>
+                </a>
+
+                <span class="tve-copy-code-container">
+                    (<a href="javascript:void(0)" class="tve-leads-php-code" title="<?php echo __('Get PHP Code', 'thrive-leads') ?>"><?php echo __('Get PHP Code', 'thrive-leads') ?></a>)
+                </span>
             </strong>
             <# if(shortcode.get('active_test')) { #>
                 <span class="testing"><?php echo __('(test in progress)', 'thrive-leads') ?></span>
-                <# } #>
-    
+            <# } #>
+
         <span class="pull-right">
             <input readonly class="tve-shortcode tve-form-control tve-input-small tve-input-inline tve-input-condensed tve-shortcode-<#= shortcode.get('ID') #>" type="text"
                    value="<#= shortcode.getCode() #>"/>
@@ -35,12 +43,12 @@
     <span class="tve-shortcode-part collapse-table-part-condensed collapse-table-part tve-row-actions collapse-table-part-action">
         <span class="pull-right">
             <# if(shortcode.get('active_test')) { #>
-                <a data-shortcode-test-id="<#= shortcode.get('active_test').get('id') #>" href="#test/<#= shortcode.get('active_test').get('id') #>/completed" title="<?php echo __('View Test', 'thrive-leads') ?>" class="tve-btn  tve-btn-link tve-btn-remove-text-tablet tve-form-type-test tve-btn-link-icon-purple">
+                <a data-shortcode-test-id="<#= shortcode.get('active_test').get('id') #>" href="#test/<#= shortcode.get('active_test').get('id') #>/completed" data-show-until="1480" title="<?php echo __('View Test', 'thrive-leads') ?>" class="tve-btn  tve-btn-link tve-btn-remove-text-tablet tve-form-type-test tve-btn-link-icon-purple tl-tooltip">
                     <span class="tve-icon-view"></span>
                     <span class="tve-btn-text"><?php echo __('View Test', 'thrive-leads') ?></span>
                 </a>
                 <# } else { #>
-                    <a style="float: left;" href="javascript:void(0)" title="<?php echo __('Reset Stats', 'thrive-leads') ?>" class="clear tve-btn tve-btn-yellow shortcode-reset tl-tooltip"> <span class="tve-icon-undo"></span></a>
+                    <a style="float: left;" href="javascript:void(0)" title="<?php echo __('Reset Stats', 'thrive-leads') ?>" data-show-until="1480" class="clear tve-btn tve-btn-link tve-btn-link-icon-yellow shortcode-reset tl-tooltip"> <span class="tve-icon-undo"></span> <span class="tve-btn-text"><?php echo __('Reset Stats', 'thrive-leads') ?></span></a>
                     <a class="tve-btn tve-btn-link tve-btn-remove-text-tablet tve-btn-link-icon-blue tve-shortcode-settings tl-tooltip" data-show-until="1480" href="#shortcode/<#= shortcode.get('ID')#>" title="<?php echo __('Edit', 'thrive-leads') ?>"><span class="tve-icon-edit7"></span> <span class="tve-btn-text"><?php echo __('Edit', 'thrive-leads') ?></span></a>
                     <a class="tve-btn tve-btn-link tve-btn-remove-text-tablet tve-btn-link-icon-red tve-shortcode-delete tl-tooltip" href="javascript:void(0)" data-show-until="1480" title="<?php echo __('Delete Shortcode', 'thrive-leads') ?>" data-id="<#= shortcode.get('ID') #>"><span class="tve-icon-delete2"></span> <span class="tve-btn-text"><?php echo __('Delete', 'thrive-leads') ?></span></a>
                 <# } #>

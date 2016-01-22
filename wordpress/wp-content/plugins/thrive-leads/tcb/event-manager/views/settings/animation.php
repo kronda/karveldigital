@@ -1,26 +1,29 @@
 <?php $animation_classes = ''; /* render specific settings for Thrive Lightbox actions */ ?>
-<h5>Animation Settings</h5>
+<br>
+<h5><?php echo __("Animation Settings", "thrive-cb")?></h5>
 
-<table class="tve_no_brdr">
+<table>
+    <tbody>
     <tr>
-        <td width="35%">Which animation should be performed?</td>
+        <td width="35%"><?php echo __("Which animation should be performed?", "thrive-cb") ?></td>
         <td width="65%">
-            <select name="anim" id="tve-animation-preview">
-                <?php foreach ($this->_animations as $value => $label) : $animation_classes .= ($animation_classes ? ' ' : '') . 'tve_anim_' . $value ?>
-                    <option value="<?php echo $value ?>"<?php
-                    echo !empty($this->config['anim']) && $this->config['anim'] == $value ? ' selected="selected"' : '' ?>><?php echo $label ?></option>
-                <?php endforeach ?>
-            </select>
+            <div class="tve_lightbox_select_holder">
+                <select name="anim" id="tve-animation-preview">
+                    <?php foreach ($this->_animations as $value => $label) : $animation_classes .= ($animation_classes ? ' ' : '') . 'tve_anim_' . $value ?>
+                        <option value="<?php echo $value ?>"<?php
+                        echo !empty($this->config['anim']) && $this->config['anim'] == $value ? ' selected="selected"' : '' ?>><?php echo $label ?></option>
+                    <?php endforeach ?>
+                </select>
+            </div>
         </td>
     </tr>
-    <tr><td colspan="2">&nbsp;</td></tr>
-    <tr><td colspan="2">&nbsp;</td></tr>
     <tr>
-        <td style="vertical-align: top">Animation preview</td>
+        <td style="vertical-align: top"><?php echo __("Animation preview", "thrive-cb") ?></td>
         <td>
             <img src="<?php echo tve_editor_url() ?>/editor/css/images/tcb-logo-large.png" alt="" class="tve_ea_thrive_animation" id="tve-animation-target" />
         </td>
     </tr>
+    </tbody>
 </table>
 
 <script type="text/javascript">

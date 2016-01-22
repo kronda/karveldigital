@@ -1,0 +1,32 @@
+<div class="find-content-box tl-<?php echo $redirect_url_type;?> clearfix">
+    <label class="tl-targetAllGroups">
+        <input type="radio" class="tl-custom-url-radio" name="<?php echo $redirect_url_type;?>" value="0" checked/>
+        <span><?php echo __('Redirect to content on site', 'thrive-leads') ?></span>
+    </label>
+    <label class="tl-targetCertainGroups">
+        <input type="radio" class="tl-custom-url-radio" name="<?php echo $redirect_url_type;?>" value="1"/>
+        <span><?php echo __('Redirect to custom URL', 'thrive-leads') ?></span>
+    </label>
+    <br><br>
+    <div class="tl-find-content tl-equal-cols">
+        <div class="form-field">
+            <input data-type="<?php echo $redirect_url_type;?>" class="tl-find-content-input tve-leads-autocomplete" placeholder="<?php echo __('Start typing to find content...', 'thrive-leads') ?>" type="text" value=""/>
+        </div>
+        <div class="form-field">
+            <input data-type="<?php echo $redirect_url_type;?>" style="display: none" class="tl-find-content-custom-url tve-leads-autocomplete" placeholder="<?php echo __('Custom URL', 'thrive-leads') ?>" type="text" value=""/>
+        </div>
+    </div>
+
+    <div class="tl-redirect-url-container tl-equal-cols" <# if (model_instance.get('redirect_url').<?php echo $redirect_url_type;?> == ''){ #> style="display: none" <# } #> >
+            <span class="tl-vertical-align" style="margin-left: 10px;">
+            <a class="tl-redirect-url" href="<#= model_instance.get('redirect_url').<?php echo $redirect_url_type;?> #>" target="_blank">
+                <#= model_instance.get('redirect_url').<?php echo $redirect_url_type;?>_label #>
+            </a>
+            <a data-type="<?php echo $redirect_url_type;?>" class="tl-remove-redirect-url tve-prevent-click tve-btn tve-btn-icon tve-btn-link-icon-red" href="javascript:void(0)"
+                <# if (!model_instance.get('redirect_url').<?php echo $redirect_url_type;?>){ #> style="display:none" <# } #>>
+                    <span class="tve-icon-trash-o"></span>
+            </a>
+            </span>
+    </div>
+    <div class="tve-clear"></div>
+</div>

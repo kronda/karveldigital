@@ -39,8 +39,28 @@ class Thrive_Leads_Taxonomy_Terms_Tab extends Thrive_Leads_Tab implements Thrive
     protected function initItems()
     {
         $taxonomies = get_taxonomies(array('public' => true));
-        $terms = get_terms($taxonomies);
-        $this->setItems($terms);
+        /**
+         * load up only taxonomies other than tags
+         */
+        $tag_found = false;
+        foreach ($taxonomies as $i => $t) {
+            if (strpos($t, 'tag') !== false) {
+                if (empty($tag_found)) {
+                    $tag_found = $t;
+                }
+                unset($taxonomies[$i]);
+            }
+        }
+        $this->setItems(get_terms($taxonomies));
+        /**
+         * include the post_tag taxonomy
+         */
+        $options = $this->getSavedOptions()->getTabSavedOptions(1, $this->hanger);
+        if (isset($tag_found) && !empty($options)) {
+            $this->items = array_merge($this->items, get_terms($tag_found, array(
+                'include' => $options,
+            )));
+        }
 
         return $this;
     }
@@ -55,16 +75,9 @@ class Thrive_Leads_Taxonomy_Terms_Tab extends Thrive_Leads_Tab implements Thrive
             return $this->filters;
         }
 
-        $taxonomies = array();
         $filters = array();
-        foreach ($this->getItems() as $item) {
-            if (in_array($item->taxonomy, $taxonomies)) {
-                continue;
-            }
-            $taxonomies[] = $item->taxonomy;
-            $taxonomy = $this->getTaxonomy($item->taxonomy);
-            $filter = new Thrive_Leads_Filter('taxonomyFilter', $taxonomy->name, $taxonomy->label);
-            $filters[] = $filter;
+        foreach (get_taxonomies(array('public' => true), 'objects') as $taxonomy) {
+            $filters[] = new Thrive_Leads_Filter('taxonomyFilter', $taxonomy->name, $taxonomy->label);
         }
         return $filters;
     }
@@ -118,16 +131,16 @@ class Thrive_Leads_Taxonomy_Terms_Tab extends Thrive_Leads_Tab implements Thrive
         //get all taxonomy terms for all taxonomies the $post has
         $taxonomies = get_taxonomies(array('public' => true));
         $post_terms = array();
-        foreach($taxonomies as $taxonomy) {
-            foreach(wp_get_post_terms($post->ID, $taxonomy) as $term) {
+        foreach ($taxonomies as $taxonomy) {
+            foreach (wp_get_post_terms($post->ID, $taxonomy) as $term) {
                 $post_terms[] = $term;
             }
         }
 
         //check if any of the posts taxonomy terms is checked
         $this->hanger = 'show_group_options';
-        foreach($post_terms as $post_term) {
-            if($this->getSavedOption($post_term)->isChecked) {
+        foreach ($post_terms as $post_term) {
+            if ($this->getSavedOption($post_term)->isChecked) {
                 return true;
             }
         }
@@ -140,16 +153,16 @@ class Thrive_Leads_Taxonomy_Terms_Tab extends Thrive_Leads_Tab implements Thrive
         //get all taxonomy terms for all taxonomies the $post has
         $taxonomies = get_taxonomies(array('public' => true));
         $post_terms = array();
-        foreach($taxonomies as $taxonomy) {
-            foreach(wp_get_post_terms($post->ID, $taxonomy) as $term) {
+        foreach ($taxonomies as $taxonomy) {
+            foreach (wp_get_post_terms($post->ID, $taxonomy) as $term) {
                 $post_terms[] = $term;
             }
         }
 
         //check if any of the posts taxonomy terms is checked
         $this->hanger = 'hide_group_options';
-        foreach($post_terms as $post_term) {
-            if($this->getSavedOption($post_term)->isChecked) {
+        foreach ($post_terms as $post_term) {
+            if ($this->getSavedOption($post_term)->isChecked) {
                 return true;
             }
         }

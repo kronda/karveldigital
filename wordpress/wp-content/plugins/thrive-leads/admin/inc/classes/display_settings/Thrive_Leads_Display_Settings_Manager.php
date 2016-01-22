@@ -9,6 +9,30 @@ class Thrive_Leads_Display_Settings_Manager
         $this->version = $version;
     }
 
+    public function initHangers($group)
+    {
+        $hangers[] = new Thrive_Leads_Hanger('show_group_options', $group);
+        $hangers[] = new Thrive_Leads_Hanger('hide_group_options', $group);
+
+        /**
+         * @var $hanger Thrive_Leads_Hanger
+         */
+        foreach ($hangers as $hanger) {
+            $hanger->initTabs(array(
+                'other_screens' => __('Basic Settings', 'thrive-leads'),
+                'taxonomy_terms' => __('Categories etc.', 'thrive-leads'),
+                'posts' => __('Posts', 'thrive-leads'),
+                'pages' => __('Pages', 'thrive-leads'),
+                'page_templates' => __('Page Templates', 'thrive-leads'),
+                'post_types' => __('Post Types', 'thrive-leads'),
+                'taxonomy_archives' => __('Archive Pages', 'thrive-leads'),
+                'others' => __('Other', 'thrive-leads')
+            ));
+        }
+
+        return $hangers;
+    }
+
     /**
      * Build all the content for the thickbox content
      */
@@ -18,25 +42,8 @@ class Thrive_Leads_Display_Settings_Manager
 
         $group = $_GET['group'];
 
-        $hangers[] = new Thrive_Leads_Hanger('show_group_options', $group);
-        $hangers[] = new Thrive_Leads_Hanger('hide_group_options', $group);
-
         try {
-            /**
-             * @var $hanger Thrive_Leads_Hanger
-             */
-            foreach ($hangers as $hanger) {
-                $hanger->initTabs(array(
-                    'other_screens' => 'Basic Settings',
-                    'taxonomy_terms' => 'Categories etc.',
-                    'posts' => 'Posts',
-                    'pages' => 'Pages',
-                    'page_templates' => 'Page Templates',
-                    'post_types' => 'Post Types',
-                    'taxonomy_archives' => 'Archive Pages',
-                    'others' => 'Other'
-                ));
-            }
+            $hangers = $this->initHangers($group);
 
             $options = new Thrive_Leads_Group_Options($group);
             $options->initOptions();
@@ -51,6 +58,53 @@ class Thrive_Leads_Display_Settings_Manager
 
         include plugin_dir_path(dirname(__FILE__)) . '../../views/display_settings.php';
         die;
+    }
+
+    public function load_template()
+    {
+        $this->load_dependencies();
+
+        $templates = new Thrive_Leads_Saved_Options();
+        $templates->initOptions($_REQUEST['template_id']);
+
+        $hangers = array(
+            new Thrive_Leads_Hanger('show_group_options', $_REQUEST['group']),
+            new Thrive_Leads_Hanger('hide_group_options', $_REQUEST['group']),
+        );
+
+        $identifiers = array(
+            'other_screens' => __('Basic Settings', 'thrive-leads'),
+            'taxonomy_terms' => __('Categories etc.', 'thrive-leads'),
+            'posts' => __('Posts', 'thrive-leads'),
+            'pages' => __('Pages', 'thrive-leads'),
+            'page_templates' => __('Page Templates', 'thrive-leads'),
+            'post_types' => __('Post Types', 'thrive-leads'),
+            'taxonomy_archives' => __('Archive Pages', 'thrive-leads'),
+            'others' => __('Other', 'thrive-leads')
+        );
+
+        /**
+         * @var $hanger Thrive_Leads_Hanger
+         */
+        foreach ($hangers as $hanger) {
+            /**
+             * @var $tab Thrive_Leads_Tab
+             */
+            foreach ($identifiers as $identifier => $label) {
+
+                $tab = Thrive_Leads_Tab_Factory::build($identifier);
+                $tab->setGroup($_REQUEST['group'])
+                    ->setIdentifier($identifier)
+                    ->setSavedOptions(new Thrive_Leads_Group_Options($_REQUEST['group'], $templates->getShowGroupOptions(), $templates->getHideGroupOptions()))
+                    ->setLabel($label)
+                    ->setHanger($hanger->identifier)
+                    ->initOptions()
+                    ->initFilters();
+                $hanger->tabs[] = $tab;
+            }
+        }
+        wp_send_json($hangers);
+
     }
 
     public function getSavedTemplates()
@@ -70,7 +124,7 @@ class Thrive_Leads_Display_Settings_Manager
         $return = array();
         foreach ($savedOptions['tabs'] as $index => $tab) {
             $options = $this->checkBackwardsComp($tab['options']);
-            $return[$tab['identifier']] = array(
+            $return[] = array(
                 'options' => $options,
                 'index' => $index
             );
@@ -97,7 +151,7 @@ class Thrive_Leads_Display_Settings_Manager
     public function save_options()
     {
         if (empty($_POST['options']) || empty($_POST['group'])) {
-            return 'Empty values';
+            return __('Empty values', 'thrive-leads');
         }
 
         require_once plugin_dir_path(__FILE__) . 'Thrive_Leads_Group_Options.php';

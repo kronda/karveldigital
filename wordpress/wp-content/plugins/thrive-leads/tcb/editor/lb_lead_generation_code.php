@@ -1,4 +1,5 @@
-<h2>Connect with Service</h2>
+<h4><?php echo __("Connect with Service", "thrive-cb") ?></h4>
+<hr class="tve_lightbox_line"/>
 <?php
 
 $view_path = dirname(dirname(__FILE__)) . '/inc/auto-responder/views/editor/';

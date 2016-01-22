@@ -7,4 +7,5 @@
 <td><#= test.get('date_completed') #></td>
 <td class="tve-row-actions collapse-table-part-action">
     <a class="tve-btn  tve-btn-link tve-form-type-test tve-btn-link-icon-purple" href="#test/<#= test.get('id') #>"><span class="tve-icon-view"></span><?php echo __('View Test', 'thrive-leads') ?></a>
+    <a class="tve-btn  tve-btn-link tve-form-type-test-delete tve-btn-link-icon-red" data-id="<#= test.get('id') #>" href="javascript:void(0)"><span class="tve-icon-trash-o"></span> Delete</a>
 </td>

@@ -34,19 +34,13 @@ class Thrive_Leads_Group_Options
             return json_encode(array('identifier' => $jsonOptions['identifier']));
         }
 
-        foreach ($options['tabs'] as $index => $tab) {
-            $saved_options = array();
-            foreach ($tab['options'] as $i => $item) {
-                if (!empty($item['isChecked']) || $item['type'] == 'direct_url') {
-                    $saved_options [] = $item['id'];
-                }
-            }
-            unset($options['tabs'][$index]['actions']);
-            unset($options['tabs'][$index]['filters']);
-            $options['tabs'][$index]['options'] = $saved_options;
+        $clean_options = array();
+
+        foreach ($options['tabs'] as $index => $tabOptions) {
+            $clean_options['tabs'][$index]['options'] = $tabOptions;
         }
 
-        return json_encode($options);
+        return json_encode($clean_options);
     }
 
     public function save()
@@ -137,16 +131,11 @@ class Thrive_Leads_Group_Options
     // get current URL
     public function get_current_URL()
     {
-        $current_url = 'http';
-        $server_https = @$_SERVER["HTTPS"];
-        $server_name = $_SERVER["SERVER_NAME"];
-        $server_port = $_SERVER["SERVER_PORT"];
-        $request_uri = $_SERVER["REQUEST_URI"];
-        if ($server_https == "on") $current_url .= "s";
-        $current_url .= "://";
-        if ($server_port != "80") $current_url .= $server_name . ":" . $server_port . $request_uri;
-        else $current_url .= $server_name . $request_uri;
-        return $current_url;
+        $requested_url  = is_ssl() ? 'https://' : 'http://';
+        $requested_url .= $_SERVER['HTTP_HOST'];
+        $requested_url .= $_SERVER['REQUEST_URI'];
+
+        return $requested_url;
     }
 
     /**
@@ -481,8 +470,12 @@ class Thrive_Leads_Group_Options
 
             //endif is_search
         } else {
-            // TODO: check for any of the direct URLs
-            $display = false;
+            $current_url = $this->get_current_URL();
+            /* @var $directUrlsTab Thrive_Leads_Direct_Urls_Tab */
+            $directUrlsTab = Thrive_Leads_Tab_Factory::build('direct_urls');
+            $directUrlsTab->setSavedOptions($this);
+
+            $display = $directUrlsTab->isUrlAllowed($current_url) && !$directUrlsTab->isUrlDenied($current_url);
         }
 
         return $display;

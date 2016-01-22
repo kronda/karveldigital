@@ -12,7 +12,7 @@
 
 ?>
 <tr id="eps-redirect-edit">
-    <td colspan="4">
+    <td colspan="5">
         <form id="eps-redirect-save" method="post" action="">
             <table class="eps-table">
                 <tr class="id-<?php echo ($redirect_id) ? $redirect_id : 'new'; ?>">

@@ -3,7 +3,31 @@
         <?php echo '<img src="' . plugins_url('thrive-leads/admin/img') . '/logo.png" > '; ?>
     </div>
 </div>
-
+<div class="pull-right">
+    <# if(model instanceof ThriveLeads.models.Shortcode) { #>
+        <div class="white-box">
+            <input readonly class="tve-shortcode tve-form-control tve-input-small tve-input-inline" type="text" value="<#= model.getCode() #>" />
+            <span>
+                <a class="tve-copy-to-clipboard tve-btn tve-btn-blue margin-right-10" href="javascript:void(0)">
+                    <span class="tve-icon-clone2"></span>
+                    <span class="tl-copy-text"><?php echo __('Copy', 'thrive-leads') ?> &nbsp;</span>
+                </a>
+            </span>
+            <div class="clear"></div>
+            <a href="javascript:void(0)" class="tve-leads-main-php-code" title="<?php echo __('Get PHP Code', 'thrive-leads') ?>"><?php echo __('Get PHP Code', 'thrive-leads') ?></a>
+        </div>
+    <# } else if(model instanceof ThriveLeads.models.TwoStepLightbox) { #>
+        <div class="white-box">
+            <input readonly class="tve-shortcode tve-form-control tve-input-small tve-input-inline" type="text" value="<#= model.getCode() #>" />
+            <span>
+                <a class="tve-copy-to-clipboard tve-btn tve-btn-blue margin-right-10" href="javascript:void(0)">
+                    <span class="tve-icon-clone2"></span>
+                    <span class="tl-copy-text"><?php echo __('Copy', 'thrive-leads') ?> &nbsp;</span>
+                </a>
+            </span>
+        </div>
+    <# } #>
+</div>
 <div class="tve-no-content tl-show-no-forms" style="display: none;">
     <div class="tve-notice">
         <img src="<?php echo TVE_LEADS_URL . 'admin/img/thrive_notification_logo.png' ?>" alt="">
@@ -14,7 +38,6 @@
         </div>
     </div>
 </div>
-
 <h1 class="tve-action-title tl-hide-no-forms">
     <div class="pull-left">
         <# if( model.get('parent') && model.get('parent').post_title ) { #>
@@ -22,25 +45,6 @@
         <# } #>
         <#= model.get('post_title') #>
         <a class="tve-leads-button tve-btn tve-btn-blue  tve-add-form" href="javascript:void(0)"><?php echo __('Add New Form', 'thrive-leads') ?></a>
-    </div>
-    <div class="pull-right">
-    <# if(model instanceof ThriveLeads.models.Shortcode) { #>
-        <div class="white-box">
-            <input readonly class="tve-shortcode tve-form-control tve-input-small tve-input-inline" type="text" value="<#= model.getCode() #>" />
-            <a class="tve-copy-to-clipboard tve-btn tve-btn-blue margin-right-10" href="javascript:void(0)">
-                <span class="tve-icon-clone2"></span>
-                <span class="tl-copy-text"><?php echo __('Copy', 'thrive-leads') ?> &nbsp;</span>
-            </a>
-        </div>
-        <# } else if(model instanceof ThriveLeads.models.TwoStepLightbox) { #>
-        <div class="white-box">
-            <input readonly class="tve-shortcode tve-form-control tve-input-small tve-input-inline" type="text" value="<#= model.getCode() #>" />
-            <a class="tve-copy-to-clipboard tve-btn tve-btn-blue margin-right-10" href="javascript:void(0)">
-                <span class="tve-icon-clone2"></span>
-                <span class="tl-copy-text"><?php echo __('Copy', 'thrive-leads') ?> &nbsp;</span>
-            </a>
-        </div>
-        <# } #>
     </div>
 </h1>
 
@@ -54,7 +58,9 @@
                 <th><?php echo __('Form Impressions', 'thrive-leads') ?></th>
                 <th><?php echo __('Conversions', 'thrive-leads') ?></th>
                 <th><?php echo __('Conversion Rate', 'thrive-leads') ?></th>
+                <# if (model.get('has_trigger_settings')) { #>
                 <th><?php echo __('Trigger', 'thrive-leads') ?></th>
+                <# } #>
                 <# if (model.get('has_frequency_settings')) { #>
                     <th><?php echo __('Display Frequency', 'thrive-leads') ?></th>
                 <# } #>
@@ -123,7 +129,9 @@
                         <th><?php echo __('Form Impressions', 'thrive-leads') ?></th>
                         <th><?php echo __('Conversions', 'thrive-leads') ?></th>
                         <th><?php echo __('Conversion Rate', 'thrive-leads') ?></th>
-                        <th><?php echo __('Trigger', 'thrive-leads') ?></th>
+                        <# if (model.get('has_trigger_settings')) { #>
+                            <th><?php echo __('Trigger', 'thrive-leads') ?></th>
+                        <# } #>
                         <# if (model.get('has_frequency_settings')) { #>
                         <th><?php echo __('Display Frequency', 'thrive-leads') ?></th>
                         <# } #>

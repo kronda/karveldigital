@@ -10,3 +10,15 @@
 <div class="form-field">
     <input type="text" name="i" class="trigger-config" value="<?php echo empty($config['i']) ? '' : $config['i'] ?>">
 </div>
+
+<label class="form-label-tve-control-label" for="tl-timer-exit">
+    <?php echo __('SmartExit+', 'thrive-leads') ?>
+</label>
+<div class="form-field">
+    <label class="tve-switch">
+        <input type="checkbox" class="trigger-config" value="1" name="exi"<?php echo empty($config['exi']) ? '' : ' checked="checked"' ?>>
+        <i></i>
+    </label>
+    <div class="clear"></div>
+    <p class="tve-form-description" style="margin-top: 0;"><?php echo __('Use this option to trigger the form on exit-intent if the visitor attempts to leave the site before the element has entered the viewport', 'thrive-leads') ?></p>
+</div>

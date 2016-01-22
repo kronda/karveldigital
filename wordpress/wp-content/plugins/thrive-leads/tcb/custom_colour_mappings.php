@@ -1,6 +1,21 @@
 <?php
 /* custom color mappings file */
 return array(
+    'typefocus' => array(
+        'undefined' => array(
+            'all' => array(
+                array(
+                    "label" => "Highlight color",
+                    "selector" => "",
+                    'selector_suffix' => ' .tve_selected_typist',
+                    'force_non_existent' => 1,
+                    'opacity' => 1,
+                    "property" => "background-color",
+                    "value" => "[color]",
+                ),
+            ),
+        )
+    ),
     'post_grid' => array(
         "undefined" => array(
             "Flat" => array(
@@ -156,7 +171,7 @@ return array(
         )
     ),
     "contentbox" => array(
-        "1" => array(
+        "1s" => array(
             "Flat" => array(
                 array(
                     "label" => "Headline Background",
@@ -208,6 +223,12 @@ return array(
                     "value" => "gradient"
                 ),
                 array(
+                    'label' => 'Content gradient',
+                    'selector' => '.tve_cb1',
+                    'property' => 'background-image',
+                    'value' => 'gradient'
+                ),
+                array(
                     "label" => "Headline Shadow",
                     "selector" => ".tve_hd h1, .tve_hd h2, .tve_hd h3, .tve_hd h4, .tve_hd h5, .tve_hd h6",
                     "property" => "text-shadow",
@@ -254,7 +275,7 @@ return array(
                 ),
             )
         ),
-        "2" => array(
+        "2s" => array(
             "Flat" => array(
                 array(
                     "label" => "Background",
@@ -344,7 +365,7 @@ return array(
                 ),
             ),
         ),
-        "3" => array(
+        "3s" => array(
             "Flat" => array(
                 array(
                     "label" => "Headline Background",
@@ -449,7 +470,7 @@ return array(
                 ),
             ),
         ),
-        "4" => array(
+        "4s" => array(
             "Flat" => array(
                 array(
                     "label" => "Border",
@@ -533,7 +554,7 @@ return array(
                 ),
             ),
         ),
-        "5" => array(
+        "5s" => array(
             "Flat" => array(
                 array(
                     "label" => "Background",
@@ -611,7 +632,7 @@ return array(
                 ),
             )
         ),
-        "6" => array(
+        "6s" => array(
             "Flat" => array(
                 array(
                     "label" => "Background",
@@ -1356,20 +1377,13 @@ return array(
         ),
         "2" => array(
             "Flat" => array(
-                0 => array(
-                    "label" => "Right Background",
-                    'opacity' => 1,
-                    "selector" => ".tve_ca_t",
-                    "property" => "background-color",
-                    "value" => "[color]"
-                ),
-                1 => array(
+                array(
                     "label" => "Border",
                     "selector" => ".tve_ca",
                     "property" => "border",
                     "value" => "2px solid [color]"
                 ),
-                2 => array(
+                array(
                     "label" => "Main Background",
                     'opacity' => 1,
                     "selector" => ".tve_ca",
@@ -1484,26 +1498,20 @@ return array(
                 )
             ),
             "Minimal" => array(
-                0 => array(
+                array(
                     "label" => "Border",
                     "selector" => ".tve_ca",
                     "property" => "border",
                     "value" => "3px solid [color]"
-                ),/* this is not used
-                1 => array(
-                    "label" => "Button Border",
-                    "selector" => ".tve_btn",
-                    "property" => "border",
-                    "value" => "2px solid [color]"
-                ),*/
-                2 => array(
+                ),
+                array(
                     "label" => "Button Background",
                     'opacity' => 1,
                     "selector" => ".tve_btn",
                     "property" => "background-color",
                     "value" => "[color]"
                 ),
-                3 => array(
+                array(
                     "label" => "Main Background",
                     'opacity' => 1,
                     "selector" => ".tve_ca",
@@ -1719,13 +1727,13 @@ return array(
                     "label" => "Box Shadow",
                     "selector" => ".tve_btn",
                     "property" => "box-shadow",
-                    "value" => "0 5px 0 [color]"
+                    "value" => "0 2px 3px [color]",
                 ),
                 array(
                     "label" => "Box Shadow (mouseover)",
                     "selector" => ".tve_btn",
                     "property" => "box-shadow",
-                    "value" => "0 5px 0 [color]",
+                    "value" => "0 2px 3px [color]",
                     'hover' => 1,
                 ),
                 array(
@@ -1937,19 +1945,19 @@ return array(
             "Flat" => array(
                 array(
                     "label" => "Inputs Text Color",
-                    "selector" => 'input[type="text"],textarea,select',
+                    "selector" => 'input[type="text"],textarea,select,input[type="email"]',
                     "property" => 'color',
                     "value" => "[color]",
                 ),
                 array(
                     "label" => "Inputs Border Color",
-                    "selector" => 'input[type="text"],textarea,select',
+                    "selector" => 'input[type="text"],textarea,select, input[type="email"]',
                     "property" => 'border-color',
                     "value" => "[color]",
                 ),
                 array(
                     "label" => "Inputs Border Color(hover)",
-                    "selector" => 'input[type="text"],textarea,select',
+                    "selector" => 'input[type="text"],textarea,select,input[type="email"]',
                     "property" => 'border-color',
                     "value" => "[color]",
                     'hover' => 1
@@ -2009,19 +2017,19 @@ return array(
             "Classy" => array(
                 array(
                     "label" => "Inputs Text Color",
-                    "selector" => 'input[type="text"],textarea,select',
+                    "selector" => 'input[type="text"],textarea,select,input[type="email"]',
                     "property" => 'color',
                     "value" => "[color]",
                 ),
                 array(
                     "label" => "Inputs Border Color",
-                    "selector" => 'input[type="text"],textarea,select',
+                    "selector" => 'input[type="text"],textarea,select,input[type="email"]',
                     "property" => 'border-color',
                     "value" => "[color]",
                 ),
                 array(
                     "label" => "Inputs Border Color(hover)",
-                    "selector" => 'input[type="text"],textarea,select',
+                    "selector" => 'input[type="text"],textarea,select,input[type="email"]',
                     "property" => 'border-color',
                     "value" => "[color]",
                     'hover' => 1
@@ -2081,19 +2089,19 @@ return array(
             "Minimal" => array(
                 array(
                     "label" => "Inputs Text Color",
-                    "selector" => 'input[type="text"],textarea,select',
+                    "selector" => 'input[type="text"],textarea,select,input[type="email"]',
                     "property" => 'color',
                     "value" => "[color]",
                 ),
                 array(
                     "label" => "Inputs Border Color",
-                    "selector" => 'input[type="text"],textarea,select',
+                    "selector" => 'input[type="text"],textarea,select,input[type="email"]',
                     "property" => 'border-color',
                     "value" => "[color]",
                 ),
                 array(
                     "label" => "Inputs Border Color(hover)",
-                    "selector" => 'input[type="text"],textarea,select',
+                    "selector" => 'input[type="text"],textarea,select,input[type="email"]',
                     "property" => 'border-color',
                     "value" => "[color]",
                     'hover' => 1
@@ -2626,11 +2634,27 @@ return array(
                     "value" => "[color]",
                 ),
                 array(
-                    "label" => "Inner shadow",
+                    "label" => "Internal shadow color",
+                    'opacity' => 1,
+                    'inset' => 1,
                     "selector" => ".out",
                     "property" => "box-shadow",
-                    "value" => "inset-box-shadow",
-                )
+                    "value" => "box-shadow-all"
+                ),
+                array(
+                    "label" => "External shadow color",
+                    'opacity' => 1,
+                    "selector" => ".out",
+                    "property" => "box-shadow",
+                    "value" => "box-shadow-all"
+                ),
+                array(
+                    "label" => "Border color",
+                    'opacity' => 1,
+                    "selector" => ".out",
+                    "property" => "border-color",
+                    "value" => "[color]"
+                ),
             ),
             "Classy" => array(
                 array(
@@ -2641,11 +2665,27 @@ return array(
                     'opacity' => 1
                 ),
                 array(
-                    "label" => "Inner shadow",
+                    "label" => "Internal shadow color",
+                    'opacity' => 1,
+                    'inset' => 1,
                     "selector" => ".out",
                     "property" => "box-shadow",
-                    "value" => "inset-box-shadow"
-                )
+                    "value" => "box-shadow-all"
+                ),
+                array(
+                    "label" => "External shadow color",
+                    'opacity' => 1,
+                    "selector" => ".out",
+                    "property" => "box-shadow",
+                    "value" => "box-shadow-all"
+                ),
+                array(
+                    "label" => "Border color",
+                    'opacity' => 1,
+                    "selector" => ".out",
+                    "property" => "border-color",
+                    "value" => "[color]"
+                ),
             ),
             "Minimal" => array(
                 array(
@@ -2656,11 +2696,27 @@ return array(
                     'opacity' => 1
                 ),
                 array(
-                    "label" => "Inner shadow",
+                    "label" => "Internal shadow color",
+                    'opacity' => 1,
+                    'inset' => 1,
                     "selector" => ".out",
                     "property" => "box-shadow",
-                    "value" => "inset-box-shadow"
-                )
+                    "value" => "box-shadow-all"
+                ),
+                array(
+                    "label" => "External shadow color",
+                    'opacity' => 1,
+                    "selector" => ".out",
+                    "property" => "box-shadow",
+                    "value" => "box-shadow-all"
+                ),
+                array(
+                    "label" => "Border color",
+                    'opacity' => 1,
+                    "selector" => ".out",
+                    "property" => "border-color",
+                    "value" => "[color]"
+                ),
             )
         )
     ),
@@ -2797,6 +2853,24 @@ return array(
                     "property" => "border-color",
                     "value" => "[color]"
                 ),
+                array(
+                    "label" => "Odd rows color",
+                    "selector" => "> .tve_table tbody",
+                    "selector_suffix" => " > tr:nth-child(2n+1) > td", /* the real selector (this will get appended to the CSS rule */
+                    'selector_prefix' => '#tve_editor ',
+                    'important' => false,
+                    "property" => "background-color",
+                    "value" => "[color]",
+                ),
+                array(
+                    "label" => "Even rows color",
+                    "selector" => "> .tve_table tbody",
+                    "selector_suffix" => " > tr:nth-child(2n) > td", /* the real selector (this will get appended to the CSS rule */
+                    'selector_prefix' => '#tve_editor ',
+                    'important' => false,
+                    "property" => "background-color",
+                    "value" => "[color]",
+                ),
             ),
             "Classy" => array(
                 array(
@@ -2829,6 +2903,24 @@ return array(
                     "property" => "border-color",
                     "value" => "[color]"
                 ),
+                array(
+                    "label" => "Odd rows color",
+                    "selector" => "> .tve_table tbody",
+                    "selector_suffix" => " > tr:nth-child(2n+1) > td", /* the real selector (this will get appended to the CSS rule */
+                    'selector_prefix' => '#tve_editor ',
+                    'important' => false,
+                    "property" => "background-color",
+                    "value" => "[color]",
+                ),
+                array(
+                    "label" => "Even rows color",
+                    "selector" => "> .tve_table tbody",
+                    "selector_suffix" => " > tr:nth-child(2n) > td", /* the real selector (this will get appended to the CSS rule */
+                    'selector_prefix' => '#tve_editor ',
+                    'important' => false,
+                    "property" => "background-color",
+                    "value" => "[color]",
+                ),
             ),
             "Minimal" => array(
                 array(
@@ -2860,6 +2952,24 @@ return array(
                     "selector" => "> .tve_table tbody tr td",
                     "property" => "border-color",
                     "value" => "[color]"
+                ),
+                array(
+                    "label" => "Odd rows color",
+                    "selector" => "> .tve_table tbody",
+                    "selector_suffix" => " > tr:nth-child(2n+1) > td", /* the real selector (this will get appended to the CSS rule */
+                    'selector_prefix' => '#tve_editor ',
+                    'important' => false,
+                    "property" => "background-color",
+                    "value" => "[color]",
+                ),
+                array(
+                    "label" => "Even rows color",
+                    "selector" => "> .tve_table tbody",
+                    "selector_suffix" => " > tr:nth-child(2n) > td", /* the real selector (this will get appended to the CSS rule */
+                    'selector_prefix' => '#tve_editor ',
+                    'important' => false,
+                    "property" => "background-color",
+                    "value" => "[color]",
                 ),
             )
         )
@@ -3091,6 +3201,13 @@ return array(
                     "value" => "[color]",
                 ),
                 array(
+                    "label" => "Color (mouseover)",
+                    "selector" => "span.tve_sc_icon",
+                    "property" => "color",
+                    "value" => "[color]",
+                    'hover' => 1
+                ),
+                array(
                     "label" => "Border Color",
                     "selector" => "",
                     "property" => "border-color",
@@ -3111,6 +3228,13 @@ return array(
                     "selector" => "span.tve_sc_icon",
                     "property" => "color",
                     "value" => "[color]",
+                ),
+                array(
+                    "label" => "Color (mouseover)",
+                    "selector" => "span.tve_sc_icon",
+                    "property" => "color",
+                    "value" => "[color]",
+                    'hover' => 1
                 ),
                 array(
                     "label" => "Border Color",
@@ -3134,6 +3258,13 @@ return array(
                     "value" => "[color]",
                 ),
                 array(
+                    "label" => "Color (mouseover)",
+                    "selector" => "span.tve_sc_icon",
+                    "property" => "color",
+                    "value" => "[color]",
+                    'hover' => 1
+                ),
+                array(
                     "label" => "Border Color",
                     "selector" => "",
                     "property" => "border-color",
@@ -3148,6 +3279,40 @@ return array(
                     'opacity' => 1
                 ),
             )
+        )
+    ),
+    'landing_fonts' => array(
+        'undefined' => array(
+            'Flat' => array(
+                array(
+                    "label" => "H1 Color",
+                    "selector" => "",
+                    "force_selector" => '#tve_editor h1',
+                    "property" => "color",
+                    "value" => "[color]",
+                ),
+                array(
+                    "label" => "H2 Color",
+                    "selector" => "",
+                    "force_selector" => '#tve_editor h2',
+                    "property" => "color",
+                    "value" => "[color]",
+                ),
+                array(
+                    "label" => "H3 Color",
+                    "selector" => "",
+                    "force_selector" => '#tve_editor h3',
+                    "property" => "color",
+                    "value" => "[color]",
+                ),
+                array(
+                    "label" => "Paragraph Color",
+                    "selector" => "",
+                    "force_selector" => '#tve_editor p',
+                    "property" => "color",
+                    "value" => "[color]",
+                )
+            ),
         )
     ),
     'widget_menu' => array(
@@ -3229,4 +3394,310 @@ return array(
             ),
         )
     ),
+    "progress_bar" => array(
+        "1" => array(
+            "Flat" => array(
+                array(
+                    "label" => "Background Colour",
+                    "selector" => ".tve_progress_bar",
+                    "property" => "background-color",
+                    "value" => "[color]",
+                    'opacity' => 1
+                ),
+                array(
+                    "label" => "Fill Colour",
+                    "selector" => ".tve_progress_bar_fill",
+                    "property" => "background-color",
+                    "value" => "[color]",
+                    'opacity' => 1
+                ),
+                array(
+                    "label" => "Label Text Colour",
+                    "selector" => ".tve_data_element_label",
+                    "property" => "color",
+                    "value" => "[color]"
+                ),
+                array(
+                    "label" => "Label Text Shadow",
+                    "selector" => ".tve_data_element_label",
+                    "property" => "text-shadow",
+                    "value" => "0 1px 0 [color]"
+                ),
+                array(
+                    "label" => "Border",
+                    "selector" => "",
+                    "property" => "border-color",
+                    "value" => "[color]",
+                    'opacity' => 1,
+                )
+            ),
+            "Classy" => array(
+                array(
+                    "label" => "Background Colour",
+                    "selector" => ".tve_progress_bar",
+                    "property" => "background-color",
+                    "value" => "[color]",
+                    'opacity' => 1
+                ),
+                array(
+                    "label" => "Fill Colour",
+                    "selector" => ".tve_progress_bar_fill",
+                    "property" => "background-color",
+                    "value" => "[color]",
+                    'opacity' => 1
+                ),
+                array(
+                    "label" => "Label Text Colour",
+                    "selector" => ".tve_data_element_label",
+                    "property" => "color",
+                    "value" => "[color]"
+                ),
+                array(
+                    "label" => "Label Text Shadow",
+                    "selector" => ".tve_data_element_label",
+                    "property" => "text-shadow",
+                    "value" => "0 1px 0 [color]"
+                ),
+                array(
+                    "label" => "Border",
+                    "selector" => "",
+                    "property" => "border-color",
+                    "value" => "[color]",
+                    'opacity' => 1,
+                )
+            ),
+            "Minimal" => array(
+                array(
+                    "label" => "Background Colour",
+                    "selector" => ".tve_progress_bar",
+                    "property" => "background-color",
+                    "value" => "[color]",
+                    'opacity' => 1
+                ),
+                array(
+                    "label" => "Fill Colour",
+                    "selector" => ".tve_progress_bar_fill",
+                    "property" => "background-color",
+                    "value" => "[color]",
+                    'opacity' => 1
+                ),
+                array(
+                    "label" => "Label Text Colour",
+                    "selector" => ".tve_data_element_label",
+                    "property" => "color",
+                    "value" => "[color]"
+                ),
+                array(
+                    "label" => "Label Text Shadow",
+                    "selector" => ".tve_data_element_label",
+                    "property" => "text-shadow",
+                    "value" => "0 1px 0 [color]"
+                ),
+                array(
+                    "label" => "Border",
+                    "selector" => "",
+                    "property" => "border-color",
+                    "value" => "[color]",
+                    'opacity' => 1,
+                )
+            )
+        )
+    ),
+    "fill_counter" => array(
+        "1" => array(
+            "Flat" => array(
+                array(
+                    "label" => "Outer Circle Color",
+                    "selector" => ".tve_fill_c_in",
+                    "property" => "background-color",
+                    "value" => "[color]"
+                ),
+                array(
+                    "label" => "Inner Circle Background",
+                    "selector" => ".tve_fill_text_in",
+                    "property" => "background-color",
+                    "value" => "[color]"
+                ),
+                array(
+                    "label" => "Unit Text Colour",
+                    "selector" => ".tve_fill_text_before, .tve_fill_text_after",
+                    "property" => "color",
+                    "value" => "[color]"
+                ),
+                array(
+                    "label" => "Value Text Colour",
+                    "selector" => ".tve_fill_text",
+                    "property" => "color",
+                    "value" => "[color]"
+                ),
+                array(
+                    "label" => "Label Text Colour",
+                    "selector" => ".tve_data_element_label",
+                    "property" => "color",
+                    "value" => "[color]"
+                ),
+                array(
+                    "label" => "Border",
+                    "selector" => "",
+                    "property" => "border-color",
+                    "value" => "[color]",
+                    'opacity' => 1,
+                )
+            ),
+            "Classy" => array(
+                array(
+                    "label" => "Outer Circle Color",
+                    "selector" => ".tve_fill_c_in",
+                    "property" => "background-color",
+                    "value" => "[color]"
+                ),
+                array(
+                    "label" => "Inner Circle Background",
+                    "selector" => ".tve_fill_text_in",
+                    "property" => "background-color",
+                    "value" => "[color]"
+                ),
+                array(
+                    "label" => "Unit Text Colour",
+                    "selector" => ".tve_fill_text_before, .tve_fill_text_after",
+                    "property" => "color",
+                    "value" => "[color]"
+                ),
+                array(
+                    "label" => "Value Text Colour",
+                    "selector" => ".tve_fill_text",
+                    "property" => "color",
+                    "value" => "[color]"
+                ),
+                array(
+                    "label" => "Label Text Colour",
+                    "selector" => ".tve_data_element_label",
+                    "property" => "color",
+                    "value" => "[color]"
+                ),
+                array(
+                    "label" => "Border",
+                    "selector" => "",
+                    "property" => "border-color",
+                    "value" => "[color]",
+                    'opacity' => 1,
+                )
+            ),
+            "Minimal" => array(
+                array(
+                    "label" => "Outer Circle Color",
+                    "selector" => ".tve_fill_c_in",
+                    "property" => "background-color",
+                    "value" => "[color]"
+                ),
+                array(
+                    "label" => "Inner Circle Background",
+                    "selector" => ".tve_fill_text_in",
+                    "property" => "background-color",
+                    "value" => "[color]"
+                ),
+                array(
+                    "label" => "Unit Text Colour",
+                    "selector" => ".tve_fill_text_before, .tve_fill_text_after",
+                    "property" => "color",
+                    "value" => "[color]"
+                ),
+                array(
+                    "label" => "Value Text Colour",
+                    "selector" => ".tve_fill_text",
+                    "property" => "color",
+                    "value" => "[color]"
+                ),
+                array(
+                    "label" => "Label Text Colour",
+                    "selector" => ".tve_data_element_label",
+                    "property" => "color",
+                    "value" => "[color]"
+                ),
+                array(
+                    "label" => "Border",
+                    "selector" => "",
+                    "property" => "border-color",
+                    "value" => "[color]",
+                    'opacity' => 1,
+                )
+            )
+        )
+    ),
+    "number_counter" => array(
+        "1" => array(
+            "Flat" => array(
+                array(
+                    "label" => "Value Text Colour",
+                    "selector" => ".tve_numberc_text",
+                    "property" => "color",
+                    "value" => "[color]",
+                ),
+                array(
+                    "label" => "Label Text Colour",
+                    "selector" => ".tve_data_element_label",
+                    "property" => "color",
+                    "value" => "[color]",
+                ),
+                array(
+                    "label" => "Unit Text Colour",
+                    "selector" => ".tve_numberc_before, .tve_numberc_after",
+                    "property" => "color",
+                    "value" => "[color]",
+                )
+            ),
+            "Classy" => array(
+                array(
+                    "label" => "Value Text Colour",
+                    "selector" => ".tve_numberc_text",
+                    "property" => "color",
+                    "value" => "[color]",
+                ),
+                array(
+                    "label" => "Label Text Colour",
+                    "selector" => ".tve_data_element_label",
+                    "property" => "color",
+                    "value" => "[color]",
+                ),
+                array(
+                    "label" => "Unit Text Colour",
+                    "selector" => ".tve_numberc_before, .tve_numberc_after",
+                    "property" => "color",
+                    "value" => "[color]",
+                )
+            ),
+            "Minimal" => array(
+                array(
+                    "label" => "Value Text Colour",
+                    "selector" => ".tve_numberc_text",
+                    "property" => "color",
+                    "value" => "[color]",
+                ),
+                array(
+                    "label" => "Label Text Colour",
+                    "selector" => ".tve_data_element_label",
+                    "property" => "color",
+                    "value" => "[color]",
+                ),
+                array(
+                    "label" => "Unit Text Colour",
+                    "selector" => ".tve_numberc_before, .tve_numberc_after",
+                    "property" => "color",
+                    "value" => "[color]",
+                )
+            )
+        )
+    ),
+    'responsive_video' => array(
+        "undefined" => array(
+            "all" => array(
+                array(
+                    "label" => "Video color",
+                    "selector" => ".tve_responsive_video_container",
+                    "property" => "color",
+                    "value" => "[color]",
+                )
+            )
+        )
+    )
 );

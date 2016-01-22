@@ -31,7 +31,7 @@
                        data-size="1"> px
             </label>
         <li class="tve_text tve_slider_config" data-value="1080" data-min-value="500"
-            data-max-value="available"
+            data-max-value="2500"
             data-property="max-width"
             data-selector=".tve-screen-filler-content"
             data-input-selector="#screen_filler_size">

@@ -13,6 +13,15 @@ class Thrive_List_Connection_AWeber extends Thrive_List_Connection_Abstract
     const CONSUMER_SECRET = 'V9bzMop78pXTlPEAo30hxZF7dXYE6T6Ww2LAH95m';
 
     /**
+     * Return the connection type
+     * @return String
+     */
+    public static function getType()
+    {
+        return 'autoresponder';
+    }
+
+    /**
      * get the authorization URL for the AWeber Application
      * @return string
      */
@@ -84,11 +93,11 @@ class Thrive_List_Connection_AWeber extends Thrive_List_Connection_Abstract
 
         $result = $this->testConnection();
         if ($result !== true) {
-            return $this->error('Could not test AWeber connection: ' . $result);
+            return $this->error(sprintf(__('Could not test AWeber connection: %s', "thrive-cb"), $result));
         }
 
         $this->save();
-        $this->success('AWeber connected successfully');
+        $this->success(__('AWeber connected successfully', 'thrive-cb'));
 
         return $this;
     }
@@ -163,6 +172,7 @@ class Thrive_List_Connection_AWeber extends Thrive_List_Connection_Abstract
     public function addSubscriber($list_identifier, $arguments)
     {
         try {
+            /** @var Thrive_Api_AWeber $aweber */
             $aweber = $this->getApi();
             $account = $aweber->getAccount($this->param('token'), $this->param('secret'));
             $listURL = "/accounts/{$account->id}/lists/{$list_identifier}";
@@ -184,7 +194,7 @@ class Thrive_List_Connection_AWeber extends Thrive_List_Connection_Abstract
             $new_subscriber = $subscribers->create($params);
 
             if (!$new_subscriber) {
-                return sprintf("Could not add contact: %s to list: %s", $arguments['email'], $list->name);
+                return sprintf(__("Could not add contact: %s to list: %s", "thrive-cb"), $arguments['email'], $list->name);
             }
 
         } catch (Exception $e) {

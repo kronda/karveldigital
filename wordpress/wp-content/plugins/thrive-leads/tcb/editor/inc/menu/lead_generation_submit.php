@@ -1,4 +1,4 @@
-<span class="tve_options_headline">Submit Button Options</span>
+<span class="tve_options_headline"><?php echo __("Submit Button Options", "thrive-cb") ?></span>
 <ul class="tve_menu">
     <?php
     $css_selector = $css_padding_selector = "button";
@@ -15,15 +15,15 @@
             <div class="tve_sub_btn">
                 <div class="tve_sub active_sub_menu">
                     <ul>
-                        <li id="tve_brdr_none" class="tve_click" data-args="button" data-ctrl="controls.lead_generation.add_border_style" data-border="1">none</li>
-                        <li id="tve_brdr_dotted" class="tve_click" data-args="button" data-ctrl="controls.lead_generation.add_border_style" data-border="1">dotted</li>
-                        <li id="tve_brdr_dashed" class="tve_click" data-args="button" data-ctrl="controls.lead_generation.add_border_style" data-border="1">dashed</li>
-                        <li id="tve_brdr_solid" class="tve_click" data-args="button" data-ctrl="controls.lead_generation.add_border_style" data-border="1">solid</li>
-                        <li id="tve_brdr_double" class="tve_click" data-args="button" data-ctrl="controls.lead_generation.add_border_style" data-border="1">double</li>
-                        <li id="tve_brdr_groove" class="tve_click" data-args="button" data-ctrl="controls.lead_generation.add_border_style" data-border="1">groove</li>
-                        <li id="tve_brdr_ridge" class="tve_click" data-args="button" data-ctrl="controls.lead_generation.add_border_style" data-border="1">ridge</li>
-                        <li id="tve_brdr_inset" class="tve_click" data-args="button" data-ctrl="controls.lead_generation.add_border_style" data-border="1">inset</li>
-                        <li id="tve_brdr_outset" class="tve_click" data-args="button" data-ctrl="controls.lead_generation.add_border_style" data-border="1">outset</li>
+                        <li id="tve_brdr_none" class="tve_click" data-args="button" data-ctrl="controls.lead_generation.add_border_style" data-border="1"><?php echo __("none", "thrive-cb") ?></li>
+                        <li id="tve_brdr_dotted" class="tve_click" data-args="button" data-ctrl="controls.lead_generation.add_border_style" data-border="1"><?php echo __("dotted", "thrive-cb") ?></li>
+                        <li id="tve_brdr_dashed" class="tve_click" data-args="button" data-ctrl="controls.lead_generation.add_border_style" data-border="1"><?php echo __("dashed", "thrive-cb") ?></li>
+                        <li id="tve_brdr_solid" class="tve_click" data-args="button" data-ctrl="controls.lead_generation.add_border_style" data-border="1"><?php echo __("solid", "thrive-cb") ?></li>
+                        <li id="tve_brdr_double" class="tve_click" data-args="button" data-ctrl="controls.lead_generation.add_border_style" data-border="1"><?php echo __("double", "thrive-cb") ?></li>
+                        <li id="tve_brdr_groove" class="tve_click" data-args="button" data-ctrl="controls.lead_generation.add_border_style" data-border="1"><?php echo __("groove", "thrive-cb") ?></li>
+                        <li id="tve_brdr_ridge" class="tve_click" data-args="button" data-ctrl="controls.lead_generation.add_border_style" data-border="1"><?php echo __("ridge", "thrive-cb") ?></li>
+                        <li id="tve_brdr_inset" class="tve_click" data-args="button" data-ctrl="controls.lead_generation.add_border_style" data-border="1"><?php echo __("inset", "thrive-cb") ?></li>
+                        <li id="tve_brdr_outset" class="tve_click" data-args="button" data-ctrl="controls.lead_generation.add_border_style" data-border="1"><?php echo __("outset", "thrive-cb") ?></li>
                     </ul>
                 </div>
             </div>
@@ -45,16 +45,16 @@
 
     <li>
         <label>
-            Button text <input id="lead_generation_button_text" class="tve_text tve_change" type="text" value=""/>
+            <?php echo __("Button text", "thrive-cb") ?> <input id="lead_generation_button_text" class="tve_text tve_change" type="text" value=""/>
         </label>
     </li>
     <li>
-        <div id="tve_convert_submit_image" class="tve_ed_btn tve_btn_text tve_center tve_left tve_click">Convert to image</div>
+        <div id="tve_convert_submit_image" class="tve_ed_btn tve_btn_text tve_center tve_left tve_click"><?php echo __("Convert to image", "thrive-cb") ?></div>
     </li>
     <li class="tve_text tve_slider_config" data-min-value="100" data-property="max-width" data-max-value="available"
         data-selector="function:controls.lead_generation.button_submit_width_selector"
         data-input-selector="#tve_lg_submit_width_input">
-        <label for="tve_lg_input" class="tve_left">Max Width</label>
+        <label for="tve_lg_input" class="tve_left"><?php echo __("Max Width", "thrive-cb") ?></label>
 
         <div class="tve_slider tve_left">
             <div class="tve_slider_element" id="tve_lg_submit_button_slider"></div>
@@ -66,7 +66,7 @@
     <li>
         <div class="tve_ed_btn tve_btn_text tve_center tve_left tve_click"
              data-ctrl="function:controls.lead_generation.clear_width"
-             data-args=".tve_submit_container,button,lead_generation_submit">Full Width
+             data-args=".tve_submit_container,button,lead_generation_submit"><?php echo __("Full Width", "thrive-cb") ?>
         </div>
     </li>
 </ul>

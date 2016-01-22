@@ -69,7 +69,8 @@ class Thrive_Leads_Ajax_Controller extends Thrive_Leads_Request_Handler
     public function globalSettingsAPIAction()
     {
         $allowed = array(
-            'ajax_load'
+            'ajax_load',
+            'tve_load_annotations'
         );
         $field = $this->param('field');
         $value = $this->param('value');
@@ -136,7 +137,7 @@ class Thrive_Leads_Ajax_Controller extends Thrive_Leads_Request_Handler
     }
 
     /**
-     * 2 Step Lightbox API for CRUD
+     * 2 Step Lightbox API for CRUD (new name: ThriveBox)
      *
      * @return mixed based on the handled HTTP operation
      */
@@ -161,7 +162,7 @@ class Thrive_Leads_Ajax_Controller extends Thrive_Leads_Request_Handler
                     'completed_tests' => true,
                 ));
                 if (!$two_step_lightbox) {
-                    $this->error('2 Step Lightbox not found');
+                    $this->error('ThriveBox not found');
                 }
                 $test = tve_leads_get_form_active_test($two_step_lightbox->ID, array(
                     'test_type' => TVE_LEADS_TWO_STEP_LIGHTBOX_TEST_TYPE,
@@ -179,6 +180,119 @@ class Thrive_Leads_Ajax_Controller extends Thrive_Leads_Request_Handler
     }
 
     /**
+     * Asset Groups for CRUD (new name: ThriveBox)
+     *
+     * @return mixed based on the handled HTTP operation
+     */
+    public function assetsAction()
+    {
+        $model = json_decode(file_get_contents('php://input'), true);
+        $method = empty($_SERVER['HTTP_X_HTTP_METHOD_OVERRIDE']) ? 'GET' : $_SERVER['HTTP_X_HTTP_METHOD_OVERRIDE'];
+
+        switch ($method) {
+            case 'POST':
+            case 'PUT':
+            case 'PATCH':
+                return tve_leads_save_asset_group($model);
+            case 'DELETE':
+                return tve_leads_delete_post($this->param('ID', 0));
+            case 'GET':
+                if ($this->param('custom')) {
+                    switch ($this->param('custom')) {
+                        case 'update_service':
+                            $connection = $this->param('new_connection', array());
+                            return update_option('tve_api_delivery_service', $connection);
+                        case 'test_service':
+                            $connection = $this->param('test_connection', array());
+                            $api = Thrive_List_Manager::connectionInstance($connection);
+                            $test = $api->testConnection();
+                            if ($test === true) {
+                                $class = "updated";
+                                return "<div class='" . $class . "'><p>" . __('Connection was made successfully', 'thrive-leads') . "</p></div>";
+                            } else {
+                                $class = "error";
+                                return "<div class='" . $class . "'><p>" . $test . "</p></div>";
+                            }
+                    }
+                }
+                break;
+        }
+
+    }
+
+    /**
+     * Asset Group Files for CRUD (new name: ThriveBox)
+     *
+     * @return mixed based on the handled HTTP operation
+     */
+    public function filesAddAction()
+    {
+        $model = json_decode(file_get_contents('php://input'), true);
+        $method = empty($_SERVER['HTTP_X_HTTP_METHOD_OVERRIDE']) ? 'GET' : $_SERVER['HTTP_X_HTTP_METHOD_OVERRIDE'];
+
+        switch ($method) {
+            case 'POST':
+            case 'PUT':
+            case 'PATCH':
+                return tve_leads_update_asset_files($model);
+            case 'DELETE':
+                return tve_leads_delete_asset_file($this->param('parent_ID', 0), $this->param('ID', 0));
+            case 'GET':
+                break;
+        }
+
+    }
+
+    /**
+     * Asset Group Files for CRUD (new name: ThriveBox)
+     *
+     * @return mixed based on the handled HTTP operation
+     */
+    public function wizardAddAction()
+    {
+        $model = json_decode(file_get_contents('php://input'), true);
+        $method = empty($_SERVER['HTTP_X_HTTP_METHOD_OVERRIDE']) ? 'GET' : $_SERVER['HTTP_X_HTTP_METHOD_OVERRIDE'];
+
+        switch ($method) {
+            case 'POST':
+            case 'PUT':
+            case 'PATCH':
+                return tve_leads_add_wizard_group($model);
+            case 'DELETE':
+                return tve_leads_delete_post($this->param('ID', 0));
+            case 'GET':
+                break;
+        }
+    }
+
+    /**
+     * One Click Signup API for CRUD (new name: Signup Segue)
+     *
+     * @return mixed based on the handled HTTP operation
+     */
+    public function oneClickSignupAPIAction()
+    {
+        $model = json_decode(file_get_contents('php://input'), true);
+        $method = empty($_SERVER['HTTP_X_HTTP_METHOD_OVERRIDE']) ? 'GET' : $_SERVER['HTTP_X_HTTP_METHOD_OVERRIDE'];
+
+        if ($this->param('get_empty_variations')) {
+            return array('ids' => tve_leads_get_form_empty_variations($this->param('ID')));
+        }
+
+        switch ($method) {
+            case 'POST':
+            case 'PUT':
+            case 'PATCH':
+                return tve_leads_save_one_click_signup($model);
+            case 'DELETE':
+                return tve_leads_delete_post($this->param('ID', 0));
+            case 'GET':
+                //doesn't have form types or variations so it donesn't come here
+                break;
+        }
+    }
+
+    /**
      * Lead Groups API for CRUD
      *
      * @return mixed based on the handled HTTP operation
@@ -191,7 +305,6 @@ class Thrive_Leads_Ajax_Controller extends Thrive_Leads_Request_Handler
         if ($this->param('get_empty_variations')) {
             return array('ids' => tve_leads_get_group_empty_form_variations($this->param('ID')));
         }
-
         switch ($method) {
             case 'POST':
             case 'PUT':
@@ -238,13 +351,25 @@ class Thrive_Leads_Ajax_Controller extends Thrive_Leads_Request_Handler
                         $this->error("Form Type not found !");
                     }
 
+                    /**
+                     * reset tve_leads_signups meta tag for one click signup (new name: Signup Segue)
+                     */
+                    if ($post->post_type && $post->post_type === TVE_LEADS_POST_ONE_CLICK_SIGNUP) {
+                        update_post_meta($post->ID, 'tve_leads_signups', '0');
+                    }
+
                     global $tvedb;
                     $result = $tvedb->archive_logs(array(
                         'form_type_id' => $this->param('ID')
                     ));
 
+                    /*
+                     * also clear out the cached impressions and conversions for the Form Type
+                     */
+                    tve_leads_reset_post_tracking_data($post);
+
                     if ($result === false) {
-                        $this->error("Error on resetting form type statistics");
+                        $this->error(__("Error on resetting form type statistics", "thrive-leads"));
                     }
 
                     return array(
@@ -294,6 +419,7 @@ class Thrive_Leads_Ajax_Controller extends Thrive_Leads_Request_Handler
                 $post->has_frequency_settings = tve_leads_form_type_has_frequency_settings($post);
                 $post->has_position_settings = tve_leads_form_type_has_position_settings($post);
                 $post->has_animation_settings = tve_leads_form_type_has_animation_settings($post);
+                $post->has_trigger_settings = tve_leads_form_type_has_trigger_settings($post);
                 $post->content_locking = 0;
                 /**
                  * get all the tests that run at group level and make sure this form type is not included in one
@@ -331,11 +457,18 @@ class Thrive_Leads_Ajax_Controller extends Thrive_Leads_Request_Handler
                 // reset all logs associated with this form type
                 case 'reset_statistics':
                     global $tvedb;
+
+                    $variation = tve_leads_get_form_variation(null, $this->param('key'), array('tracking_data' => true));
+
                     $tvedb->archive_logs(array(
                         'variation_key' => $this->param('key')
                     ));
-                    return tve_leads_get_form_variation(null, $this->param('key'), array('tracking_data' => true));
-                    break;
+
+                    tve_leads_reset_variation_tracking_data($variation);
+
+                    $variation['impressions'] = $variation['conversions'] = $variation['unique_impressions'] = 0;
+                    $variation['conversion_rate'] = 'N/A';
+                    return $variation;
             }
         }
 
@@ -441,7 +574,7 @@ class Thrive_Leads_Ajax_Controller extends Thrive_Leads_Request_Handler
     public function testAPIAction()
     {
         $model = json_decode(file_get_contents('php://input'), true);
-        $method = empty($_SERVER['HTTP_X_HTTP_METHOD_OVERRIDE']) ? 'GET' : $_SERVER['HTTP_X_HTTP_METHOD_OVERRIDE'];;
+        $method = empty($_SERVER['HTTP_X_HTTP_METHOD_OVERRIDE']) ? 'GET' : $_SERVER['HTTP_X_HTTP_METHOD_OVERRIDE'];
 
         switch ($method) {
             case 'POST':
@@ -469,6 +602,9 @@ class Thrive_Leads_Ajax_Controller extends Thrive_Leads_Request_Handler
                 $test->another_test_running = $another_test_running ? $another_test_running->id : null;
 
                 return $test;
+                break;
+            case 'DELETE':
+                return tve_leads_delete_test($this->param('id', 0));
                 break;
         }
     }
@@ -520,6 +656,12 @@ class Thrive_Leads_Ajax_Controller extends Thrive_Leads_Request_Handler
             'main_group_id' => $this->param('tve-chart-source', -1),
             'start_date' => $this->param('tve-report-start-date'),
             'end_date' => $this->param('tve-report-end-date'),
+            'order_by' => $this->param('order_by'),
+            'order_dir' => $this->param('order_dir'),
+            'referral_type' => $this->param('tve-referral-type'),
+            'source_type' => $this->param('tve-source-type'),
+            'tracking_type' => $this->param('tve-tracking-type'),
+            'load_annotations' => $this->param('tve_load_annotations'),
             'archived_log' => 0
         );
 
@@ -529,6 +671,8 @@ class Thrive_Leads_Ajax_Controller extends Thrive_Leads_Request_Handler
             switch ($this->param('report_type')) {
                 case 'Conversion':
                 case 'CumulativeConversion':
+                case 'ListGrowth':
+                case 'CumulativeListGrowth':
                     die(json_encode(tve_leads_get_conversion_report_table_data($filters)));
                 case 'ConversionRate':
                     die(json_encode(tve_leads_get_conversion_rate_report_table_data($filters)));
@@ -538,6 +682,9 @@ class Thrive_Leads_Ajax_Controller extends Thrive_Leads_Request_Handler
                 case 'LeadTracking':
                     $filters['count'] = false;
                     die(json_encode(tve_leads_get_lead_tracking_report_data($filters)));
+                case 'LeadSource':
+                    $filters['count'] = false;
+                    die(json_encode(tve_leads_get_lead_source_report_data($filters)));
                 default:
                     die;
             }
@@ -550,12 +697,18 @@ class Thrive_Leads_Ajax_Controller extends Thrive_Leads_Request_Handler
                 die(json_encode(tve_leads_get_cumulative_conversion_report_data($filters)));
             case 'ConversionRate':
                 die(json_encode(tve_leads_get_conversion_rate_report_chart($filters)));
+            case 'ListGrowth':
+                die(json_encode(tve_leads_get_list_growth($filters, false)));
+            case 'CumulativeListGrowth':
+                die(json_encode(tve_leads_get_list_growth($filters, true)));
             case 'ComparisonChart':
                 die(json_encode(tve_leads_get_comparison_report_data($filters)));
             case 'LeadReferral':
                 die(json_encode(tve_leads_get_lead_referral_report_data($filters)));
             case 'LeadTracking':
                 die(json_encode(tve_leads_get_lead_tracking_report_data($filters)));
+            case 'LeadSource':
+                die(json_encode(tve_leads_get_lead_source_report_data($filters)));
         }
     }
 
@@ -569,7 +722,6 @@ class Thrive_Leads_Ajax_Controller extends Thrive_Leads_Request_Handler
         $displaySettingsManager = new Thrive_Leads_Display_Settings_Manager(TVE_LEADS_VERSION);
         $displaySettingsManager->display_popup();
         die;
-
     }
 
     public function saveGroupSettingsAction()
@@ -601,6 +753,14 @@ class Thrive_Leads_Ajax_Controller extends Thrive_Leads_Request_Handler
             'message' => $result !== true ? 'Error while saving: ' . $result : '',
             'templates' => $result === true ? $displaySettingsManager->getSavedTemplates() : array()
         )));
+    }
+
+    public function loadGroupTemplateAction()
+    {
+        require_once plugin_dir_path(__FILE__) . '../inc/classes/display_settings/Thrive_Leads_Display_Settings_Manager.php';
+        $displaySettingsManager = new Thrive_Leads_Display_Settings_Manager(TVE_LEADS_VERSION);
+
+        $displaySettingsManager->load_template();
     }
 
     /**
@@ -645,4 +805,199 @@ class Thrive_Leads_Ajax_Controller extends Thrive_Leads_Request_Handler
         ));
     }
 
-} 
+    /**
+     * searches a tag by keywords, used in Display Lead Group settings
+     */
+    public function tagSearchAction()
+    {
+        if (!$this->param('tax')) {
+            wp_die(0);
+        }
+
+        $taxonomy = sanitize_key($this->param('tax'));
+        $tax = get_taxonomy($taxonomy);
+        if (!$tax) {
+            wp_die(0);
+        }
+
+        if (!current_user_can($tax->cap->assign_terms)) {
+            wp_die(-1);
+        }
+
+        $s = wp_unslash($this->param('q'));
+
+        $comma = _x(',', 'tag delimiter');
+        if (',' !== $comma)
+            $s = str_replace($comma, ',', $s);
+        if (false !== strpos($s, ',')) {
+            $s = explode(',', $s);
+            $s = $s[count($s) - 1];
+        }
+        $s = trim($s);
+
+        if (strlen($s) < 2) {
+            wp_die();
+        }
+
+        $results = get_terms($taxonomy, array('name__like' => $s, 'fields' => 'id=>name', 'number' => 10));
+
+        $json = array();
+        foreach ($results as $id => $name) {
+            $json [] = array(
+                'label' => $name,
+                'id' => $id,
+                'value' => $name
+            );
+        }
+        wp_send_json($json);
+    }
+
+    /**
+     * searches a post by keywords
+     */
+    public function postSearchAction()
+    {
+        if (!$this->param('q')) {
+            wp_die(0);
+        }
+        $s = wp_unslash($this->param('q'));
+
+        /** @var WP_Post[] $posts */
+        $posts = get_posts(array(
+            'posts_per_page' => 10,
+            's' => $s,
+        ));
+
+        $json = array();
+        foreach ($posts as $post) {
+            $json [] = array(
+                'label' => $post->post_title,
+                'id' => $post->ID,
+                'value' => $post->post_title
+            );
+        }
+
+        wp_send_json($json);
+    }
+
+    /**
+     * clear all cached impression and conversion counts for all Lead Groups, Form Types, Form Variations and shortcodes
+     */
+    public function clearCacheStatisticsAction()
+    {
+        $this->_purgeCache();
+
+        die('done');
+    }
+
+    private function _purgeCache()
+    {
+        global $tvedb;
+
+        /**
+         * for Groups, Form Types, Shortcodes, and 2 step lightboxes (new name: ThriveBox)
+         */
+        delete_post_meta_by_key('tve_leads_impressions');
+        delete_post_meta_by_key('tve_leads_conversions');
+
+        /**
+         * form variations
+         */
+        return $tvedb->update_all_fields('form_variations', array('cache_impressions' => null, 'cache_conversions' => null));
+    }
+
+    /**
+     * display inboundLink Builder lightbox
+     */
+    public function displayInboundLinkBuilderAction()
+    {
+        include dirname(dirname(__FILE__)) . '/views/inbound_link_builder.php';
+        die;
+    }
+
+    public function addAssetAPIAction()
+    {
+        $connection = $this->param('type', array());
+        $api = Thrive_List_Manager::connectionInstance($connection);
+        $connection_type = get_option('tve_api_delivery_service', false);
+
+
+        if ($connection_type == false) {
+            update_option('tve_api_delivery_service', $connection);
+        }
+        $_POST['connection']['key'] = $_POST['key'];
+        $_POST['connection']['email'] = $_POST['email'];
+
+        $connect = $api->readCredentials();
+
+        return $connect;
+
+    }
+
+    /**
+     * Handle actions for the Contacts view.
+     * @return array
+     */
+    public function contactsAction()
+    {
+        switch ($this->param('actionType')) {
+            case 'send-email':
+                $data = $this->param('data');
+
+                $result = tve_send_contacts_email($data['id'], $data['email_address'], $data['save_email']);
+                break;
+
+            case 'delete-download':
+                global $tvedb;
+                $id = $this->param('id');
+
+                $result = $tvedb->tve_leads_delete_download_item($id);
+                break;
+
+            case 'download':
+                $source = $this->param('source');
+                $type = $this->param('type');
+                $params = $this->param('params');
+
+                $result = tve_leads_process_contact_download($source, $type, $params);
+                break;
+
+            default:
+                $result = '';
+        }
+
+        return $result;
+    }
+
+    public function setEmailTemplateAction()
+    {
+        tve_leads_set_email_template($_POST);
+        return true;
+    }
+
+    public function setWizardCompleteAction()
+    {
+        return update_option('tve_leads_asset_wizard_complete', 1);
+    }
+
+    public function deleteLogsAction()
+    {
+        global $tvedb;
+        $v_ids = $tvedb->get_variation_ids();
+        $t_ids = $tvedb->get_split_test_ids();
+
+        $v_result = 0;
+        if (!empty($v_ids)) {
+            $v_result = $tvedb->delete_conversion_logs($v_ids);
+        }
+
+        $t_result = 0;
+        if (!empty($t_ids)) {
+            $t_result = $tvedb->delete_split_logs($t_ids);
+        }
+
+        $this->_purgeCache();
+
+        return $v_result + $t_result;
+    }
+}

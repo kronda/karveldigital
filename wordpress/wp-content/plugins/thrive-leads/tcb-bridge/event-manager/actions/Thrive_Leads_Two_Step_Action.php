@@ -10,6 +10,7 @@ if (!class_exists('Thrive_Leads_Two_Step_Action')) {
     if (!class_exists('TCB_Thrive_Lightbox')) {
         require_once TVE_TCB_ROOT_PATH . 'event-manager/classes/actions/TCB_Thrive_Lightbox.php';
     }
+
     /**
      *
      * handles the server-side logic for the Thrive Lightbox action = opens a lightbox on an Event Trigger
@@ -23,6 +24,8 @@ if (!class_exists('Thrive_Leads_Two_Step_Action')) {
          * @var array
          */
         private static $_LOADED_LIGHTBOXES = array();
+
+        public static $TRIGGER_ID = '';
 
         /**
          * holds all lightbox ids that have been parsed for events configuration - this is to not create an infinite loop in case of
@@ -47,8 +50,7 @@ if (!class_exists('Thrive_Leads_Two_Step_Action')) {
 
         /**
          * this should be available only when editing a normal post / page
-         *
-         * @return bool
+         * @return boolean
          */
         public function isAvailable()
         {
@@ -64,7 +66,7 @@ if (!class_exists('Thrive_Leads_Two_Step_Action')) {
          */
         public function getName()
         {
-            return __('Open Thrive Leads 2 Step Lightbox', 'thrive-leads');
+            return __('Open Thrive Leads ThriveBox', 'thrive-leads');
         }
 
         /**
@@ -117,7 +119,7 @@ if (!class_exists('Thrive_Leads_Two_Step_Action')) {
             return sprintf(
                 '<br><a href="%s" target="_blank" class="tve_link_no_warning">%2$s</a>',
                 admin_url('admin.php?page=thrive_leads_dashboard') . '#2step-lightbox/' . $this->config['l_id'],
-                __('Edit 2 Step Lightbox', 'thrive-leads')
+                __('Edit ThriveBox', 'thrive-leads')
             );
         }
 
@@ -146,8 +148,10 @@ if (!class_exists('Thrive_Leads_Two_Step_Action')) {
          */
         public function getJsActionCallback()
         {
-            $this->trigger_id = uniqid('tl-');
-            return 'function(t,a,c){ThriveGlobal.$j("#tcb-evt-' . $this->trigger_id . '-"+c.l_id+" .tve-leads-two-step-trigger").trigger("click");return false;}';
+            if (!self::$TRIGGER_ID) {
+                self::$TRIGGER_ID = uniqid('tl-');
+            }
+            return 'function(t,a,c){ThriveGlobal.$j("#tcb-evt-' . self::$TRIGGER_ID . '-"+c.l_id+" .tve-leads-two-step-trigger").trigger("click");return false;}';
         }
 
         /**
@@ -158,7 +162,7 @@ if (!class_exists('Thrive_Leads_Two_Step_Action')) {
          */
         public function applyContentFilter($data)
         {
-            return '<span id="tcb-evt-' . $this->trigger_id . '-' . $this->shortcode_id . '" style="display:none">' . $this->shortcode_content . '</span>';
+            return '<span id="tcb-evt-' . self::$TRIGGER_ID . '-' . $this->shortcode_id . '" style="display:none">' . $this->shortcode_content . '</span>';
         }
 
         /**

@@ -1,4 +1,4 @@
-@import "compass/css3";
+@import "bourbon";
 
 $tve_leads-tabs-border-color: #e9e9e9;
 $tve_leads-tabs-background-color: #5a8b13;
@@ -23,7 +23,7 @@ $tve_leads-tabs-border-radius: 3px;
     padding: 3px 10px;
     line-height: 26px;
     margin: 0;
-    @include border-radius($tve_leads-tabs-border-radius);
+    border-radius: $tve_leads-tabs-border-radius;
   }
   select {
     padding: 6px 15px;
@@ -37,7 +37,7 @@ $tve_leads-tabs-border-radius: 3px;
       cursor: pointer;
     }
     &.tve-btn-green {
-      @include box-shadow(none);
+      box-shadow: none;
       background-image: none;
       border: 1px solid #558213;
       color: #fff;
@@ -49,12 +49,12 @@ $tve_leads-tabs-border-radius: 3px;
       }
     }
     &.tve-btn-red {
-      @include background-image(linear-gradient(#FF4136, #eb4e45));
-      @include box-shadow(none);
+      @include linear-gradient(#FF4136, #eb4e45);
+      box-shadow: none;
       border: 1px solid #fc3e33;
       color: #fff;
       &:hover {
-        @include background-image(linear-gradient( lighten(#eb4e45, 5%), lighten(#FF4136, 5%)));
+        @include linear-gradient( lighten(#eb4e45, 5%), lighten(#FF4136, 5%));
         border-color: lighten(#fc3e33, 5%);
       }
     }
@@ -77,23 +77,27 @@ $tve_leads-tabs-border-radius: 3px;
     padding: 0;
     margin: 0;
     border-bottom: 1px solid $tve_leads-tabs-border-color;
-    @include box-sizing(border-box);
+    box-sizing: border-box;
     li {
       font-size: 13px;
-      @include box-sizing(border-box);
+      box-sizing: border-box;
       cursor: pointer;
       float: left;
       margin: 0 2px -1px 0;
       background-color: #efefef;
-      @include background-image(linear-gradient(#ffffff, #e5e5e5));
-      @include border-top-right-radius($tve_leads-tabs-border-radius);
-      @include border-top-left-radius($tve_leads-tabs-border-radius);
+      @include linear-gradient(#ffffff, #e5e5e5);
+      border-top-right-radius: $tve_leads-tabs-border-radius;
+      border-top-left-radius: $tve_leads-tabs-border-radius;
       padding: 10px 12px;
       border-left: 1px solid #dedede;
       border-top: 1px solid #dedede;
       border-right: 1px solid #dedede;
       white-space: nowrap;
       overflow: hidden;
+      a {
+        color: #000;
+        text-decoration: none;
+      }
       &.tve_leads_active_tab {
         background: #ffffff !important;
         display: block;
@@ -106,7 +110,7 @@ $tve_leads-tabs-border-radius: 3px;
         }
       }
       &:hover {
-        @include background-image(linear-gradient(#e5e5e5, #fafafa));
+        @include linear-gradient(#e5e5e5, #fafafa);
       }
     }
   }
@@ -117,7 +121,7 @@ $tve_leads-tabs-border-radius: 3px;
     border-bottom: 1px solid $tve_leads-tabs-border-color;
     .tve_leads_tabs_content {
       display: none;
-      @include box-sizing(border-box);
+      box-sizing: border-box;
       padding: 1% 2%;
       h1 {
         font-weight: 300;
@@ -250,7 +254,7 @@ $tve_leads-tabs-border-radius: 3px;
         width: 32%;
         margin-right: 5px;
         margin-bottom: 5px;
-        @include border-radius(0px);
+        border-radius: 0;
       }
     }
     .tve_leads_tabs_content_wrapper {

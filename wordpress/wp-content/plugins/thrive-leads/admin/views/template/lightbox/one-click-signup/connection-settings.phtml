@@ -1,0 +1,85 @@
+<div class="tl-no-api-connection-box" style="display: none;">
+    <p><?php echo __("You currently don't have any API integrations set up.", 'thrive-leads') ?></p>
+    <a href="<?php echo admin_url('admin.php?page=tve_api_connect') ?>" target="_blank"
+       class="tve_lightbox_link tve_lightbox_link_create"><?php echo __("Click here to set up a new API connection", "thrive-leads") ?></a>
+</div>
+
+<div class="tl-select-api-connection-box" style="display: none">
+
+    <div class="tl-existing-api-connection-box tl-one-click-signup-step1">
+        <p class="tve_leads_clearfix">
+            <span class="tve-form-description larger-text pull-left">
+                <?php echo __("Connections for this link:", 'thrive-leads') ?>
+            </span>
+            <a href="javascript:void(0)" class="tl-add-new-api-button tve-btn tve-btn-blue pull-left margin-left-10">
+                <?php echo __('+ Add New', 'thrive-leads') ?>
+            </a>
+        </p>
+        <# var api_connections = model_instance.get('api_connections') #>
+        <div class="tl-connection-list" <# if(api_connections.length === 0 || !api_connections.length){ #>style="display:none" <#}#>>
+                <ul class="tl-added-connections tve-inside-collapsable-list tve-table-condensed tve-form-wrapper">
+                    <# var api_connections = model_instance.has('api_connections')?model_instance.get('api_connections'):{};#>
+                    <# jQuery.each(api_connections, function(i, item) {var apiName=api_connections[i].apiName;#>
+                        <?php include plugin_dir_path(__FILE__) . 'selected-api-connection.phtml'; ?>
+                    <# }); #>
+                </ul>
+        </div>
+        <div class="tl-empty-connection-list" <# if(api_connections.length > 0){ #>style="display:none" <#}#>>
+            <span class="asset-file-list-no-files">
+                <span class="asset-file-lis-part">
+                    <?php echo __("No Connections Yet", 'thrive-leads') ?>
+                </span>
+            </span>
+            <br><br>
+        </div>
+        <div class="tve-form">
+            <div class="form-buttons center">
+                <a href="javascript:void(0)" class="tve-btn tve-btn-gray tve-btn-large tve-close-thickbox"><?php echo __('Cancel', 'thrive-leads') ?></a>
+                &nbsp; &nbsp;
+                <a href="javascript:void(0)" class="tve-btn tve-btn-green tve-btn-large tl-save-connection"><?php echo __('Save', 'thrive-leads') ?></a>
+            </div>
+        </div>
+    </div>
+
+    <div class="tl-add-connection-box tl-one-click-signup-step2" style="display: none;">
+        <p>
+            <?php echo __("Choose from your list of existing API connections or", 'thrive-leads') ?>
+            <a href="<?php echo admin_url('admin.php?page=tve_api_connect') ?>" target="_blank" class="tve_lightbox_link tve_lightbox_link_create">
+                <span class="tve-icon-plus-square-o"></span>&nbsp;<?php echo __("add a new integration", "thrive-leads") ?>
+            </a>
+        </p>
+
+        <div class="tve_lightbox_select_holder tve_lightbox_input_inline tve_lightbox_select_inline">
+            <div class="tl-dropdown-list">
+                <label for="" class="tve-custom-select">
+                    <select class="tl-api-connection-options">
+                        <option value=""><?php echo __("None", 'thrive-leads') ?></option>
+                    </select>
+                </label>
+                <a href="javascript:void(0)" class="tl-reload-api-connections tve-btn tve-btn-link tve-btn-link-icon-green"><span class="tve-icon-reload-alt2"></span>
+                    <?php echo __('Reload', 'thrive-leads') ?>
+                </a>
+            </div>
+            <div id="thrive-api-list-select" class="tl-api-connection-list-box" style="display: none">
+                <p>
+                    <?php echo __('Choose your mailing list', 'thrive-leads') ?>
+                </p>
+                <label for="" class="tve-custom-select">
+                    <select class="tl-api-connection-list"></select>
+                </label>
+                <a href="javascript:void(0)" class="tl-reload-api-connections-list tve-btn tve-btn-link tve-btn-link-icon-green"><span class="tve-icon-reload-alt2"></span>
+                    <?php echo __('Reload', 'thrive-leads') ?>
+                </a>
+            </div>
+            <div class="tl-api-connection-extra"></div>
+            <div class="tve-form">
+                <div class="form-buttons center">
+                    <a href="javascript:void(0)" class="tve-btn tve-btn-gray tve-btn-large tl-close-api-add-edit" rel=""><?php echo __('Cancel', 'thrive-leads') ?></a>
+                    &nbsp; &nbsp;
+                    <a href="javascript:void(0)" class="tve-btn tve-btn-green tve-btn-large tl-add-connection"><?php echo __('Save', 'thrive-leads') ?></a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+

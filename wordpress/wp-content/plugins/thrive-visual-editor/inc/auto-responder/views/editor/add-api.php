@@ -1,21 +1,20 @@
-<h3>Step 2: Choose your API Connection</h3>
-
+<h4><?php echo __("Step 2: Choose your API Connection", "thrive-cb") ?></h4>
+<hr class="tve_lightbox_line"/>
 <?php
 include dirname(__FILE__) . '/partials/api-select.php';
 
 include dirname(__FILE__) . '/partials/api-lists.php'; ?>
 
-<div class="tve_clear" style="height:20px;"></div>
-
 <?php if (!empty($connected_apis)) : ?>
-    <div class="tve_text_center" id="tve-save-api">
-        <a href="javascript:void(0)" class="tve_click tve_editor_btn tve_btn_success" data-ctrl="function:auto_responder.api.save"
+    <div class="tve-sp"></div><div class="tve-sp"></div>
+    <div id="tve-save-api tve_clearfix">
+        <a href="javascript:void(0)" class="tve_click tve_editor_button tve_editor_button_default tve_button_margin tve_right" data-ctrl="function:auto_responder.dashboard"
            data-edit="<?php echo $edit_api_key ?>">
-            <span>Save</span>
+            <?php echo __("Cancel", "thrive-cb") ?>
         </a>
-        <a href="javascript:void(0)" class="tve_click tve_editor_btn tve_btn_default" data-ctrl="function:auto_responder.dashboard"
+        <a href="javascript:void(0)" class="tve_click tve_editor_button tve_editor_button_success tve_right" data-ctrl="function:auto_responder.api.save"
            data-edit="<?php echo $edit_api_key ?>">
-            <span>Cancel</span>
+            <?php echo __("Save", "thrive-cb") ?>
         </a>
     </div>
 <?php endif ?>

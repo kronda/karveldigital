@@ -5,7 +5,7 @@
     if (!isset($lp_template)) {
         $lp_template = $GLOBALS['tcb_lp_template'];
     }
-do_action('get_header'); ?><!DOCTYPE html>
+?><!DOCTYPE html>
 <!--[if IE 7]>
 <html class="ie ie7" <?php language_attributes(); ?>>
 <![endif]-->
@@ -16,12 +16,13 @@ do_action('get_header'); ?><!DOCTYPE html>
 <html <?php language_attributes(); ?>>
 <!--<![endif]-->
 <head>
+    <?php if(function_exists('tha_head_top')): tha_head_top(); endif; ?>
     <meta charset="<?php bloginfo('charset'); ?>"/>
     <title>
         <?php /* Genesis wraps the meta title into another <title> tag using this hook: genesis_doctitle_wrap. the following line makes sure this isn't called */ ?>
         <?php /* What if they change the priority at which this hook is registered ? :D */ ?>
         <?php remove_filter( 'wp_title', 'genesis_doctitle_wrap', 20 ) ?>
-        <?php wp_title(''); ?>
+        <?php wp_title('|', true, 'right'); ?>
     </title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 
@@ -41,6 +42,13 @@ remove_all_filters('body_class'); // strip out any custom classes added by the t
 </div>
 <div class="tve_wrap_all" id="tcb_landing_page" style="padding: 1px 0 0">
     <div class="tve_post_lp tve_lp_<?php echo $lp_template ?> tve_lp_template_wrapper" style="<?php echo $css_data['main_area']['css'] ?>">
+        <?php
+        /**
+         * we re-add the_content filter here, it was removed inside the tcb_custom_editable_content to prevent applying inside the <head> section
+         * WP SEO uses get_the_excerpt to put in some meta tags, which was messing up some 3rd party shortcodes
+         */
+        add_filter('the_content', 'tve_editor_content');
+        ?>
         <?php echo apply_filters('tve_landing_page_content', '') ?>
     </div>
 </div>

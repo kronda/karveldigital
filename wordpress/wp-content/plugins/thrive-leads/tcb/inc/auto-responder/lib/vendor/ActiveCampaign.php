@@ -1,11 +1,11 @@
 <?php
+
 /**
  * Created by PhpStorm.
  * User: radu
  * Date: 07.05.2015
  * Time: 17:05
  */
-
 class Thrive_Api_ActiveCampaign
 {
     /**
@@ -49,11 +49,34 @@ class Thrive_Api_ActiveCampaign
         $lists = array();
         foreach ($result as $index => $data) {
             if (is_numeric($index)) {
-                $lists []= $data;
+                $lists [] = $data;
             }
         }
 
         return $lists;
+    }
+
+    /**
+     * Retrieve all the subscriber forms, including all information associated with each.
+     *
+     * @see http://www.activecampaign.com/api/example.php?call=form_getforms
+     *
+     * @return array
+     *
+     * @throws Thrive_Api_ActiveCampaign_Exception
+     */
+    public function getForms()
+    {
+        $result = $this->call('form_getforms');
+
+        $forms = array();
+        foreach ($result as $index => $data) {
+            if (is_numeric($index)) {
+                $forms [] = $data;
+            }
+        }
+
+        return $forms;
     }
 
     /**
@@ -70,15 +93,21 @@ class Thrive_Api_ActiveCampaign
      *
      * @throws Thrive_Api_ActiveCampaign_Exception
      */
-    public function addSubscriber($list_id, $email, $firstName = '', $lastName = '', $phone = '', $organizationName = '', $tags = array(), $ip = null)
+    public function addSubscriber($list_id, $email, $firstName = '', $lastName = '', $phone = '', $form_id = 0, $organizationName = '', $tags = array(), $ip = null)
     {
         $body = array(
             'email' => $email,
             'first_name' => $firstName,
             'last_name' => $lastName,
             'phone' => $phone,
-            'p[' . $list_id . ']' => $list_id
+            'p[' . $list_id . ']' => $list_id,
+            'instantresponders[' . $list_id . ']' => 1,
+            'status[' . $list_id . ']' => 1
         );
+        if (!empty($form_id)) {
+            $body['form'] = $form_id;
+        }
+
         if (!empty($organizationName)) {
             $body['orgname'] = $organizationName;
         }
@@ -93,7 +122,7 @@ class Thrive_Api_ActiveCampaign
             $body['ip4'] = $ip;
         }
 
-        return $this->call('contact_add', array(), $body, 'POST');
+        return $this->call('contact_sync', array(), $body, 'POST');
     }
 
     /**
@@ -144,6 +173,10 @@ class Thrive_Api_ActiveCampaign
         $data = $this->_parseResponse($body);
 
         if (empty($data)) {
+            if (strpos($data, 'g-recaptcha') !== FALSE) {
+                throw new Thrive_Api_ActiveCampaign_Exception('Unknown problem with the API request. Please recheck your account.');
+            }
+
             throw new Thrive_Api_ActiveCampaign_Exception('Unknown problem with the API request. Response was:' . $body);
         }
 
@@ -157,7 +190,7 @@ class Thrive_Api_ActiveCampaign
     /**
      *
      * parse the response based on $this->_apiFormat field
-     *
+     * @throws Thrive_Api_ActiveCampaign_Exception
      * @param string $response
      *
      * @return array

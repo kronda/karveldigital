@@ -1,4 +1,4 @@
-@import "compass/css3";
+@import "bourbon";
 
 body {
   .TB_Wide {
@@ -11,7 +11,7 @@ body {
     #TB_title {
       display: table;
       width: 100%;
-      @include box-sizing(border-box);
+      box-sizing: border-box;
       #TB_ajaxWindowTitle {
         display: table-cell;
         float: none;
@@ -25,7 +25,7 @@ body {
       background-color: #f1f1f1;
       width: 100% !important;
       height: 87% !important;
-      @include box-sizing(border-box);
+      box-sizing: border-box;
     }
   }
   #tve-leads-loader {
@@ -44,5 +44,8 @@ body {
       top: 50%;
       width: 208px;
     }
+  }
+  .ui-autocomplete {
+    z-index: 1000000;
   }
 }

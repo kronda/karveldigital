@@ -3,9 +3,12 @@ $all_fonts = _thrive_get_font_family_array();
 
 $link = 'https://www.googleapis.com/webfonts/v1/webfonts?key=';
 $key = 'AIzaSyDJhU1bXm2YTz_c4VpWZrAyspOS37Nn-kI';
-$request = wp_remote_get($link.$key, array('sslverify' => false, 'timeout' => 30));
-$response = json_decode(wp_remote_retrieve_body( $request ), true);
+$request = wp_remote_get($link . $key, array('sslverify' => true));
+$response = json_decode(wp_remote_retrieve_body($request), true);
 $google_fonts = $response['items'];
+$safe_fonts = tve_font_manager_get_safe_fonts();
+
+$imported_fonts = Thrive_Font_Import_Manager::getImportedFonts();
 
 $prefered_fonts = array();
 foreach ($google_fonts as $key => $font) {
@@ -28,23 +31,40 @@ if (isset($_GET['font_action']) && $_GET['font_action'] == 'update') {
 }
 ?>
 
-<div class="thrive-page-settings"style="margin: 20px">
+<div class="thrive-page-settings" style="margin: 20px">
     <div id="fontPreview" style="font-size: 20px; margin-bottom: 10px;">
         Grumpy wizards make toxic brew for the evil Queen and Jack.
     </div>
     <hr>
     <div>
-        <input type="radio" name="display_fonts" id="ttfm_google_fonts" /> Show all fonts
-        <input type="radio" name="display_fonts" id="ttfm_prefered_fonts" checked /> Recommended Fonts Only
-        <a style="float: right" target="_blank" href="//www.google.com/fonts">View All Font Previews</a>
+        <div>
+            <input type="radio" name="display_fonts" id="ttfm_google_fonts"
+                   value="google_fonts"/> <?php echo __("Show all fonts", 'thrive-cb'); ?>
+        </div>
+        <div>
+            <input type="radio" name="display_fonts" id="ttfm_prefered_fonts" value="prefered_fonts"
+                   checked/> <?php echo __("Recommended Fonts Only", 'thrive-cb'); ?>
+        </div>
+        <div>
+            <input type="radio" name="display_fonts" id="ttfm_safe_fonts"
+                   value="safe_fonts"/> <?php echo __("Web Safe Fonts", 'thrive-cb'); ?>
+        </div>
+        <div>
+            <input type="radio" name="display_fonts" id="ttfm_imported_fonts"
+                   value="imported_fonts"/> <?php _e("Imported Fonts", 'thrive'); ?>
+        </div>
+        <a style="float: right" target="_blank"
+           href="//www.google.com/fonts"><?php echo __("View All Google Font Previews", 'thrive-cb'); ?></a>
     </div>
 
     <div>
-        <br />
+        <br/>
         <select id="ttfm_fonts">
             <option value="none"></option>
             <?php foreach ($prefered_fonts as $name => $f): ?>
-                <option data-url='<?php echo json_encode($f['files']); ?>' <?php if (isset($f['font_name']) && $f['family'] == $f['font_name']) echo 'selected'; ?> value="<?php echo $f['family']; ?>">
+                <option
+                    data-url='<?php echo json_encode($f['files']); ?>' <?php if (isset($f['font_name']) && $f['family'] == $f['font_name']) echo 'selected'; ?>
+                    value="<?php echo $f['family']; ?>">
                     <?php echo $f['family']; ?>
                 </option>
             <?php endforeach; ?>
@@ -62,29 +82,35 @@ if (isset($_GET['font_action']) && $_GET['font_action'] == 'update') {
     <div>
         <table>
             <tr>
-                <td>Class</td>
+                <td><?php echo __("Class", 'thrive-cb'); ?></td>
                 <td>
                     <input id="ttfm-font-class" type="text" readonly value="ttfm<?php echo $new_font_id; ?>">
                 </td>
             </tr>
             <tr>
-                <td>Size</td>
+                <td><?php echo __("Size", 'thrive-cb'); ?></td>
                 <td id="ttfm-font-size">
                     <input type="number" value="<?php
                     if (isset($font['font_size']))
                         echo intval($font['font_size']);
                     else
                         echo '1.6';
-                    ?>" >
+                    ?>">
                     <select>
-                        <option <?php if (isset($font['font_size']) && strpos($font['font_size'], 'em') > 0) echo 'selected'; ?>>em</option>
-                        <option <?php if (isset($font['font_size']) && strpos($font['font_size'], 'px') > 0) echo 'selected'; ?>>px</option>
-                        <option <?php if (isset($font['font_size']) && strpos($font['font_size'], '%') > 0) echo 'selected'; ?>>%</option>
+                        <option <?php if (isset($font['font_size']) && strpos($font['font_size'], 'em') > 0) echo 'selected'; ?>>
+                            em
+                        </option>
+                        <option <?php if (isset($font['font_size']) && strpos($font['font_size'], 'px') > 0) echo 'selected'; ?>>
+                            px
+                        </option>
+                        <option <?php if (isset($font['font_size']) && strpos($font['font_size'], '%') > 0) echo 'selected'; ?>>
+                            %
+                        </option>
                     </select>
                 </td>
             </tr>
             <tr>
-                <td>Line Height</td>
+                <td><?php echo __("Line Height", 'thrive-cb'); ?></td>
                 <td id="ttfm-font-height">
                     <input type="number" value="<?php
                     if (isset($font['font_height']))
@@ -93,38 +119,50 @@ if (isset($_GET['font_action']) && $_GET['font_action'] == 'update') {
                         echo '1.6';
                     ?>">
                     <select>
-                        <option <?php if (isset($font['font_height']) && strpos($font['font_height'], 'em') > 0) echo 'selected'; ?>>em</option>
-                        <option <?php if (isset($font['font_height']) && strpos($font['font_height'], 'px') > 0) echo 'selected'; ?>>px</option>
-                        <option <?php if (isset($font['font_height']) && strpos($font['font_height'], '%') > 0) echo 'selected'; ?>>%</option>
+                        <option <?php if (isset($font['font_height']) && strpos($font['font_height'], 'em') > 0) echo 'selected'; ?>>
+                            em
+                        </option>
+                        <option <?php if (isset($font['font_height']) && strpos($font['font_height'], 'px') > 0) echo 'selected'; ?>>
+                            px
+                        </option>
+                        <option <?php if (isset($font['font_height']) && strpos($font['font_height'], '%') > 0) echo 'selected'; ?>>
+                            %
+                        </option>
                     </select>
                 </td>
             </tr>
             <tr>
-                <td>Color</td>
+                <td><?php echo __("Color", 'thrive-cb'); ?></td>
                 <td>
-                    <input type="text" value="<?php if (isset($font['font_color'])) echo $font['font_color']; ?>" class="wp-color-picker-field" data-default-color="#ffffff" />
+                    <input type="text" value="<?php if (isset($font['font_color'])) echo $font['font_color']; ?>"
+                           class="wp-color-picker-field" data-default-color="#ffffff"/>
                 </td>
             </tr>
             <tr>
-                <td>Custom CSS</td>
+                <td><?php echo __("Custom CSS", 'thrive-cb'); ?></td>
                 <td>
-                    <textarea id="ttfm-custom-css"><?php if (isset($font['custom_css'])) echo $font['custom_css']; ?></textarea>
+                    <textarea
+                        id="ttfm-custom-css"><?php if (isset($font['custom_css'])) echo $font['custom_css']; ?></textarea>
                 </td>
             </tr>
         </table>
     </div>
     <hr>
-    <input id="ttfm_save_font_options" type="button" value="Save" class="button button-primary" style="float: right;margin: 20px;">
+    <input id="ttfm_save_font_options" type="button" value="<?php echo __("Save", 'thrive-cb'); ?>"
+           class="button button-primary" style="float: right;margin: 20px;">
+
     <div class="clear"></div>
 </div>
 
 
-<script type="text/javascript" >
+<script type="text/javascript">
     jQuery('#TB_window').addClass('fmp');
-    jQuery(document).ready(function($) {
+    jQuery(document).ready(function ($) {
         $('.wp-color-picker-field').wpColorPicker();
-        var prefered_fonts = <?php echo json_encode($prefered_fonts); ?>;
-        var google_fonts = <?php echo json_encode($google_fonts); ?>;
+        window.prefered_fonts = <?php echo json_encode($prefered_fonts); ?>;
+        window.google_fonts = <?php echo json_encode($google_fonts); ?>;
+        window.safe_fonts = <?php echo json_encode($safe_fonts); ?>;
+        window.imported_fonts = <?php echo json_encode($imported_fonts); ?>;
         var update_font = '<?php
                            if (isset($font['font_name']))
                                echo $font['font_name'];
@@ -132,31 +170,44 @@ if (isset($_GET['font_action']) && $_GET['font_action'] == 'update') {
                                echo 0;
                     ?>';
         var font_variants;
+        window.selected_fonts_set = jQuery('input[name="display_fonts"]:checked').val();
+        var current_font = <?php echo json_encode(empty($font) ? array() : $font) ?>;
 
-        jQuery('#ttfm_fonts').change(function() {
-
+        jQuery('#ttfm_fonts').change(function () {
             jQuery('#ttfm-font-regular').html('<b>Regular Style</b> <br />');
             jQuery('#ttfm-font-bold').html('<b>Bold Style</b> <br />');
             jQuery('#ttfm-font-subsets').html('<b>Character Set</b><br/>');
-            for (var i in google_fonts) {
-                if (google_fonts[i].family == jQuery(this).val()) {
-                    font_variants = google_fonts[i].variants;
-                    for (var j in google_fonts[i].variants) {
-                        jQuery('<input/>').attr({type: 'radio', name: 'ttfm-font-style', value: font_variants[j]}).appendTo('#ttfm-font-regular');
+            for (var i in window[selected_fonts_set]) {
+                if (window[selected_fonts_set][i].family == jQuery(this).val()) {
+                    font_variants = window[selected_fonts_set][i].variants;
+                    for (var j in window[selected_fonts_set][i].variants) {
+                        jQuery('<input/>').attr({
+                            type: 'radio',
+                            name: 'ttfm-font-style',
+                            value: font_variants[j]
+                        }).appendTo('#ttfm-font-regular');
                         jQuery('#ttfm-font-regular').append(font_variants[j] + '<br />');
-                        if (google_fonts[i].variants[j] > 500) {
-                            jQuery('<input/>').attr({type: 'radio', name: 'ttfm-font-bold', value: font_variants[j]}).appendTo('#ttfm-font-bold');
+                        if (window[selected_fonts_set][i].variants[j] > 400) {
+                            jQuery('<input/>').attr({
+                                type: 'radio',
+                                name: 'ttfm-font-bold',
+                                value: font_variants[j]
+                            }).appendTo('#ttfm-font-bold');
                             jQuery('#ttfm-font-bold').append(font_variants[j] + '<br />');
                         }
                     }
-                    for (var j in google_fonts[i].subsets) {
-                        jQuery('<input/>').attr({type: 'radio', name: 'ttfm-font-character-sets', value: google_fonts[i].subsets[j]}).appendTo('#ttfm-font-subsets');
-                        jQuery('#ttfm-font-subsets').append(google_fonts[i].subsets[j] + '<br />');
+                    for (var j in window[selected_fonts_set][i].subsets) {
+                        jQuery('<input/>').attr({
+                            type: 'radio',
+                            name: 'ttfm-font-character-sets',
+                            value: window[selected_fonts_set][i].subsets[j]
+                        }).appendTo('#ttfm-font-subsets');
+                        jQuery('#ttfm-font-subsets').append(window[selected_fonts_set][i].subsets[j] + '<br />');
                     }
-                    jQuery('input[name="ttfm-font-style"]').filter(function() {
+                    jQuery('input[name="ttfm-font-style"]').filter(function () {
                         return this.value == 'regular'
                     }).prop('checked', true);
-                    jQuery('input[name="ttfm-font-character-sets"]').filter(function() {
+                    jQuery('input[name="ttfm-font-character-sets"]').filter(function () {
                         return this.value == 'latin'
                     }).prop('checked', true);
                 }
@@ -164,12 +215,47 @@ if (isset($_GET['font_action']) && $_GET['font_action'] == 'update') {
             //import font
             importFont();
         });
-        jQuery(document).on('change', 'input#ttfm_google_fonts', function() {
+        jQuery(document).on('change', 'input#ttfm_google_fonts', function () {
             add_fonts(google_fonts);
+            selected_fonts_set = this.value;
         });
-        jQuery(document).on('change', 'input#ttfm_prefered_fonts', function() {
+        jQuery(document).on('change', 'input#ttfm_prefered_fonts', function () {
             add_fonts(prefered_fonts);
+            selected_fonts_set = this.value;
         });
+        jQuery(document).on('change', 'input#ttfm_safe_fonts', function () {
+            add_fonts(safe_fonts);
+            selected_fonts_set = this.value;
+        });
+        jQuery(document).on('change', 'input#ttfm_imported_fonts', function () {
+            add_fonts(imported_fonts);
+            selected_fonts_set = this.value;
+            jQuery('#ttfm_fonts').trigger('change');
+        });
+        function isSafeFont(font) {
+            var _isSafeFont = false;
+            jQuery(safe_fonts).each(function (index, safe_font) {
+                if (font === safe_font.family) {
+                    _isSafeFont = true;
+                    return;
+                }
+            });
+
+            return _isSafeFont;
+        }
+
+        function isImportedFont(font) {
+            var _isImportedFont = false;
+            jQuery(imported_fonts).each(function (index, imported_font) {
+                if (font === imported_font.family) {
+                    _isImportedFont = true;
+                    return;
+                }
+            });
+
+            return _isImportedFont;
+        }
+
         function add_fonts(fonts) {
             jQuery('#ttfm_fonts option').remove();
             var select = jQuery('#ttfm_fonts');
@@ -178,12 +264,12 @@ if (isset($_GET['font_action']) && $_GET['font_action'] == 'update') {
             }
         }
 
-        jQuery(document).on('change', 'input[name="ttfm-font-style"]', function() {
+        jQuery(document).on('change', 'input[name="ttfm-font-style"]', function () {
             if (jQuery('#ttfm_fonts').val() != 'none') {
                 importFont();
             }
         });
-        jQuery('#ttfm_save_font_options').click(function() {
+        jQuery('#ttfm_save_font_options').click(function () {
 
             if (jQuery('#ttfm_fonts').val() == 'none') {
                 alert('Please select a font!');
@@ -221,7 +307,7 @@ if (isset($_GET['font_action']) && $_GET['font_action'] == 'update') {
                 italic += ',' + style + 'italic';
             }
             if (bold == undefined) {
-                jQuery.each(font_variants, function(key, value) {
+                jQuery.each(font_variants, function (key, value) {
                     var _value = parseInt(value);
                     if (bold == undefined && !isNaN(_value) && _value > 400 && (isNaN(style) || (!isNaN(style) && _value > style))) {
                         bold = value;
@@ -239,7 +325,7 @@ if (isset($_GET['font_action']) && $_GET['font_action'] == 'update') {
             }
             var font_manager_link = '<?php echo $admin_font_manager_link; ?>';
             var postData = {
-<?php if (isset($font_id)) echo 'font_id:' . $font_id . ','; ?>
+                <?php if (isset($font_id)) echo 'font_id:' . $font_id . ','; ?>
                 font_name: jQuery('#ttfm_fonts').val() + '',
                 font_style: style + '',
                 font_bold: bold + '',
@@ -251,28 +337,46 @@ if (isset($_GET['font_action']) && $_GET['font_action'] == 'update') {
                 font_color: jQuery('.wp-color-picker-field').val(),
                 custom_css: jQuery('#ttfm-custom-css').val()
             };
-            jQuery.post(font_manager_link, postData, function(response) {
+            jQuery.post(font_manager_link, postData, function (response) {
                 location.reload();
             });
         });
 
         if (update_font != 0) {
-            add_fonts(google_fonts);
-            jQuery('input#ttfm_google_fonts').click();
+            if (isSafeFont(update_font)) {
+                jQuery('input#ttfm_safe_fonts').click();
+            } else if (isImportedFont(update_font)) {
+                jQuery('input#ttfm_imported_fonts').click();
+            } else {
+                jQuery('input#ttfm_google_fonts').click();
+            }
             jQuery('#ttfm_fonts').val(update_font);
             jQuery('#ttfm_fonts').trigger('change');
             jQuery('input[name="ttfm-font-style"]').trigger('change');
-            jQuery('input[name="ttfm-font-style"]').filter(function() {
-                return this.value == '<?php echo isset($font["font_style"]) ? $font["font_style"] : ""; ?>';
+            jQuery('input[name="ttfm-font-style"]').filter(function () {
+                return this.value == '<?php echo isset($font["font_style"]) ? $font["font_style"] : ""; ?>' || (this.value === 'italic' && current_font.font_style === '400italic');
             }).prop('checked', true);
-            jQuery('input[name="ttfm-font-bold"]').filter(function() {
+            jQuery('input[name="ttfm-font-bold"]').filter(function () {
                 return this.value == '<?php echo isset($font["font_bold"]) ? $font["font_bold"] : ""; ?>';
             }).prop('checked', true);
-            jQuery('input[name="ttfm-font-character-sets"]').filter(function() {
+            jQuery('input[name="ttfm-font-character-sets"]').filter(function () {
                 return this.value == '<?php echo isset($font["font_character_set"]) ? $font["font_character_set"] : ""; ?>';
             }).prop('checked', true);
         }
     });
+    function prepareFontFamily(font_family) {
+        var chunks = font_family.split(","),
+            length = chunks.length,
+            font = '';
+
+        jQuery(chunks).each(function (i, value) {
+            font += "'" + value.trim() + "'";
+            font += i + 1 != length ? ", " : '';
+        });
+
+        return font;
+
+    }
     function importFont() {
 
         var font = jQuery('#ttfm_fonts').val();
@@ -287,9 +391,24 @@ if (isset($_GET['font_action']) && $_GET['font_action'] == 'update') {
             subset = undefined;
         }
 
-        var font_link = "//fonts.googleapis.com/css?family=" + font.replace(" ", "+") + (style !== undefined ? ":" + style : "") + (subset !== undefined ? "&subset=" + subset : "");
-        jQuery('.imported-font').remove();
-        jQuery("head").prepend("<link class='imported-font' href='" + font_link + "' rel='stylesheet' type='text/css'>");
-        jQuery('#fontPreview').css({'font-family': font});
+        if (selected_fonts_set === 'google_fonts' || selected_fonts_set === 'prefered_fonts') {
+            var font_link = "//fonts.googleapis.com/css?family=" + font.replace(" ", "+") + (style !== undefined ? ":" + style : "") + (subset !== undefined ? "&subset=" + subset : "");
+            jQuery('.imported-font').remove();
+            jQuery("head").prepend("<link class='imported-font' href='" + font_link + "' rel='stylesheet' type='text/css'>");
+            jQuery('#fontPreview').css({'font-family': font});
+        } else {
+            var _css = {
+                'font-family': prepareFontFamily(font),
+                'font-style': 'normal',
+                'font-weight': 'normal'
+            };
+            if (style === '400italic') {
+                _css['font-style'] = 'italic';
+            }
+            if (!isNaN(style)) {
+                _css['font-weight'] = style;
+            }
+            jQuery('#fontPreview').css(_css);
+        }
     }
 </script>

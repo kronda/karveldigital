@@ -9,6 +9,15 @@
 class Thrive_List_Connection_Infusionsoft extends Thrive_List_Connection_Abstract
 {
     /**
+     * Return the connection type
+     * @return String
+     */
+    public static function getType()
+    {
+        return 'autoresponder';
+    }
+
+    /**
      * @return string
      */
     public function getTitle()
@@ -37,7 +46,7 @@ class Thrive_List_Connection_Infusionsoft extends Thrive_List_Connection_Abstrac
         $key = !empty($_POST['connection']['api_key']) ? $_POST['connection']['api_key'] : '';
 
         if (empty($key) || empty($client_id)) {
-            return $this->error('You must provide a valid Infusionsoft credentials');
+            return $this->error(__('You must provide a valid Infusionsoft credentials', 'thrive-cb'));
         }
 
         $this->setCredentials($_POST['connection']);
@@ -45,7 +54,7 @@ class Thrive_List_Connection_Infusionsoft extends Thrive_List_Connection_Abstrac
         $result = $this->testConnection();
 
         if ($result !== true) {
-            return $this->error('Could not connect to Infusionsoft using the provided credentials (<strong>' . $result . '</strong>)');
+            return $this->error(sprintf(__('Could not connect to Infusionsoft using the provided credentials (<strong>%s</strong>)', 'thrive-cb'), $result));
         }
 
         /**
@@ -93,7 +102,7 @@ class Thrive_List_Connection_Infusionsoft extends Thrive_List_Connection_Abstrac
                 'GroupName' => '%',
             );
             $selectedFields = array('Id', 'GroupName');
-            $response = $api->data('query', 'ContactGroup', 100, 0, $queryData, $selectedFields);
+            $response = $api->data('query', 'ContactGroup', 1000, 0, $queryData, $selectedFields);
 
             if (empty($response)) {
                 return array();
@@ -125,7 +134,6 @@ class Thrive_List_Connection_Infusionsoft extends Thrive_List_Connection_Abstrac
     public function addSubscriber($list_identifier, $arguments)
     {
         try {
-
             /** @var Thrive_Api_Infusionsoft $api */
             $api = $this->getApi();
 
@@ -140,11 +148,39 @@ class Thrive_List_Connection_Infusionsoft extends Thrive_List_Connection_Abstrac
 
             $contact_id = $api->contact('addWithDupCheck', $data, 'Email');
 
-            return $api->contact('addToGroup', $contact_id, $list_identifier);
+            if ($contact_id) {
+                $api->APIEmail('optIn', $data['Email'], 'my reason');
+
+                $today = date('Ymj\TG:i:s');
+                $creationNotes = "A web form was submitted with the following information:";
+                if (!empty($arguments['url'])) {
+                    $creationNotes .= "\nReferring URL: " . $arguments['url'];
+                }
+                $creationNotes .= "\nIP Address: " . $_SERVER['REMOTE_ADDR'];
+                $creationNotes .= "\ninf_field_Email: " . $arguments['email'];
+                $creationNotes .= "\ninf_field_LastName: " . $last_name;
+                $creationNotes .= "\ninf_field_FirstName: " . $first_name;
+                $addNote = array(
+                    'ContactId' => $contact_id,
+                    'CreationDate' => $today,
+                    'CompletionDate' => $today,
+                    'ActionDate' => $today,
+                    'EndDate' => $today,
+                    'ActionType' => 'Other',
+                    'ActionDescription' => 'Thrive Leads Note',
+                    'CreationNotes' => $creationNotes
+                );
+
+                $api->data('add', 'ContactAction', $addNote);
+            }
+
+            $api->contact('addToGroup', $contact_id, $list_identifier);
+
+            return true;
 
         } catch (Exception $e) {
             return $e->getMessage();
         }
     }
 
-} 
+}

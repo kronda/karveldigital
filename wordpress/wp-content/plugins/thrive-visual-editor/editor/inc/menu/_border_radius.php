@@ -6,7 +6,7 @@
     data-selector="<?php echo $border_radius_selector ?>"
     data-callback="<?php echo empty($border_radius_callback) ? '' : $border_radius_callback; unset($border_radius_callback); ?>"
     data-input-selector="#border_radius_input">
-    <label for="border_radius_input" class="tve_left">&nbsp;Border Radius</label>
+    <label for="border_radius_input" class="tve_left">&nbsp;<?php echo __("Border Radius", "thrive-cb") ?></label>
 
     <div class="tve_slider tve_left">
         <div class="tve_slider_element" id="tve_border_radius_slider"></div>

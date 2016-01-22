@@ -140,7 +140,7 @@ class Thrive_Leads_Direct_Urls_Tab extends Thrive_Leads_Tab implements Thrive_Le
         if (strpos($url, 'www.') !== false) {
             $url = substr($url, strlen('www.'));
         }
-        return $url;
+        return trim($url, '/ ');
     }
 
 }

@@ -3,21 +3,21 @@
 	<table class="form-table">
 		<tbody>
 			<tr>
-				<th scope="row"><label>API URL:</label></th>
+				<th scope="row"><label><?php echo __("API URL", "thrive-cb") ?>:</label></th>
 				<td>
-					<input placeholder="API URL" type="text" class="text" name="connection[api_url]" value="<?php echo $this->param('api_url') ?>"/>
+					<input placeholder="<?php echo __("API URL", "thrive-cb") ?>" type="text" class="text" name="connection[api_url]" value="<?php echo $this->param('api_url') ?>"/>
 					<input type="hidden" name="api" value="<?php echo $this->getKey() ?>"/>
 				</td>
 			</tr>
             <tr>
-                <th scope="row"><label>API Key:</label></th>
+                <th scope="row"><label><?php echo __("API Key", "thrive-cb") ?>:</label></th>
                 <td>
-                    <input placeholder="API Key" type="text" class="text" name="connection[api_key]" value="<?php echo $this->param('api_key') ?>"/>
+                    <input placeholder="<?php echo __("API Key", "thrive-cb") ?>" type="text" class="text" name="connection[api_key]" value="<?php echo $this->param('api_key') ?>"/>
                 </td>
             </tr>
 			<tr>
 				<th></th>
-				<td><button type="submit" class="tve-button tve-button-green">Connect to ActiveCampaign</button></td>
+				<td><button type="submit" class="tve-button tve-button-green"><?php echo __("Connect to ActiveCampaign", "thrive-cb") ?></button></td>
 			</tr>
 		</tbody>
 	</table>

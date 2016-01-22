@@ -1,12 +1,12 @@
 @media only screen and (max-width: 1300px) {
   body {
-  //  background: red !important;
+    //background: red !important;
   }
   .tve-ribbon-content {
     padding: 0 40px;
   }
   .tve-leads-ribbon .tve-ribbon-close {
-    @include translateY(0);
+    @include transform(translateY(0));
     right: 5px;
     top: 20px;
   }
@@ -14,7 +14,7 @@
 
 @media only screen and (max-width: 1080px) {
   body {
-   //background: yellow !important;
+//   background: yellow !important;
   }
 }
 
@@ -40,7 +40,7 @@
 
 @media only screen and (max-width: 540px) {
   body {
-  //  background: pink !important;
+ //   background: pink !important;
   }
   .tve-leads-ribbon .tve-ribbon-content {
     min-width: 100px;

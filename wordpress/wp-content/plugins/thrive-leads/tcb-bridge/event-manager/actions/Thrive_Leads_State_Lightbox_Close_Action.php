@@ -17,6 +17,7 @@ if (!class_exists('Thrive_Leads_State_Lightbox_Close_Action')) {
     {
         /**
          * only load the "Close lightbox" action if we are dealing with a lightbox
+         * @return boolean
          */
         public function isAvailable()
         {

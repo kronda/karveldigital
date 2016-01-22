@@ -3,7 +3,7 @@ $user_templates = get_option("tve_user_templates");
 $has_templates = !empty($user_templates); ?>
 <div class="tve_option_separator">
     <div class="tve_icm tve-ic-file-text-o tve_left"></div>
-    <span class="tve_expanded tve_left">Content Templates</span>
+    <span class="tve_expanded tve_left"><?php echo __("Content Templates", "thrive-cb") ?></span>
     <span class="tve_caret tve_icm tve_right tve_sub_btn tve_expanded" id="sub_02"></span>
 
     <div class="tve_clear"></div>
@@ -19,7 +19,7 @@ $has_templates = !empty($user_templates); ?>
                         </li>
                     <?php endforeach; ?>
                 <?php endif; ?>
-                <li class="hide-on-tpl-save"<?php echo $has_templates ? ' style="display: none"' : '' ?>>No Content Templates yet</li>
+                <li class="hide-on-tpl-save"<?php echo $has_templates ? ' style="display: none"' : '' ?>><?php echo __("No Content Templates yet", "thrive-cb") ?></li>
             </ul>
         </div>
     </div>

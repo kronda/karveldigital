@@ -59,6 +59,8 @@ $is_for_landing_page = get_post_meta($post_id, 'tve_lp_lightbox', true);
 <div class="bSe<?php echo $is_for_landing_page ? ' wrp cnt' : '' ?>" style="display: none">
     <div class="awr"></div>
 </div>
+<?php /** X-Theme conflict - X-Theme reads the top offset of this element without checking if it exists - and it causes the editor not to load */ ?>
+<div class="x-navbar-fixed-top-active"><div class="x-navbar-wrap"></div></div>
 <div class="tve_p_lb_overlay" style="<?php echo $config['overlay']['css'] ?>"<?php echo $config['overlay']['custom_color'] ?>></div>
 <div class="tve_post_lightbox<?php echo !$is_for_landing_page ? ' wrp cnt bSe' : '' ?>">
     <?php if (!$is_for_landing_page) : ?>

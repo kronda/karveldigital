@@ -1,8 +1,8 @@
 <?php
+
 /**
  * Structure for all the available triggers
  */
-
 abstract class TVE_Leads_Trigger_Abstract
 {
     public static $AVAILABLE = array(
@@ -217,12 +217,19 @@ class TVE_Leads_Trigger_Time extends TVE_Leads_Trigger_Abstract
     );
 
     protected $default_config = array(
-        's' => 10
+        's' => 10,
+        'exi' => '', // trigger this form on exit intent if the visitor attempts to leave the site before the set amount of time passes
     );
 
     public function get_display_name()
     {
-        return sprintf(_n('Displays after %s second', 'Displays after %s seconds', $this->config['s'], 'thrive-leads'), $this->config['s']);
+        $name = sprintf(_n('Displays after %s second', 'Displays after %s seconds', $this->config['s'], 'thrive-leads'), $this->config['s']);
+
+        if (!empty($this->config['exi'])) {
+            $name .= ' ' . __('(exit intent before that)', 'thrive-leads');
+        }
+
+        return $name;
     }
 
     /**
@@ -232,7 +239,6 @@ class TVE_Leads_Trigger_Time extends TVE_Leads_Trigger_Abstract
     {
         return __('Show after a certain period of time', 'thrive-leads');
     }
-
 
 }
 
@@ -250,12 +256,19 @@ class TVE_Leads_Trigger_Scroll_Percent extends TVE_Leads_Trigger_Abstract
     );
 
     protected $default_config = array(
-        'p' => 10
+        'p' => 10,
+        'exi' => '', // trigger this form if on exit intent before the defined scroll depth is reached
     );
 
     public function get_display_name()
     {
-        return sprintf(__('Displays when content scrolled to %s%%', 'thrive-leads'), $this->config['p']);
+        $name = sprintf(__('Displays when content scrolled to %s%%', 'thrive-leads'), $this->config['p']);
+
+        if (!empty($this->config['exi'])) {
+            $name .= ' ' . __('(exit intent before that)', 'thrive-leads');
+        }
+
+        return $name;
     }
 
     /**
@@ -301,7 +314,13 @@ class TVE_Leads_Trigger_Scroll_Element extends TVE_Leads_Trigger_Abstract
 
     public function get_display_name()
     {
-        return __('Displays when scrolled at a certain part of the content', 'thrive-leads');
+        $name = __('Displays when scrolled at a certain part of the content', 'thrive-leads');
+
+        if (!empty($this->config['exi'])) {
+            $name .= ' ' . __('(exit intent before that)', 'thrive-leads');
+        }
+
+        return $name;
     }
 
     /**
@@ -409,7 +428,7 @@ class TVE_Leads_Trigger_Viewport extends TVE_Leads_Trigger_Abstract
     protected $key = 'viewport';
 
     protected $applies_to = array(
-        'post_footer', 'shortcode', 'in_content'
+        'post_footer', 'php_insert', 'shortcode', 'in_content'
     );
 
     public function get_display_name()
@@ -451,8 +470,6 @@ class TVE_Leads_Trigger_Page_Bottom extends TVE_Leads_Trigger_Abstract
      */
     public function get_title()
     {
-        return __('Show when user reaches the end of the content', 'thrive-leads');
+        return __('Show when user reaches the bottom of the page', 'thrive-leads');
     }
-
-
 }

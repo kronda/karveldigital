@@ -3,7 +3,7 @@
 /*
 Plugin Name: Thrive Visual Editor
 Plugin URI: http://www.thrivethemes.com
-Version: 1.92
+Version: 1.101.18
 Author: <a href="http://www.thrivethemes.com">Thrive Themes</a>
 Description: Live front end editor for your Wordpress content
 */
@@ -38,11 +38,28 @@ add_filter('get_the_content_limit', 'tve_genesis_get_post_excerpt', 10, 4);
 // automatically modify lightbox title if the title of the associated landing page is modified - applies ony to TCB
 add_action('save_post', 'tve_save_post_callback');
 
-// integration with YOAST SEO
-add_filter('wpseo_pre_analysis_post_content', 'tve_yoast_seo_integration');
+/* filter that allows adding custom icon packs to the "Choose icon" lightbox in the TCB editor */
+add_filter('tcb_get_extra_icons', 'tve_landing_page_extra_icon_packs', 10, 2);
 
-// YOAST sitemaps - add image links
-add_filter('wpseo_sitemap_urlimages', 'tve_yoast_sitemap_images', 10, 2);
+/* filter that allows adding custom fonts to the "choose custom font" menu item */
+add_filter('tcb_extra_custom_fonts', 'tve_get_extra_custom_fonts', 10, 2);
+
+/* action that fires when the custom fonts css should be included in the page */
+add_action('tcb_extra_fonts_css', 'tve_output_extra_custom_fonts_css');
+
+/** fires when all plugins are loaded - used for intermediate filter setup / plugin overrides */
+add_action('plugins_loaded', 'tve_plugins_loaded_hook');
+
+/**
+ * TCB-specific AJAX actions
+ */
+add_action('wp_ajax_tve_lp_export', 'tve_ajax_landing_page_export');
+add_action('wp_ajax_tve_lp_import', 'tve_ajax_landing_page_import');
+
+/**
+ * AJAX call to return the TCB-added content for a post
+ */
+add_action('wp_ajax_get_tcb_content', 'tve_ajax_yoast_tcb_post_content');
 
 if (!function_exists('tve_editor_url')) {
     /**
@@ -59,6 +76,8 @@ if (!function_exists('tve_editor_url')) {
  */
 function tve_frontend_enqueue_scripts()
 {
+    $js_suffix = defined('TVE_DEBUG') && TVE_DEBUG ? '.js' : '.min.js';
+
     if (!is_editor_page_raw()) {
         /**
          * enqueue scripts and styles only for posts / pages that actually have tcb content
@@ -83,8 +102,7 @@ function tve_frontend_enqueue_scripts()
     wp_enqueue_style("tve_colors", tve_editor_css() . '/thrive_colors.css');
     tve_enqueue_style_family();
 
-    tve_enqueue_script("tve_frontend", tve_editor_js() . '/thrive_content_builder_frontend.min.js', array('jquery'), false, true);
-    wp_enqueue_script("jquery_cookie", tve_editor_js() . '/jquery.cookie.min.js', array('jquery'), false, true); // no version needed here
+    tve_enqueue_script("tve_frontend", tve_editor_js() . '/thrive_content_builder_frontend' . $js_suffix, array('jquery'), false, true);
 
     if (!is_editor_page() && is_singular()) {
         $events = tve_get_post_meta(get_the_ID(), 'tve_page_events');
@@ -98,8 +116,10 @@ function tve_frontend_enqueue_scripts()
         'ajaxurl' => admin_url('admin-ajax.php'),
         'is_editor_page' => true,
         'page_events' => isset($events) ? $events : array(),
-        'is_single' => (string)((int)is_singular())
+        'is_single' => (string)((int)is_singular()),
+        'social_fb_app_id' => tve_get_social_fb_app_id(),
     );
+    tve_enqueue_social_scripts();
     // hide tve more tag from front end display
     if (!is_editor_page()) {
         tve_load_custom_css();
@@ -343,8 +363,8 @@ function tve_save_post_callback($post_id)
         /**
          * copy post metas to its revision
          */
-        foreach($meta_keys as $meta_key) {
-            if($meta_key === 'tve_landing_page') {
+        foreach ($meta_keys as $meta_key) {
+            if ($meta_key === 'tve_landing_page') {
                 $meta_value = get_post_meta($parent_id, $meta_key, true);
             } else {
                 $meta_value = tve_get_post_meta($parent_id, $meta_key);
@@ -422,13 +442,13 @@ function tve_yoast_sitemap_images($images, $post_id)
         return $images;
     }
     $home_url = home_url();
-    $parsed_home = parse_url( $home_url );
-    $host        = '';
-    $scheme      = 'http';
-    if ( isset( $parsed_home['host'] ) && ! empty( $parsed_home['host'] ) ) {
-        $host = str_replace( 'www.', '', $parsed_home['host'] );
+    $parsed_home = parse_url($home_url);
+    $host = '';
+    $scheme = 'http';
+    if (isset($parsed_home['host']) && !empty($parsed_home['host'])) {
+        $host = str_replace('www.', '', $parsed_home['host']);
     }
-    if ( isset( $parsed_home['scheme'] ) && ! empty( $parsed_home['scheme'] ) ) {
+    if (isset($parsed_home['scheme']) && !empty($parsed_home['scheme'])) {
         $scheme = $parsed_home['scheme'];
     }
 
@@ -440,54 +460,240 @@ function tve_yoast_sitemap_images($images, $post_id)
     }
     $content = tve_get_post_meta($post_id, 'tve_updated_post');
 
-    if ( preg_match_all( '`<img [^>]+>`', $content, $matches ) ) {
+    if (preg_match_all('`<img [^>]+>`', $content, $matches)) {
 
-        foreach ( $matches[0] as $img ) {
-            if ( preg_match( '`src=["\']([^"\']+)["\']`', $img, $match ) ) {
+        foreach ($matches[0] as $img) {
+            if (preg_match('`src=["\']([^"\']+)["\']`', $img, $match)) {
                 $src = $match[1];
-                if ( WPSEO_Utils::is_url_relative( $src ) === true ) {
-                    if ( $src[0] !== '/' ) {
+                if (WPSEO_Utils::is_url_relative($src) === true) {
+                    if ($src[0] !== '/') {
                         continue;
-                    }
-                    else {
+                    } else {
                         // The URL is relative, we'll have to make it absolute
-                        $src = $this->home_url . $src;
+                        $src = $home_url . $src;
                     }
-                }
-                elseif ( strpos( $src, 'http' ) !== 0 ) {
+                } elseif (strpos($src, 'http') !== 0) {
                     // Protocol relative url, we add the scheme as the standard requires a protocol
                     $src = $scheme . ':' . $src;
 
                 }
 
-                if ( strpos( $src, $host ) === false ) {
+                if (strpos($src, $host) === false) {
                     continue;
                 }
 
-                if ( $src != esc_url( $src ) ) {
+                if ($src != esc_url($src)) {
                     continue;
                 }
 
                 $image = array(
-                    'src' => apply_filters( 'wpseo_xml_sitemap_img_src', $src, $p )
+                    'src' => apply_filters('wpseo_xml_sitemap_img_src', $src, $p)
                 );
 
-                if ( preg_match( '`title=["\']([^"\']+)["\']`', $img, $title_match ) ) {
-                    $image['title'] = str_replace( array( '-', '_' ), ' ', $title_match[1] );
+                if (preg_match('`title=["\']([^"\']+)["\']`', $img, $title_match)) {
+                    $image['title'] = str_replace(array('-', '_'), ' ', $title_match[1]);
                 }
-                unset( $title_match );
+                unset($title_match);
 
-                if ( preg_match( '`alt=["\']([^"\']+)["\']`', $img, $alt_match ) ) {
-                    $image['alt'] = str_replace( array( '-', '_' ), ' ', $alt_match[1] );
+                if (preg_match('`alt=["\']([^"\']+)["\']`', $img, $alt_match)) {
+                    $image['alt'] = str_replace(array('-', '_'), ' ', $alt_match[1]);
                 }
-                unset( $alt_match );
+                unset($alt_match);
 
-                $image           = apply_filters( 'wpseo_xml_sitemap_img', $image, $p );
+                $image = apply_filters('wpseo_xml_sitemap_img', $image, $p);
                 $images[] = $image;
             }
-            unset( $match, $src );
+            unset($match, $src);
         }
     }
 
     return $images;
+}
+
+/**
+ * export a Landing Page as a Zip file
+ */
+function tve_ajax_landing_page_export()
+{
+    $response = array(
+        'success' => true
+    );
+
+    if (empty($_POST['template_name']) || empty($_POST['post_id']) || !is_numeric($_POST['post_id']) || !tve_post_is_landing_page($_POST['post_id'])) {
+        $response['success'] = false;
+        $response['message'] = __('Invalid request', 'thrive-cb');
+        wp_send_json($response);
+    }
+
+    require_once plugin_dir_path(__FILE__) . 'landing-page/inc/TCB_Landing_Page_Transfer.php';
+
+    $transfer = new TCB_Landing_Page_Transfer();
+
+    $thumb_attachment_id = empty($_POST['thumb_id']) ? 0 : (int)$_POST['thumb_id'];
+
+    try {
+
+        $data = $transfer->export((int)$_POST['post_id'], $_POST['template_name'], $thumb_attachment_id);
+        $response['url'] = $data['url'];
+        $response['message'] = __('Landing Page exported successfully!', 'thrive-cb');
+
+    } catch (Exception $e) {
+        $response['success'] = false;
+        $response['message'] = $e->getMessage();
+    }
+
+    wp_send_json($response);
+}
+
+/**
+ * import a landing page from an attachment ID received in POST
+ * the attachment should be a .zip file created with the "Export Landing Page" functionality
+ */
+function tve_ajax_landing_page_import()
+{
+    $response = array(
+        'success' => true,
+        'message' => '',
+    );
+
+    if (empty($_POST['attachment_id']) || !is_numeric($_POST['attachment_id']) || empty($_POST['page_id']) || !is_numeric($_POST['page_id']) || get_post_type($_POST['page_id']) != 'page') {
+        $response['success'] = false;
+        $response['message'] = __('Invalid attachment id', 'thrive-cb');
+        wp_send_json($response);
+    }
+
+    require_once plugin_dir_path(__FILE__) . 'landing-page/inc/TCB_Landing_Page_Transfer.php';
+    $transfer = new TCB_Landing_Page_Transfer();
+    try {
+
+        $landing_page_id = $transfer->import((int)$_POST['attachment_id'], (int)$_POST['page_id']);
+        $response['url'] = tcb_get_editor_url($landing_page_id);
+        $response['message'] = __('Landing Page imported successfully!', 'thrive-cb');
+
+    } catch (Exception $e) {
+        $response['success'] = false;
+        $response['message'] = $e->getMessage();
+    }
+
+    wp_send_json($response);
+}
+
+/**
+ * checks if any extra icons are attached to the page, and include those also the $icons array
+ *
+ * @param array $icons
+ * @param int $post_id
+ * @return array
+ */
+function tve_landing_page_extra_icon_packs($icons, $post_id)
+{
+    if (empty($post_id)) {
+        return $icons;
+    }
+
+    $globals = tve_get_post_meta($post_id, 'tve_globals');
+
+    if (empty($globals['extra_icons'])) {
+        return $icons;
+    }
+
+    foreach ($globals['extra_icons'] as $icon_pack) {
+        $icons = array_merge($icons, $icon_pack['icons']);
+    }
+
+    return $icons;
+
+}
+
+/**
+ *
+ * check if the current post / page has extra custom fonts associated and output the css needed for each
+ * the extra custom fonts are enqueued from tve_enqueue_extra_resources()
+ *
+ * @param int $post_id
+ *
+ * @see tve_enqueue_extra_resources
+ *
+ */
+function tve_output_extra_custom_fonts_css($post_id = null)
+{
+    $fonts = apply_filters('tcb_extra_custom_fonts', array(), $post_id);
+
+    if (empty($fonts)) {
+        return;
+    }
+
+    tve_output_custom_font_css($fonts);
+
+}
+
+/**
+ *
+ * action filter that adds the custom fonts to the $fonts array for a landing page / lightbox
+ *
+ * @param $fonts
+ * @param null $post_id
+ * @return array
+ */
+function tve_get_extra_custom_fonts($fonts, $post_id = null)
+{
+    if (empty($post_id)) {
+        $post_id = get_the_ID();
+    }
+
+    if (empty($post_id)) {
+        return $fonts;
+    }
+    $globals = tve_get_post_meta($post_id, 'tve_globals');
+    if (empty($globals['extra_fonts'])) {
+        return $fonts;
+    }
+
+    return array_merge($fonts, $globals['extra_fonts']);
+}
+
+/**
+ * called on the 'plugins_loaded' hook
+ */
+function tve_plugins_loaded_hook()
+{
+    if (defined('WPSEO_VERSION')) {
+        // integration with YOAST SEO
+        /* version 3 removed this filter completely - this is handled from javascript from version 3.0 onwards */
+        if (version_compare(WPSEO_VERSION, '3.0', '<') === true) {
+            add_filter('wpseo_pre_analysis_post_content', 'tve_yoast_seo_integration');
+        } else {
+            /* this is handled from javascript */
+        }
+
+        // YOAST sitemaps - add image links
+        add_filter('wpseo_sitemap_urlimages', 'tve_yoast_sitemap_images', 10, 2);
+    }
+
+}
+
+/**
+ * sends an ajax response containing the TCB-saved post content, stripped of tags for yoast SEO integration
+ *
+ * @return void
+ */
+function tve_ajax_yoast_tcb_post_content()
+{
+    $id = filter_input(INPUT_POST, 'post_id', FILTER_SANITIZE_NUMBER_INT);
+
+    /**
+     * mimic the the_content filter on the post - this will return all TCB content
+     */
+    global $post;
+    $post = get_post($id);
+
+    /* used ob_start to avoid any output generated by tve_editor_content) */
+    ob_start();
+    $all_content = tve_editor_content($post->post_content, 'tcb_content');
+    ob_end_clean();
+
+    wp_send_json(array(
+        'post_id' => $post->ID,
+        'content' => $all_content
+    ));
 }

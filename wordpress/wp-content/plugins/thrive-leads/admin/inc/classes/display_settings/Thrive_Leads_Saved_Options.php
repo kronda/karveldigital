@@ -30,21 +30,12 @@ class Thrive_Leads_Saved_Options
             return json_encode(array('identifier' => $jsonOptions['identifier']));
         }
 
-        foreach ($options['tabs'] as $index => $tab) {
-            $saved_options = array();
-            foreach ($tab['options'] as $i => $item) {
-                if (!empty($item['isChecked']) || $item['type'] == 'direct_url') {
-                    $saved_options []= $item['id'];
-                }
-            }
-            unset($options['tabs'][$index]['actions']);
-            unset($options['tabs'][$index]['filters']);
-            unset($options['tabs'][$index]['label']);
-            unset($options['tabs'][$index]['isActive']);
-            $options['tabs'][$index]['options'] = $saved_options;
-        }
+        $clean_options = array();
 
-        return json_encode($options);
+        foreach ($options['tabs'] as $index => $tabOptions) {
+            $clean_options['tabs'][$index]['options'] = $tabOptions;
+        }
+        return json_encode($clean_options);
     }
 
     public function save()
@@ -72,9 +63,10 @@ class Thrive_Leads_Saved_Options
      * Read options from database
      * @return $this
      */
-    public function initOptions()
+    public function initOptions($byId = false)
     {
-        $sql = "SELECT * FROM {$this->table_name} WHERE name = '{$this->name}'";
+        $where = $byId === false ? "name = '{$this->name}'" : "id = {$byId}";
+        $sql = "SELECT * FROM {$this->table_name} WHERE {$where}";
         $row = $this->db->get_row($sql);
         if ($row) {
             $this->show_group_options = $row->show_group_options;

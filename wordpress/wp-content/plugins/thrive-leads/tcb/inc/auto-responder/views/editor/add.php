@@ -1,20 +1,17 @@
-<h3>Step 1: Choose Connection Type</h3>
-<div class="tve_clear" style="height:20px;"></div>
-
-<p>Choose whether you would like to connect using HTML form code or through an established API connection ?</p>
-
-<div class="tve_clear" style="height: 20px;"></div>
-
-<div class="center" style="text-align: center">
-    <select class="" id="connection-type" style="width: 250px;">
+<h4><?php echo __("Step 1: Choose Connection Type", "thrive-cb") ?></h4>
+<hr class="tve_lightbox_line"/>
+<p><?php echo __("Choose whether you would like to connect using HTML form code or through an established API connection ?", "thrive-cb") ?></p>
+<div class="tve_lightbox_select_holder">
+    <select class="" id="connection-type">
         <?php foreach ($connection_types as $connection_key => $connection_name) : ?>
             <option value="<?php echo $connection_key ?>"><?php echo $connection_name ?></option>
         <?php endforeach; ?>
     </select>
-
-    <div class="clear" style="height: 20px;"></div>
-    <a href="javascript:void(0)" class="tve_click tve_editor_btn tve_btn_success"
+</div>
+<div class="tve-sp"></div>
+<div class="tve_clearfix">
+    <a href="javascript:void(0)" class="tve_click tve_editor_button tve_editor_button_success tve_right"
        data-ctrl="function:auto_responder.connection_form" data-step2="1">
-        <span>Go to the next step</span>
+        <?php echo __("Go to the next step", "thrive-cb")?>
     </a>
 </div>

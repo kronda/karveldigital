@@ -9,6 +9,15 @@
 class Thrive_List_Connection_Mailchimp extends Thrive_List_Connection_Abstract
 {
     /**
+     * Return the connection type
+     * @return String
+     */
+    public static function getType()
+    {
+        return 'autoresponder';
+    }
+
+    /**
      * @return string
      */
     public function getTitle()
@@ -36,7 +45,7 @@ class Thrive_List_Connection_Mailchimp extends Thrive_List_Connection_Abstract
         $key = !empty($_POST['connection']['key']) ? $_POST['connection']['key'] : '';
 
         if (empty($key)) {
-            return $this->error('You must provide a valid Mailchimp key');
+            return $this->error(__('You must provide a valid Mailchimp key', 'thrive-cb'));
         }
 
         $this->setCredentials($_POST['connection']);
@@ -44,14 +53,14 @@ class Thrive_List_Connection_Mailchimp extends Thrive_List_Connection_Abstract
         $result = $this->testConnection();
 
         if ($result !== true) {
-            return $this->error('Could not connect to Mailchimp using the provided key (<strong>' . $result . '</strong>)');
+            return $this->error(sprintf(__('Could not connect to Mailchimp using the provided key (<strong>%s</strong>)', 'thrive-cb'), $result));
         }
 
         /**
          * finally, save the connection details
          */
         $this->save();
-        $this->success('Mailchimp connected successfully');
+        $this->success(__('Mailchimp connected successfully', 'thrive-cb'));
     }
 
     /**
@@ -110,7 +119,7 @@ class Thrive_List_Connection_Mailchimp extends Thrive_List_Connection_Abstract
             }
             return $lists;
         } catch (Exception $e) {
-            $this->_error = $e->getMessage() . ' Please re-check your API connection details.';
+            $this->_error = $e->getMessage() . ' ' . __("Please re-check your API connection details.", 'thrive-cb');
             return false;
         }
     }
@@ -126,28 +135,78 @@ class Thrive_List_Connection_Mailchimp extends Thrive_List_Connection_Abstract
     {
         list($first_name, $last_name) = $this->_getNameParts($arguments['name']);
 
+        $double_optin = isset($arguments['mailchimp_optin']) && $arguments['mailchimp_optin'] == 's' ? false : true;
+
         /** @var Thrive_Api_Mailchimp $api */
         $api = $this->getApi();
+
+        $merge_tags = array(
+            'FNAME' => $first_name,
+            'LNAME' => $last_name,
+            'NAME' => $arguments['name']
+        );
+
+        if (isset($arguments['phone'])) {
+            $merge_vars = $this->getCustomFields($list_identifier);
+            foreach ($merge_vars as $item) {
+                if ($item['field_type'] == 'phone') {
+                    $merge_tags[$item['name']] = $arguments['phone'];
+                    $merge_tags[$item['tag']] = $arguments['phone'];
+                }
+            }
+        }
 
         try {
             $api->lists->subscribe(
                 $list_identifier,
                 array('email' => $arguments['email']),
-                array(
-                    'FNAME' => $first_name,
-                    'LNAME' => $last_name
-                ),
+                $merge_tags,
                 'html',
-                true,
+                $double_optin,
                 true
             );
             return true;
         } catch (Thrive_Api_Mailchimp_Error $e) {
-            return $e->getMessage() ? $e->getMessage() : 'Unknown Mailchimp Error';
+            return $e->getMessage() ? $e->getMessage() : __('Unknown Mailchimp Error', 'thrive-cb');
         } catch (Exception $e) {
-            return $e->getMessage() ? $e->getMessage() : 'Unknown Error';
+            return $e->getMessage() ? $e->getMessage() : __('Unknown Error', 'thrive-cb');
         }
 
     }
 
-} 
+    /**
+     * Allow the user to choose whether to have a single or a double optin for the form being edited
+     * It will hold the latest selected value in a cookie so that the user is presented by default with the same option selected the next time he edits such a form
+     *
+     * @param array $params
+     */
+    public function renderExtraEditorSettings($params = array())
+    {
+        $params['optin'] = empty($params['optin']) ? (isset($_COOKIE['tve_api_mailchimp_optin']) ? $_COOKIE['tve_api_mailchimp_optin'] : 'd') : $params['optin'];
+        setcookie('tve_api_mailchimp_optin', $params['optin'], strtotime('+6 months'), '/');
+        $this->_directFormHtml('mailchimp/optin-type', $params);
+    }
+
+    /**
+     * @param $list
+     * @return mixed
+     */
+    public function getCustomFields($list)
+    {
+        /** @var Thrive_Api_Mailchimp $api */
+        $api = $this->getApi();
+
+        $merge_vars = $api->lists->mergeVars(array($list));
+        if (!isset($merge_vars['data']) || !isset($merge_vars['data'][0])) {
+            return array();
+        }
+
+        $list = $merge_vars['data'][0];
+        if (!isset($list['merge_vars'])) {
+            return array();
+        }
+
+        return $list['merge_vars'];
+    }
+
+}

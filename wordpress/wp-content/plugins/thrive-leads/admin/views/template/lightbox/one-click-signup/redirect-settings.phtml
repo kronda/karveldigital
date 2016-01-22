@@ -1,0 +1,127 @@
+<?php
+$wordpress_timezone = tve_get_timezone_string();
+$current_time = current_time('H:i', get_option('gmt_offset'));
+?>
+
+<p><?php echo __('Use the controls to tell us where the registrants should be redirected after being signed up for your service.', 'thrive-leads') ?></p>
+<p><?php echo __('You can use a conditional redirect to specify multiple locations depending on when the reistration occurs. This can
+    be useful if you have an event occuring at a specific time because the location of the redirect can change depending
+    on the whether the registration occurs before, during or after the event.', 'thrive-leads') ?>
+</p>
+
+<label class="tve-custom-select">
+    <?php echo __('Type of redirect', 'thrive-leads') ?> :
+    <select class="tl-post-type-select">
+        <option value="0"><?php echo __('Not yet set', 'thrive-leads') ?></option>
+        <option value="single-redirect"><?php echo __('Single Redirect', 'thrive-leads') ?></option>
+        <option value="conditional-redirect"><?php echo __('Conditional Redirect', 'thrive-leads') ?></option>
+    </select>
+</label>
+<br><br><br>
+<div class="tve-oneclick-redirect">
+
+    <div class="tl-single-redirect-box" style="display: none;">
+        <?php
+        $redirect_url_type = 'single';
+        include plugin_dir_path(__FILE__) . 'search-content.phtml';
+        ?>
+    </div>
+    <div class="tl-conditional-redirect-box" style="display: none">
+        <h2><?php echo __('Event Schedule', 'thrive-leads') ?></h2>
+
+        <p>Tell us when your event is happening and how long it lasts for. Important note: It's important that you make
+            sure that the times you provide are correct given the timezone that your WordPress installation is using.</p>
+
+        <div class="tl-time-section tve-form">
+            <div class="tl-first-col">
+                <span class="tl-vertical-align">
+                    <?php echo __('WordPress timezone', 'thrive-leads') ?>
+                </span>
+            </div>
+            <div class="tl-second-col">
+                <span class="tl-vertical-align">
+                    <?php echo $wordpress_timezone; ?>
+                </span>
+            </div>
+            <div class="tve-clear"></div>
+            <div class="tl-first-col">
+                <span class="tl-vertical-align">
+                    <?php echo __('Current time in this timezone:', 'thrive-leads') ?>
+                </span>
+            </div>
+            <div class="tl-second-col">
+                <span class="tl-vertical-align">
+                    <?php echo $current_time; ?>
+                </span>
+            </div>
+            <div class="tve-clear"></div>
+            <div class="tl-first-col">
+                <span class="tl-vertical-align">
+                    <?php echo __('Event Start Date', 'thrive-leads') ?>&nbsp;(<?php echo $wordpress_timezone; ?>)
+                </span>
+            </div>
+            <div class="tl-second-col">
+                <input class="tl-event-start-date" value="<#= model_instance.get('redirect_url').event_start_date #>">
+                <span class="tve-icon-calendar tl-redirect-start-date"></span>
+            </div>
+
+            <div class="tve-clear"></div>
+            <div class="tl-first-col">
+                <span class="tl-vertical-align">
+                    <?php echo __('Event Start Time:', 'thrive-leads') ?>
+                </span>
+            </div>
+            <div class="tl-second-col relative timepicker-append-to">
+                <input class="tl-event-time tl-event-start-time" name="event_start_time" value="<#= model_instance.get('redirect_url').event_start_time #>">
+            </div>
+
+            <div class="tve-clear"></div>
+            <div class="tl-first-col">
+                <span class="tl-vertical-align">
+                    <?php echo __('Event Duration:', 'thrive-leads') ?>
+                </span>
+            </div>
+            <div class="tl-second-col relative timepicker-append-to">
+                <input class="tl-event-time tl-event-duration-time" name="event_duration_time" value="<#= model_instance.get('redirect_url').event_duration_time #>">
+            </div>
+        </div>
+        <h2><?php echo __('Specify Your Redirects', 'thrive-leads') ?></h2>
+
+        <div class="tl-conditional-redirect-tabs tve_leads_tabs_wrapper tve_leads_clearfix">
+            <ul class="tve_leads_clearfix tve_leads_tabs">
+                <li><a href="#tl-before"><?php echo __('Before Event', 'thrive-leads') ?></a></li>
+                <li><a href="#tl-during"><?php echo __('During Event', 'thrive-leads') ?></a></li>
+                <li><a href="#tl-after"><?php echo __('After Event', 'thrive-leads') ?></a></li>
+            </ul>
+            <div class="tve_leads_tabs_content_wrapper">
+                <?php $redirect_url_type = 'before'; ?>
+                <div id="tl-<?php echo $redirect_url_type; ?>" class="tve_leads_tab_content_other_screens tve_leads_tabs_content tve_leads_clearfix">
+                    <h3><?php echo __('Before Event', 'thrive-leads') ?></h3>
+                    <?php include plugin_dir_path(__FILE__) . 'search-content.phtml'; ?>
+                    <br>
+                </div>
+                <?php $redirect_url_type = 'during'; ?>
+                <div id="tl-<?php echo $redirect_url_type; ?>" class="tve_leads_tab_content_other_screens tve_leads_tabs_content tve_leads_clearfix">
+                    <h3><?php echo __('During Event', 'thrive-leads') ?></h3>
+                    <?php include plugin_dir_path(__FILE__) . 'search-content.phtml'; ?>
+                    <br>
+                </div>
+                <?php $redirect_url_type = 'after'; ?>
+                <div id="tl-<?php echo $redirect_url_type; ?>" class="tve_leads_tab_content_other_screens tve_leads_tabs_content tve_leads_clearfix">
+                    <h3><?php echo __('After Event', 'thrive-leads') ?></h3>
+                    <?php include plugin_dir_path(__FILE__) . 'search-content.phtml'; ?>
+                    <br>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="tve-form">
+    <div class="form-buttons center">
+        <a href="javascript:void(0)"
+           class="tve-btn tve-btn-gray tve-btn-large tve-close-thickbox"><?php echo __('Cancel', 'thrive-leads') ?></a>
+        &nbsp; &nbsp;
+        <a href="javascript:void(0)"
+           class="tve-btn tve-btn-green tve-btn-large tl-save-redirect-url"><?php echo __('Save', 'thrive-leads') ?></a>
+    </div>
+</div>

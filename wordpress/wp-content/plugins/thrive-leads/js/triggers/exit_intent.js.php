@@ -13,7 +13,6 @@
                 });
             <?php endif ?>
         <?php else : ?>
-
             /* Chrome has a stupid bug in which it triggers almost simultaneously "mouseenter" "mouseleave" "mouseenter" if the following applies:
              - at page load, the cursor is outside the html element
              - the user moves the cursor over the html element
@@ -37,13 +36,11 @@
                 config = { // we can adjust this and the code below to allow users to tweak settings
                     s: 20 // sensitivity
                 };
-
             $(function () {
                 $(document).on('mouseleave.exit_intent', ml)
                     .on('mouseenter.exit_intent', me);
 
             });
-
         <?php endif ?>
     })(ThriveGlobal.$j);
 </script>

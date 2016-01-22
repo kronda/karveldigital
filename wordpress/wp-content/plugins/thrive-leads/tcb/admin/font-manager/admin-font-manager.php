@@ -6,25 +6,33 @@
     </tr>
 </table>
 <div class="thrive-page-settings">
-    <h3><?php _e("Custom Font Manager", "focusblog"); ?></h3>
-    <br/>
+    <h3><?php echo __("Custom Font Manager", "thrive-cb"); ?></h3>
+
+    <p>
+        <?php echo __("By default, Thrive Themes integrates with Google Fonts. This allows you to choose from 600+ fonts for use in your content. However, you can also use the blue import font button below to import your own fonts files using a service called Font Squirrel"); ?>
+        <a href="javascript:void"><?php echo __("Learn more about how to import your own fonts", 'thrive') ?></a>
+    </p>
+
+    <a class="button button-primary"
+       href="<?php echo admin_url("admin.php?page=thrive_font_import_manager") ?>"><?php echo __("Import custom font manager", 'thrive') ?></a>
+
     <table class="form-table fm" style="width: 100%; text-align: left;">
         <thead>
             <tr>
                 <th style="width: 16%;">
-                    Font name
+                    <?php echo __("Font name", "thrive-cb") ?>
                 </th>
                 <th style="width: 10%;">
-                    Size
+                    <?php echo __("Size", "thrive-cb") ?>
                 </th>
                 <th style="width: 13%;">
-                    Color
+                    <?php echo __("Color", 'thrive-cb') ?>
                 </th>
                 <th style="width: 25%;">
-                    CSS Class Name
+                    <?php echo __("CSS Class Name", "thrive-cb") ?>
                 </th>
                 <th style="width: 36%;">
-                    Actions
+                    <?php echo __("Actions", 'thrive-cb') ?>
                 </th>
             </tr>
         </thead>
@@ -41,9 +49,9 @@
                     </td>
                     <td><input type="text" readonly value="<?php echo $font['font_class']; ?>"></td>
                     <td>
-                        <a class='fm-b edit-font'>Edit</a>
-                        <a class='fm-b duplicate-font'>Duplicate</a>
-                        <a class="fm-b delete-font">Delete</a>
+                        <a class='fm-b edit-font'><?php echo __("Edit", "thrive-cb") ?></a>
+                        <a class='fm-b duplicate-font'><?php echo __("Duplicate", 'thrive-cb') ?></a>
+                        <a class="fm-b delete-font"><?php echo __("Delete", "thrive-cb") ?></a>
                         <input type="hidden" class="font-id" value="<?php echo $font['font_id']; ?>" >
                     </td>
                 </tr>
@@ -51,10 +59,10 @@
         </tbody>
         <tfoot>
             <tr>
-                <td colspan="5">
-                    <input class="font-button thrive_options pure-button upload" id="thrive-add-font" type="button" value="+ Add Custom Font" >
-                    <input style="float: right;" class="font-button thrive_options pure-button upload" id="thrive-update-posts" type="button" value="Update Posts" >
-                    <input type="hidden" value="<?php echo $new_font_id; ?>" id='new-font-id' >
+                <td colspan="4"></td>
+                <td>
+                    <a style="float: right;" id="thrive-add-font" href="javascript:void(0)"><?php _e("+ Add Custom Font", 'thrive-cb'); ?></a>
+                    <input type="hidden" value="<?php echo $new_font_id; ?>" id='new-font-id' />
                 </td>
             </tr>
         </tfoot>

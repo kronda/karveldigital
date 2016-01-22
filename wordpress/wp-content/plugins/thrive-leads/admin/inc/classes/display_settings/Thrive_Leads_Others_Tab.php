@@ -84,4 +84,20 @@ class Thrive_Leads_Others_Tab extends Thrive_Leads_Tab
 
         return $this;
     }
+
+    /**
+     * set the options individually for the 2 subtabs from here
+     *
+     * @param Thrive_Leads_Group_Options $savedOptions
+     * @return $this
+     */
+    public function setSavedOptions(Thrive_Leads_Group_Options $savedOptions)
+    {
+        $this->visitor_status->setSavedOptions($savedOptions);
+        $this->direct_urls->setSavedOptions($savedOptions);
+
+        return parent::setSavedOptions($savedOptions);
+    }
+
+
 } 

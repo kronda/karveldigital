@@ -5,7 +5,7 @@ function tve_thrive_license_check($licensed_email, $license_key = '')
     $api_url = "https://thrivethemes.com/wp-content/plugins/license_check/api/request.php";
     $api_url .= "?license=" . $license_key;
     $api_url .= "&email=" . $licensed_email;
-    $api_url .= "&product_id=4,5,6,7,37,38,39,40,41,42,43,1,2,3,27,28,29";
+    $api_url .= "&product_id=4,5,6,7,37,38,39,40,41,42,43,1,2,3,27,28,29,47,48";
     $licenseValid = wp_remote_get($api_url, array('sslverify' => false));
 
     if (is_wp_error($licenseValid)) {
@@ -13,7 +13,7 @@ function tve_thrive_license_check($licensed_email, $license_key = '')
         /** Couldn't connect to the API URL - possible because wp_remote_get failed for whatever reason.  Maybe CURL not activated on server, for instance */
         $response = new stdClass();
         $response->success = 0;
-        $response->reason = sprintf(__("An error occurred while connecting to the license server. Error: %s. Please login to thrivethemes.com, report this error message on the forums and we'll get this sorted for you", 'thrive-leads'), $licenseValid->get_error_message());
+        $response->reason = sprintf(__("An error occurred while connecting to the license server. Error: %s. Please login to thrivethemes.com, report this error message on the forums and we'll get this sorted for you", 'thrive-cb'), $licenseValid->get_error_message());
 
         return $response;
     }
@@ -23,7 +23,7 @@ function tve_thrive_license_check($licensed_email, $license_key = '')
     if (empty($response)) {
         $response = new stdClass();
         $response->success = 0;
-        $response->reason = sprintf(__("An error occurred while receiving the license status. The response was: %s. Please login to thrivethemes.com, report this error message on the forums and we'll get this sorted for you.", 'thrive-leads'), $licenseValid['body']);
+        $response->reason = sprintf(__("An error occurred while receiving the license status. The response was: %s. Please login to thrivethemes.com, report this error message on the forums and we'll get this sorted for you.", 'thrive-cb'), $licenseValid['body']);
 
         return $response;
     }
@@ -51,7 +51,7 @@ if (isset($_POST['tve_license_email']) && isset($_POST['tve_license_key'])) {
 
         ?>
         <div id="message" class="updated" style="margin: 0px; margin-top: 10px; font-weight: bold;">
-            <p>Thank you - You have successfully validated your license!</p>
+            <p><?php echo __("Thank you - You have successfully validated your license!", "thrive-cb")?></p>
         </div>
 
         <?php
@@ -67,8 +67,7 @@ if (isset($_POST['tve_license_email']) && isset($_POST['tve_license_key'])) {
         ?>
 
         <div id="message" class="error" style="margin: 0px; margin-top: 10px; font-weight: bold;">
-            <p>License activation error - please contact support copying this message and we'll get this sorted for
-                you.</p>
+            <p><?php echo __("License activation error - please contact support copying this message and we'll get this sorted for you.", "thrive-cb") ?></p>
         </div>
 
     <?php
@@ -83,11 +82,11 @@ if (isset($_POST['tve_license_email']) && isset($_POST['tve_license_key'])) {
         </center>
         <form method="post" class="form-horizontal">
             <div id="facebook" class="panel like-panel">
-                <h2 style="margin-bottom: 10px;">Validate your License:</h2>
+                <h2 style="margin-bottom: 10px;"><?php echo __("Validate your License:", 'thrive-cb') ?></h2>
 
                 <fieldset style="padding-top: 10px;">
                     <div class="control-group">
-                        <label class="control-label" for="tve_license_email">Email Address:</label>
+                        <label class="control-label" for="tve_license_email"><?php echo __("Email Address:", 'thrive-cb') ?></label>
 
                         <div class="controls">
                             <input type="text" class="short" name="tve_license_email" id="tve_license_email"
@@ -97,7 +96,7 @@ if (isset($_POST['tve_license_email']) && isset($_POST['tve_license_key'])) {
                         </div>
                     </div>
                     <div class="control-group">
-                        <label class="control-label" for="tve_license_key">License Key</label>
+                        <label class="control-label" for="tve_license_key"><?php echo __("License Key", 'thrive-cb') ?></label>
 
                         <div class="controls">
                             <input type="text" class="short" name="tve_license_key" id="tve_license_key"
@@ -109,7 +108,7 @@ if (isset($_POST['tve_license_email']) && isset($_POST['tve_license_key'])) {
 
                 <div class="form-actions">
                     <br/><br/>
-                    <input name="save-action" class="button-primary" type="submit" value="Activate License"/>
+                    <input name="save-action" class="button-primary" type="submit" value="<?php echo __("Activate License", "thrive-cb") ?>"/>
                 </div>
             </div>
             <div style="clear: both;"></div>

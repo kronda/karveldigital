@@ -141,6 +141,8 @@ class Thrive_List_Editor_Controller
                 $content = $this->_view('dashboard');
                 break;
         }
+        $captcha_api = Thrive_List_Manager::credentials('recaptcha');
+        $response['captcha_site_key'] = empty($captcha_api['site_key']) ? '' : $captcha_api['site_key'];
 
         $response['lb_html'] = $content;
 
@@ -164,8 +166,8 @@ class Thrive_List_Editor_Controller
     {
         if (!($connection_type = $this->_param('connection_type')) || !in_array($connection_type, array('api', 'custom-html'))) {
             $types = array(
-                'api' => __('API'),
-                'custom-html' => __('HTML Form code')
+                'api' => __('API', "thrive-cb"),
+                'custom-html' => __('HTML Form code', "thrive-cb")
             );
 
             //allow types to be filters by somewhere else
@@ -215,6 +217,7 @@ class Thrive_List_Editor_Controller
 
         echo $this->_view('partials/api-lists', array(
             'selected_api' => $connection,
+            'connection' => $connection,
             'lists' => $connection->getLists($this->_param('force_fetch') ? false : true)
         ));
 
@@ -227,9 +230,9 @@ class Thrive_List_Editor_Controller
     protected function _prepareApiData()
     {
         /**
-         * list of all connected APIs (that have been setup from admin)
+         * list of all connected APIs (that have been setup from admin) but exclude captcha
          */
-        $connected_apis = Thrive_List_Manager::getAvailableAPIs(true);
+        $connected_apis = Thrive_List_Manager::getAvailableAPIs(true, array('captcha', 'email'));
         /**
          * existing setup connections for this form
          */
@@ -265,6 +268,11 @@ class Thrive_List_Editor_Controller
          */
         $selected_list = empty($edit_api_key) ? '' : $connections[$edit_api_key];
 
-        return compact('connected_apis', 'connections', 'edit_api_key', 'selected_api', 'lists', 'selected_list');
+        /**
+         * Any (possible) extra settings for each autoresponder
+         */
+        $extra_settings = $this->_param('extra', array());
+
+        return compact('connected_apis', 'connections', 'edit_api_key', 'selected_api', 'lists', 'selected_list', 'extra_settings');
     }
 } 

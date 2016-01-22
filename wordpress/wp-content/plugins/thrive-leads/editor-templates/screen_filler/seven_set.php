@@ -23,7 +23,7 @@ $config = array(
                 </div>
             </div>
             <div class="tve_colm tve_tth tve_lst">
-                <h1 style="color: #fff; font-size: 45px;margin-top: 50px;margin-bottom: 0; ">
+                <h1 style="color: #fff; font-size: 45px;margin-top: 50px;margin-bottom: 0; " class="rft">
                     FIND <span class="bold_text">THE BEST </span>PLACES TO TRAVEL, EXPLORE THE PLANET
                 </h1>
 

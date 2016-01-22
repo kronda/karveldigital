@@ -1,26 +1,26 @@
-<span class="tve_options_headline"><span class="tve_icm tve-ic-move"></span>Post Grid options</span>
+<span class="tve_options_headline"><span class="tve_icm tve-ic-move"></span><?php echo __("Post Grid options", "thrive-cb") ?></span>
 <ul class="tve_menu">
-    <?php $has_custom_colors = true; include dirname(__FILE__) . '/_custom_colors.php' ?>
+    <?php $has_custom_colors = true; $extra_attr = 'data-multiple-hide'; include dirname(__FILE__) . '/_custom_colors.php' ?>
     <?php include dirname(__FILE__) . '/_margin.php' ?>
-    <li id="lb_post_grid" class="tve_ed_btn tve_btn tve_btn_text tve_click" data-load="1" data-wpapi="lb_post_grid" data-ctrl="controls.lb_open">Edit Grid</li>
+    <li id="lb_post_grid" class="tve_ed_btn tve_btn tve_btn_text tve_click" data-load="1" data-wpapi="lb_post_grid" data-ctrl="controls.lb_open" data-multiple-hide><?php echo __("Edit Grid", "thrive-cb") ?></li>
     <?php include dirname(__FILE__) . '/_custom_font.php' ?>
 
-    <?php $font_size_label = 'Title Font Size' ?>
+    <?php $font_size_label = __('Title Font Size', "thrive-cb") ?>
     <?php include dirname(__FILE__) . '/_font_size.php' ?>
     <?php $font_size_label = null; ?>
 
-    <?php $line_height_label = 'Title Line Height' ?>
+    <?php $line_height_label = __('Title Line Height', "thrive-cb") ?>
     <?php include dirname(__FILE__) . '/_line_height.php' ?>
     <?php $line_height_label = null ?>
 
     <li class="tve_btn_text">
         <label>
-            Image Max Height <input class="tve_text tve_height tve_change" data-ctrl-change="controls.height" type="text" size="3" maxlength="3"/> px
+            <?php echo __("Image Max Height", "thrive-cb") ?> <input class="tve_text tve_height tve_change" data-ctrl-change="controls.height" type="text" size="3" maxlength="3"/> px
         </label>
     </li>
     <li class="tve_btn_text">
         <label>
-            Read more text <input id="tve-post-grid-read-more-text" class="tve_text tve_change" type="text" />
+            <?php echo __("Read more text", "thrive-cb") ?> <input id="tve-post-grid-read-more-text" class="tve_text tve_change" type="text" />
         </label>
     </li>
     <?php /*

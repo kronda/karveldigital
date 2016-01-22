@@ -1,5 +1,4 @@
-@import "compass/css3";
-@import "compass/support";
+@import "bourbon";
 
 @mixin raleway {
   font-family: 'Raleway', sans-serif;
@@ -9,6 +8,16 @@
   font-family: 'Open Sans', sans-serif;
 }
 
+@mixin clearfix {
+  &:after {
+    content: "";
+    display: block;
+    clear: both;
+    visibility: hidden;
+    line-height: 0;
+    height: 0;
+  }
+}
 @font-face {
   font-family: 'tve-leads-five-set-icons';
   src: url('fonts/five_set/five_set_icons.eot?-o8i8n4');
@@ -43,6 +52,7 @@ $white: #fff;
 $black: #000;
 
 [class*='five_set'] {
+  @include clearfix();
   &.tve_gray_bg {
     background: #ddd;
   }
@@ -50,7 +60,7 @@ $black: #000;
 
 #tve_five_set {
   @include opensans();
-  @include text-shadow(none);
+  text-shadow: none;
   a {
     color: inherit;
   }
@@ -91,6 +101,7 @@ $black: #000;
   ol.thrv_wrapper {
     @include opensans();
     counter-reset: ol-counter;
+    font-size: 15px;
     list-style-type: none;
     margin-bottom: 0;
     margin-left: 0;
@@ -98,7 +109,7 @@ $black: #000;
     padding-bottom: 0;
     li {
       color: #3f3f3f;
-      font-size: 15px;
+      font-size: inherit;
       font-weight: 300;
       &.bold_text {
         font-weight: 700;
@@ -110,7 +121,7 @@ $black: #000;
       position: relative;
       &:before {
         @include raleway();
-        @include border-radius(50%);
+        border-radius: 50%;
         background: #dd5b4e;
         color: #fff;
         content: counter(ol-counter) !important;
@@ -137,6 +148,7 @@ $black: #000;
     }
   }
   ul.thrv_wrapper {
+    font-size: 18px;
     margin-left: 0;
     margin-bottom: 0;
     padding-left: 0;
@@ -144,7 +156,7 @@ $black: #000;
     li {
       @include opensans();
       color: #3f3f3f;
-      font-size: 18px;
+      font-size: inherit;
       font-weight: 300;
       list-style-type: none;
       line-height: 20px;
@@ -154,7 +166,7 @@ $black: #000;
         font-weight: 700;
       }
       &:before {
-        @include rotate(0deg);
+        @include transform(rotate(0deg));
         content: '\f101';
         color: #4aa3df;
         font-family: 'tve-leads-five-set-icons';
@@ -168,7 +180,7 @@ $black: #000;
   }
   .thrv_lead_generation {
     &.thrv_lead_generation_vertical {
-      input[type="text"] {
+      input[type="text"], input[type="email"] {
         background: #fff;
         margin-bottom: 15px;
         padding: 23px 10px!important;
@@ -179,7 +191,7 @@ $black: #000;
       }
     }
     &.thrv_lead_generation_horizontal {
-      input[type='text'] {
+      input[type='text'], input[type="email"] {
         background: #fff;
         line-height: 15px;
         margin-bottom: 0;
@@ -191,17 +203,17 @@ $black: #000;
       }
     }
     button {
-      @include box-shadow(none);
-      @include border-radius(4px);
+      box-shadow: none;
+      border-radius: 4px;
       @include opensans();
-      @include text-shadow(none);
+      text-shadow: none;
       font-weight: 700;
       font-size: 12px;
       word-wrap: break-word;
     }
-    input[type='text'] {
-      @include border-radius(4px);
-      @include box-shadow(inset -1px 3px 3px -2px #d6d6d6);
+    input[type='text'], input[type="email"] {
+      border-radius: 4px;
+      box-shadow: inset -1px 3px 3px -2px #d6d6d6;
       @include opensans();
       border: 1px solid #cccccc;
       color: $black;
@@ -210,7 +222,7 @@ $black: #000;
       font-style: italic;
       height: auto;
       &:focus, &:active {
-        @include box-shadow(0 0 2px 0 rgba($black, .25));
+        box-shadow: 0 0 2px 0 rgba($black, .25);
         font-style: normal;
       }
     }
@@ -250,7 +262,7 @@ $black: #000;
         }
       }
       img {
-        @include border-radius(3px);
+        border-radius: 3px;
         border: 0;
         max-height: 40px;
         max-width: 40px;
@@ -259,7 +271,7 @@ $black: #000;
   }
   .img_style_lifted_style1 {
     .tve_image_frame {
-      @include box-shadow(2px 0 4px 0 rgba($black, .4));
+      box-shadow: 2px 0 4px 0 rgba($black, .4);
       position: relative;
       &:after {
         background-image: url('images/set5_img_shadow.png');
@@ -274,13 +286,14 @@ $black: #000;
         bottom: -12px;
       }
       .tve_image {
-        @include box-shadow(none);
+        box-shadow: none;
       }
     }
   }
   .thrv_bullets_shortcode {
     .tve_ul {
       &.tve_ul1 {
+        font-size: 15px;
         list-style-type: none;
         margin-bottom: 0;
         margin-left: 0;
@@ -290,7 +303,7 @@ $black: #000;
           @include opensans();
           color: #3f3f3f;
           font-weight: 300;
-          font-size: 15px;
+          font-size: inherit;
           list-style-image: none !important;
           list-style-type: none;
           line-height: 20px;
@@ -301,7 +314,7 @@ $black: #000;
             font-weight: 700;
           }
           &:before {
-            @include rotate(0deg);
+            @include transform(rotate(0deg));
             content: '\f058' !important;
             font-family: 'tve-leads-five-set-icons';
             font-size: 20px;
@@ -316,10 +329,10 @@ $black: #000;
   }
   //post footer
   .thrv-leads-form-box {
-    @include border-radius(3px);
+    border-radius: 3px;
     border: 0;
     .tve_cb6 {
-      @include border-radius(3px);
+      border-radius: 3px;
       &.tve_white {
         background: #f4f4f4;
       }
@@ -336,7 +349,7 @@ $black: #000;
           }
         }
       }
-      input[type="text"] {
+      input[type="text"], input[type="email"] {
         line-height: 15px;
         padding: 14px 10px !important;
       }
@@ -348,7 +361,7 @@ $black: #000;
   }
   //slide in
   .thrv-leads-slide-in {
-    @include border-radius(3px);
+    border-radius: 3px;
     border: 0;
     background: #fff;
     max-width: 420px;
@@ -357,7 +370,7 @@ $black: #000;
     overflow: hidden;
     .tve_cb6 {
       &:after {
-        @include rotate(45deg);
+        @include transform(rotate(45deg));
         background: inherit;
         content: '';
         display: block;
@@ -380,7 +393,7 @@ $black: #000;
       }
     }
     .thrv_lead_generation_vertical {
-      input[type="text"] {
+      input[type="text"], input[type="email"] {
         margin-bottom: 25px;
       }
       button {
@@ -417,7 +430,7 @@ $black: #000;
   }
   //widget
   .thrv-leads-widget {
-    @include border-radius(3px);
+    border-radius: 3px;
     border: 0;
     padding: 30px;
     .tve_btn {
@@ -429,14 +442,14 @@ $black: #000;
     }
     .tve_cb_top_radius {
       .tve_cb5 {
-        @include border-top-left-radius(3px);
-        @include border-top-right-radius(3px);
+        border-top-left-radius: 3px;
+        border-top-right-radius: 3px;
       }
     }
     .tve_cb_bottom_radius {
       .tve_cb5 {
-        @include border-bottom-left-radius(3px);
-        @include border-bottom-right-radius(3px);
+        border-bottom-left-radius: 3px;
+        border-bottom-right-radius: 3px;
       }
     }
     .tve_cb5 {
@@ -459,7 +472,7 @@ $black: #000;
     &.tve_five_set_v2 {
       .thrv_lead_generation {
         &.thrv_lead_generation_horizontal {
-          input[type='text'] {
+          input[type='text'], input[type="email"] {
             padding: 23px 10px !important;
           }
           button {
@@ -477,7 +490,7 @@ $black: #000;
         }
       }
       .tve_p_lb_content {
-        @include border-radius(0);
+        border-radius: 0;
         background: #f4f4f4;
         max-width: 1170px;
         .tve_p_lb_control {
@@ -485,7 +498,7 @@ $black: #000;
         }
       }
       .tve_cb5 {
-        @include border-radius(3px);
+        border-radius: 3px;
         .tve_cb_cnt {
           padding: 25px;
         }
@@ -494,14 +507,14 @@ $black: #000;
     //lightbox v1
     &.tve_five_set_v1 {
       .tve_p_lb_content {
-        @include border-radius(3px);
+        border-radius: 3px;
         max-width: 1090px;
         padding: 0 !important;
         .tve_cb5_round {
           .tve_cb5 {
-            @include border-radius(3px);
-            @include border-top-left-radius(0);
-            @include border-bottom-left-radius(0);
+            border-radius: 3px;
+            border-top-left-radius: 0;
+            border-bottom-left-radius: 0;
           }
         }
         .thrv_columns {
@@ -524,7 +537,7 @@ $black: #000;
   }
   //ribbon
   .thrv-ribbon {
-    @include box-shadow(2px 0 4px 0 rgba($black, .2));
+    box-shadow: 2px 0 4px 0 rgba($black, .2);
     p {
       position: relative;
       z-index: 1;
@@ -538,7 +551,7 @@ $black: #000;
     }
     .thrv_lead_generation {
       &.thrv_lead_generation_horizontal {
-        input[type='text'] {
+        input[type='text'], input[type="email"] {
           line-height: 15px;
           padding: 14px 10px !important;
         }
@@ -596,22 +609,22 @@ $color-pallete: 'blue' #388ec8 #5cace2 #4393c9 #4c99ce #3280b4 #4c99ce #4c99ce,
       background: nth($color, 8);
     }
     .thrv-ribbon.tve_#{nth($color, 1)} {
-      @include background-image(linear-gradient(nth($color, 3) 0%, nth($color, 7) 100%));
+      @include linear-gradient(nth($color, 3) 0%, nth($color, 7) 100%);
     }
     .thrv_lead_generation.tve_#{nth($color, 1)} {
-      input[type='text'] {
+      input[type='text'], input[type="email"] {
         &:hover {
           border: 1px solid nth($color, 3);
         }
       }
       button {
-        @include background-image(linear-gradient(nth($color, 3) 0%, nth($color, 4) 100%));
+        @include linear-gradient(nth($color, 3) 0%, nth($color, 4) 100%);
         border: 1px solid nth($color, 2);
         &:hover {
-          @include background-image(linear-gradient(nth($color, 5) 0%, nth($color, 6) 100%));
+          @include linear-gradient(nth($color, 5) 0%, nth($color, 6) 100%);
         }
         &:active, &:focus {
-          @include background-image(linear-gradient(nth($color, 6) 0%, nth($color, 5) 100%));
+          @include linear-gradient(nth($color, 6) 0%, nth($color, 5) 100%);
         }
       }
     }

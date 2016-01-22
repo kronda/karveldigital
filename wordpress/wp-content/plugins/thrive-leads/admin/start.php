@@ -2,16 +2,39 @@
 
 define('TVE_LEADS_ADMIN_URL', plugin_dir_url(__FILE__));
 
+define('TL_DASHBOARD_PAGE', 'toplevel_page_thrive_leads_dashboard');
+define('TL_REPORTING_PAGE', 'thrive-leads_page_thrive_leads_reporting');
+define('TL_CONTACTS_PAGE', 'thrive-leads_page_thrive_leads_contacts');
+define('TL_ASSETS_PAGE', 'thrive-leads_page_thrive_leads_asset_delivery');
+
+
 add_action('admin_init', 'tve_leads_admin_init');
 add_action('admin_menu', 'tve_leads_admin_menu');
 add_action('admin_enqueue_scripts', 'tve_leads_admin_enqueue', 1);
+add_action('admin_enqueue_scripts', 'tve_leads_dequeue_conflicting_scripts', PHP_INT_MAX);
 add_action('admin_print_scripts', 'tve_leads_remove_junk_scripts', 11);
+add_action('admin_footer', 'tve_leads_output_wysiwyg_editor');
+
 
 add_filter('tve_leads_settings_post_types_blacklist', 'tve_leads_settings_post_types_blacklist');
+add_filter('nav_menu_items_' . TVE_LEADS_POST_TWO_STEP_LIGHTBOX  . '_recent', 'tve_leads_filter_nav_menu_items_two_step_recent');
+/**
+ * this filter is applied by thrive themes in custom menu walker
+ * this filters if the Extended menu option should be displayed for a menu item
+ */
+add_filter('thrive_display_extended_menu_option', 'filter_thrive_display_extended_menu_option', 10, 2);
+
 if (defined('DOING_AJAX') && DOING_AJAX) {
     add_action('tcb_ajax_load', 'tve_leads_admin_ajax_load');
     add_filter('tve_autoresponder_connection_types', 'tve_leads_ajax_filter_connection_types');
     add_filter('tve_autoresponder_show_submit', 'tve_leads_filter_autoresponder_submit_option');
+    add_action('wp_ajax_tve_leads_ajax_tag_search', 'tve_leads_ajax_tag_search');
+    add_action('wp_ajax_tve_leads_find_content_action', 'tve_leads_find_content_action');
+    add_action('wp_ajax_tve_leads_find_post_and_page_action', 'tve_leads_find_post_and_page_action');
+    add_action('wp_ajax_menu-quick-search', 'tve_leads_menu_quick_search', 0); //zero priority just because we need to trigger it before WP does
+    add_action('wp_ajax_tve_leads_get_api_connections', 'tve_leads_get_api_connections');
+    add_action('wp_ajax_tve_leads_get_api_connection_list', 'tve_leads_get_api_connection_list');
+    add_action('wp_ajax_tve_leads_get_api_extra_fields', 'tve_leads_get_api_extra_fields');
 }
 
 require_once plugin_dir_path(__FILE__) . 'inc/helpers.php';
@@ -80,7 +103,7 @@ function tve_leads_admin_enqueue($hook)
     }
 
     /* load scripts only on our dashboard page, the entry point for the backbone app */
-    if ($hook != 'toplevel_page_thrive_leads_dashboard' && $hook != 'thrive-leads_page_thrive_leads_reporting') {
+    if (!in_array($hook, array(TL_DASHBOARD_PAGE, TL_REPORTING_PAGE, TL_CONTACTS_PAGE, TL_ASSETS_PAGE))) {
         return;
     }
 
@@ -134,7 +157,17 @@ function tve_leads_admin_enqueue($hook)
         'CHART_RED' => '#F60000',
         'CHART_GREEN' => '#006600',
         'CHART_GREY' => '#C0C0C0',
-        'CHART_COLORS' => $tve_leads_chart_colors
+        'CHART_COLORS' => $tve_leads_chart_colors,
+        'date_intervals' => array(
+            'last_7_days' => TVE_LAST_7_DAYS,
+            'last_30_days' => TVE_LAST_30_DAYS,
+            'this_month' => TVE_THIS_MONTH,
+            'last_month' => TVE_LAST_MONTH,
+            'this_year' => TVE_THIS_YEAR,
+            'last_year' => TVE_LAST_YEAR,
+            'last_12_months' => TVE_LAST_12_MONTHS,
+            'custom_date_range' => TVE_CUSTOM_DATE_RANGE
+        )
     );
 
     /**
@@ -154,50 +187,116 @@ function tve_leads_admin_enqueue($hook)
     tve_leads_enqueue_script('tve-leads-views', plugins_url('thrive-leads/admin/js-min/views.js'), array('jquery', 'backbone', 'thrive-leads-init'));
     tve_leads_enqueue_script('tve-leads-models', plugins_url('thrive-leads/admin/js-min/models.js'), array('jquery', 'backbone', 'thrive-leads-init'));
 
-    //copy text in clipboard
+    //tabs
+    wp_enqueue_script('jquery-ui-tabs');
+//copy text in clipboard
     wp_enqueue_script('jquery-zclip', plugins_url('thrive-leads/js/jquery.zclip.1.1.1/jquery.zclip.js'), array('jquery', 'thrive-leads-init'));
+
+//autocomplete
+    wp_enqueue_script('jquery-ui-autocomplete');
 
     /* wystia script for popover videos */
     wp_enqueue_script('tl-wistia-popover', '//fast.wistia.com/assets/external/popover-v1.js', array(), '', true);
 
-    if ($hook == 'toplevel_page_thrive_leads_dashboard') {
-        wp_enqueue_script('jquery-ui-slider', false, array('jquery'));
-        wp_enqueue_script('jquery-ui-sortable', false, array('jquery'));
-        wp_enqueue_script('tve-leads-highcharts', plugins_url('thrive-leads/admin/js-min/reporting/highcharts.js'), array('jquery', 'thrive-leads-init'));
-        wp_enqueue_script('tve-leads-highcharts-more', plugins_url('thrive-leads/admin/js-min/reporting/highcharts-more.js'), array('jquery', 'thrive-leads-init'));
-        tve_leads_enqueue_script('tve-leads-charts', plugins_url('thrive-leads/admin/js-min/reporting/charts.js'), array('jquery', 'backbone', 'thrive-leads-init'));
-        tve_leads_enqueue_script('tve-leads-routes', plugins_url('thrive-leads/admin/js-min/routes.js'), array(
-            'jquery',
-            'backbone',
-            'jquery-ui-sortable',
-            'thrive-leads-init',
-            'tve-leads-views',
-            'tve-leads-models',
-            'thickbox'));
-        tve_leads_enqueue_script('tve-leads-dashboard', plugins_url('thrive-leads/admin/js-min/dashboard.js'), array(
-            'jquery',
-            'backbone',
-            'tve-leads-routes',
-            'tve-leads-models',
-            'tve-leads-views',
-        ));
+    switch ($hook) {
+        case TL_DASHBOARD_PAGE:
+            wp_enqueue_script('jquery-ui-slider', false, array('jquery'));
+            wp_enqueue_script('jquery-ui-sortable', false, array('jquery'));
+            wp_enqueue_script('tve-leads-highcharts', plugins_url('thrive-leads/admin/js-min/reporting/highcharts.js'), array('jquery', 'thrive-leads-init'));
+            wp_enqueue_script('tve-leads-highcharts-more', plugins_url('thrive-leads/admin/js-min/reporting/highcharts-more.js'), array('jquery', 'thrive-leads-init'));
+            tve_leads_enqueue_script('tve-leads-charts', plugins_url('thrive-leads/admin/js-min/reporting/charts.js'), array('jquery', 'backbone', 'thrive-leads-init'));
+            tve_leads_enqueue_script('tve-leads-routes', plugins_url('thrive-leads/admin/js-min/routes.js'), array(
+                'jquery',
+                'backbone',
+                'jquery-ui-sortable',
+                'thrive-leads-init',
+                'tve-leads-views',
+                'tve-leads-models',
+                'thickbox'
+            ));
+            tve_leads_enqueue_script('tve-leads-dashboard', plugins_url('thrive-leads/admin/js-min/dashboard.js'), array(
+                'jquery',
+                'backbone',
+                'tve-leads-routes',
+                'tve-leads-models',
+                'tve-leads-views',
+            ));
+            tve_leads_enqueue_script('jquery-ui-datepicker');
+            tve_leads_enqueue_script('jquery-timepicker', plugins_url('thrive-leads/admin/js-min/timepicker.js'), array('jquery'));
+            tve_leads_enqueue_style('jquery-timepicker', TVE_LEADS_ADMIN_URL . 'css/timepicker.css');
+            break;
+
+        case TL_REPORTING_PAGE:
+            tve_leads_enqueue_script('tve-leads-reporting-routes', plugins_url('thrive-leads/admin/js-min/reporting/routes.js'), array('jquery', 'backbone', 'thrive-leads-init', 'tve-leads-reporting-views', 'tve-leads-reporting-models'));
+            tve_leads_enqueue_script('tve-leads-reporting-views', plugins_url('thrive-leads/admin/js-min/reporting/views.js'), array('jquery', 'backbone', 'thrive-leads-init', 'tve-leads-views'));
+            tve_leads_enqueue_script('tve-leads-reporting-models', plugins_url('thrive-leads/admin/js-min/reporting/models.js'), array('jquery', 'backbone', 'thrive-leads-init', 'tve-leads-models'));
+            tve_leads_enqueue_script('tve-leads-highcharts', plugins_url('thrive-leads/admin/js-min/reporting/highcharts.js'), array('jquery', 'thrive-leads-init'));
+            tve_leads_enqueue_script('tve-leads-charts', plugins_url('thrive-leads/admin/js-min/reporting/charts.js'), array('jquery', 'backbone', 'thrive-leads-init'));
+            tve_leads_enqueue_script('jquery-ui-datepicker');
+            tve_leads_enqueue_script('tve-leads-reporting', plugins_url('thrive-leads/admin/js-min/reporting/reporting.js'), array(
+                'jquery',
+                'backbone',
+                'tve-leads-reporting-routes',
+                'tve-leads-reporting-models',
+                'tve-leads-reporting-views',
+            ));
+            break;
+
+        case TL_CONTACTS_PAGE:
+            tve_leads_enqueue_script('thickbox');
+            tve_leads_enqueue_script('jquery-ui-datepicker');
+            tve_leads_enqueue_script('tve-leads-contacts', plugins_url('thrive-leads/admin/js-min/contacts.js'), array('jquery'));
+            break;
+        case TL_ASSETS_PAGE:
+            wp_enqueue_script('editor');
+            wp_enqueue_media();
+            //add_action( 'admin_head', 'wp_editor' );
+            wp_enqueue_script('jquery-ui-sortable', false, array('jquery'));
+            tve_leads_enqueue_script('tve-leads-asset-delivery-routes', plugins_url('thrive-leads/admin/js-min/assets/routes.js'), array('jquery', 'backbone', 'thrive-leads-init', 'tve-leads-asset-delivery-views', 'tve-leads-asset-delivery-models'));
+            tve_leads_enqueue_script('tve-leads-asset-delivery-views', plugins_url('thrive-leads/admin/js-min/assets/views.js'), array('jquery', 'backbone', 'thrive-leads-init', 'tve-leads-views'));
+            tve_leads_enqueue_script('tve-leads-asset-delivery-models', plugins_url('thrive-leads/admin/js-min/assets/models.js'), array('jquery', 'backbone', 'thrive-leads-init', 'tve-leads-models'));
+            tve_leads_enqueue_script('jquery-ui-datepicker');
+            tve_leads_enqueue_script('tve-leads-asset-delivery', plugins_url('thrive-leads/admin/js-min/assets/assets.js'), array(
+                'jquery',
+                'backbone',
+                'tve-leads-asset-delivery-routes',
+                'tve-leads-asset-delivery-models',
+                'tve-leads-asset-delivery-views',
+            ));
+            break;
+    }
+}
+
+/**
+ * called in admin_enqueue_scripts hook
+ *
+ * dequeue scripts added site-wide
+ *
+ * @param string $hook
+ */
+function tve_leads_dequeue_conflicting_scripts($hook)
+{
+    /* first, the license check */
+    if (!tve_leads_license_activated()) {
+        return;
     }
 
-    if ($hook == 'thrive-leads_page_thrive_leads_reporting') {
-        tve_leads_enqueue_script('tve-leads-reporting-routes', plugins_url('thrive-leads/admin/js-min/reporting/routes.js'), array('jquery', 'backbone', 'thrive-leads-init', 'tve-leads-reporting-views', 'tve-leads-reporting-models'));
-        tve_leads_enqueue_script('tve-leads-reporting-views', plugins_url('thrive-leads/admin/js-min/reporting/views.js'), array('jquery', 'backbone', 'thrive-leads-init', 'tve-leads-views'));
-        tve_leads_enqueue_script('tve-leads-reporting-models', plugins_url('thrive-leads/admin/js-min/reporting/models.js'), array('jquery', 'backbone', 'thrive-leads-init', 'tve-leads-models'));
-        tve_leads_enqueue_script('tve-leads-highcharts', plugins_url('thrive-leads/admin/js-min/reporting/highcharts.js'), array('jquery', 'thrive-leads-init'));
-        tve_leads_enqueue_script('tve-leads-charts', plugins_url('thrive-leads/admin/js-min/reporting/charts.js'), array('jquery', 'backbone', 'thrive-leads-init'));
-        tve_leads_enqueue_script('jquery-ui-datepicker');
-        tve_leads_enqueue_script('tve-leads-reporting', plugins_url('thrive-leads/admin/js-min/reporting/reporting.js'), array(
-            'jquery',
-            'backbone',
-            'tve-leads-reporting-routes',
-            'tve-leads-reporting-models',
-            'tve-leads-reporting-views',
-        ));
+    /* second, the minimum required TCB version */
+    if (!tve_leads_check_tcb_version()) {
+        return;
     }
+
+    /* load scripts only on our dashboard page, the entry point for the backbone app */
+    if (!in_array($hook, array(TL_DASHBOARD_PAGE, TL_REPORTING_PAGE, TL_CONTACTS_PAGE, TL_ASSETS_PAGE))) {
+        return;
+    }
+
+    /* membermouse jquery loaded sitewide */
+    wp_dequeue_script('jquery-ui-1.10.3.custom.min.js');
+
+    /* edit flow scripts loaded sitewide */
+    wp_dequeue_script('edit_flow-timepicker');
+    wp_dequeue_script('edit_flow-date_picker');
 }
 
 /**
@@ -206,11 +305,30 @@ function tve_leads_admin_enqueue($hook)
  */
 function tve_leads_remove_junk_scripts()
 {
+    $screen = get_current_screen();
+    $hook = $screen->id;
+
+    /* first, the license check */
+    if (!tve_leads_license_activated()) {
+        return;
+    }
+
+    /* second, the minimum required TCB version */
+    if (!tve_leads_check_tcb_version()) {
+        return;
+    }
+
+    /* load scripts only on our dashboard page, the entry point for the backbone app */
+    if (!in_array($hook, array(TL_DASHBOARD_PAGE, TL_REPORTING_PAGE, TL_CONTACTS_PAGE, TL_ASSETS_PAGE))) {
+        return;
+    }
+
     /* the following lines address the "Show the URL" plugin - what a piece of software ... ! */
     wp_dequeue_script('smpso_zclip');
     wp_deregister_script('smpso_zclip');
     wp_dequeue_script('smpso_custom');
     wp_deregister_script('smpso_custom');
+
 }
 
 /**
@@ -229,6 +347,8 @@ function tve_leads_admin_menu()
 
     add_submenu_page("thrive_leads_dashboard", "Thrive Leads Dashboard", "Dashboard", "manage_options", "thrive_leads_dashboard", "thrive_leads_dashboard");
     add_submenu_page("thrive_leads_dashboard", "Thrive Leads Reporting", "Reporting", "manage_options", "thrive_leads_reporting", "thrive_leads_reporting");
+    add_submenu_page("thrive_leads_dashboard", "Thrive Leads Asset Delivery", "Asset Delivery", "manage_options", "thrive_leads_asset_delivery", "thrive_leads_asset_delivery");
+    add_submenu_page("thrive_leads_dashboard", "Thrive Leads Export", "Lead Export", "manage_options", "thrive_leads_contacts", "thrive_leads_contacts");
 
     /**
      * page to redirect the user to when he needs to activate his license
@@ -266,6 +386,7 @@ function thrive_leads_dashboard()
             'tracking_data' => true,
             'get_variations' => true
         )),
+        'one_click_signup' => tve_leads_get_one_click_signups(),
         'summary' => array(
             'impressions' => tve_leads_get_tracking_data(TVE_LEADS_UNIQUE_IMPRESSION, array('date' => 'today', 'is_unique' => 1)),
             'conversions' => tve_leads_get_tracking_data(TVE_LEADS_CONVERSION, array('date' => 'today')),
@@ -288,6 +409,8 @@ function thrive_leads_reporting()
         return tve_leads_tcb_version_warning();
     }
 
+    $tve_load_annotations = tve_leads_get_option('tve_load_annotations');
+
     $reporting_data = array(
         'lead_groups' => tve_leads_get_groups(
             array(
@@ -305,6 +428,87 @@ function thrive_leads_reporting()
         )
     );
     include dirname(__FILE__) . '/views/reporting.php';
+}
+
+/**
+ * output Thrive Leads Contacts page
+ */
+function thrive_leads_contacts()
+{
+    if (!tve_leads_license_activated()) {
+        return tve_leads_license_warning();
+    }
+
+    if (!tve_leads_check_tcb_version()) {
+        return tve_leads_tcb_version_warning();
+    }
+
+    require_once dirname(__FILE__) . '/inc/classes/Thrive_Leads_Contacts_List.php';
+
+    $saved_email = tve_leads_get_option('contacts_send_email');
+    $contacts_list = new Thrive_Leads_Contacts_List(array('ajax' => false));
+    $contacts_list->prepare_items();
+    $upload = wp_upload_dir();
+
+    global $tvedb;
+    $download_list = $tvedb->tve_leads_get_download_list();
+
+    include dirname(__FILE__) . '/views/contacts/contacts.php';
+}
+
+/* hook to remove http_referrer and wpnonce from the url when performing actions */
+add_action('admin_init', 'tve_leads_contacts_action_redirect');
+function tve_leads_contacts_action_redirect()
+{
+    if (!empty($_GET['tve_template_redirect_contacts']) && !empty($_GET['_wp_http_referer'])) {
+        wp_redirect(remove_query_arg(array('_wp_http_referer', '_wpnonce', 'tve_template_redirect_contacts'), wp_unslash($_SERVER['REQUEST_URI'])));
+        exit;
+    }
+}
+
+/**
+ * output Thrive Leads Asset Delivery - the main plugin page
+ */
+function thrive_leads_asset_delivery()
+{
+    if (!tve_leads_license_activated()) {
+        return tve_leads_license_warning();
+    }
+
+    if (!tve_leads_check_tcb_version()) {
+        return tve_leads_tcb_version_warning();
+    }
+
+    $dashboard_data = array(
+        'global_settings' => array(
+            'ajax_load' => tve_leads_get_option('ajax_load'),
+        )
+    );
+    $asset_groups = tve_leads_get_asset_groups(array('active_test' => false));
+
+    $connected_apis = Thrive_List_Manager::getAvailableAPIsByType(true, array('email'));
+    $structured_apis = "";
+    foreach ($connected_apis as $k => $v) {
+        $structured_apis[] = array('connection' => $k, 'active' => get_option('tve_api_delivery_service'), 'connection_instance' => Thrive_List_Manager::credentials($k));
+    }
+
+    $assets_data = array(
+        'assets' => $asset_groups,
+        'wizard' => array(
+            'proprieties' => tve_leads_get_wizard_proprieties($asset_groups),
+            'connected_apis' => $connected_apis,
+            'admin_name' => tve_leads_assets_get_admin_name(),
+            'email_data' => tve_leads_assets_get_email_data(),
+            'structured_apis' => $structured_apis
+        ),
+
+
+    );
+
+    $wizard = get_option('tve_leads_asset_wizard_complete');
+
+    include dirname(__FILE__) . '/views/assets.php';
+
 }
 
 /**
@@ -337,6 +541,7 @@ function tve_leads_admin_ajax_load($ajax_load)
  * This filter should be applied only if the form type is short-code with content locking option true
  *
  * @param $connection_types
+ *
  * @return mixed
  * @author Dan
  */
@@ -361,6 +566,7 @@ function tve_leads_ajax_filter_connection_types($connection_types)
  * check if the form being edited is a content locking shortcode and if so, hide the "After the form is submitted" options
  *
  * @param bool $show_submit
+ *
  * @return bool
  */
 function tve_leads_filter_autoresponder_submit_option($show_submit)
@@ -372,4 +578,120 @@ function tve_leads_filter_autoresponder_submit_option($show_submit)
     }
 
     return false;
+}
+
+/**
+ * AJAX for searching posts by a specific post type
+ */
+function tve_leads_find_content_action()
+{
+    $type = $_GET['type'];
+    $s = wp_unslash($_GET['q']);
+    $s = trim($s);
+
+    $args = array(
+        'post_type' => $type,
+        'post_status' => 'publish',
+        's' => $s
+    );
+    $posts_array = get_posts($args);
+
+    $json = array();
+    foreach ($posts_array as $id => $item) {
+        $json [] = array(
+            'label' => $item->post_title,
+            'id' => $item->ID,
+            'value' => $item->post_title,
+            'url' => get_the_permalink($item->ID)
+        );
+    }
+    wp_send_json($json);
+}
+
+/**
+ * Create a new editor instance so we can use it on the asset delivery system
+ */
+function tve_leads_output_wysiwyg_editor()
+{
+    $screen = get_current_screen();
+
+    if ($screen->id !== 'thrive-leads_page_thrive_leads_asset_delivery') {
+        return;
+    }
+
+    echo '<div id="tve-leads-asset-editor-wrapper" style="display: none">';
+    wp_editor('', 'default-editor', array(
+        'dfw' => true,
+        'tabfocus_elements' => 'insert-media-button,save-post',
+        'editor_height' => 360,
+        'textarea_rows' => 15,
+    ));
+    echo '</div>';
+}
+
+/**
+ * AJAX for searching posts by a specific post type
+ */
+function tve_leads_find_post_and_page_action()
+{
+    $s = wp_unslash($_GET['q']);
+    $s = trim($s);
+
+    $args = array(
+        'post_type' => array('page', 'post'),
+        'post_status' => 'publish',
+        's' => $s
+    );
+    $posts_array = get_posts($args);
+
+    $json = array();
+    foreach ($posts_array as $id => $item) {
+        $json [] = array(
+            'label' => $item->post_title,
+            'id' => $item->ID,
+            'value' => $item->post_title,
+            'url' => get_the_permalink($item->ID)
+        );
+    }
+    wp_send_json($json);
+}
+
+/**
+ * AJAX for returning the added api connections, exception: recaptcha, Postmark and Mandrill email delivery services (used at One Click Signup) (new name: Signup Segue)
+ */
+function tve_leads_get_api_connections()
+{
+    $connected_apis = Thrive_List_Manager::getAvailableAPIs(true, array('captcha', 'email'));
+    wp_send_json($connected_apis);
+}
+
+/**
+ * AJAX for returning the selected Api connection's list (used at One Click Signup, new name: Signup Segue)
+ */
+function tve_leads_get_api_connection_list()
+{
+    $api = wp_unslash($_GET['api']);
+    if (!$api || !array_key_exists($api, Thrive_List_Manager::$AVAILABLE)) {
+        exit();
+    }
+    $connection = Thrive_List_Manager::connectionInstance($api);
+    $lists = $connection->getLists(false);
+    wp_send_json($lists);
+}
+
+/**
+ * AJAX for returning the selected Api connection's extra fields (used at One Click Signup, new name: Signup Segue)
+ */
+function tve_leads_get_api_extra_fields()
+{
+    $api = wp_unslash($_GET['api']);
+    if (!$api || !array_key_exists($api, Thrive_List_Manager::$AVAILABLE)) {
+        exit();
+    }
+    $connection = Thrive_List_Manager::connectionInstance($api);
+    ob_start();
+    $connection->renderExtraEditorSettings(array());
+    $content = ob_get_contents();
+    ob_end_clean();
+    wp_send_json(array("html" => $content));
 }

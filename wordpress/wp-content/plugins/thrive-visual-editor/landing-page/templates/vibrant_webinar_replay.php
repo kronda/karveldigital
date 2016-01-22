@@ -14,9 +14,9 @@ $tzd = $sign . str_pad($hour, 2, '0', STR_PAD_LEFT) . ':' . str_pad($min % 60, 2
     <p style="margin-bottom: 0;" class="tve_p_center">Time before this webinar replay is removed.</p>
 
     <div class="thrv_wrapper thrv_countdown_timer tve_cd_timer_plain tve_clearfix init_done"
-         data-date="2020-10-18"
-         data-hour="17"
-         data-min="31"
+         data-date="<?php echo date('Y-m-d', strtotime('+9 days')) ?>"
+         data-hour="<?php echo date('h') ?>"
+         data-min="<?php echo date('m') ?>"
          data-timezone="<?php echo $tzd ?>">
         <div class="sc_timer_content tve_clearfix tve_block_center" style="margin-bottom: 30px;">
             <div class="tve_t_day tve_t_part">
@@ -79,14 +79,15 @@ $tzd = $sign . str_pad($hour, 2, '0', STR_PAD_LEFT) . ':' . str_pad($min % 60, 2
             <div class="in darkSec">
                 <div class="cck tve_clearfix">
                     <h3 class="tve_p_center" style="font-size: 36px;margin-bottom: 30px;">
-                        <span class="bold_text">During this Webinar, you'll learn...</span>
+                        <span class="bold_text">Revealed: the more effective way to do content marketing!</span>
                     </h3>
 
-                    <p class="tve_p_center" style="font-size: 20px;">Lorem nibh vel velit auctor aliquet, aenean
-                        sollicitudin, lorem quis
-                        bibendum auctor, nisi elit consequat ut ipsum, nec sagittis sem nibh id elit. Duis sed odio sit
-                        amet nibh vulputate cursus a sit mauris. Morbi adec accumsan ipsum velit. Nam nec tellus a odio
-                        tincidunt auctor a ornare odio. </p>
+                    <p class="tve_p_center" style="font-size: 20px;">
+                        Watch the full replay video above to see exactly how we've turned the typical content marketing
+                        approach on its head... and more than doubled sales and traffic as a result! Please note that
+                        this replay will only be available for a limited time, so make sure to watch it today, before
+                        you miss out.
+                    </p>
                 </div>
             </div>
         </div>
@@ -130,7 +131,7 @@ $tzd = $sign . str_pad($hour, 2, '0', STR_PAD_LEFT) . ':' . str_pad($min % 60, 2
                                             <div class="tve_colm tve_twc tve_lst">
                                                 <p style="color: #333333; font-size: 20px;margin-bottom: 0;margin-top: 0;padding-bottom: 0;"
                                                    class="tve_p_right">
-                                                    <span class="bold_text">Steve Blake</span>
+                                                    <span class="bold_text">Shane M.</span>
                                                 </p>
                                             </div>
                                         </div>
@@ -140,7 +141,8 @@ $tzd = $sign . str_pad($hour, 2, '0', STR_PAD_LEFT) . ':' . str_pad($min % 60, 2
                                             adec accumsan ipsum velit.</p>
                                     </div>
                                     <div class="tve_colm tve_oth tve_lst">
-                                        <div style="width: 135px;" class="thrv_wrapper tve_image_caption aligncenter img_style_circle">
+                                        <div style="width: 135px;"
+                                             class="thrv_wrapper tve_image_caption aligncenter img_style_circle">
                                     <span class="tve_image_frame">
                                         <img class="tve_image"
                                              src="<?php echo TVE_LANDING_PAGE_TEMPLATE . '/css/images/shanemelaugh2.jpg' ?>"
@@ -153,7 +155,8 @@ $tzd = $sign . str_pad($hour, 2, '0', STR_PAD_LEFT) . ':' . str_pad($min % 60, 2
                             <div class="tve_colm tve_twc tve_lst">
                                 <div class="thrv_wrapper thrv_columns tve_clearfix">
                                     <div class="tve_colm tve_oth">
-                                        <div style="width: 135px;" class="thrv_wrapper tve_image_caption aligncenter img_style_circle">
+                                        <div style="width: 135px;"
+                                             class="thrv_wrapper tve_image_caption aligncenter img_style_circle">
                                     <span class="tve_image_frame">
                                         <img class="tve_image"
                                              src="<?php echo TVE_LANDING_PAGE_TEMPLATE . '/css/images/girl.jpg' ?>"
@@ -166,7 +169,7 @@ $tzd = $sign . str_pad($hour, 2, '0', STR_PAD_LEFT) . ':' . str_pad($min % 60, 2
                                             <div class="tve_colm tve_twc">
                                                 <p style="color: #333333; font-size: 20px;margin-bottom: 0;margin-top: 0;padding-bottom: 0;"
                                                    class="tve_p_left">
-                                                    <span class="bold_text">Anna Smith</span>
+                                                    <span class="bold_text">Anna S.</span>
                                                 </p>
                                             </div>
                                             <div class="tve_colm tve_twc tve_lst">
@@ -214,7 +217,7 @@ $tzd = $sign . str_pad($hour, 2, '0', STR_PAD_LEFT) . ':' . str_pad($min % 60, 2
     </div>
 </div>
 <div class="tve_lp_footer tve_empty_dropzone tve_drop_constraint" data-forbid=".thrv_page_section,.sc_page_section">
-    <p class="tve_p_center" style="color: #333333;font-size: 17px;margin-top: 10px;">© 2014 Webinar Landing Page.
+    <p class="tve_p_center" style="color: #333333;font-size: 17px;margin-top: 10px;">© {tcb_current_year} Webinar Landing Page.
         All
         rights Reserved | Disclaimer</p>
 </div>

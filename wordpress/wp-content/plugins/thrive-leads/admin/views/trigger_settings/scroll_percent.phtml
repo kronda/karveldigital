@@ -7,6 +7,19 @@
     <input class="trigger-config tve-input-small inline input-slider" type="text" name="p" id="slider-scroll-input" value="<?php echo (int)$config['p'] ?>" size="3"> %
     &nbsp;
 </div>
+
+<label class="form-label-tve-control-label" for="tl-timer-exit">
+    <?php echo __('SmartExit+', 'thrive-leads') ?>
+</label>
+<div class="form-field">
+    <label class="tve-switch">
+        <input type="checkbox" class="trigger-config" value="1" name="exi"<?php echo empty($config['exi']) ? '' : ' checked="checked"' ?>>
+        <i></i>
+    </label>
+    <div class="clear"></div>
+    <p class="tve-form-description" style="margin-top: 0;"><?php echo __('Use this option to trigger the form on exit-intent if the visitor attempts to leave the site before the defined scroll depth is reached', 'thrive-leads') ?></p>
+</div>
+
 <script type="text/javascript">
     (function ($) {
         $(function() {

@@ -132,6 +132,7 @@ if (!class_exists('TCB_Thrive_Lightbox')) {
 
             global $post;
             $old_post = $post;
+            $GLOBALS['tcb_main_post_lightbox'] = $old_post;
             $post = $lightbox;
 
             $lightbox_content = str_replace(']]>', ']]&gt;', apply_filters('the_content', $lightbox->post_content));
@@ -185,7 +186,7 @@ if (!class_exists('TCB_Thrive_Lightbox')) {
             }
 
             return sprintf(
-                '<br><a href="%s" title="Edit this Lightbox" target="_blank" class="tve_link_no_warning">Edit this Lightbox</a>',
+                '<br><a href="%s" title="Edit this Lightbox" target="_blank" class="tve_link_no_warning tve_lightbox_link tve_lightbox_link_edit">Edit this Lightbox</a>',
                 tcb_get_editor_url($this->config['l_id'])
             );
         }
@@ -227,15 +228,28 @@ if (!class_exists('TCB_Thrive_Lightbox')) {
                 tve_enqueue_icon_pack();
             }
 
+            tve_enqueue_extra_resources($lightbox_id);
+
             /* check for the lightbox style and include it */
             tve_enqueue_style_family($lightbox_id);
 
             tve_enqueue_custom_fonts($lightbox_id, true);
 
+            /* output any css needed for the extra (imported) fonts */
+            if (function_exists('tve_output_extra_custom_fonts_css')) {
+                tve_output_extra_custom_fonts_css($lightbox_id);
+            }
+
             $lightbox_content = get_post_meta($lightbox_id, 'tve_updated_post', true);
             tve_parse_events($lightbox_content);
-        }
 
+            $globals = tve_get_post_meta($lightbox_id, 'tve_globals');
+            if (!empty($globals['js_sdk'])) {
+                foreach ($globals['js_sdk'] as $handle) {
+                    wp_script_is('tve_js_sdk_' . $handle) || wp_enqueue_script('tve_js_sdk_' . $handle, tve_social_get_sdk_link($handle), array(), false);
+                }
+            }
+        }
 
     }
 }

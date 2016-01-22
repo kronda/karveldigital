@@ -229,7 +229,7 @@ class TTFMP_PerPage_Metabox {
 			$this->control_item( $post, 'checkbox', 'layout-page-sidebar-right', __( 'Show right sidebar', 'make-plus' ), 'default-only' );
 
 			if ( isset( $shop_sidebar_views[0] ) && in_array( 'page', (array) $shop_sidebar_views[0] ) ) :
-				$this->control_heading( __( 'Shop Sidebar Location', 'make-plus' ) );
+				$this->control_heading( __( 'Shop Sidebar Location', 'make-plus' ), 'default-only' );
 				$this->control_item( $post, 'select', 'layout-page-shop-sidebar', '', 'default-only' );
 			endif;
 
@@ -282,8 +282,8 @@ class TTFMP_PerPage_Metabox {
 			$this->control_heading( __( 'Header, Footer, Sidebars', 'make-plus' ), 'first' );
 			$this->control_item( $post, 'checkbox', 'layout-shop-hide-header', __( 'Hide site header', 'make-plus' ) );
 			$this->control_item( $post, 'checkbox', 'layout-shop-hide-footer', __( 'Hide site footer', 'make-plus' ) );
-			$this->control_item( $post, 'checkbox', 'layout-shop-sidebar-left', __( 'Show left sidebar', 'make-plus' ) );
-			$this->control_item( $post, 'checkbox', 'layout-shop-sidebar-right', __( 'Show right sidebar', 'make-plus' ) );
+			$this->control_item( $post, 'checkbox', 'layout-shop-sidebar-left', __( 'Show left sidebar', 'make-plus' ), 'default-only' );
+			$this->control_item( $post, 'checkbox', 'layout-shop-sidebar-right', __( 'Show right sidebar', 'make-plus' ), 'default-only' );
 
 			if ( isset( $shop_sidebar_views[0] ) && in_array( 'shop', (array) $shop_sidebar_views[0] ) ) :
 				$this->control_heading( __( 'Shop Sidebar Location', 'make-plus' ) );

@@ -123,10 +123,12 @@ class Thrive_Api_CustomHtml
 
         $html = $this->_tableRenderer->fieldsTable($parsed_responder_code['elements']);
 
-        $html .= '<a href="javascript:void(0)" id="thrive_btn_save_autoresponder_fields" class="tve_editor_btn tve_btn_success tve_click" data-ctrl="function:auto_responder.save_custom_code"><span>Save</span></a>';
+        $html .= '</div><a href="javascript:void(0)" id="thrive_btn_save_autoresponder_fields" class="tve_editor_button tve_editor_button_success tve_click" data-ctrl="function:auto_responder.save_custom_code">Save</a>';
 
         $parsed_responder_code['stripped_code'] = ($this->_isMailchimp() && strpos($autoresponder_code, 'mailchimp') === false ? '<span style="display:none">mailchimp</span>' : '') . $autoresponder_code;
         $parsed_responder_code['html'] = $html;
+        $captcha_api = Thrive_List_Manager::credentials('recaptcha');
+        $parsed_responder_code['captcha_site_key'] = empty($captcha_api['site_key']) ? '' : $captcha_api['site_key'];
 
         return $parsed_responder_code;
     }
@@ -168,7 +170,7 @@ class Thrive_Api_CustomHtml
 
             if ($form_elements->length > 0) {
                 $response['form_action'] = $form_elements->item(0)->getAttribute('action');
-                $response['method'] = $form_elements->item(0)->getAttribute('method');
+                $response['form_method'] = $form_elements->item(0)->getAttribute('method');
             }
 
             $xpath = new DOMXPath($DOM);
@@ -236,10 +238,14 @@ class Thrive_Api_CustomHtml
             return;
         }
 
+        $text_input_types = array(
+            'text', 'email', 'tel', 'url', 'time', 'week', 'color', 'date', 'datetime', 'datetime-local', 'month', 'number', 'search'
+        );
+
         $o_name = $element->getAttribute('name');
         $element_name = $this->attrName($o_name);
 
-        if ($element_type == "text" || $element_type == "email") {
+        if (in_array($element_type, $text_input_types)) {
             //hot fix for mailchimp
             if ($this->_isMailchimp() && strlen($element_name) > 30) {
                 $element_value = str_replace(" ", "", $element->getAttribute('value'));
@@ -262,7 +268,7 @@ class Thrive_Api_CustomHtml
                     'options' => array()
                 );
             }
-            $response['elements'][$element_name]['options'][$this->attrName($value)] = $value;
+            $response['elements'][$element_name]['options'][sanitize_title($value)] = $value;
         } elseif ($element_type === 'checkbox') {
             $value = $element->getAttribute('value');
             $response['elements'][$element_name] = array(

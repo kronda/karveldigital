@@ -79,6 +79,10 @@ function tve_get_event_actions($scope = '')
                 'class' => 'TCB_Thrive_CSS_Animation',
                 'order' => 30,
             ),
+            'thrive_zoom' => array(
+                'class' => 'TCB_Thrive_Image_Zoom',
+                'order' => 40,
+            ),
         ),
         'page' => array(
             'thrive_lightbox' => array(
@@ -117,5 +121,4 @@ function tve_event_manager_ajax()
     }
 
     TCB_Event_Manager_Controller::getInstance()->dispatch();
-
 }

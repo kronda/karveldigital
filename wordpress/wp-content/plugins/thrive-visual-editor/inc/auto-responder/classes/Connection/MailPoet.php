@@ -4,6 +4,15 @@
 class Thrive_List_Connection_MailPoet extends Thrive_List_Connection_Abstract
 {
     /**
+     * Return the connection type
+     * @return String
+     */
+    public static function getType()
+    {
+        return 'autoresponder';
+    }
+
+    /**
      * @return string
      */
     public function getTitle()
@@ -37,7 +46,7 @@ class Thrive_List_Connection_MailPoet extends Thrive_List_Connection_Abstract
     public function readCredentials()
     {
         if (!$this->pluginInstalled()) {
-            return $this->error('MailPoet plugin must be installed and activated.');
+            return $this->error(__('MailPoet plugin must be installed and activated.', 'thrive-cb'));
         }
 
         $this->setCredentials(array('e' => true));
@@ -47,7 +56,7 @@ class Thrive_List_Connection_MailPoet extends Thrive_List_Connection_Abstract
         if ($result !== true) {
             return $this->error('<strong>' . $result . '</strong>)');
         }
-        $this->success('MailPoet integration activated.');
+        $this->success(__('MailPoet integration activated.', 'thrive-cb'));
         /**
          * finally, save the connection details
          */
@@ -62,7 +71,7 @@ class Thrive_List_Connection_MailPoet extends Thrive_List_Connection_Abstract
     public function testConnection()
     {
         if (!$this->pluginInstalled()) {
-            return 'MailPoet plugin must be installed and activated.';
+            return __('MailPoet plugin must be installed and activated.', 'thrive-cb');
         }
 
         return true;
@@ -87,7 +96,7 @@ class Thrive_List_Connection_MailPoet extends Thrive_List_Connection_Abstract
     protected function _getLists()
     {
         if (!$this->pluginInstalled()) {
-            $this->_error = 'MailPoet plugin could not be found.';
+            $this->_error = __('MailPoet plugin could not be found.', 'thrive-cb');
             return false;
         }
 
@@ -110,7 +119,7 @@ class Thrive_List_Connection_MailPoet extends Thrive_List_Connection_Abstract
     public function addSubscriber($list_identifier, $arguments)
     {
         if (!$this->pluginInstalled()) {
-            return 'MailPoet plugin is not installed / activated';
+            return __('MailPoet plugin is not installed / activated', 'thrive-cb');
         }
 
         list($firstname, $lastname) = $this->_getNameParts($arguments['name']);
@@ -136,7 +145,7 @@ class Thrive_List_Connection_MailPoet extends Thrive_List_Connection_Abstract
             } elseif (isset($messages['error'])) {
                 return implode('<br><br>', $messages['error']);
             }
-            return "Subscriber could not be saved: ";
+            return __("Subscriber could not be saved", 'thrive-cb');
         }
 
         return true;

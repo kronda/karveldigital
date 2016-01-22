@@ -22,6 +22,7 @@ class PostGridHelper
             'item_headline' => '', //custom color
             'font-size' => '',
             'custom-font-class' => '',
+            'font-family' => '',
             'image-height' => '',
             'text-line-height' => '',
             'read_more_color' => '',
@@ -36,6 +37,8 @@ class PostGridHelper
             }
             unset($config['currentConfig']);
         }
+
+        $config = stripslashes_deep($config);
 
         $this->_config = $config;
 
@@ -72,6 +75,9 @@ class PostGridHelper
      */
     function tve_get_post_grid_posts($types = 'any', $filters = array(), $post_per_page = 3, $posts_start = 0, $order = "ASC", $orderby = 'title')
     {
+        if (empty($this->_config['exclude'])) {
+            $this->_config['exclude'] = 0;
+        }
         $args = array(
             'post_type' => $types,
             'offset' => $posts_start,
@@ -83,22 +89,51 @@ class PostGridHelper
         );
 
         if (!empty($filters['category'])) {
-            $categories = trim($filters['category'], ",");
-            $args['category_name'] = $categories;
+            $filters['category'] = trim($filters['category'], ",");
+            $category_names = explode(",", $filters['category']);
+            $category_IDs = array();
+            if(!empty($category_names)) {
+                foreach($category_names as $name) {
+                    $name = stripslashes($name);
+                    $category_IDs[] = get_cat_ID($name);
+                }
+            }
+            $args['tax_query'] = array(
+                'relation' => 'OR',
+                array(
+                    'taxonomy' => 'category',
+                    'field' => 'term_id',
+                    'terms' => $category_IDs
+                ),
+                array(
+                    'taxonomy' => 'apprentice',
+                    'field' => 'name',
+                    'terms' => $filters['category'],
+                )
+            );
         }
 
         if (!empty($filters['tag'])) {
             $tag_names = explode(",", trim($filters['tag'], ','));
             $tag_names = array_unique($tag_names);
-            $tags = array();
-            foreach ($tag_names as $tag_name) {
-                $tag = get_term_by('name', $tag_name, 'post_tag');
-                if (!$tag) {
-                    continue;
-                }
-                $tags[] = $tag->slug;
+            $query_tags = array(
+                'relation' => 'OR',
+                array(
+                    'taxonomy' => 'post_tag',
+                    'field' => 'name',
+                    'terms' => $tag_names
+                ),
+                array(
+                    'taxonomy' => 'apprentice-tag',
+                    'field' => 'name',
+                    'terms' => $tag_names
+                )
+            );
+            if(!empty($filters['category'])) {
+                $args['tax_query'][] = $query_tags;
+            } else {
+                $args['tax_query'] = $query_tags;
             }
-            $args['tag_slug__in'] = $tags;
         }
 
         if (!empty($filters['tax'])) {
@@ -195,13 +230,13 @@ class PostGridHelper
         ?>
         <a href="<?php echo get_permalink($post) ?>">
             <div class="tve_post_grid_image_wrapper"
-                 style="background-image: url('<?php echo $src; ?>'); <?php echo $height?>">
+                 style="background-image: url('<?php echo $src; ?>'); <?php echo $height ?>">
                 <div class="tve_pg_img_overlay">
                     <span class="thrv-icon thrv-icon-forward"></span>
                 </div>
             </div>
         </a>
-    <?php
+        <?php
     }
 
     function tve_post_grid_display_post_text($post_item, array $config)
@@ -256,7 +291,9 @@ class PostGridHelper
         }
 
         $custom_item_text = !empty($config['item_text']) ? ' data-tve-custom-colour="' . $config['item_text'] . '"' : '';
-        ?><div class="tve-post-grid-text" style="<?php echo $text_style; ?>" <?php echo $custom_item_text ?>><?php echo $content; ?></div><?php
+        ?>
+        <div class="tve-post-grid-text"
+             style="<?php echo $text_style; ?>" <?php echo $custom_item_text ?>><?php echo $content; ?></div><?php
     }
 
     function tve_post_grid_display_post_title($post, $config)
@@ -271,9 +308,10 @@ class PostGridHelper
 
         $item_title_class = trim(implode(' ', array($custom_font_class, $item_title_class)));
         $style_line_height = !empty($config['text-line-height']) ? "line-height: {$config['text-line-height']};" : '';
+        $font_family = !empty($config['font-family']) ? "font-family:" . stripslashes($config['font-family']) . ";" : '';
 
         ?><span class="tve-post-grid-title <?php echo $item_title_class; ?>"
-                style="<?php echo $font_size . $style_line_height;?>"><a <?php echo $custom_item_headline ?>
+                style="<?php echo $font_size . $style_line_height . $font_family; ?>"><a <?php echo $custom_item_headline ?>
             href="<?php echo get_permalink($post) ?>"><?php echo $post->post_title ?></a></span><?php
     }
 
@@ -286,7 +324,7 @@ class PostGridHelper
             <a href="<?php echo get_permalink($post) ?>"<?php echo $custom_color ?>><?php echo $read_more_text ?></a>
             <span class="thrv-icon thrv-icon-uniE602"></span>
         </div>
-    <?php
+        <?php
     }
 
     /**
@@ -319,7 +357,8 @@ class PostGridHelper
         return trim($string);
     }
 
-    function get_summary($content) {
+    function get_summary($content)
+    {
         //summary
         $content = wp_strip_all_tags($content, true);
         $words = explode(" ", $content);

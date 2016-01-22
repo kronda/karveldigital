@@ -10,6 +10,9 @@
  * - tve_load_custom_css - load custom CSS for lightboxes and regular forms - in frontend
  */
 
+/* include autoresponder files for one click signup (new name: Signup Segue) */
+add_filter('tve_leads_include_auto_responder', 'tve_leads_include_auto_responder_file');
+
 require_once dirname(dirname(__FILE__)) . '/tcb/plugin-core.php';
 
 /* short-circuit the tve_license_check notice by always returning true */
@@ -20,6 +23,15 @@ add_filter('tcb_post_types', 'tve_leads_disable_edit', 5);
 
 /* enqueue scripts for the frontend - used only in editing and preview modes */
 add_action('wp_enqueue_scripts', 'tve_leads_frontend_enqueue_scripts');
+
+add_filter('tve_filter_plugin_languages_path', 'tve_leads_filter_tcb_language_path');
+
+function tve_leads_filter_tcb_language_path($path)
+{
+    $path = 'thrive-leads/tcb/languages/';
+
+    return $path;
+}
 
 if (!function_exists('tve_editor_url')) {
     /**
@@ -65,12 +77,14 @@ function tve_leads_frontend_enqueue_scripts()
     if (tve_get_post_meta(get_the_ID(), 'tve_has_masonry')) {
         wp_enqueue_script("jquery-masonry", array('jquery'));
     }
+    if (tve_get_post_meta(get_the_ID(), 'tve_has_typefocus')) {
+        tve_enqueue_script('tve_typed', tve_editor_js() . '/typed.min.js', array(), false, true);
+    }
     wp_enqueue_style("tve_default", tve_editor_css() . '/thrive_default.css');
     wp_enqueue_style("tve_colors", tve_editor_css() . '/thrive_colors.css');
     tve_enqueue_style_family();
 
     tve_enqueue_script("tve_frontend", tve_editor_js() . '/thrive_content_builder_frontend.min.js', array('jquery'), false, true);
-    wp_enqueue_script("jquery_cookie", tve_editor_js() . '/jquery.cookie.min.js', array('jquery'), false, true); // no version needed here
 
     if (!is_editor_page() && is_singular()) {
         $events = tve_get_post_meta(get_the_ID(), 'tve_page_events');

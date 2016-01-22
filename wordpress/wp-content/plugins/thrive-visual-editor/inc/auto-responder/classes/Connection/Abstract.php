@@ -117,6 +117,8 @@ abstract class Thrive_List_Connection_Abstract
      *
      * @param string $field
      * @param mixed $value
+     *
+     * @return $this
      */
     public function setParam($field, $value)
     {
@@ -127,9 +129,11 @@ abstract class Thrive_List_Connection_Abstract
 
     /**
      * output directly the html for a connection form from views/setup
+     *
      * @param string $filename
+     * @param array $data allows passing variables to the view file
      */
-    protected function _directFormHtml($filename)
+    protected function _directFormHtml($filename, $data = array())
     {
         include dirname(dirname(dirname(__FILE__))) . '/views/setup/' . $filename . '.php';
     }
@@ -231,6 +235,14 @@ abstract class Thrive_List_Connection_Abstract
         );
     }
 
+    /**
+     * Return the connection type
+     * @return String
+     */
+    public static function getType()
+    {
+        return 'autoresponder';
+    }
 
     /**
      * @return string the API connection title
@@ -295,7 +307,7 @@ abstract class Thrive_List_Connection_Abstract
     public function getLists($use_cache = true)
     {
         if (!$this->isConnected()) {
-            $this->_error = $this->getTitle() . ' is not connected';
+            $this->_error = $this->getTitle() . ' ' . __("is not connected", 'thrive-cb');
             return false;
         }
         $cache = get_option('thrive_auto_responder_lists', array());
@@ -330,6 +342,16 @@ abstract class Thrive_List_Connection_Abstract
     public function getWarnings()
     {
         return array();
+    }
+
+    /**
+     * output any (possible) extra editor settings for this API
+     *
+     * @param array $params allow various different calls to this method
+     */
+    public function renderExtraEditorSettings($params = array())
+    {
+        return;
     }
 
 }

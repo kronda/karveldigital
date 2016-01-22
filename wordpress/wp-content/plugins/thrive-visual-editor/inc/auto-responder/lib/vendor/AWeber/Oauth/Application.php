@@ -401,7 +401,6 @@ class Thrive_Api_AWeber_Oauth_Application implements Thrive_Api_AWeber_Oauth_Ada
         return $data;
     }
 
-
     /**
      * makeRequest
      *
@@ -417,6 +416,18 @@ class Thrive_Api_AWeber_Oauth_Application implements Thrive_Api_AWeber_Oauth_Ada
      */
     public function makeRequest($method, $url, $data = array())
     {
+        /**
+         * AWeber requires curl extension to be enabled and have the https protocol available
+         */
+        if (!extension_loaded('curl') || !function_exists('curl_version')) {
+            throw new Thrive_Api_AWeber_Exception('AWeber needs the php <strong>curl</strong> extension to be enabled and support the HTTPS protocol. Please contact you hosting provider and ask them to enable it on your server.');
+        }
+
+        $version = curl_version();
+        if (!in_array('https', $version['protocols'])) {
+            throw new Thrive_Api_AWeber_Exception('AWeber needs the php <strong>curl</strong> extension to be enabled and support the HTTPS protocol. Please contact you hosting provider and ask them to enable it on your server. The currently installed protocols are: ' . implode(', ', $version['protocols']));
+        }
+
         if ($this->debug) echo "\n** {$method}: $url\n";
 
         $args = array(
@@ -462,6 +473,7 @@ class Thrive_Api_AWeber_Oauth_Application implements Thrive_Api_AWeber_Oauth_Ada
         if ($response instanceof WP_Error) {
             throw new Thrive_Api_AWeber_APIException(array(
                 'error' => $response->get_error_message(),
+                'message' => $response->get_error_message(),
                 'type' => 'APIUnreachableError'
             ), $url);
         }

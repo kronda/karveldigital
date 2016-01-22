@@ -1,4 +1,4 @@
-<span class="tve_options_headline"><span class="tve_icm tve-ic-move"></span>Credit Cards options</span>
+<span class="tve_options_headline"><span class="tve_icm tve-ic-move"></span><?php echo __("Credit Cards options", "thrive-cb") ?></span>
 <ul class="tve_menu">
     <li class="tve_ed_btn">
         <span class="tve_icm tve-ic-paragraph-left tve_click" data-ctrl="controls.click.css" data-prop="float" data-val="left" data-elem=".thrv_cc_wrapper"></span>

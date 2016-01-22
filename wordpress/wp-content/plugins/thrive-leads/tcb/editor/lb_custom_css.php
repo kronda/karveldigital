@@ -1,3 +1,4 @@
-<h2>Insert Custom CSS into the page. Be sure only to add CSS code to the text area below !</h2>
+<h4><?php echo __("Insert Custom CSS into the page. Be sure only to add CSS code to the text area below !", "thrive-cb") ?></h4>
+<hr class="tve_lightbox_line"/>
 <input type="hidden" name="tve_lb_type" value="tve_custom_css">
-<textarea name="tve_custom_css" style="border:1px solid #b6b6b6; background:#fefefe" rows="20" cols="70">/** Insert your custom CSS rules here. **/</textarea>
+<textarea name="tve_custom_css" class="tve_lightbox_textarea tve_textarea_large"><?php echo __("/** Insert your custom CSS rules here. **/", "thrive-cb") ?></textarea>

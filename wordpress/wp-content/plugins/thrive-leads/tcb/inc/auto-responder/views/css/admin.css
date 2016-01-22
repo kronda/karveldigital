@@ -224,3 +224,13 @@
   border: 1px solid #9b1f1f;
   box-shadow: inset 1px 1px 0px 0px #d57c7c, 0px 1px 0px 0px #dbdbdb;
 }
+
+table.logs tr.tve-success td {
+    background-color: lightgreen;
+}
+table.logs tr td {
+    transition: all 0.5s ease;
+}
+table.logs tr.tve-error td {
+    background-color: lightpink;
+}

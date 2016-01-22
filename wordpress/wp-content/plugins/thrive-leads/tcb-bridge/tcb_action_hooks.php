@@ -38,6 +38,11 @@ define('TVE_LEADS_FIELD_CUSTOM_FONTS', 'fonts');
 define('TVE_LEADS_FIELD_HAS_MASONRY', 'masonry');
 
 /**
+ * field for a flag that indicates whether or not the form variation needs a typist library
+ */
+define('TVE_LEADS_FIELD_HAS_TYPEFOCUS', 'typefocus');
+
+/**
  * field that holds the key of the template used for the form design
  */
 define('TVE_LEADS_FIELD_TEMPLATE', 'tpl');
@@ -46,6 +51,11 @@ define('TVE_LEADS_FIELD_TEMPLATE', 'tpl');
  * field that holds the index of the state template (used in multi-step templates manager)
  */
 define('TVE_LEADS_FIELD_STATE_INDEX', 'state_index');
+
+/**
+ * field that holds the visibility status of the already-subscribed state
+ */
+define('TVE_LEADS_FIELD_STATE_VISIBILITY', 'visibility');
 
 /**
  * the action name for the save post ajax callback
@@ -126,7 +136,7 @@ add_filter('tcb_user_can_edit', 'tve_leads_editor_check_tcb_version');
 /**
  * check if custom CSS code exists for a form and output that
  */
-add_action('tcb_content_custom_css', 'tve_leads_output_custom_css', 10, 1);
+add_action('tcb_content_custom_css', 'tve_leads_output_custom_css', 10, 3);
 
 /**
  * action hook that overrides the default tve_save_post action from the editor
@@ -155,7 +165,7 @@ add_action('tcb_custom_menus_html', 'tve_leads_custom_elements_menu', 10, 3);
 add_action('tcb_custom_top_buttons', 'tve_leads_add_template_button', 10, 3);
 
 /**
- * filter for adding extra event actions - first thing we add -> open 2 step lightbox
+ * filter for adding extra event actions - first thing we add -> open 2 step lightbox (new name: ThriveBox)
  */
 add_filter('tcb_event_actions', 'tve_leads_get_event_actions', 10, 3);
 
@@ -175,12 +185,14 @@ function tve_leads_get_editor_fields()
         TVE_LEADS_FIELD_CUSTOM_FONTS,
         TVE_LEADS_FIELD_GLOBALS,
         TVE_LEADS_FIELD_HAS_MASONRY,
+        TVE_LEADS_FIELD_HAS_TYPEFOCUS,
         TVE_LEADS_FIELD_ICON_PACK,
         TVE_LEADS_FIELD_INLINE_CSS,
         TVE_LEADS_FIELD_SAVED_CONTENT,
         TVE_LEADS_FIELD_USER_CSS,
         TVE_LEADS_FIELD_TEMPLATE,
-        TVE_LEADS_FIELD_STATE_INDEX
+        TVE_LEADS_FIELD_STATE_INDEX,
+        TVE_LEADS_FIELD_STATE_VISIBILITY,
     );
 }
 
@@ -356,6 +368,9 @@ function tve_leads_get_form_layout($current_templates, $post_id, $post_type)
     }
 
     $form_type = tve_leads_get_form_type_from_variation($variation);
+    if (isset($variation['tpl']) && strpos($variation['tpl'], 'screen_filler') !== false) {
+        $form_type = 'screen_filler';
+    }
 
     if (!array_key_exists($form_type, $available)) {
         return $current_templates;
@@ -389,7 +404,7 @@ function tve_leads_get_form_layout($current_templates, $post_id, $post_type)
 
     if (is_editor_page()) {
 
-        tve_leads_enqueue_script('tve-leads-editor', TVE_LEADS_URL . 'js/editor.js', array('tve_editor'));
+        tve_leads_enqueue_script('tve-leads-editor', TVE_LEADS_URL . 'js/editor.min.js', array('tve_editor'));
         /**
          * build up the page data configuration array
          */
@@ -417,6 +432,15 @@ function tve_leads_get_form_layout($current_templates, $post_id, $post_type)
     } else {
         /* include the custom fonts, if any -> this is the preview page */
         tve_leads_enqueue_custom_fonts($variation);
+    }
+
+    $globals = !empty($variation[TVE_LEADS_FIELD_GLOBALS]) ? $variation[TVE_LEADS_FIELD_GLOBALS] : array();
+    if (!empty($globals['js_sdk'])) {
+        foreach ($globals['js_sdk'] as $handle) {
+            $link = tve_social_get_sdk_link($handle);
+            $js['tve_js_sdk_' . $handle] = $link;
+            wp_script_is('tve_js_sdk_' . $handle) || wp_enqueue_script('tve_js_sdk_' . $handle, $link, array(), false);
+        }
     }
 
     /* "emulate" the default Thrive Lightbox using the same CSS for that */
@@ -487,7 +511,7 @@ function tve_leads_variation_has_content($variation)
 /**
  * output custom CSS for a form variation
  *
- * this will only be displayed
+ * UPDATE 19.11.2015 - the Custom CSS is only saved once in the default state (in the "parent" variation)
  *
  * @param mixed $variation can be either a numeric value - for variation_key or an already loaded variation array
  * @param bool $return whether to output the CSS or return it
@@ -507,12 +531,31 @@ function tve_leads_output_custom_css($variation, $return = false)
     if (!empty($variation[TVE_LEADS_FIELD_INLINE_CSS])) { /* inline style rules = custom colors */
         $css .= sprintf('<style type="text/css" class="tve_custom_style">%s</style>', $variation[TVE_LEADS_FIELD_INLINE_CSS]);
     }
+
     /* user-defined Custom CSS rules for the form */
+    $custom_css = '';
+    /**
+     * first, check for a parent variation
+     */
+    if (!empty($variation['parent_id'])) {
+        $parent_state = tve_leads_get_form_variation(null, $variation['parent_id']);
+        if (!empty($parent_state) && !empty($parent_state[TVE_LEADS_FIELD_USER_CSS])) {
+            $custom_css = $parent_state[TVE_LEADS_FIELD_USER_CSS] . $custom_css;
+        }
+    }
+
+    /**
+     * fallback / backwards-compatibility: get the CustomCSS from the state itself
+     */
     if (!empty($variation[TVE_LEADS_FIELD_USER_CSS])) {
+        $custom_css = $variation[TVE_LEADS_FIELD_USER_CSS] . $custom_css;
+    }
+
+    if (!empty($custom_css)) {
         $css .= sprintf(
             '<style type="text/css"%s class="tve_user_custom_style">%s</style>',
             $return ? '' : ' id="tve_head_custom_css"', // if we return the CSS, do not append the id to the stylesheet
-            $variation[TVE_LEADS_FIELD_USER_CSS]
+            $custom_css
         );
     }
 
@@ -654,6 +697,14 @@ function tve_editor_custom_content($variation = null, $filters = array())
         tve_enqueue_icon_pack();
     }
 
+    if (!empty($variation[TVE_LEADS_FIELD_HAS_MASONRY])) {
+        wp_enqueue_script('jquery-masonry');
+    }
+
+    if (!empty($variation[TVE_LEADS_FIELD_HAS_TYPEFOCUS])) {
+        tve_enqueue_script('tve_typed', tve_editor_js() . '/typed.min.js', array(), false, true);
+    }
+
     $tve_saved_content = preg_replace_callback('/__CONFIG_lead_generation__(.+?)__CONFIG_lead_generation__/s', 'tcb_lg_err_inputs', $tve_saved_content);
 
     if (!$is_editor_page) {
@@ -709,6 +760,17 @@ function tve_leads_save_editor_content()
     $variation[TVE_LEADS_FIELD_CUSTOM_FONTS] = tve_leads_get_custom_font_links(empty($_POST['custom_font_classes']) ? array() : $_POST['custom_font_classes']);
     $variation[TVE_LEADS_FIELD_ICON_PACK] = empty($_POST['has_icons']) ? 0 : 1;
     $variation[TVE_LEADS_FIELD_HAS_MASONRY] = empty($_POST['tve_has_masonry']) ? 0 : 1;
+    $variation[TVE_LEADS_FIELD_HAS_TYPEFOCUS] = empty($_POST['tve_has_typefocus']) ? 0 : 1;
+
+    /**
+     * UPDATE 19.11.2015 - the custom CSS will be saved in the parent form
+     */
+    if (!empty($variation['parent_id']) && ($parent_state = tve_leads_get_form_variation(null, $variation['parent_id']))) {
+        $parent_state[TVE_LEADS_FIELD_USER_CSS] = $_POST['tve_custom_css'];
+        $variation[TVE_LEADS_FIELD_USER_CSS] = '';
+
+        tve_leads_save_form_variation($parent_state);
+    }
 
     tve_leads_save_form_variation($variation);
 
@@ -752,6 +814,7 @@ function tve_leads_get_editor_template_content(& $variation, $template_key = nul
     $variation[TVE_LEADS_FIELD_CUSTOM_FONTS] = array();
     $variation[TVE_LEADS_FIELD_ICON_PACK] = '';
     $variation[TVE_LEADS_FIELD_HAS_MASONRY] = '';
+    $variation[TVE_LEADS_FIELD_HAS_TYPEFOCUS] = '';
 
     /**
      * also read in any other configuration values that might be rquired for this form
@@ -823,14 +886,16 @@ function tve_leads_get_custom_font_links($custom_font_classes = array())
     $post_fonts = array();
     foreach (array_unique($custom_font_classes) as $cls) {
         foreach ($all_fonts as $font) {
-            if ($font->font_class == $cls) {
+            if (Thrive_Font_Import_Manager::isImportedFont($font->font_name)) {
+                $post_fonts[] = Thrive_Font_Import_Manager::getCssFile();
+            } else if ($font->font_class == $cls && !tve_is_safe_font($font)) {
                 $post_fonts[] = tve_custom_font_get_link($font);
                 break;
             }
         }
     }
 
-    return $post_fonts;
+    return array_unique($post_fonts);
 }
 
 /**
@@ -862,6 +927,7 @@ function tve_leads_custom_elements_menu($menu_path)
     include dirname(dirname(__FILE__)) . '/editor-layouts/element-menus/slide_in.php';
     include dirname(dirname(__FILE__)) . '/editor-layouts/element-menus/lead_form.php';
     include dirname(dirname(__FILE__)) . '/editor-layouts/element-menus/screen_filler.php';
+    include dirname(dirname(__FILE__)) . '/editor-layouts/element-menus/greedy_ribbon.php';
 }
 
 /**
@@ -1060,7 +1126,7 @@ function tve_leads_editor_check_tcb_version($valid)
         return $valid;
     }
 
-    if(!$valid) {
+    if (!$valid) {
         return false;
     }
 
@@ -1118,6 +1184,12 @@ function tve_leads_get_event_actions($actions, $scope, $post_id)
         'order' => 24
     );
 
+    require_once dirname(__FILE__) . '/event-manager/actions/Thrive_Leads_State_Screen_Filler_Close_Action.php';
+    $actions['tl_state_sf_close'] = array(
+        'class' => 'Thrive_Leads_State_Screen_Filler_Close_Action',
+        'order' => 26
+    );
+
     if ($parent_form_type != 'lightbox') {
 
         /**
@@ -1132,12 +1204,16 @@ function tve_leads_get_event_actions($actions, $scope, $post_id)
     /**
      * at this point, we are sure we are not editing a Thrive Leads Form - we can leave Thrive Lightboxes and add the 2-step lightboxes from TL
      */
-
     require_once dirname(__FILE__) . '/event-manager/actions/Thrive_Leads_Two_Step_Action.php';
-
     $actions['thrive_leads_2_step'] = array(
         'class' => 'Thrive_Leads_Two_Step_Action',
         'order' => 20
+    );
+
+    require_once dirname(__FILE__) . '/event-manager/actions/Thrive_Leads_Form_Close_Action.php';
+    $actions['thrive_leads_form_close'] = array(
+        'class' => 'Thrive_Leads_Form_Close_Action',
+        'order' => 27
     );
 
     return $actions;
@@ -1186,4 +1262,50 @@ function tve_leads_enqueue_resources_preview($enqueue_resources)
     }
 
     return tve_leads_is_preview_page();
+}
+
+function tve_leads_delivery_connection()
+{
+    $connection = get_option('tve_api_delivery_service', false);
+    $email_body = get_option('tve_leads_asset_mail_subject', false);
+    $email_subject = get_option('tve_leads_asset_mail_body', false);
+    $connected_apis = Thrive_List_Manager::getAvailableAPIsByType(true, array('email'));
+    $asset = !empty($_POST['asset_option']) ? $_POST['asset_option'] : '0';
+    $asset_group = !empty($_POST['asset_group']) ? $_POST['asset_group'] : '';
+
+    if (!empty($connected_apis) && $connection !== false && $email_body !== false && $email_subject !== false) {
+        $args = array(
+            'post_type' => 'tve_lead_asset_group',
+            'post_status' => 'publish',
+            'orderby' => 'date',
+            'order' => 'ASC',
+            'posts_per_page' => -1
+        );
+        $posts_array = get_posts($args);
+
+        if(!empty($posts_array)) {
+            $data = '<div class="tve_lead_asset_delivery"><div class="tve_lightbox_input_holder"><input';
+            if ($asset == 1) {
+                $data .= ' checked';
+            }
+            $data .= ' class="tve_change" data-ctrl="function:auto_responder.asset_option_changed" id="tve-asset-connection" type="checkbox" value="' . $connection . '"><label for="tve-asset-connection">' . __("Enable Asset Delivery", "thrive-leads") . '</label></div>';
+            $data .= '<div class="tve-asset-select-holder"';
+            if ($asset == 0) {
+                $data .= ' style="display: none" ';
+            }
+            $data .= '><label>' . __("Select the asset group to deliver:", "thrive-leads") . '</label><div class="tve_lightbox_select_holder" style="display: inline-block;"><select id="tve-api-submit-option" class="tve_change " data-ctrl="function:auto_responder.asset_group">';
+
+            foreach ($posts_array as $post) {
+                if (!empty($asset_group) && $asset_group == $post->ID) {
+                    $data .= '<option value="' . $post->ID . '" selected="selected">' . $post->post_title . '</option>';
+                } else {
+                    $data .= '<option value="' . $post->ID . '">' . $post->post_title . '</option>';
+                }
+
+            }
+            $data .= '</select></div></div></div>';
+            echo $data;
+        }
+    }
+
 }

@@ -5,10 +5,10 @@
 ?>
 <script type="text/javascript">
     var _now = new Date(), sExpires;
-    _now.setTime(_now.getTime() + (365 * 24 * 3600 * 1000));
-    sExpires = _now.toUTCString();
-    <?php foreach ($GLOBALS['tve_leads_set_cookies'] as $key => $value) : ?>
-        document.cookie = encodeURIComponent(<?php echo json_encode($key) ?>) + '=' + encodeURIComponent(<?php echo json_encode($value) ?>) +
+    <?php foreach ($GLOBALS['tve_leads_set_cookies'] as $key => $cookie) : ?>
+        _now.setTime(_now.getTime() + (<?php echo intval($cookie['expires']); ?> * 24 * 3600 * 1000));
+        sExpires = _now.toUTCString();
+        document.cookie = encodeURIComponent(<?php echo json_encode($key) ?>) + '=' + encodeURIComponent(<?php echo json_encode($cookie['value']) ?>) +
             '; expires=' + sExpires + '; path=/';
     <?php endforeach ?>
 </script>

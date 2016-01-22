@@ -9,6 +9,15 @@
 class Thrive_List_Connection_GetResponse extends Thrive_List_Connection_Abstract
 {
     /**
+     * Return the connection type
+     * @return String
+     */
+    public static function getType()
+    {
+        return 'autoresponder';
+    }
+
+    /**
      * @return string the API connection title
      */
     public function getTitle()
@@ -38,7 +47,7 @@ class Thrive_List_Connection_GetResponse extends Thrive_List_Connection_Abstract
         $key = !empty($_POST['connection']['key']) ? $_POST['connection']['key'] : '';
 
         if (empty($key)) {
-            return $this->error('You must provide a valid GetResponse key');
+            return $this->error(__('You must provide a valid GetResponse key', 'thrive-cb'));
         }
 
         $this->setCredentials($_POST['connection']);
@@ -46,14 +55,14 @@ class Thrive_List_Connection_GetResponse extends Thrive_List_Connection_Abstract
         $result = $this->testConnection();
 
         if ($result !== true) {
-            return $this->error('Could not connect to GetResponse using the provided key (<strong>' . $result . '</strong>)');
+            return $this->error(sprintf(__('Could not connect to GetResponse using the provided key (<strong>%s</strong>)', 'thrive-cb'), $result));
         }
 
         /**
          * finally, save the connection details
          */
         $this->save();
-        $this->success('GetResponse connected successfully');
+        $this->success(__('GetResponse connected successfully', 'thrive-cb'));
     }
 
     /**
@@ -128,6 +137,9 @@ class Thrive_List_Connection_GetResponse extends Thrive_List_Connection_Abstract
         $api = $this->getApi();
 
         try {
+            if (empty($arguments['name'])) {
+                $arguments['name'] = ' ';
+            }
             $api->addContact($list_identifier, $arguments['name'], $arguments['email']);
         } catch (Exception $e) {
             return $e->getMessage();

@@ -65,6 +65,9 @@ function tve_api_connect()
 
     $connected_apis = Thrive_List_Manager::getAvailableAPIs(true);
     $available_apis = Thrive_List_Manager::getAvailableAPIs();
+    $api_types = Thrive_List_Manager::$API_TYPES;
+
+    $api_types = apply_filters("tve_filter_api_types", $api_types);
 
     $current_key = !empty($_REQUEST['api']) ? $_REQUEST['api'] : '';
 
@@ -93,7 +96,8 @@ function tve_api_handle_save()
     $connection = Thrive_List_Manager::connectionInstance($_REQUEST['api']);
 
     if (!empty($_REQUEST['disconnect'])) {
-        $connection->disconnect()->success($connection->getTitle() . ' is now disconnected');
+        $connection->disconnect()->success($connection->getTitle() . ' ' . __("is now disconnected", 'thrive-cb'));
+        tve_remove_api_from_one_click_signups($_REQUEST['api']);
         wp_redirect(admin_url('admin.php?page=tve_api_connect'));
         exit();
     } else {
@@ -116,6 +120,11 @@ function tve_api_admin_scripts($hook)
      */
     tve_enqueue_script('tve-api-admin-global', tve_editor_url() . '/inc/auto-responder/views/js/admin-global.js', array('jquery'));
 
+    if (strpos($hook, 'thrive_api_error_log') !== false) {
+        tve_enqueue_script('tve-api-admin-logs-list', tve_editor_url() . '/inc/auto-responder/views/js/admin-logs-list.js', array('jquery'));
+        tve_enqueue_style('tve-list-api', tve_editor_url() . '/inc/auto-responder/views/css/admin.css');
+    }
+
     if (strpos($hook, 'page_tve_api_connect') === false) {
         return;
     }
@@ -128,21 +137,10 @@ function tve_api_admin_scripts($hook)
  */
 function tve_api_error_log()
 {
-    global $wpdb;
-
     require_once dirname(__FILE__) . '/misc.php';
 
-    $connections = Thrive_List_Manager::getAvailableAPIs();
-    $connection_titles = array();
-    foreach ($connections as $key => $connection) {
-        $connection_titles[$key] = $connection->getTitle();
-    }
-
-    $table = $wpdb->prefix . 'tcb_api_error_log';
-    $errors = $wpdb->get_results("SELECT * FROM `{$table}` ORDER BY `date` DESC LIMIT 200", ARRAY_A);
-    foreach ($errors as $i => $err) {
-        $errors[$i]['api_data'] = unserialize($err['api_data']);
-    }
+    $table = new Thrive_List_LogsTable(array('ajax' => false));
+    $table->prepare_items();
 
     include plugin_dir_path(__FILE__) . 'views/admin-error-logs.php';
 }
@@ -164,4 +162,21 @@ function tve_api_hide_notice()
     $connection->setParam('_nd', 1)->save();
 
     exit('1');
+}
+
+/**
+ * remove api connection from one click signups (new name: Signup Segue)
+ */
+function tve_remove_api_from_one_click_signups($apiName)
+{
+    $one_click_signups = get_posts(array('post_type' => 'tve_lead_1c_signup'));
+    foreach ($one_click_signups as $i => $item) {
+        $connections = get_post_meta($item->ID, 'tve_leads_api_connections', true);
+        foreach ($connections as $j => $connection) {
+            if ($connection['apiName'] == $apiName) {
+                unset($connections[$j]);
+            }
+        }
+        update_post_meta($item->ID, 'tve_leads_api_connections', $connections);
+    }
 }

@@ -1,5 +1,4 @@
-@import "compass/css3";
-@import "compass/support";
+@import "bourbon";
 
 @font-face {
   font-family: 'tve-leads-one-set-icons';
@@ -39,6 +38,17 @@
   font-family: 'Open Sans', sans-serif;
 }
 
+@mixin clearfix {
+  &:after {
+    content: "";
+    display: block;
+    clear: both;
+    visibility: hidden;
+    line-height: 0;
+    height: 0;
+  }
+}
+
 $white: #fff;
 $black: #000;
 body {
@@ -67,7 +77,7 @@ body {
     .tve_one_set_v2 {
       &.tve-leads-lightbox {
         .tve_p_lb_content {
-          @include border-radius(3px);
+          border-radius: 3px;
           @include lato();
           max-width: 1200px;
           padding: 0 !important;
@@ -95,8 +105,8 @@ body {
             }
           }
           .tve_cb5 {
-            @include border-top-left-radius(3px);
-            @include border-top-right-radius(3px);
+            border-top-left-radius: 3px;
+            border-top-right-radius: 3px;
             &.tve_white {
               border: 0;
             }
@@ -104,11 +114,11 @@ body {
           .tve_p_lb_inner {
             padding: 0;
             .tve_cb6 {
-              @include box-shadow(0 1px 0 0 #dadada);
+              box-shadow: 0 1px 0 0 #dadada;
               .thrv_lead_generation {
                 &.thrv_lead_generation_horizontal {
-                  input[type="text"] {
-                    padding: 26px 10px!important;
+                  input[type="text"], input[type="email"] {
+                    padding: 26px 10px !important;
                   }
                   button {
                     font-size: 18px;
@@ -116,14 +126,14 @@ body {
                   }
                 }
               }
-              @include border-radius(3px);
+              border-radius: 3px;
               border: 0;
               position: relative;
               .tve_cb_cnt {
                 padding: 15px;
               }
               &:after {
-                @include rotate(45deg);
+                @include transform(rotate(45deg));
                 background: inherit;
                 content: '';
                 display: block;
@@ -142,17 +152,17 @@ body {
     }
   }
   #tve_one_set {
-    @include text-shadow(none);
+    text-shadow: none;
     h1, h2, h3, h4, h5, h6 {
       @include lato();
-      @include text-shadow(none);
+      text-shadow: none;
       font-weight: 400;
       line-height: 1.5em;
       letter-spacing: normal;
     }
     p {
       @include lato();
-      @include text-shadow(none);
+      text-shadow: none;
       line-height: 1.5em;
       margin-bottom: 35px;
     }
@@ -170,11 +180,12 @@ body {
       }
     }
     ul.thrv_wrapper, ol.thrv_wrapper {
+      font-size: 15px;
       margin-left: 15px;
       li {
         @include lato();
         color: #3a3a3a;
-        font-size: 15px;
+        font-size: inherit;
       }
     }
     .thrv_lead_generation {
@@ -184,9 +195,9 @@ body {
         }
       }
       &.thrv_lead_generation_vertical {
-        input[type="text"] {
+        input[type="text"], input[type="email"] {
           margin-bottom: 25px;
-          padding: 26px 20px!important;
+          padding: 26px 20px !important;
         }
       }
       button {
@@ -194,9 +205,9 @@ body {
         padding: 26px 10px;
       }
       &.thrv_lead_generation_horizontal {
-        input[type="text"] {
+        input[type="text"], input[type="email"] {
           margin-bottom: 0;
-          padding: 11px 10px!important;
+          padding: 11px 10px !important;
         }
         button {
           font-size: 12px;
@@ -211,7 +222,7 @@ body {
                   width: 33%;
                 }
                 button {
-                  @include text-shadow(none);
+                  text-shadow: none;
                 }
               }
             }
@@ -220,9 +231,9 @@ body {
       }
     }
     .thrv_lead_generation_container {
-      input[type="text"] {
+      input[type="text"], input[type="email"] {
         @include opensans();
-        @include border-radius(3px);
+        border-radius: 3px;
         background: #f7f7f7;
         border: 1px solid #a3a3a3;
         color: #a2a2a2;
@@ -232,19 +243,19 @@ body {
         line-height: 22px;
         margin-top: 0;
         &:hover {
-          @include border-radius(3px);
+          border-radius: 3px;
           border: 1px solid #6bbe65;
         }
         &:focus {
-          @include border-radius(3px);
-          @include box-shadow(0 0 5px 0 #6bbe65);
+          border-radius: 3px;
+          box-shadow: 0 0 5px 0 #6bbe65;
           background: $white;
           border: 1px solid #6bbe65;
           color: #000000;
         }
       }
       button {
-        @include border-radius(3px);
+        border-radius: 3px;
         @include lato();
         font-weight: 700;
         text-transform: uppercase;
@@ -254,14 +265,14 @@ body {
       }
     }
     .tve_btn1 {
-      @include border-radius(3px);
+      border-radius: 3px;
       @include lato();
       font-weight: 700;
       font-size: 23px;
       &.tve_normalBtn {
-        line-height: 23px!important;
+        line-height: 23px !important;
         a {
-          @include text-shadow(none);
+          text-shadow: none;
           padding: 45px 20px;
         }
       }
@@ -269,7 +280,7 @@ body {
     //ribbon form
     .thrv-ribbon {
       @include opensans();
-      @include box-shadow(0 2px 4px 0 rgba($black, .6));
+      box-shadow: 0 2px 4px 0 rgba($black, .6);
       background: #6bbe65;
       .tve-ribbon-content {
         max-width: 1100px;
@@ -313,7 +324,7 @@ body {
     }
     //widget form
     .thrv-leads-widget {
-      @include border-radius(3px);
+      border-radius: 3px;
       border-width: 0;
       padding: 0 15px 15px;
       overflow: hidden;
@@ -327,8 +338,8 @@ body {
         }
       }
       .tve_cb5 {
-        @include border-top-left-radius(3px);
-        @include border-top-right-radius(3px);
+        border-top-left-radius: 3px;
+        border-top-right-radius: 3px;
         position: relative;
         .tve_cb_cnt {
           background: inherit;
@@ -337,7 +348,7 @@ body {
           z-index: 1;
         }
         &:after {
-          @include box-shadow(-3px -1px 1px 0 rgba($black, .2) inset);
+          box-shadow: -3px -1px 1px 0 rgba($black, .2) inset;
           background: inherit;
           content: '';
           height: 80px;
@@ -354,7 +365,7 @@ body {
         .tve_cb_cnt {
           p {
             @include opensans();
-            @include text-shadow(none);
+            text-shadow: none;
           }
         }
       }
@@ -368,7 +379,7 @@ body {
     //slide in form
     .thrv-leads-slide-in {
       @include opensans();
-      @include border-radius(3px);
+      border-radius: 3px;
       border-width: 0;
       max-width: 470px;
       h2 {
@@ -398,15 +409,15 @@ body {
       }
       .tve_first_cb {
         .tve_cb5 {
-          @include border-top-left-radius(3px);
-          @include border-top-right-radius(3px);
+          border-top-left-radius: 3px;
+          border-top-right-radius: 3px;
         }
       }
       .tve_cb5 {
         &.tve_black {
           background: #4c4c4c;
           p {
-            @include text-shadow(none);
+            text-shadow: none;
           }
         }
         &.tve_white {
@@ -439,7 +450,7 @@ body {
             z-index: 1;
           }
           &:after {
-            @include box-shadow(-3px -1px 1px 0 rgba($black, .2) inset);
+            box-shadow: -3px -1px 1px 0 rgba($black, .2) inset;
             background: inherit;
             content: '';
             height: 80px;
@@ -461,7 +472,7 @@ body {
     }
     //post footer
     .thrv-leads-form-box {
-      @include border-radius(3px);
+      border-radius: 3px;
       border-width: 0;
       padding: 30px;
       h2 {
@@ -471,8 +482,8 @@ body {
         font-weight: 400;
       }
       .thrv_lead_generation.thrv_lead_generation_horizontal {
-        input[type="text"] {
-          padding: 26px 10px!important;
+        input[type="text"], input[type="email"] {
+          padding: 26px 10px !important;
         }
         button {
           font-size: 18px;
@@ -521,7 +532,7 @@ body {
         }
       }
       .thrv_lead_generation_vertical {
-        input[type="text"] {
+        input[type="text"], input[type="email"] {
           margin-bottom: 10px;
         }
         button {
@@ -530,9 +541,9 @@ body {
         }
       }
       .tve_p_lb_content {
-        @include border-radius(3px);
+        border-radius: 3px;
         max-width: 800px;
-        padding: 0 40px!important;
+        padding: 0 40px !important;
       }
       h2 {
         line-height: 1em;
@@ -544,6 +555,9 @@ body {
   }
 }
 
+[class*='tve_one_set'] {
+  @include clearfix();
+}
 //gradient 1 gradient 2 box shadow gradien 3 gradient 4 box shadow
 $color-pallete: 'blue' #6ab0dc #488acb #355e7f #5ca7d3 #3e7dbd #2e5878 #3e7dbd,
 'black' #868686 #5a5a5a #434343 #767676 #505050 #3b3b3b #505050,
@@ -562,29 +576,29 @@ $color-pallete: 'blue' #6ab0dc #488acb #355e7f #5ca7d3 #3e7dbd #2e5878 #3e7dbd,
       }
     }
     .tve_btn.tve_btn1.tve_#{nth($color, 1)} {
-      @include background-image(linear-gradient(nth($color, 2), nth($color, 3)));
-      @include box-shadow(0 3px 0 0 nth($color, 4));
+      @include linear-gradient(nth($color, 2), nth($color, 3));
+      box-shadow: 0 3px 0 0 nth($color, 4);
       &:hover {
-        @include background-image(linear-gradient(nth($color, 5), nth($color, 6)));
-        @include box-shadow(0 3px 0 0 nth($color, 7));
+        @include linear-gradient(nth($color, 5), nth($color, 6));
+        box-shadow: 0 3px 0 0 nth($color, 7);
       }
       &:active {
-        @include background-image(linear-gradient(nth($color, 6), nth($color, 5)));
-        @include box-shadow(0 3px 0 0 nth($color, 7));
+        @include linear-gradient(nth($color, 6), nth($color, 5));
+        box-shadow: 0 3px 0 0 nth($color, 7);
       }
     }
     .thrv_lead_generation.tve_#{nth($color, 1)} {
       .thrv_lead_generation_container {
         button {
-          @include background-image(linear-gradient(nth($color, 2), nth($color, 3)));
-          @include box-shadow(0 3px 0 0 nth($color, 4));
+          @include linear-gradient(nth($color, 2), nth($color, 3));
+          box-shadow: 0 3px 0 0 nth($color, 4);
           &:hover {
-            @include background-image(linear-gradient(nth($color, 5), nth($color, 6)));
-            @include box-shadow(0 3px 0 0 nth($color, 7));
+            @include linear-gradient(nth($color, 5), nth($color, 6));
+            box-shadow: 0 3px 0 0 nth($color, 7);
           }
           &:active {
-            @include background-image(linear-gradient(nth($color, 6), nth($color, 5)));
-            @include box-shadow(0 3px 0 0 nth($color, 7));
+            @include linear-gradient(nth($color, 6), nth($color, 5));
+            box-shadow: 0 3px 0 0 nth($color, 7);
           }
         }
       }
@@ -604,7 +618,7 @@ $color-pallete: 'blue' #6ab0dc #488acb #355e7f #5ca7d3 #3e7dbd #2e5878 #3e7dbd,
     #tve_one_set {
       .tve_one_set_vms_step1 {
         .thrv_columns {
-          margin-top: 10px!important;
+          margin-top: 10px !important;
         }
         .tve_btn.tve_btn1 {
           a {
@@ -613,7 +627,7 @@ $color-pallete: 'blue' #6ab0dc #488acb #355e7f #5ca7d3 #3e7dbd #2e5878 #3e7dbd,
         }
       }
       .tve_one_set_v2 {
-        &.tve-leads-lightbox  {
+        &.tve-leads-lightbox {
           .tve_p_lb_close {
             top: 20px;
             right: 30px;
@@ -628,7 +642,7 @@ $color-pallete: 'blue' #6ab0dc #488acb #355e7f #5ca7d3 #3e7dbd #2e5878 #3e7dbd,
               margin-bottom: 10px !important;
             }
             .tve_cb5 {
-              @include border-radius(0);
+              border-radius: 0;
             }
             .thrv_columns {
               margin-top: 0;
@@ -663,9 +677,9 @@ $color-pallete: 'blue' #6ab0dc #488acb #355e7f #5ca7d3 #3e7dbd #2e5878 #3e7dbd,
       .tve-leads-lightbox {
         &.tve_one_set_v1 {
           .thrv_lead_generation.thrv_lead_generation_vertical {
-            input[type="text"] {
+            input[type="text"], input[type="email"] {
               margin-bottom: 10px;
-              padding: 10px!important;
+              padding: 10px !important;
             }
             button {
               padding: 15px;

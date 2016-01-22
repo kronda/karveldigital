@@ -3,7 +3,7 @@ $tve_color = isset($_POST['colour']) && strpos($_POST['colour'], 'tve_') !== fal
 $errors = array(
     'email' => 'Please enter a valid email address',
     'phone' => 'Please enter a valid phone number',
-    'required' => 'Name and Email fields are required',
+    'required' => 'Highlighted fields are required',
 );
 ?>
 <div class="thrv_wrapper thrv_lead_generation tve_clearfix <?php echo $tve_color ?>" data-tve-style="1" data-tve-version="1">

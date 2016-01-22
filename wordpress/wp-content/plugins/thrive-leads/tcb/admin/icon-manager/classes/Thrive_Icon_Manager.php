@@ -68,7 +68,7 @@ if (!class_exists('Thrive_Icon_Manager')) {
             $icon_pack = get_option('thrive_icon_pack');
 
             if (!empty($icon_pack['css'])) {
-                wp_enqueue_style('thrive_icon_pack', tve_url_no_protocol($icon_pack['css']));
+                wp_enqueue_style('thrive_icon_pack', tve_url_no_protocol($icon_pack['css']), array(), $icon_pack['css_version']);
             }
 
             $data = array(

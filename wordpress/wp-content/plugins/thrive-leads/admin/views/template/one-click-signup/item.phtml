@@ -1,0 +1,70 @@
+<div class="tve-one-click-signup-heading tve-shortcode-heading collapse-table-list-heading">
+    <span
+        class="tve-one-click-signup-part tve-shortcode-part collapse-table-part-condensed collapse-table-part tve-one-click-signup-title collapse-table-part-title">
+            <span class="group-title"><strong class="bigger"><#= one_click_signup.get('post_title') #></strong></span>
+            <input class="tve-form-control tve-input-small tve-input-inline tve-input-condensed tve-edit-title-input"
+                   style="display: none;">
+            <a href="javascript:void(0)" class="tve-btn tve-btn-icon tve-edit-title">
+                <span class="tve-icon-pencil"></span>
+            </a>
+
+        <span class="pull-right <# if(!one_click_signup.isDataValid()){ #>disabled_copy_btn<# } #>">
+            <input readonly class="tve-one-click-signup tve-form-control tve-input-small tve-input-inline tve-input-condensed" type="text" value="<#= one_click_signup.get('post_link') #>&tl_name=[name]&tl_email=[email]"
+            <# if(!one_click_signup.isDataValid()){ #> disabled <# } #> />
+                <span class="tl-btn-container" style="position:relative;display: inline-block;">
+                    <a class="tve-copy-to-clipboard tve-btn tve-btn-blue tve-btn-small margin-right-10"
+                       href="javascript:void(0)"
+                       style="padding:7px 10px;vertical-align: top;position:relative;z-index: 1;">
+                        <span class="tve-icon-clone2"></span>
+                        <span class="tl-copy-text"><?php echo __('Copy', 'thrive-leads') ?> &nbsp;</span>
+                    </a>
+                    <span class="tl-copy-btn-overlay" style="<# if(one_click_signup.isDataValid()){#>display:none<#} else {#>display: block;<# } #>width:100%;height:100%;left: 0;top:0;z-index:3;position: absolute;background-color:white;opacity:0.3;"></span>
+                </span>
+        </span>
+    </span>
+    <span
+        class="tve-one-click-signup-part tve-shortcode-part collapse-table-part-condensed collapse-table-part tve-one-click-signup-center collapse-table-part-center"><#= one_click_signup.get('signups') #></span>
+    <span class="tve-one-click-signup-part tve-shortcode-part collapse-table-part-condensed collapse-table-part tve-one-click-signup-center collapse-table-part-action">
+        <a href="javascript:void(0)" data-id="<#= one_click_signup.get('ID') #>"
+           title="<?php echo __('Connections Setup', 'thrive-leads') ?>"
+           style="text-align: left;"
+           class="clear tve-btn tve-btn-link tve-btn-link-icon-yellow show-api-connections">
+            <span class="tve-icon-link"></span>
+            <# var api_connections = one_click_signup.has('api_connections')?one_click_signup.get('api_connections'):{}; #>
+            <# if (api_connections.length > 0){ #>
+                <# jQuery.each(api_connections, function(i, item) {#>
+                    <#= api_connections[i].apiName #>;
+                <#}); #>
+            <# } else { #>
+               <span class="tve-btn-text"><?php echo __('No Connections Set', 'thrive-leads') ?></span>
+            <# } #>
+       </a>
+    </span>
+    <span
+        class="tve-one-click-signup-part tve-shortcode-part collapse-table-part-condensed collapse-table-part tve-row-actions collapse-table-part-oneclick">
+        <span class="pull-right">
+            <a href="javascript:void(0)" data-show-until="1480"
+               data-id="<#= one_click_signup.get('ID') #>"
+               title="<?php echo __('Set your thank you page settings here', 'thrive-leads') ?>"
+               class="pull-left tve-btn tve-btn-link tve-btn-remove-text-tablet tve-btn-link-icon-green show-redirect-settings tl-tooltip">
+                <span class="tve-icon-cog"></span>
+                <span class="tve-btn-text"><?php echo __('Redirect Settings', 'thrive-leads') ?></span>
+            </a>
+            <span class="pull-right">
+                <a href="javascript:void(0)" data-show-until="1480"
+                   title="<?php echo __('Reset Stats', 'thrive-leads') ?>"
+                   class="tve-btn tve-btn-link tve-btn-remove-text-tablet tve-btn-link-icon-yellow one-click-signup-reset tl-tooltip">
+                    <span class="tve-icon-undo"></span>
+                    <span class="tve-btn-text"><?php echo __('Reset Stats', 'thrive-leads') ?></span>
+                </a>
+                <a class="tve-btn tve-btn-link tve-btn-remove-text-tablet tve-btn-link-icon-red tve-one-click-signup-delete tl-tooltip"
+                   href="javascript:void(0)" data-show-until="1480"
+                   title="<?php echo __('Delete Signup Segue', 'thrive-leads') ?>"
+                   data-id="<#= one_click_signup.get('ID') #>">
+                    <span class="tve-icon-delete2"></span>
+                    <span class="tve-btn-text"><?php echo __('Delete', 'thrive-leads') ?></span>
+                </a>
+            </span>
+        </span>
+    </span>
+</div>

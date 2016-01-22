@@ -3,15 +3,15 @@
 	<table class="form-table">
 		<tbody>
 			<tr>
-				<th scope="row"><label>API key:</label></th>
+				<th scope="row"><label><?php echo __("API key", "thrive-cb") ?>:</label></th>
 				<td>
-					<input placeholder="API key" type="text" class="text" name="connection[key]" value="<?php echo $this->param('key', @$_POST['connection']['key']) ?>"/>
+					<input placeholder="<?php echo __("API key", "thrive-cb") ?>" type="text" class="text" name="connection[key]" value="<?php echo $this->param('key', @$_POST['connection']['key']) ?>"/>
 					<input type="hidden" name="api" value="mailchimp"/>
 				</td>
 			</tr>
 			<tr>
 				<th></th>
-				<td><button type="submit" class="tve-button tve-button-green">Save Mailchimp API Key</button></td>
+				<td><button type="submit" class="tve-button tve-button-green"><?php echo __("Save Mailchimp API Key", "thrive-cb") ?></button></td>
 			</tr>
 		</tbody>
 	</table>

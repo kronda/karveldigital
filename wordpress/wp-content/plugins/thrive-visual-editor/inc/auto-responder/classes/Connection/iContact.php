@@ -9,6 +9,15 @@
 class Thrive_List_Connection_iContact extends Thrive_List_Connection_Abstract
 {
     /**
+     * Return the connection type
+     * @return String
+     */
+    public static function getType()
+    {
+        return 'autoresponder';
+    }
+
+    /**
      * @return string the API connection title
      */
     public function getTitle()
@@ -40,7 +49,7 @@ class Thrive_List_Connection_iContact extends Thrive_List_Connection_Abstract
         $apiPassword = !empty($_POST['connection']['apiPassword']) ? $_POST['connection']['apiPassword'] : '';
 
         if (empty($apiId) || empty($apiUsername) || empty($apiPassword)) {
-            return $this->error('You must provide a valid iContact AppID/Username/Password');
+            return $this->error(__('You must provide a valid iContact AppID/Username/Password', 'thrive-cb'));
         }
 
         $this->setCredentials($_POST['connection']);
@@ -48,14 +57,14 @@ class Thrive_List_Connection_iContact extends Thrive_List_Connection_Abstract
         $result = $this->testConnection();
 
         if ($result !== true) {
-            return $this->error('Could not connect to iContact: ' . $result);
+            return $this->error(sprintf(__('Could not connect to iContact: %s', 'thrive-cb'), $result));
         }
 
         /**
          * finally, save the connection details
          */
         $this->save();
-        $this->success('iContact connected successfully');
+        $this->success(__('iContact connected successfully', 'thrive-cb'));
     }
 
     /**
@@ -131,7 +140,7 @@ class Thrive_List_Connection_iContact extends Thrive_List_Connection_Abstract
         $sCity = null;
         $sState = null;
         $sPostalCode = null;
-        $sPhone = $arguments['phone'];
+        $sPhone = empty($arguments['phone']) ? '' : $arguments['phone'];
 
         try {
 
@@ -157,6 +166,4 @@ class Thrive_List_Connection_iContact extends Thrive_List_Connection_Abstract
         }
 
     }
-
-
 }

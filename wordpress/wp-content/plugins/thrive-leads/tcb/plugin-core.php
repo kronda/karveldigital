@@ -1,8 +1,8 @@
 <?php
 
 /* global constants */
-defined('TVE_VERSION') || DEFINE("TVE_VERSION", 1.92);
-defined('TVE_TCB_DB_VERSION') || define('TVE_TCB_DB_VERSION', '1.0');
+defined('TVE_VERSION') || DEFINE("TVE_VERSION", '1.101.18');
+defined('TVE_TCB_DB_VERSION') || define('TVE_TCB_DB_VERSION', '1.1');
 defined('TVE_TEMPLATES_PATH') || DEFINE("TVE_TEMPLATES_PATH", plugin_dir_path(__FILE__) . 'shortcodes/templates');
 defined('TVE_LANDING_PAGE_TEMPLATE') || DEFINE("TVE_LANDING_PAGE_TEMPLATE", plugins_url() . '/thrive-visual-editor/landing-page/templates');
 /* will we need another key for Thrive Leads ? */
@@ -37,7 +37,8 @@ $tve_thrive_shortcodes = array(
     'post_grid' => 'tve_do_post_grid_shortcode',
     'widget_menu' => 'tve_render_widget_menu',
     'leads_shortcode' => 'tve_do_leads_shortcode',
-    'tve_leads_additional_fields_filters' => 'tve_leads_additional_fields_filters'
+    'tve_leads_additional_fields_filters' => 'tve_leads_additional_fields_filters',
+    'social_default' => 'tve_social_render_default'
 );
 
 // set colour schemes for all shortcode templates.  The "tve_" prefix is added at a later stage, so no need to add these here.
@@ -45,6 +46,7 @@ global $tve_shortcode_colours;
 $tve_shortcode_colours = array("yellow", "black", "blue", "green", "orange", "purple", "red", "teal", "white");
 
 require_once dirname(__FILE__) . '/inc/compat.php';
+require_once dirname(__FILE__) . '/editor/inc/helpers/social.php';
 require_once dirname(__FILE__) . '/inc/functions.php';
 
 /* init the Event Manager */
@@ -66,6 +68,7 @@ if (is_admin() && !defined('TCB_ADMIN_INIT')) {
         if (!tve_check_if_thrive_theme()) {
             require_once plugin_dir_path(__FILE__) . 'admin/init.php';
             thrive_page_template_add_menu_page();
+            require_once plugin_dir_path(__FILE__) . 'admin/font-import-manager/init.php';
         }
         /* init the font manager admin stuff. TODO: this will be moved also to the themes */
         require_once plugin_dir_path(__FILE__) . 'admin/icon-manager/init.php';
@@ -75,6 +78,8 @@ if (is_admin() && !defined('TCB_ADMIN_INIT')) {
     require_once plugin_dir_path(__FILE__) . 'inc/auto-responder/admin.php';
     define('TCB_ADMIN_INIT', true);
 }
+/* ajax hook to get the logged in user's nonce */
+add_action('wp_ajax_tve_logged_user_nonce', 'tve_logged_user_nonce');
 
 /* admin TCB edit button */
 add_action('edit_form_after_title', 'tve_admin_button');
@@ -96,6 +101,8 @@ add_action('wp_ajax_tve_widgets_list', 'tve_widgets_list');
 add_action('wp_ajax_tve_do_post_grid_shortcode', 'tve_do_post_grid_shortcode');
 add_action('wp_ajax_tve_render_shortcode', 'tve_render_shortcode');
 add_action('wp_ajax_tve_ajax_update_option', 'tve_ajax_update_option');
+add_action('wp_ajax_tve_social_count', 'tve_social_ajax_count');
+add_action('wp_ajax_nopriv_tve_social_count', 'tve_social_ajax_count');
 
 add_action('wp_enqueue_scripts', 'tve_enqueue_editor_scripts');
 /**
@@ -121,7 +128,7 @@ add_action('wp_ajax_tve_posts_list', 'tve_posts_list');
 /**
  * Autoresponder APIs AJAX calls
  */
-if (defined('DOING_AJAX') && DOING_AJAX) {
+if ((defined('DOING_AJAX') && DOING_AJAX) || apply_filters('tve_leads_include_auto_responder', false)) {
     require_once dirname(__FILE__) . '/inc/auto-responder/misc.php';
     add_action('wp_ajax_tve_api_editor_actions', 'tve_api_editor_actions');
 
@@ -130,6 +137,12 @@ if (defined('DOING_AJAX') && DOING_AJAX) {
      */
     add_action('wp_ajax_nopriv_tve_api_form_submit', 'tve_api_form_submit');
     add_action('wp_ajax_tve_api_form_submit', 'tve_api_form_submit');
+
+    add_action('wp_ajax_nopriv_tve_custom_form_submit', 'tve_custom_form_submit');
+    add_action('wp_ajax_tve_custom_form_submit', 'tve_custom_form_submit');
+
+    add_action('wp_ajax_tve_api_form_retry', 'tve_api_form_retry');
+    add_action('wp_ajax_tve_api_delete_log', 'tve_api_delete_log');
 }
 
 /** CONTENT REVISION HOOKS */
@@ -159,15 +172,18 @@ add_filter('post_row_actions', 'thrive_page_row_buttons', 10, 2);
 /* we need to always load this into the head section, because some themes styles will overwrite the font settings */
 add_action('wp_head', 'tve_load_font_css');
 
+/* load meta tags so scrapers can find them */
+add_action('wp_head', 'tve_load_meta_tags');
+
 // add thrive edit link to admin bar
 add_action('admin_bar_menu', 'thrive_editor_admin_bar', 100);
 
 // To fight against themes creating custom wpautop scripts and injecting rogue <br/> and <p> tags into content we have to apply shortcodes early, then add our content to the page
 // at priority 101, hence the two separate "the_content" actions
-if (is_editor_page_raw()) {
-    add_filter('the_content', 'tve_editor_content', PHP_INT_MAX);
-} else {
-    add_filter('the_content', 'tve_editor_content');
+add_action('wp', 'tve_wp_action');
+function tve_wp_action()
+{
+    add_filter('the_content', 'tve_editor_content', is_editor_page() ? PHP_INT_MAX : 10);
 }
 
 // this is a fix for the "Pitch" theme that tries to use a backend function get_current_screen() in a media library filter that we run in the front end and therefore breaks the page.
@@ -191,10 +207,34 @@ add_action('init', 'tve_global_options_init');
 /* hook to fix various conflicts that might appear. first one: YARPP */
 add_action('init', 'tve_fix_plugin_conflicts', PHP_INT_MAX);
 
+/* hook to defined location of translations files */
+add_action('init', 'tve_load_plugin_textdomain');
+
 // hook for detecting if a post is setup as a Custom Editable piece of content
 add_action('template_redirect', 'tcb_custom_editable_content', 9);
+
+/**
+ * we need Font Import Manager required at "init" action
+ * because it has some static methods used in frontend
+ */
+add_action('init', 'tve_require_font_import_manager');
 
 /**
  * filter used to clean meta-data stuff from the content, when displaying it on frontend, e.g.: lead generation code being saved in the HTML causes SEO issues
  */
 add_filter('tcb_clean_frontend_content', 'tcb_clean_frontend_content');
+
+/**
+ * init the Pinterest SDK
+ */
+add_action('tve_socials_init_pinterest', 'tve_socials_init_pinterest');
+
+/* find content for quick link, by post types and input text*/
+add_action('wp_ajax_tve_find_quick_link_contents', 'tve_find_quick_link_contents');
+
+add_filter('tve_filter_custom_fonts_for_enqueue_in_editor', 'tve_filter_custom_fonts_for_enqueue_in_editor');
+
+/**
+ * shows a message in the main media uploader window that states: "Only .xxx files are allowed"
+ */
+add_action('post-upload-ui', 'tve_media_restrict_filetypes');

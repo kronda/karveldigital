@@ -39,6 +39,9 @@ var TL_Editor = TL_Editor || {};
         } else if (element.is('.thrv-leads-screen-filler')) {
             load_control_panel_menu(element, 'form_screen_filler');
             return true;
+        } else if (element.is('.thrv-greedy-ribbon')) {
+            load_control_panel_menu(element, 'form_greedy_ribbon');
+            return true;
         }
     };
 
@@ -67,9 +70,9 @@ var TL_Editor = TL_Editor || {};
                 }
                 break;
             case 'form_slide_in':
-                var _maxWidth = parseInt(element.css('max-width')),
+                var _maxWidth = TVE_Content_Builder.max_width_px(element),
                     bw = parseInt(element.css('borderBottomWidth'));
-                if (!isNaN(_maxWidth)) {
+                if (_maxWidth) {
                     $menu.find('#slide_in_size').val(_maxWidth).trigger('change');
                 }
                 bw = isNaN(bw) ? 0 : bw;
@@ -86,11 +89,17 @@ var TL_Editor = TL_Editor || {};
                 $menu.find('.tl-border-width').val(bw);
                 break;
             case 'form_screen_filler':
-                var _maxWidth = parseInt(element.find('.tve-screen-filler-content').css('max-width'));
-                if (isNaN(_maxWidth)) {
+                var _maxWidth = TVE_Content_Builder.max_width_px(element.find('.tve-screen-filler-content'));
+                if (!_maxWidth) {
                     _maxWidth = parseInt(element.find('.tve-screen-filler-content').outerWidth());
                 }
                 $menu.find('#screen_filler_size').val(_maxWidth).trigger('change');
+                break;
+            case 'form_greedy_ribbon':
+                var _maxWidth = parseInt(element.find('.tve-greedy-ribbon-content').outerWidth());
+                if (!isNaN(_maxWidth)) {
+                    $menu.find('#greedy_ribbon_size').val(_maxWidth).trigger('change');
+                }
                 break;
         }
         /**
@@ -410,24 +419,29 @@ var TL_Editor = TL_Editor || {};
                 jQuery('#tve-leads-editor-replace').replaceWith(jQuery(response.main_page_content));
                 TVE_Content_Builder.controls.lb_close();
                 TVE_Editor_Page.initEditorActions();
+                try {
+                    tve_init_sliders();
+                } catch (exception) {
+                    console.log(exception);
+                }
                 setTimeout(function () {
                     TVE_Editor_Page.overlay('close');
                 }, 1);
 
-            },
-            toggle_add: function ($link) {
-                $link.parent().find('.add-state-options').toggle();
             },
             add: function ($link) {
                 if ($link.attr('data-subscribed')) {
                     alert(tve_leads_page_data.L.only_one_subscribed);
                     return;
                 }
-                tve_save_post('true', function() {}); // passed in callback function to skip the closing of overlay
-                Util.state_ajax({
-                    custom: 'add',
-                    state: $link.attr('data-state')
-                }).done(jQuery.proxy(this.insertResponse, this));
+                var self = this;
+                tve_save_post('true', function() {
+                    Util.state_ajax({
+                        custom: 'add',
+                        state: $link.attr('data-state')
+                    }).done(jQuery.proxy(self.insertResponse, self));
+                }); // passed in callback function to skip the closing of overlay
+
             },
             duplicate: function ($link, $element, event) {
                 if ($link.attr('data-state') == 'already_subscribed') {
@@ -444,6 +458,24 @@ var TL_Editor = TL_Editor || {};
 
                 event.stopPropagation();
             },
+            visibility: function ($link, $element, event) {
+                if (!$link.parents('li').hasClass('lightbox-step-active') || typeof $link.attr('data-visible') === 'undefined') {
+                    return;
+                }
+
+                var self = this;
+                Util.state_ajax({
+                    custom: 'visibility',
+                    visible: $link.attr('data-visible')
+                }).done(function (response) {
+                    tve_add_notification(response.message);
+                    self.insertResponse(response);
+                });
+
+                $link.toggleClass('tve-icon-visible tve-icon-invisible');
+
+                event.stopPropagation();
+            },
             remove: function ($link, $elemenet, event) {
                 if (!confirm(tve_leads_page_data.L.confirm_state_delete)) {
                     return true;
@@ -457,8 +489,10 @@ var TL_Editor = TL_Editor || {};
                 event.stopPropagation();
             },
             state_click: function ($link) {
-                tve_save_post('true', function() {}); // passed in callback function to skip the closing of overlay
-                this.display($link.attr('data-id'), true);
+                var self = this;
+                tve_save_post('true', function() {
+                    self.display($link.attr('data-id'), true);
+                }); // passed in callback function to skip the closing of overlay
             },
             display: function (id) {
 

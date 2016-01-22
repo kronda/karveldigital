@@ -1,4 +1,5 @@
-<h2>Widget</h2>
+<h4>Widget</h4>
+<hr class="tve_lightbox_line"/>
 <p class="tve_widgets_list_container">
     <label>Select widget</label>
     <select class="tve_widgets_list">

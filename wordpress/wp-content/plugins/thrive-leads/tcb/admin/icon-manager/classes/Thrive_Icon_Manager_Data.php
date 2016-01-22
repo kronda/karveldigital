@@ -112,7 +112,24 @@ if (!class_exists('Thrive_Icon_Manager_Data')) {
                 throw new Exception($css_file . " cannot be found to apply changes on it !");
             }
             $file_content = file_get_contents($css_file);
-            $file_content = str_replace("font-family: '{$font_family}';", "font-family: '{$font_family}' !important;", $file_content);
+
+            $search = "font-family: '{$font_family}';";
+            $replacement = "font-family: '{$font_family}' !important;";
+
+            /**
+             * make sure the replace is done after the @font-face declaration
+             */
+            if (!preg_match('#@font-face([^\}]+)\}#si', $file_content, $m, PREG_OFFSET_CAPTURE)) {
+                return true;
+            }
+            $position = strlen($m[0][0]) + $m[0][1];
+            $position = strpos($file_content, $search, $position);
+            if ($position === false) {
+                return true;
+            }
+
+            $file_content = substr_replace($file_content, $replacement, $position, strlen($search));
+
             return file_put_contents($css_file, $file_content);
         }
 

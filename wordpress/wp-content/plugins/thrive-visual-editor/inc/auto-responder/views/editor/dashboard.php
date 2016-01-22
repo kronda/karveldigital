@@ -1,12 +1,11 @@
-<h3>Connect with Service</h3>
-<div class="tve_clear" style="height:20px;"></div>
-
-<p>This setting allows you to connect your sign up form with various web services, such as autoresponder accounts.</p>
-<p>You currently have no connections set up with this sign up form</p>
-
-<div class="tve_clear" style="height:10px;"></div>
-<div class="center" style="text-align: center">
-    <a href="javascript:void(0)" class="tve_click tve_editor_btn tve_btn_success" data-ctrl="function:auto_responder.connection_form">
-        <span>Create a new Connection</span>
+<h4><?php echo __("Connect with Service", "thrive-cb") ?></h4>
+<hr class="tve_lightbox_line"/>
+<p><?php echo __("This setting allows you to connect your sign up form with various web services, such as autoresponder accounts.", "thrive-cb") ?>
+    <br/>
+    <?php echo __("You currently have no connections set up with this sign up form", "thrive-cb") ?></p>
+<div class="tve_clearfix">
+    <a href="javascript:void(0)" class="tve_click tve_editor_button tve_editor_button_success tve_right"
+       data-ctrl="function:auto_responder.connection_form">
+        <?php echo __("Create a new Connection", "thrive-cb") ?>
     </a>
 </div>

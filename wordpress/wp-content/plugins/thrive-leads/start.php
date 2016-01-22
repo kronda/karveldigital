@@ -31,6 +31,7 @@ require_once plugin_dir_path(__FILE__) . 'database/Thrive_Leads_Database_Manager
 Thrive_Leads_Database_Manager::check();
 
 add_action('init', 'tve_leads_init');
+add_action('init', 'tve_leads_load_plugin_textdomain');
 add_action('widgets_init', 'tve_leads_widget_init');
 
 /**
@@ -65,12 +66,12 @@ if (tve_leads_get_option('ajax_load')) {
 /**
  * logic to be applied on form impression (display) - TL will save the display as a new event in the log table
  */
-add_action(TVE_LEADS_ACTION_FORM_IMPRESSION, 'tve_leads_register_impression', 10, 4);
+add_action(TVE_LEADS_ACTION_FORM_IMPRESSION, 'tve_leads_register_impression', 10, 5);
 
 /**
- * logic to be applied on form conversion (successfull submit) - TL will save the conversion as a new event in the log table
+ * logic to be applied on form conversion (successful submit) - TL will save the conversion as a new event in the log table
  */
-add_action(TVE_LEADS_ACTION_FORM_CONVERSION, 'tve_leads_register_conversion', 10, 5);
+add_action(TVE_LEADS_ACTION_FORM_CONVERSION, 'tve_leads_register_conversion', 10, 6);
 
 /**
  * called when a winner is decided in a test (either manually, by admin or automatically, after a conversion)
@@ -89,6 +90,7 @@ if (defined('DOING_AJAX') && DOING_AJAX) {
      * hook into the TCB form submission action - this is triggered for forms that are connected to an API
      */
     add_action('tcb_api_form_submit', 'tve_leads_api_form_submit');
+    add_action('tve_tcb_delivery_connection', 'tve_leads_delivery_connection');
 }
 
 if (!is_admin()) {
@@ -121,12 +123,37 @@ if (!is_admin()) {
 
     /**
      * it seems WP has an issue with redirection causing infinite loop if the administrator has setup the url to have uppercase characters
+     * SUPP-1043: increased priority from 10 to 12 - was causing some sort of weird 500 Internal Server Error on pagination
      */
-    add_filter('redirect_canonical', 'tve_leads_canonical_url_lowercase', 10, 2);
+    add_filter('redirect_canonical', 'tve_leads_canonical_url_lowercase', 12, 2);
 
     /**
      * this is called before template_redirect hook
      */
     add_action('wp', 'tve_leads_query_group');
 
+    /**
+     * filter sidebar params
+     */
+    add_action('dynamic_sidebar_params', 'thrive_dynamic_sidebar_params');
+
+    /**
+     * filter the nav menu items for ThriveBox Menu Triggers
+     */
+    add_filter('wp_nav_menu_objects', 'tve_leads_wp_nav_menu_objects');
+
+
+    /**
+     * one click signup (new name: Signup Segue)
+     */
+    add_action('wp', 'tve_leads_one_click_signup');
+    /**
+     * filter one click signup params (new name: Signup Segue)
+     */
+    add_filter('the_content', 'tve_leads_one_click_signup_validation');
+
+    add_filter('tve_leads_include_auto_responder', 'tve_leads_include_auto_responder_file');
+} else {
+    add_filter('tve_filter_api_types', 'tve_leads_filter_api_types');
+    add_filter('tve_filter_available_connection', 'tve_leads_filter_available_connection');
 }

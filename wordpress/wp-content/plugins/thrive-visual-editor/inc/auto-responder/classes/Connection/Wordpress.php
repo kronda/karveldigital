@@ -4,6 +4,15 @@
 class Thrive_List_Connection_Wordpress extends Thrive_List_Connection_Abstract
 {
     /**
+     * Return the connection type
+     * @return String
+     */
+    public static function getType()
+    {
+        return 'autoresponder';
+    }
+
+    /**
      * @return string
      */
     public function getTitle()
@@ -41,7 +50,7 @@ class Thrive_List_Connection_Wordpress extends Thrive_List_Connection_Abstract
     {
         $this->setCredentials(array('e' => true));
 
-        $this->success('WordPress user account integration activated.');
+        $this->success(__('WordPress user account integration activated.', 'thrive-cb'));
         /**
          * finally, save the connection details
          */
@@ -104,6 +113,14 @@ class Thrive_List_Connection_Wordpress extends Thrive_List_Connection_Abstract
          * this sends a confirmation mail also to the user
          */
         $user_id = register_new_user($arguments['email'], $arguments['email']);
+
+        if (!empty($arguments['name'])) {
+            list($first_name, $last_name) = $this->_getNameParts($arguments['name']);
+            update_user_meta($user_id, 'first_name', $first_name);
+            if ($last_name) {
+                update_user_meta($user_id, 'last_name', $last_name);
+            }
+        }
 
         if ($user_id instanceof WP_Error) {
             return $user_id->get_error_message();

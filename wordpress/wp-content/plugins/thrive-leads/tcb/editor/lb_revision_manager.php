@@ -30,7 +30,7 @@ foreach ($revisions as $revision) {
         'author' => $authors[$revision->post_author],
         'date' => date_i18n(__('M j, Y @ G:i'), $modified),
         'dateShort' => date_i18n(_x('j M @ G:i', 'revision date short format'), $modified),
-        'timeAgo' => sprintf(__('%s ago'), human_time_diff($modified_gmt, $now_gmt)),
+        'timeAgo' => sprintf(__('%s ago', "thrive-cb"), human_time_diff($modified_gmt, $now_gmt)),
         'autosave' => $autosave,
         'restoreUrl' => $restore_link,
     );
@@ -39,13 +39,14 @@ foreach ($revisions as $revision) {
 $first_revision = reset($revisions);
 ?>
 <div id="tve_revision_manager_head" class="tve_clearfix">
-    <h2 class="tve_left"><?php echo __('Revision Manager') ?></h2>
-    <a class="tve_right"
+    <h4><?php echo __('Revision Manager', "thrive-cb") ?></h4>
+    <hr class="tve_lightbox_line"/>
+    <a class="tve_lightbox_link tve_lightbox_link_edit"
        href="<?php echo add_query_arg(array('revision' => $first_revision['id']), admin_url('revision.php')) ?>"
-       target="_blank"><?php echo __("Show the default Wordpress Revision Manager"); ?></a>
+       target="_blank"><?php echo __("Show the default Wordpress Revision Manager", 'thrive-cb'); ?></a>
 
     <div class="tve_clear"></div>
-    <p><?php echo __("Use the revision manager to restore your page to a previous version:"); ?></p>
+    <p><?php echo __("Use the revision manager to restore your page to a previous version:", "thrive-cb"); ?></p>
 </div>
 <div id="tve_revision_manager">
     <ul>
@@ -55,7 +56,7 @@ $first_revision = reset($revisions);
                     <?php echo $revision['author']['avatar'] ?>
                     <div class="tve-author-info">
                         <span class="tve-byline">
-                            <?php printf(__('Revision by %s'), '<span class="tve-author-name">' . $revision['author']['name'] . '</span>'); ?>
+                            <?php printf(__('Revision by %s', 'thrive-cb'), '<span class="tve-author-name">' . $revision['author']['name'] . '</span>'); ?>
                         </span>
                         <span class="tve-time-ago"><?php echo $revision['timeAgo'] ?></span>
                         <span class="tve-date">(<?php echo $revision['dateShort'] ?>)</span>
@@ -63,8 +64,8 @@ $first_revision = reset($revisions);
                     <div class="tve_clear"></div>
                 </div>
                 <div class="tve_rollback_btn tve_right">
-                    <a class="tve_click <?php echo $first_revision['id'] == $key ? 'tve_disabled"' : '' ?>" <?php echo $first_revision['id'] == $key ? 'disabled="disabled"' : '' ?>
-                       data-ctrl="controls.rollback" data-skip-undo="1" href="<?php echo $revision['restoreUrl'] ?>"><?php echo __('Restore This Revision') ?></a>
+                    <a class="tve_click tve_editor_button tve_editor_button_default <?php echo $first_revision['id'] == $key ? 'tve_disabled"' : '' ?>" <?php echo $first_revision['id'] == $key ? 'disabled="disabled"' : '' ?>
+                       data-ctrl="controls.rollback" data-skip-undo="1" href="<?php echo $revision['restoreUrl'] ?>"><?php echo __('Restore This Revision', 'thrive-cb') ?></a>
                 </div>
             </li>
         <?php endforeach; ?>

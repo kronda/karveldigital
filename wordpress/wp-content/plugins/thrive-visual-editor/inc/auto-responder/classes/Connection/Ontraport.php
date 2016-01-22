@@ -9,6 +9,15 @@
 class Thrive_List_Connection_Ontraport extends Thrive_List_Connection_Abstract
 {
     /**
+     * Return the connection type
+     * @return String
+     */
+    public static function getType()
+    {
+        return 'autoresponder';
+    }
+
+    /**
      * @return string the API connection title
      */
     public function getTitle()
@@ -39,7 +48,7 @@ class Thrive_List_Connection_Ontraport extends Thrive_List_Connection_Abstract
         $app_id = !empty($_POST['connection']['app_id']) ? $_POST['connection']['app_id'] : '';
 
         if (empty($key) || empty($app_id)) {
-            return $this->error('You must provide a valid Ontraport AppID/APIKey');
+            return $this->error(__('You must provide a valid Ontraport AppID/APIKey', 'thrive-cb'));
         }
 
         $this->setCredentials($_POST['connection']);
@@ -47,14 +56,14 @@ class Thrive_List_Connection_Ontraport extends Thrive_List_Connection_Abstract
         $result = $this->testConnection();
 
         if ($result !== true) {
-            return $this->error('Could not connect to Ontraport: ' . $result);
+            return $this->error(sprintf(__('Could not connect to Ontraport: %s', 'thrive-cb'), $this->_error));
         }
 
         /**
          * finally, save the connection details
          */
         $this->save();
-        $this->success('Ontraport connected successfully');
+        $this->success(__('Ontraport connected successfully', 'thrive-cb'));
     }
 
     /**

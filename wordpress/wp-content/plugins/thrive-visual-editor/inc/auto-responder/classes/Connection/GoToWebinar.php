@@ -9,6 +9,16 @@
 class Thrive_List_Connection_GoToWebinar extends Thrive_List_Connection_Abstract
 {
     const APPLICATION_CONSUMER_KEY = 'KQ4oUgxUrzFiAbmwaCDoyqrHgRKACzQG';
+//    const APPLICATION_CONSUMER_KEY = 'Mtm8i2IdR2mOkAY3uVoW5f4TdGaBxpkY';
+
+    /**
+     * Return the connection type
+     * @return String
+     */
+    public static function getType()
+    {
+        return 'webinar';
+    }
 
     /**
      * check if the expires_at field is in the past
@@ -49,7 +59,7 @@ class Thrive_List_Connection_GoToWebinar extends Thrive_List_Connection_Abstract
      */
     public function getListSubtitle()
     {
-        return 'Choose from the following upcoming webinars';
+        return __('Choose from the following upcoming webinars', 'thrive-cb');
     }
 
 
@@ -76,7 +86,7 @@ class Thrive_List_Connection_GoToWebinar extends Thrive_List_Connection_Abstract
         $password = $_POST['gtw_password'];
 
         if (empty($email) || empty($password)) {
-            return $this->error('Email and password are required');
+            return $this->error(__('Email and password are required', 'thrive-cb'));
         }
 
         /** @var Thrive_Api_GoToWebinar $api */
@@ -93,7 +103,7 @@ class Thrive_List_Connection_GoToWebinar extends Thrive_List_Connection_Abstract
             $this->success('GoToWebinar connected successfully');
 
         } catch (Thrive_Api_GoToWebinar_Exception $e) {
-            return $this->error('Could not connect to GoToWebinar using the provided data (' . $e->getMessage() . ')');
+            return $this->error(sprintf(__('Could not connect to GoToWebinar using the provided data (%s)', 'thrive-cb'), $e->getMessage()));
         }
 
     }
@@ -139,11 +149,15 @@ class Thrive_List_Connection_GoToWebinar extends Thrive_List_Connection_Abstract
             $all = $api->getUpcomingWebinars();
 
             foreach ($all as $item) {
+
+                preg_match('#register/(\d+)$#', $item['registrationUrl'], $m);
+
                 $lists [] = array(
-                    'id' => $item['webinarKey'],
+                    'id' => isset($m[1]) ? $m[1] : number_format((float)$item['webinarKey'], 0, "", ""),
                     'name' => $item['subject']
                 );
             }
+
             return $lists;
         } catch (Thrive_Api_GoToWebinar_Exception $e) {
             $this->_error = $e->getMessage();
@@ -165,6 +179,14 @@ class Thrive_List_Connection_GoToWebinar extends Thrive_List_Connection_Abstract
         $api = $this->getApi();
 
         list($first_name, $last_name) = $this->_getNameParts($arguments['name']);
+
+        if(empty($first_name)) {
+            $first_name = " ";
+        }
+
+        if(empty($last_name)) {
+            $last_name = " ";
+        }
 
         try {
             $api->registerToWebinar($list_identifier, $first_name, $last_name, $arguments['email']);
@@ -197,13 +219,13 @@ class Thrive_List_Connection_GoToWebinar extends Thrive_List_Connection_Abstract
             return array();
         }
 
-        $fix = '<a href="' . admin_url('admin.php?page=tve_api_connect&api=' . $this->getKey()) . '#tve-list-setup-' . $this->getKey() . '">' . __('Renew the token', 'thrive-visual-editor') . '</a>';
-        $dismiss = '<a href="javascript:void(0)" class="tve-api-dismiss" data-key="' . $this->getKey() . '">' . __('don\'t show this message again', 'thrive-visual-editor') . '</a>';
+        $fix = '<a href="' . admin_url('admin.php?page=tve_api_connect&api=' . $this->getKey()) . '#tve-list-setup-' . $this->getKey() . '">' . __('Renew the token', 'thrive-cb') . '</a>';
+        $dismiss = '<a href="javascript:void(0)" class="tve-api-dismiss" data-key="' . $this->getKey() . '">' . __('don\'t show this message again', 'thrive-cb') . '</a>';
 
         if ($this->isExpired()) {
 
             return array(
-                sprintf(__('Thrive API Connections: The access token for %s has expired on %s.', 'thrive-visual-editor'), '<strong>' . $this->getTitle() . '</strong>', '<strong>' .
+                sprintf(__('Thrive API Connections: The access token for %s has expired on %s.', 'thrive-cb'), '<strong>' . $this->getTitle() . '</strong>', '<strong>' .
                     $this->getExpiryDate() . '</strong>') . ' ' . $fix . ' or ' . $dismiss
             );
         }
@@ -215,13 +237,13 @@ class Thrive_List_Connection_GoToWebinar extends Thrive_List_Connection_Abstract
         }
 
         $message = $diff == 0 ?
-            'Thrive API Connections: The access token for %s will expire today.' :
+            __('Thrive API Connections: The access token for %s will expire today.', 'thrive-cb') :
             ($diff == 1 ?
-                'Thrive API Connections: The access token for %s will expire tomorrow.' :
-                'Thrive API Connections: The access token for %s will expire in %s days.');
+                __('Thrive API Connections: The access token for %s will expire tomorrow.', 'thrive-cb') :
+                __('Thrive API Connections: The access token for %s will expire in %s days.', 'thrive-cb'));
 
         return array(
-            sprintf(__($message, 'thrive-visual-editor'), '<strong>' . $this->getTitle() . '</strong>', '<strong>' . $diff . '</strong>') . ' ' . $fix . ' or ' . $dismiss . '.'
+            sprintf($message, '<strong>' . $this->getTitle() . '</strong>', '<strong>' . $diff . '</strong>') . ' ' . $fix . ' or ' . $dismiss . '.'
         );
     }
 

@@ -44,15 +44,15 @@ function ttfmake_get_standard_fonts() {
 	 */
 	return apply_filters( 'make_get_standard_fonts', array(
 		'serif' => array(
-			'label' => _x( 'Serif', 'font style', 'make' ),
+			'label' => __( 'Serif', 'make' ),
 			'stack' => 'Georgia,Times,"Times New Roman",serif'
 		),
 		'sans-serif' => array(
-			'label' => _x( 'Sans Serif', 'font style', 'make' ),
+			'label' => __( 'Sans Serif', 'make' ),
 			'stack' => '"Helvetica Neue",Helvetica,Arial,sans-serif'
 		),
 		'monospace' => array(
-			'label' => _x( 'Monospaced', 'font style', 'make' ),
+			'label' => __( 'Monospaced', 'make' ),
 			'stack' => 'Monaco,"Lucida Sans Typewriter","Lucida Typewriter","Courier New",Courier,monospace'
 		)
 	) );
@@ -72,21 +72,14 @@ if ( ! function_exists( 'ttfmake_get_google_font_uri' ) ) :
  */
 function ttfmake_get_google_font_uri() {
 	// Grab the font choices
-	if ( ttfmake_customizer_supports_panels() ) {
-		$all_keys = array_keys( ttfmake_option_defaults() );
-		$font_keys = array();
-		foreach ( $all_keys as $key ) {
-			if ( false !== strpos( $key, 'font-family-' ) ) {
-				$font_keys[] = $key;
-			}
+	$all_keys = array_keys( ttfmake_option_defaults() );
+	$font_keys = array();
+	foreach ( $all_keys as $key ) {
+		if ( false !== strpos( $key, 'font-family-' ) ) {
+			$font_keys[] = $key;
 		}
-	} else {
-		$font_keys = array(
-			'font-site-title',
-			'font-header',
-			'font-body',
-		);
 	}
+
 	$fonts = array();
 	foreach ( $font_keys as $key ) {
 		$fonts[] = get_theme_mod( $key, ttfmake_get_default( $key ) );
@@ -234,7 +227,9 @@ function ttfmake_get_google_font_subsets() {
 		'khmer'        => __( 'Khmer', 'make' ),
 		'latin'        => __( 'Latin', 'make' ),
 		'latin-ext'    => __( 'Latin Extended', 'make' ),
+		'tamil'        => __( 'Tamil', 'make' ),
 		'telugu'       => __( 'Telugu', 'make' ),
+		'thai'         => __( 'Thai', 'make' ),
 		'vietnamese'   => __( 'Vietnamese', 'make' ),
 	) );
 }

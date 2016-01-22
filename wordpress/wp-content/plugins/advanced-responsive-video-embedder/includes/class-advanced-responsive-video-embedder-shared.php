@@ -18,7 +18,7 @@
  * @since      1.0.0
  * @package    Advanced_Responsive_Video_Embedder
  * @subpackage Advanced_Responsive_Video_Embedder/includes
- * @author     Nicolas Jonas <dont@like.mails>
+ * @author     Nicolas Jonas
  */
 class Advanced_Responsive_Video_Embedder_Shared {
 
@@ -27,19 +27,20 @@ class Advanced_Responsive_Video_Embedder_Shared {
 	 *
 	 * @since    2.6.0
 	 */
-	public function get_options_defaults() {
+	public static function get_options_defaults( $section ) {
 
-		return array(
-			'mode'                  => 'lazyload',
-			'video_maxwidth'        => '',
-			'align_width'           => 400,
-			'thumb_width'           => 300,
-			'fakethumb'             => true,
-			'custom_thumb_image'    => '',
-			'autoplay'              => false,
-			'transient_expire_time' => DAY_IN_SECONDS,
-			'shortcodes'            => array(
+		$options = array(
+			'main' => array(
+				'promote_link'          => false,
+				'autoplay'              => false,
+				'mode'                  => 'normal',
+				'video_maxwidth'        => '',
+				'align_maxwidth'        => 400,
+				'last_options_tab'      => '#arve-settings-section-main',
+			),
+			'shortcodes' => array(
 				'4players'               => '4players',
+				'alugha'                 => 'alugha',
 				'archiveorg'             => 'archiveorg',
 				'blip'                   => 'blip',
 				'bliptv'                 => 'bliptv', //* Deprecated
@@ -49,12 +50,14 @@ class Advanced_Responsive_Video_Embedder_Shared {
 				'dailymotion'            => 'dailymotion',
 				'dailymotionlist'        => 'dailymotionlist',
 				'flickr'                 => 'flickr',
+				'facebook'               => 'facebook',
 				'funnyordie'             => 'funnyordie',
 				'gametrailers'           => 'gametrailers',
 				'iframe'                 => 'iframe',
 				'ign'                    => 'ign',
 				'kickstarter'            => 'kickstarter',
 				'liveleak'               => 'liveleak',
+				'livestream'             => 'livestream',
 				'metacafe'               => 'metacafe',
 				'movieweb'               => 'movieweb',
 				'mpora'                  => 'mpora',
@@ -79,6 +82,7 @@ class Advanced_Responsive_Video_Embedder_Shared {
 			'params' => array(
 				#'archiveorg'      => '',
 				'blip'            => '',
+				'alugha'          => 'nologo=1  ',
 				#'break'           => '',
 				#'collegehumor'    => '',
 				#'comedycentral'   => '',
@@ -91,6 +95,7 @@ class Advanced_Responsive_Video_Embedder_Shared {
 				#'ign'             => '',
 				#'kickstarter'     => '',
 				'liveleak'        => 'wmode=transparent  ',
+				'livestream'      => 'layout=4  height=340  width=560  ',
 				#'metacafe'        => '',
 				#'movieweb'        => '',
 				#'myspace'         => '',
@@ -98,66 +103,48 @@ class Advanced_Responsive_Video_Embedder_Shared {
 				#'snotr'           => '',
 				#'spike'           => '',
 				#'ted'             => '',
-				'ustream'         => 'v=3  wmode=transparent  ',
+				'ustream'         => 'wmode=transparent  v=3  ',
 				'veoh'            => 'player=videodetailsembedded  id=anonymous  ',
-				'vevo'            => 'playlist=false  playerType=embedded  env=0  ', // playerId=62FF0A5C-0D9E-4AC1-AF04-1D9E97EE3961
-				'viddler'         => 'f=1  disablebranding=1  wmode=transparent  ',
+				'vevo'            => 'playlist=false  playerType=embedded  env=0  ',
+				'viddler'         => 'wmode=transparent  player=full  f=1  disablebranding=1  ',
 				'vine'            => '', //* audio=1 supported
 				#'videojug'        => '',
 				'vimeo'           => 'html5=1  title=0  byline=0  portrait=0  ',
 				#'yahoo'           => '',
-				'youtube'         => 'iv_load_policy=3  modestbranding=1  rel=0  wmode=transparent  ',
+				'youtube'         => 'wmode=transparent  iv_load_policy=3  modestbranding=1  rel=0  autohide=1',
 			)
 		);
+
+		return $options[ $section ];
 	}
-		
+
+
 	/**
 	 * Get options by merging possibly existing options with defaults
 	 *
 	 * @since    2.6.0
 	 */
-	public function get_options() {
+	public static function get_options() {
 
-		$defaults = $this->get_options_defaults();
-		
-		$options = get_option( 'arve_options', array() );
-
-		if ( !empty( $options['params'] ) ) {
-		
-			foreach( $options['params'] as $provider => $params ) {
-
-				if ( is_array( $params ) ) {
-
-					$params_str = '';
-
-					foreach ( $params as $key => $var ) {
-
-						$params_str .= (string) "{$key}={$var}  ";
-					}
-
-					$options['params'][ $provider ] = $params_str;
-				}
-			}
-		}
-		
-		$options               = wp_parse_args( $options,               $defaults );
-		$options['shortcodes'] = wp_parse_args( $options['shortcodes'], $defaults['shortcodes'] );
-		$options['params']     = wp_parse_args( $options['params'],     $defaults['params'] );
+		$options               = wp_parse_args( get_option( 'arve_options_main', array() ),       self::get_options_defaults( 'main' ) );
+		$options['shortcodes'] = wp_parse_args( get_option( 'arve_options_shortcodes', array() ), self::get_options_defaults( 'shortcodes' ) );
+		$options['params']     = wp_parse_args( get_option( 'arve_options_params', array() ),     self::get_options_defaults( 'params' ) );
 
 		return $options;
 	}
-	
+
 	/**
 	 *
 	 * @since    3.0.0
 	 *
 	 */
-	public function get_regex_list() {
+	public static function get_regex_list() {
 
-		$hw = 'https?://(?:www\.)?';
+		$hw = 'https?://(?:[a-z0-9]+\.)?';
 		//* Double hash comment = no id in URL
 		return array(
 			'4players'            => $hw . '4players\.de/4players\.php/tvplayer/4PlayersTV/([0-9a-z_/]+\.html)',
+			'alugha'              => $hw . 'alugha.com/1/videos/([a-z0-9_\-]+)',
 			'archiveorg'          => $hw . 'archive\.org/(?:details|embed)/([0-9a-z]+)',
 			'blip'                => $hw . 'blip\.tv/[^/]+/[^/]+-([0-9]{7})',
 			##'bliptv'            =>
@@ -165,16 +152,19 @@ class Advanced_Responsive_Video_Embedder_Shared {
 			'collegehumor'        => $hw . 'collegehumor\.com/video/([0-9]+)',
 			##'comedycentral'     =>
 			'dailymotion_hub'     => $hw . 'dailymotion\.com/hub/' .  '[a-z0-9]+_[a-z0-9_\-]+\#video=([a-z0-9]+)',
-			'dailymotionlist'     => $hw . 'dailymotion\.com/playlist/([a-z0-9]+_[a-z0-9_\-]+)',
+			'dailymotionlist'     => $hw . 'dailymotion\.com/playlist/([a-z0-9]+)',
 			'dailymotion'         => $hw . 'dailymotion\.com/video/([^_]+)',
 			#'dailymotion_jukebox' => $hw . 'dailymotion\.com/widget/jukebox?list\[\]=%2Fplaylist%2F([a-z0-9]+_[a-z0-9_\-]+)',
 			#'flickr'             => 'flickr',
+			'facebook'            => $hw . 'facebook\.com/(?:[^/]+)/videos/([0-9]+)',
 			'funnyordie'          => $hw . 'funnyordie\.com/videos/([a-z0-9_]+)',
 			##'gametrailers'      =>
 			'ign'                 => '(https?://(?:www\.)?ign\.com/videos/[0-9]{4}/[0-9]{2}/[0-9]{2}/[0-9a-z\-]+)',
 			##'iframe'            =>
 			'kickstarter'         => $hw . 'kickstarter\.com/projects/([0-9a-z\-]+/[0-9a-z\-]+)',
 			'liveleak'            => $hw . 'liveleak\.com/(?:view|ll_embed)\?((f|i)=[0-9a-z\_]+)',
+			'livestream'          => $hw . 'livestream\.com/accounts/([0-9]+/events/[0-9]+(?:/videos/[0-9]+)?)',
+			#'livestream'          => $hw . 'livestream\.com/(?|(accounts/[0-9]+/events/[0-9]+(?:/videos/[0-9]+)?)|([^\s/]+/video\?clipId=[^\s&]+)|([^\s/]+))',
 			'metacafe'            => $hw . 'metacafe\.com/(?:watch|fplayer)/([0-9]+)',
 			'movieweb'            => $hw . 'movieweb\.com/v/([a-z0-9]{14})',
 			'mpora'               => $hw . 'mpora\.(?:com|de)/videos/([a-z0-9]+)',
@@ -196,21 +186,34 @@ class Advanced_Responsive_Video_Embedder_Shared {
 			'youtube'             => $hw . 'youtube\.com/watch\?v=([a-z0-9_\-]{11}(&list=[a-z0-9_\-]+)?)',
 			//* Shorteners
 			'youtu_be'            => $hw . 'youtu\.be/([a-z0-9_-]{11})',
-			'dai_ly'              => 'http://dai\.ly/([^_]+)',
+			'dai_ly'              => $hw . 'dai\.ly/([^_]+)',
 		);
 	}
-	
+
 	/**
 	 *
-	 * @since    3.2.0
 	 *
+	 * @since     5.4.0
 	 */
-	public function is_legacy_install() {
-	
-		if( get_option( 'arve_install_date' ) < 1423846281000 ) {
-			return true;
+	public static function get_mode_options( $selected ) {
+
+		$modes = self::get_supported_modes();
+		$out   = '';
+
+		foreach( $modes as $mode => $desc ) {
+
+			$out .= sprintf(
+				'<option value="%s" %s>%s</option>',
+				esc_attr( $mode ),
+				selected( $selected, $mode, false ),
+				$desc
+			);
 		}
-		
-		return false;
+
+		return $out;
+	}
+
+	public static function get_supported_modes() {
+		return apply_filters( 'arve_modes', array( 'normal' => __( 'Normal', 'advanced-responsive-video-embedder' ) ) );
 	}
 }

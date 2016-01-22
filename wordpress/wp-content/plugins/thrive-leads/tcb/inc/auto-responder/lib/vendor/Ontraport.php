@@ -12,7 +12,7 @@ class Thrive_Api_Ontraport
 {
     protected $app_url = 'http://api.ontraport.com/cdata.php';
 
-    protected $api_v2 = 'http://api.ontraport.com/';
+    protected $api_v2 = 'https://api.ontraport.com/';
 
     protected $app_id;
     protected $key;
@@ -40,7 +40,29 @@ class Thrive_Api_Ontraport
      */
     public function getSequences()
     {
-        $data = $this->v2Call('1/objects', array('objectID' => self::SEQUENCE_OBJECT_ID));
+        $allData = false;
+        $offset = 0;
+        $range = 50;
+        $data = array();
+
+        while ($allData !== true) {
+            $result = $this->v2Call(
+                '1/objects',
+                array(
+                    'objectID' => self::SEQUENCE_OBJECT_ID,
+                    'sort' => 'name',
+                    'sortDir' => 'asc',
+                    'start' => $offset,
+                    'range' => $range
+                )
+            );
+            if (count($result) < $range) {
+                $allData = true;
+            } else {
+                $offset += $range;
+            }
+            $data = array_merge($data, $result);
+        }
 
         $lists = array();
         foreach ($data as $item) {
@@ -95,8 +117,9 @@ class Thrive_Api_Ontraport
      * Ontraport has a new, simpler JSON-based API
      *
      * @param string $path api path
-     * @param array $param parameters
+     * @param array $params parameters
      * @param string $method http request method
+     * @return array
      *
      * @throws Thrive_Api_Ontraport_Exception
      */
@@ -109,7 +132,8 @@ class Thrive_Api_Ontraport
                 'Content-Type' => 'application/json',
                 'Api-Appid' => $this->app_id,
                 'Api-Key' => $this->key
-            )
+            ),
+            'timeout' => 45
         );
 
         switch ($method) {
@@ -138,7 +162,7 @@ class Thrive_Api_Ontraport
             throw new Thrive_Api_Ontraport_Exception('Call failed: ' . (empty($response['body']) ? 'HTTP status code ' . $status : $response['body']));
         }
 
-        $data = @json_decode($response['body']);
+        $data = @json_decode($response['body'], true);
         if (empty($data) || !isset($data['code'])) {
             throw new Thrive_Api_Ontraport_Exception('Unknown problem with the API request. Response was:' . $response['body']);
         }
@@ -169,7 +193,8 @@ class Thrive_Api_Ontraport
         }
 
         $response = thrive_api_remote_post($this->app_url, array(
-            'body' => $postargs
+            'body' => $postargs,
+            'timeout' => 45
         ));
 
         if (is_wp_error($response)) {

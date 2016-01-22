@@ -1,5 +1,5 @@
 
-<div class="thrv_wrapper thrv_countdown_timer tve_countdown_timer_evergreen tve_cd_timer_plain tve_clearfix init_done"
+<div class="thrv_wrapper thrv_countdown_timer tve_countdown_timer_evergreen tve_cd_timer_plain tve_clearfix init_done <?php echo $_POST['colour']; ?>"
      data-day="0"
      data-hour="2"
      data-min="0"

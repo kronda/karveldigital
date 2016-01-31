@@ -23,8 +23,8 @@
             <?php echo __("Order By", "thrive-cb"); ?>
             <select class="tve_change tve_fb_comment_field" data-field="order-by" data-ctrl="controls.comments_element.fb_field_change" id="tve_fb_comments_order">
                 <option value="social"><?php echo __("Social Popularity", "thrive-cb"); ?></option>
-                <option value="reverse_time"><?php echo __("Oldest First", "thrive-cb"); ?></option>
-                <option value="time"><?php echo __("Newest first", "thrive-cb"); ?></option>
+                <option value="time"><?php echo __("Oldest First", "thrive-cb"); ?></option>
+                <option value="reverse_time"><?php echo __("Newest first", "thrive-cb"); ?></option>
             </select>
         </label>
     </li>

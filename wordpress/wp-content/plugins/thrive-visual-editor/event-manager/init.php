@@ -83,6 +83,10 @@ function tve_get_event_actions($scope = '')
                 'class' => 'TCB_Thrive_Image_Zoom',
                 'order' => 40,
             ),
+            'thrive_wistia' => array(
+                'class' => 'TCB_Thrive_Wistia',
+                'order' => 50,
+            ),
         ),
         'page' => array(
             'thrive_lightbox' => array(

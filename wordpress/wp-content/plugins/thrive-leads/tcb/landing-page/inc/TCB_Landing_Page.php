@@ -80,10 +80,6 @@ if (!class_exists('TCB_Landing_Page')) {
                 <?php endif;
             }
 
-            if(function_exists('thrive_include_meta_post_tags')) {
-                thrive_include_meta_post_tags();
-            }
-
             $this->fonts();
 
             if (!empty($this->globalScripts['head'])) {

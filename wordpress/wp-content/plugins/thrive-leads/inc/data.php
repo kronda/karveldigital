@@ -306,7 +306,7 @@ function tve_leads_get_one_click_signups()
 
     foreach ($posts as $post) {
         $post->post_link = get_permalink($post->ID);
-        $post->redirect_url = get_post_meta($post->ID, 'tve_leads_redirect_url', true);
+        $post->redirect_url = (object) get_post_meta($post->ID, 'tve_leads_redirect_url', true);
         $post->api_connections = get_post_meta($post->ID, 'tve_leads_api_connections', true);
         $post->signups = get_post_meta($post->ID, 'tve_leads_signups', true);
     }

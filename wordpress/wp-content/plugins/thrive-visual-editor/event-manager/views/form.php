@@ -37,6 +37,7 @@
                         <?php endforeach ?>
                     </select>
                 </div>
+                <span id="tve-wistia-warn" <?php echo empty($selected_action_code) || $selected_action_code === 'thrive_wistia' ? '' : ' style="display: none"' ?> class="tve_message tve_error_box"><?php echo __('Currently, you can only use the click trigger for Wistia popover embeds') ?></span>
             </td>
         </tr>
         </tfoot>
@@ -58,3 +59,29 @@
     </div>
 </div>
 <div class="tve_clear"></div>
+<script type="text/javascript">
+    (function ($) {
+        var c_action = <?php echo json_encode($selected_action_code) ?>,
+            $t = $('#tve_event_trigger'),
+            $a = $('#tve_event_action'),
+            $wm = $('#tve-wistia-warn');
+
+        function set_trigger()
+        {
+            if (c_action === 'thrive_wistia') {
+                $t.val('click');
+                $wm.show();
+            } else {
+                $wm.hide();
+            }
+        }
+
+        set_trigger();
+
+        $t.add($a).on('change', function () {
+            c_action = $a.val();
+            set_trigger();
+        });
+
+    })(jQuery);
+</script>

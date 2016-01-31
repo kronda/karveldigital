@@ -1,8 +1,18 @@
 <div id="tve-content">
     <div id="tve-contacts">
         <div class="tve-header">
-            <div class="tve-logo">
-                <?php echo '<img src="' . plugins_url('thrive-leads/admin/img') . '/logo.png" > '; ?>
+            <div class="tve-logo tve_leads_clearfix">
+                <a href="<?php menu_page_url( 'thrive_leads_dashboard' ); ?>" class="tl-leads-users-dashboard-logo"
+                   title="<?php echo __( 'Thrive Leads Home', 'thrive-leads' ) ?>">
+					<span class="tl-logo-container">
+						<?php echo '<img class="tl-logo-move tl-logo-move-1" src="' . plugins_url( 'thrive-leads/admin/img' ) . '/tl-logo-part-1-1.png" > '; ?>
+                        <?php echo '<img class="tl-logo-move tl-logo-move-2" src="' . plugins_url( 'thrive-leads/admin/img' ) . '/tl-logo-part-1-2.png" > '; ?>
+                        <?php echo '<img src="' . plugins_url( 'thrive-leads/admin/img' ) . '/tl-logo-part-2.png" > '; ?>
+					</span>
+                </a>
+                <div class="tve-global-settings">
+                    <?php require_once(dirname(dirname(__FILE__)) . '/leads_menu.php') ?>
+                </div>
             </div>
         </div>
         <h1>Lead Export</h1>
@@ -43,4 +53,13 @@
             </td>
         </tr>
     </table>
+</div>
+<div class="tve-download-manager-back">
+    <a class="tve-leads-button tve-btn tve-btn-gray tve-manager-dashboard"
+       href="<?php echo admin_url('admin.php?page=thrive_leads_dashboard'); ?>"
+       title="<?php echo __('Back to Thrive Leads Home') ?>"
+       id="tve-asset-group-dashboard">
+        <span class="tve-icon-double-angle-quotes"></span>
+        <?php echo __('Back to Thrive Leads Home', 'thrive-leads') ?>
+    </a>
 </div>

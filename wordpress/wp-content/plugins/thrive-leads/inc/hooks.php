@@ -2191,6 +2191,9 @@ function tve_leads_ajax_load_forms()
         $dep = $wp_styles->registered['thrive_events'];
         $response['res']['css']['thrive_events'] = $wp_styles->_css_href($dep->src, $dep->ver, 'thrive_events');
     }
+    if (wp_script_is('tl-wistia-popover')) {
+        $response['res']['js']['tl-wistia-popover'] = '//fast.wistia.com/assets/external/E-v1.js';
+    }
 
     exit(json_encode($response));
 }
@@ -2368,8 +2371,12 @@ function tve_leads_filter_api_types($types)
 
 function tve_leads_filter_available_connection($available)
 {
-    $available['mandrill'] = 'Thrive_List_Connection_Mandrill';
-    $available['postmark'] = 'Thrive_List_Connection_Postmark';
+    $available['mandrill'] = 'Thrive_Dash_List_Connection_Mandrill';
+    $available['postmark'] = 'Thrive_Dash_List_Connection_Postmark';
+    $available['mailgun'] = 'Thrive_Dash_List_Connection_Mailgun';
+    $available['awsses'] = 'Thrive_Dash_List_Connection_Awsses';
+    $available['sendinblueemail'] = 'Thrive_Dash_List_Connection_SendinblueEmail';
+
     return $available;
 }
 
@@ -2390,21 +2397,21 @@ function tve_leads_wp_nav_menu_objects($menu_items)
     $tb_menu_item_ids = array();
     $ajax_load_forms = tve_leads_get_option('ajax_load');
 
-    foreach($menu_items as $key => $item) {
+    foreach ($menu_items as $key => $item) {
 
         //do not render children
-        if(in_array($item->menu_item_parent, $tb_menu_item_ids)) {
+        if (in_array($item->menu_item_parent, $tb_menu_item_ids)) {
             unset($menu_items[$key]);
             continue;
         }
 
         //continue if not TB menu item
-        if($item->object !== TVE_LEADS_POST_TWO_STEP_LIGHTBOX) {
+        if ($item->object !== TVE_LEADS_POST_TWO_STEP_LIGHTBOX) {
             continue;
         }
 
         //remove css class for has children
-        if($class_key = array_search('menu-item-has-children', $item->classes)) {
+        if ($class_key = array_search('menu-item-has-children', $item->classes)) {
             unset($item->classes[$class_key]);
         }
 
@@ -2418,14 +2425,14 @@ function tve_leads_wp_nav_menu_objects($menu_items)
         //for cases when a menu item is set to be displayed on more than 1 menu
         //e.g. top menu and/or footer menu
         $already_rendered = in_array($item->object_id, $GLOBALS['tve_leads_rendered_two_step_ids']);
-        if($already_rendered) {
+        if ($already_rendered) {
             continue;
         }
 
-        if($already_rendered === false) {
+        if ($already_rendered === false) {
             $content = tve_leads_two_step_render(array('id' => $item->object_id), '');
         }
-        if(empty($content) && !$ajax_load_forms) { //and not ajax load
+        if (empty($content) && !$ajax_load_forms) { //and not ajax load
             unset($menu_items[$key]);
         }
 
@@ -2637,4 +2644,51 @@ function tve_leads_redirect_after_subscribe($postId)
 
     header('Location: ' . $url);
     exit;
+}
+
+function tve_leads_load_dash_version()
+{
+    $tve_dash_path = dirname(dirname(__FILE__)) . '/thrive-dashboard';
+    $tve_dash_file_path = $tve_dash_path . '/version.php';
+
+    if (is_file($tve_dash_file_path)) {
+        $version = require_once($tve_dash_file_path);
+        $GLOBALS['tve_dash_versions'][$version] = array(
+            'path' => $tve_dash_path . '/thrive-dashboard.php',
+            'folder' => '/thrive-leads',
+            'from' => 'plugins',
+        );
+    }
+}
+
+/**
+ * make sure the TL_product is displayed in thrive dashboard
+ *
+ * @param array $items
+ * @return array
+ */
+function tve_leads_add_to_dashboard($items)
+{
+    require_once dirname(__FILE__) . '/classes/Thrive_Leads_TL_Product.php';
+
+    $items[] = new TL_Product();
+
+    return $items;
+}
+
+/**
+ * make sure all the features required by TCB are shown in the dashboard
+ *
+ * @param array $features
+ *
+ * @return array
+ */
+function tve_leads_dash_add_features($features)
+{
+    $features['font_manager'] = true;
+    $features['icon_manager'] = true;
+    $features['api_connections'] = true;
+    $features['general_settings'] = true;
+
+    return $features;
 }

@@ -10,53 +10,17 @@
 
     <div id="tve-asset-delivery">
         <div class="tve-header">
-            <div class="tve-logo">
-                <?php echo '<img src="' . plugins_url('thrive-leads/admin/img') . '/logo.png" > '; ?>
+            <div class="tve-logo tve_leads_clearfix">
+                <a href="<?php menu_page_url( 'thrive_leads_dashboard' ); ?>" class="tl-leads-users-dashboard-logo"
+                   title="<?php echo __( 'Thrive Leads Home', 'thrive-leads' ) ?>">
+					<span class="tl-logo-container">
+						<?php echo '<img class="tl-logo-move tl-logo-move-1" src="' . plugins_url( 'thrive-leads/admin/img' ) . '/tl-logo-part-1-1.png" > '; ?>
+                        <?php echo '<img class="tl-logo-move tl-logo-move-2" src="' . plugins_url( 'thrive-leads/admin/img' ) . '/tl-logo-part-1-2.png" > '; ?>
+                        <?php echo '<img src="' . plugins_url( 'thrive-leads/admin/img' ) . '/tl-logo-part-2.png" > '; ?>
+					</span>
+                </a>
                 <div class="tve-global-settings">
-                    <a href="<?php echo admin_url( 'admin.php?page=thrive_leads_asset_delivery' ); ?>"  title="<?php echo __('Thrive Leads Asset Delivery', 'thrive-leads') ?>">
-                        <span class="tve-icon-cloud"></span>
-                    </a>
-                    &nbsp;
-                    <a href="javascript:void(0)" class="tl-inbound-link-builder" title="<?php echo __('Thrive Leads SmartLinks', 'thrive-leads') ?>">
-                        <span class="tve-icon-link"></span>
-                    </a>
-
-                    &nbsp;
-                    <a href="javascript:void(0)" class="tl-open-settings" title="<?php echo __('Settings', 'thrive-leads') ?>">
-                        <span class="tve-icon-cog"></span>
-                    </a>
-
-                    <div class="tve-settings postbox">
-                        <span class="tl-close-settings tve-icon-arrow-up" title="<?php echo __('Close') ?>"></span>
-
-                        <h3 class="tve-settings-title"><span><?php echo __('General Settings', 'thrive-leads') ?></span></h3>
-
-                        <div class="inside">
-                            <div class="tve-input-group tve_leads_clearfix">
-                                <label><?php echo __('Lazy load forms') ?></label>
-
-                                <div class="tve-input">
-                                    <label class="tve-switch">
-                                        <input type="checkbox" name="ajax_load" value="1"
-                                        <?php if ($dashboard_data['global_settings']['ajax_load']) { ?> checked="checked"
-                                            <?php } ?> class="tve-setting-change tve-setting-ajax_load" autocomplete="off">
-                                                <i></i>
-                                    </label>
-                                </div>
-                                <span class="tve-field-desc">
-                                    <?php echo __('Using lazy loading can speed up the loading of your page and ensure compatibility with the various WordPress caching plugins such as W3 Total Cache, WP Super Cache and WP Rocket. If set to Off while caching plugins are enabled, tracking and conversions will not be recorded correctly', 'thrive-leads') ?>
-                                </span>
-                            </div>
-                            <div class="tve-input-group tve_leads_clearfix">
-                                <h3 class="tve-settings-title" style="padding-left:0"><?php echo __('Reset cached statistics') ?></h3>
-
-                                <span class="tve-field-desc">
-                                    <?php echo __('In order to increase overall performance, Thrive Leads caches the number of impressions and conversions for each Lead Group, Shortcode, ThriveBox and Form. Click the following link to purge the cache and re-build it.', 'thrive-leads') ?>
-                                    <a class="tve-leads-clear-cache" href="javascript:void(0)"><?php echo __('Purge cache', 'thrive-leads') ?></a>
-                                </span>
-                            </div>
-                        </div>
-                    </div>
+                    <?php require_once(dirname(__FILE__) . '/leads_menu.php') ?>
                 </div>
             </div>
             <div class="tve-page-title tve_leads_clearfix">
@@ -124,10 +88,10 @@
             <div class="tve-asset-delivery-settings">
                 <a class="tve-leads-button tve-btn tve-btn-gray tve-asset-group-dashboard"
                    href="<?php echo admin_url('admin.php?page=thrive_leads_dashboard'); ?>"
-                   title="<?php echo __('Back to Dashboard') ?>"
+                   title="<?php echo __('Back to Thrive Leads Home') ?>"
                    id="tve-asset-group-dashboard">
                     <span class="tve-icon-double-angle-quotes"></span>
-                    <?php echo __('Back to Dashboard', 'thrive-leads') ?>
+                    <?php echo __('Back to Thrive Leads Home', 'thrive-leads') ?>
                 </a>
             </div>
         </div>

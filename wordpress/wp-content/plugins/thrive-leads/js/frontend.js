@@ -72,6 +72,13 @@ TL_Front.add_page_js = function (links, onLoad) {
 
 ThriveGlobal.$j(function () {
 
+    /**
+     * SUPP-1217 Divi + Yoast + TL conflict
+     */
+    if (typeof TL_Const === 'undefined') {
+        return;
+    }
+
     ThriveGlobal.$j('.tve-leads-screen-filler iframe, .tve-leads-ribbon iframe').not('.thrv_social_default iframe').not('.tcb-dr-done').each(function () {
         var $frame = ThriveGlobal.$j(this).addClass('tcb-dr-done');
         if ($frame.attr('src')) {
@@ -95,6 +102,7 @@ ThriveGlobal.$j(function () {
         $target.css('display', '');
         setTimeout(function () {
             $anim_target.addClass('tve-leads-triggered');
+            TL_Front.handle_typefocus($anim_target, 'start');
             TCB_Front.postGridLayout();
         }, 0);
 
@@ -323,7 +331,16 @@ ThriveGlobal.$j(function () {
                 });
             }
             if (response.body_end) {
-                ThriveGlobal.$j('body').append(response.body_end);
+                /**
+                 * filter the end-of-body contents to remove any (possible) existing wistia embed divs
+                 */
+                var $body_end = ThriveGlobal.$j(response.body_end);
+                $body_end.find('.tve_wistia_popover').each(function () {
+                    if (ThriveGlobal.$j('#' + this.id).length) {
+                        this.parentNode.removeChild(this);
+                    }
+                });
+                ThriveGlobal.$j('body').append($body_end);
             }
 
             TL_Front.add_page_js(response.res.js, function () {
@@ -415,6 +432,9 @@ TL_Front.close_lightbox = function () {
         $this.attr('data-src', $this.attr('src'));
         $this.attr('src', '');
     });
+
+    TL_Front.handle_typefocus($lightbox, 'pause');
+
     /**
      * close any error messages that might have been displayed on forms inside the lightbox
      */
@@ -616,6 +636,7 @@ TL_Front.open_ribbon = function ($target) {
             } else if (position === 'bottom') {
                 ThriveGlobal.$j('body').animate({'margin-bottom': 0 + 'px'}, 200);
             }
+            TL_Front.handle_typefocus($target, 'pause');
 
             setTimeout(function () {
                 $target.css(position, '');
@@ -668,17 +689,23 @@ TL_Front.switch_ribbon_state = function ($target) {
 };
 
 TL_Front.open_greedy_ribbon = function ($target) {
-    var $body = ThriveGlobal.$j('body');
-    $body.scrollTop(0).addClass('tve-tl-gr-anim');
+    var $body = ThriveGlobal.$j('body'),
+        $window = ThriveGlobal.$j(window);
+    $window.scrollTop(0);
+    $body.addClass('tve-tl-gr-anim');
     $target.css('top', ThriveGlobal.$j('#wpadminbar').length ? '32px' : '0px');
-
-    var wHeight = ThriveGlobal.$j(window).height();
+    var wHeight = $window.height();
     $body[0].style.setProperty('margin-top', wHeight + 'px', 'important');
     var greedyCondition = 1;
-    ThriveGlobal.$j(window).scroll(function () {
-        if (greedyCondition === 1) {
-            var browserScroll = ThriveGlobal.$j(window).scrollTop();
+    $window.scroll(function () {
+        var isFormOpen = $body.hasClass('tve-tl-gr-anim');
+        if (greedyCondition === 1 && isFormOpen) {
+            var browserScroll = $window.scrollTop();
             if (browserScroll > wHeight) {
+                var hasWistiaPopover = $target.find('.tve_ea_thrive_wistia').length || $target.find('.tve_with_wistia_popover');
+                if (hasWistiaPopover) {
+                    ThriveGlobal.$j('.wistia_placebo_close_button').trigger('click');
+                }
                 $body.removeClass('tve-tl-gr-anim');
                 $target.addClass('tve-no-animation');
                 var greedyScroll = browserScroll - wHeight;
@@ -690,7 +717,8 @@ TL_Front.open_greedy_ribbon = function ($target) {
                 });
                 $body[0].style.removeProperty('margin-top');
                 $body.css('margin-top', wHeight);
-                $body.css('margin-top', '0px').scrollTop(greedyScroll);
+                $body.css('margin-top', '0px');
+                $window.scrollTop(greedyScroll);
                 $target.removeClass('tve-no-animation');
                 greedyCondition = 0;
                 TL_Front.form_closed('greedy_ribbon');
@@ -698,6 +726,7 @@ TL_Front.open_greedy_ribbon = function ($target) {
         }
     });
     $target.off('switchstate').on('switchstate', function (e, $target) {
+
     });
 };
 
@@ -739,6 +768,7 @@ TL_Front.open_screen_filler = function ($target, TargetEvent) {
         });
 
         $screen_filler.removeClass('tve-leads-triggered');
+        TL_Front.handle_typefocus($screen_filler, 'pause');
         ThriveGlobal.$j(document).off('keyup.close-screenfiller');
         ThriveGlobal.$j('body').animate({'margin-top': 0 + 'px'}, 200);
         html_body.removeClass(overflow_hidden);
@@ -802,6 +832,7 @@ TL_Front.open_slide_in = function ($target) {
 
     function close_it($slidein) {
         $slidein.removeClass('tve-leads-triggered');
+        TL_Front.handle_typefocus($slidein, 'pause');
         ThriveGlobal.$j(document).off('keyup.close-slidein');
         $body.removeClass(overflow_hidden);
         $html.removeClass(overflow_hidden);
@@ -852,13 +883,18 @@ TL_Front.close_form = function (element, trigger, action, config) {
 
     //remove this class just because it is added dynamically and maybe we want to trigger it again
     $parent.removeClass('tve-leads-triggered');
-
+    TL_Front.handle_typefocus($parent, 'pause');
     switch (type) {
         case 'ribbon':
             $parent.find('.tve-ribbon-close').trigger('click');//there already exists a bind for close
             break;
         case 'slide-in':
             $parent.find('.tve-leads-close').trigger('click');//there already exists a bind for close
+            $parent.find('.thrv_responsive_video iframe, .thrv_custom_html_shortcode iframe, .thrv_responsive_video video').each(function () {
+                var $this = ThriveGlobal.$j(this);
+                $this.attr('data-src', $this.attr('src'));
+                $this.attr('src', '');
+            });
             break;
         case 'post-footer'://case able for PHP Insert form too
         case 'in-content':
@@ -872,13 +908,20 @@ TL_Front.close_form = function (element, trigger, action, config) {
             break;
         case 'greedy_ribbon':
             var $body = ThriveGlobal.$j('body'),
+                $window = ThriveGlobal.$j(window),
                 _tempMargin = $body.css('margin-top');
             $body[0].style.removeProperty('margin-top');
-
+            $parent.find('.thrv_responsive_video iframe, .thrv_custom_html_shortcode iframe, .thrv_responsive_video video').each(function () {
+                var $this = ThriveGlobal.$j(this);
+                $this.attr('data-src', $this.attr('src'));
+                $this.attr('src', '');
+            });
             $body.css('margin-top', _tempMargin);
-            ThriveGlobal.$j('body').animate({'margin-top': 0 + 'px'}, 600, 'linear', function () {
+            $window.scrollTop(0);
+            $body.animate({'margin-top': 0 + 'px'}, 600, 'linear', function () {
                 TL_Front.form_closed(type);
             }).removeClass('tve-tl-gr-anim');
+
             break;
     }
 };
@@ -891,4 +934,11 @@ TL_Front.form_closed = function (type) {
             }
         });
     }
+};
+
+TL_Front.handle_typefocus = function (element, action) {
+    element.find('.tve_typefocus').each(function () {
+        var $this = jQuery(this);
+        $this.attr('data-typefocus', action);
+    });
 };

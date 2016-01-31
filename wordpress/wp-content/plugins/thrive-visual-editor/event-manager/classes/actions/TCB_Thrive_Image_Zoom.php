@@ -106,7 +106,6 @@ class TCB_Thrive_Image_Zoom extends TCB_Event_Action_Abstract
                     /* set listeners for closing the lightbox */
                     jQuery(document).on("click", ".tve_close_lb", tve_close_lb);
                     jQuery(document).on("click", "#tve_zoom_overlay", tve_close_lb);
-                    jQuery(window).on("scroll", tve_close_lb);
                     jQuery(document).keyup(function (e) {
                         if (e.keyCode == 27) {
                             tve_close_lb();

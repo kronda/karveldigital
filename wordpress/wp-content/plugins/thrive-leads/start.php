@@ -92,6 +92,8 @@ if (defined('DOING_AJAX') && DOING_AJAX) {
     add_action('tcb_api_form_submit', 'tve_leads_api_form_submit');
     add_action('tve_tcb_delivery_connection', 'tve_leads_delivery_connection');
 }
+/* Load Dashboard version check */
+add_action('plugins_loaded', 'tve_leads_load_dash_version');
 
 if (!is_admin()) {
 
@@ -154,6 +156,9 @@ if (!is_admin()) {
 
     add_filter('tve_leads_include_auto_responder', 'tve_leads_include_auto_responder_file');
 } else {
+
+    add_filter('tve_dash_installed_products', 'tve_leads_add_to_dashboard');
+    add_filter('tve_dash_features', 'tve_leads_dash_add_features');
     add_filter('tve_filter_api_types', 'tve_leads_filter_api_types');
     add_filter('tve_filter_available_connection', 'tve_leads_filter_available_connection');
 }

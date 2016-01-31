@@ -2,10 +2,11 @@
 /**
  * notice to be displayed if license not validated - going to load the styles inline because there are so few lines and not worth an extra server hit.
  */
-?><div id="tve_license_notice">
+?>
+<div id="tve_license_notice">
     <img src="<?php echo tve_editor_css(); ?>/images/Logo-Large.png">
 
-    <p><?php echo sprintf(__("You need to %s before you can use the editor!", 'thrive-cb'), '<a class="tve-license-link" href="' . admin_url() . 'options-general.php?page=tve_license_validation">' . __("activate your license", "thrive-cb") . '</a>') ?></p>
+    <p><?php echo sprintf(__("You need to %s before you can use the editor!", 'thrive-cb'), '<a class="tve-license-link" href="' . admin_url("admin.php?page=tve_dash_license_manager_section&return=" . rawurlencode(tcb_get_editor_url())) . '">' . __("activate your license", "thrive-cb") . '</a>') ?></p>
     </p></div>
 <style type="text/css">
     #tve_license_notice {
@@ -40,6 +41,7 @@
         -moz-box-shadow: 2px 5px 3px #efefef;
         box-shadow: 2px 5px 3px #efefef;
     }
+
     #tve_license_notice .tve-license-link, #tve_license_notice .tve-license-link:active, #tve_license_notice .tve-license-link:visited {
         color: #5DA61E;
     }

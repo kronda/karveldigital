@@ -16,7 +16,7 @@ class ShortPixelView {
     public function displayQuotaExceededAlert($quotaData) 
     { ?>    
         <br/>
-        <div class="wrap" style="background-color: #fff; border-left: 4px solid #ff0000; box-shadow: 0 1px 1px 0 rgba(0, 0, 0, 0.1); padding: 1px 12px;">
+        <div class="wrap sp-quota-exceeded-alert">
             <h3>Quota Exceeded</h3>
             <p>The plugin has optimized <strong><?=number_format($quotaData['APICallsMadeNumeric'] + $quotaData['APICallsMadeOneTimeNumeric'])?> images</strong> and stopped because it reached the available quota limit.
             <?php if($quotaData['totalProcessedFiles'] < $quotaData['totalFiles']) { ?>

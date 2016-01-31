@@ -20,6 +20,17 @@ function tve_editor_js()
 }
 
 /**
+ * return the absolute path to the plugin folder
+ *
+ * @param string $file
+ * @return string
+ */
+function tve_editor_path($file = '')
+{
+    return plugin_dir_path(dirname(__FILE__)) . ltrim($file, '/');
+}
+
+/**
  * get all the style families used by TCB
  *
  * @return array
@@ -604,6 +615,7 @@ function tve_save_post()
         tve_update_post_meta($_POST['post_id'], 'thrive_icon_pack', empty($_POST['has_icons']) ? 0 : 1);
         tve_update_post_meta($_POST['post_id'], 'tve_has_masonry', empty($_POST['tve_has_masonry']) ? 0 : 1);
         tve_update_post_meta($_POST['post_id'], 'tve_has_typefocus', empty($_POST['tve_has_typefocus']) ? 0 : 1);
+        tve_update_post_meta($_POST['post_id'], 'tve_has_wistia_popover', empty($_POST['tve_has_wistia_popover']) ? 0 : 1);
         if (!empty($_POST['social_fb_app_id'])) {
             update_option('tve_social_fb_app_id', $_POST['social_fb_app_id']);
         }
@@ -741,7 +753,7 @@ function tve_editor_content($content, $use_case = null)
     /* render the content added through WP Editor (element: "WordPress Content") */
     $tve_saved_content = tve_do_wp_shortcodes($tve_saved_content, is_editor_page());
 
-    if(!is_editor_page()) {
+    if (!is_editor_page()) {
         //for the case when user put a shortcode inside a "p" element
         $tve_saved_content = shortcode_unautop($tve_saved_content);
     }
@@ -920,7 +932,7 @@ function tve_hide_custom_fields($protected, $meta_key)
         'tve_save_post', 'tve_updated_post', 'tve_content_before_more_shortcoded', 'tve_content_before_more',
         'tve_style_family', 'tve_updated_post_shortcoded', 'tve_user_custom_css', 'tve_custom_css',
         'tve_content_more_found', 'tve_landing_page', 'thrive_post_fonts', 'thrive_tcb_post_fonts', 'tve_globals', 'tve_special_lightbox',
-        'thrive_icon_pack', 'tve_global_scripts', 'tve_has_masonry', 'tve_page_events', 'tve_typefocus'
+        'thrive_icon_pack', 'tve_global_scripts', 'tve_has_masonry', 'tve_page_events', 'tve_typefocus', 'tve_has_wistia_popover'
     );
     $landing_page_templates = array_keys(include dirname(dirname(__FILE__)) . '/landing-page/templates/_config.php');
 
@@ -1451,6 +1463,16 @@ function is_editor_page()
 }
 
 /**
+ * check if there is a valid activated license for the TCB plugin
+ *
+ * @return bool
+ */
+function tve_tcb__license_activated()
+{
+    return TVE_Dash_Product_LicenseManager::getInstance()->itemActivated(TVE_Dash_Product_LicenseManager::TCB_TAG);
+}
+
+/**
  * determine whether the user is on the editor page or not based just on a $_GET parameter
  * modification: WP 4 removed the "preview" parameter
  * @return bool
@@ -1489,7 +1511,7 @@ function tve_enqueue_editor_scripts()
          * this is to handle the following case: an user who has the TL plugin (or others) installed, TCB installed and enabled, but TCB license is expired
          * in this case, users should still be able to edit stuff from outside the TCB plugin, such as forms
          */
-        if (get_option('tve_license_status') || apply_filters('tcb_skip_license_check', false)) {
+        if (tve_tcb__license_activated() || apply_filters('tcb_skip_license_check', false)) {
             $post_id = get_the_ID();
 
             /**
@@ -1551,17 +1573,15 @@ function tve_enqueue_editor_scripts()
                 wp_enqueue_script('iris', admin_url('js/iris.min.js'), array('jquery', 'jquery-ui-draggable', 'jquery-ui-slider', 'jquery-touch-punch'), false, 1);
 
                 // WP colour picker - this is now needed only if a Thrive Theme is used - to allow colorpicker options on the WordPress Content element
-                if (tve_check_if_thrive_theme()) {
-                    wp_enqueue_script('wp-color-picker', admin_url('js/color-picker.min.js'), array('jquery', 'iris'), false, 1);
-                    wp_localize_script('wp-color-picker', 'wpColorPickerL10n', array(
-                        'clear' => __('Clear', 'thrive-cb'),
-                        'defaultString' => __('Default', 'thrive-cb'),
-                        'pick' => __('Select Color', 'thrive-cb'),
-                        'current' => __('Current Color', 'thrive-cb'),
-                    ));
-                    // WP colour picker
-                    wp_enqueue_style('wp-color-picker');
-                }
+                wp_enqueue_script('wp-color-picker', admin_url('js/color-picker.min.js'), array('jquery', 'iris'), false, 1);
+                wp_localize_script('wp-color-picker', 'wpColorPickerL10n', array(
+                    'clear' => __('Clear', 'thrive-cb'),
+                    'defaultString' => __('Default', 'thrive-cb'),
+                    'pick' => __('Select Color', 'thrive-cb'),
+                    'current' => __('Current Color', 'thrive-cb'),
+                ));
+                // WP colour picker
+                wp_enqueue_style('wp-color-picker');
 
                 // helper scripts for various functions
                 wp_enqueue_script("tve_clean_html", tve_editor_js() . '/jquery.htmlClean.min.js', array('jquery'), '1.0.0', true);
@@ -1735,7 +1755,7 @@ function tve_enqueue_editor_scripts()
                     'tve_loaded_stylesheet' => $loaded_style_family,
                     'tve_colour_picker_colours' => $tve_remembered_colours,
                     'ajax_url' => $admin_base_url . 'admin-ajax.php',
-                    'font_settings_url' => $admin_base_url . 'admin.php?page=thrive_font_manager',
+                    'font_settings_url' => $admin_base_url . 'admin.php?page=tve_dash_font_manager',
                     'thrive_optins' => $thrive_optins,
                     'thrive_optin_colors' => $thrive_optin_colors,
                     'wp_timezone' => $tzd,
@@ -1809,6 +1829,8 @@ function tve_enqueue_editor_scripts()
                         'AddTextVariation' => __("Please add text for last variation !", 'thrive-cb'),
                         'TypeFocusVariationSpeed' => __("You cannot set the slide speed below 1000 ms !", "thrive-cb"),
                         'TwitterShareCountDisabled' => __('The total share count cannot be displayed if only Twitter share is selected. Twitter has discontinued support for the public count API'),
+                        'WistiaVideoPlaceholder' => __('Wistia Popover Video placeholder'),
+                        'ValidWistiaUrl' => __("Please enter a valid Wistia URL", 'thrive-cb'),
                     )
                 );
                 $tve_path_params['extra_body_class'] .= ($tve_cp_config['position'] == 'left' ? ' tve_cpanelFlip' : '');
@@ -2258,6 +2280,11 @@ function tve_thrive_shortcodes($content, $keepConfig = false)
 
             }
         }
+    }
+
+    // we include the wistia js only if wistia popover responsive video is added to the content (div with class tve_wistia_popover)
+    if (!$keepConfig && strpos($content, "tve_wistia_popover") !== false) {
+        wp_script_is('tl-wistia-popover') || wp_enqueue_script('tl-wistia-popover', '//fast.wistia.com/assets/external/E-v1.js', array(), '', true);
     }
 
     return $content;
@@ -2832,8 +2859,8 @@ function tve_custom_font_get_link($font)
         $font = (object)$font;
     }
 
-    if (Thrive_Font_Import_Manager::isImportedFont($font)) {
-        return Thrive_Font_Import_Manager::getCssFile();
+    if (Tve_Dash_Font_Import_Manager::isImportedFont($font)) {
+        return Tve_Dash_Font_Import_Manager::getCssFile();
     }
 
     return "//fonts.googleapis.com/css?family=" . str_replace(" ", "+", $font->font_name) . ($font->font_style ? ":" . $font->font_style : "") . ($font->font_bold ? "," . $font->font_bold : "") . ($font->font_italic ? $font->font_italic : "") . ($font->font_character_set ? "&subset=" . $font->font_character_set : "");
@@ -2869,8 +2896,8 @@ function tve_update_post_custom_fonts($post_id, $custom_font_classes)
     $post_fonts = array();
     foreach (array_unique($custom_font_classes) as $cls) {
         foreach ($all_fonts as $font) {
-            if (Thrive_Font_Import_Manager::isImportedFont($font->font_name)) {
-                $post_fonts[] = Thrive_Font_Import_Manager::getCssFile();
+            if (Tve_Dash_Font_Import_Manager::isImportedFont($font->font_name)) {
+                $post_fonts[] = Tve_Dash_Font_Import_Manager::getCssFile();
             } else if ($font->font_class == $cls && !tve_is_safe_font($font)) {
                 $post_fonts[] = tve_custom_font_get_link($font);
                 break;
@@ -2904,8 +2931,8 @@ function tve_get_post_custom_fonts($post_id, $include_thrive_fonts = false)
     $all_fonts = tve_get_all_custom_fonts();
     $all_fonts_links = array();
     foreach ($all_fonts as $f) {
-        if (Thrive_Font_Import_Manager::isImportedFont($f->font_name)) {
-            $all_fonts_links[] = Thrive_Font_Import_Manager::getCssFile();
+        if (Tve_Dash_Font_Import_Manager::isImportedFont($f->font_name)) {
+            $all_fonts_links[] = Tve_Dash_Font_Import_Manager::getCssFile();
         } else if (!tve_is_safe_font($f)) {
             $all_fonts_links [] = tve_custom_font_get_link($f);
         }
@@ -2978,7 +3005,11 @@ function tve_enqueue_custom_scripts()
             wp_script_is("jquery-masonry") || wp_enqueue_script("jquery-masonry", array('jquery'));
         }
         if (tve_get_post_meta($post->ID, 'tve_has_typefocus')) {
-            wp_script_is("tve_typed") || wp_enqueue_script("tve_typed", tve_editor_js() . '/typed' . $js_suffix,  array('tve_frontend'));
+            wp_script_is("tve_typed") || wp_enqueue_script("tve_typed", tve_editor_js() . '/typed' . $js_suffix, array('tve_frontend'));
+        }
+        /* include wistia script for popover videos */
+        if (tve_get_post_meta($post->ID, 'tve_has_wistia_popover') && !wp_script_is('tl-wistia-popover')) {
+             wp_enqueue_script('tl-wistia-popover', '//fast.wistia.com/assets/external/E-v1.js', array(), '', true);
         }
         $globals = tve_get_post_meta($post->ID, 'tve_globals');
         if (!empty($globals['js_sdk'])) {
@@ -3039,8 +3070,8 @@ function tve_enqueue_fonts($font_array)
             $href = $font;
         } else if (is_array($font) || is_object($font)) {
             $font_name = is_array($font) ? $font['font_name'] : $font->font_name;
-            if (Thrive_Font_Import_Manager::isImportedFont($font_name)) {
-                $href = Thrive_Font_Import_Manager::getCssFile();
+            if (Tve_Dash_Font_Import_Manager::isImportedFont($font_name)) {
+                $href = Tve_Dash_Font_Import_Manager::getCssFile();
             } else {
                 $href = tve_custom_font_get_link($font);
             }
@@ -3331,8 +3362,8 @@ function tve_authors_list()
     $response = array();
     foreach ($users as $item) {
         $term = array();
-        $term['label'] = $item->data->display_name;
-        $term['value'] = $item->data->display_name;
+        $term['label'] = $item->data->user_nicename;
+        $term['value'] = $item->data->user_nicename;
         $response[] = $term;
     }
     wp_send_json($response);
@@ -3564,6 +3595,7 @@ function tve_get_used_meta_keys()
         'tve_has_masonry',
         'tve_has_typefocus',
         'tve_updated_post',
+        'tve_has_wistia_popover'
     );
 
     return $meta_keys;
@@ -3745,84 +3777,6 @@ function tve_find_quick_link_contents()
     exit;
 }
 
-if (!function_exists('tve_font_manager_get_safe_fonts')) {
-    /**
-     * This function is also defined in Thrive Themes
-     *
-     * @return array
-     */
-    function tve_font_manager_get_safe_fonts()
-    {
-        return $safe_fonts = array(
-            array(
-                'family' => 'Georgia, serif',
-                'variants' => array('regular', 'italic', '600'),
-                'subsets' => array('latin'),
-            ),
-            array(
-                'family' => 'Palatino Linotype, Book Antiqua, Palatino, serif',
-                'variants' => array('regular', 'italic', '600'),
-                'subsets' => array('latin'),
-            ),
-            array(
-                'family' => 'Times New Roman, Times, serif',
-                'variants' => array('regular', 'italic', '600'),
-                'subsets' => array('latin'),
-            ),
-            array(
-                'family' => 'Arial, Helvetica, sans-serif',
-                'variants' => array('regular', 'italic', '600'),
-                'subsets' => array('latin'),
-            ),
-            array(
-                'family' => 'Arial Black, Gadget, sans-serif',
-                'variants' => array('regular', 'italic', '600'),
-                'subsets' => array('latin'),
-            ),
-            array(
-                'family' => 'Comic Sans MS, cursive, sans-serif',
-                'variants' => array('regular', 'italic', '600'),
-                'subsets' => array('latin'),
-            ),
-            array(
-                'family' => 'Impact, Charcoal, sans-serif',
-                'variants' => array('regular', 'italic', '600'),
-                'subsets' => array('latin'),
-            ),
-            array(
-                'family' => 'Lucida Sans Unicode, Lucida Grande, sans-serif',
-                'variants' => array('regular', 'italic', '600'),
-                'subsets' => array('latin'),
-            ),
-            array(
-                'family' => 'Tahoma, Geneva, sans-serif',
-                'variants' => array('regular', 'italic', '600'),
-                'subsets' => array('latin'),
-            ),
-            array(
-                'family' => 'Trebuchet MS, Helvetica, sans-serif',
-                'variants' => array('regular', 'italic', '600'),
-                'subsets' => array('latin'),
-            ),
-            array(
-                'family' => 'Verdana, Geneva, sans-serif',
-                'variants' => array('regular', 'italic', '600'),
-                'subsets' => array('latin'),
-            ),
-            array(
-                'family' => 'Courier New, Courier, monospace',
-                'variants' => array('regular', 'italic', '600'),
-                'subsets' => array('latin'),
-            ),
-            array(
-                'family' => 'Lucida Console, Monaco, monospace',
-                'variants' => array('regular', 'italic', '600'),
-                'subsets' => array('latin'),
-            ),
-        );
-    }
-}
-
 /**
  * Check the Object font sent as param if it's web sef font
  *
@@ -3831,7 +3785,7 @@ if (!function_exists('tve_font_manager_get_safe_fonts')) {
  */
 function tve_is_safe_font($font)
 {
-    foreach (tve_font_manager_get_safe_fonts() as $safe_font) {
+    foreach (tve_dash_font_manager_get_safe_fonts() as $safe_font) {
         if ((is_object($font) && $safe_font['family'] === $font->font_name)
             || (is_array($font) && $safe_font['family'] === $font['font_name'])
         ) {
@@ -3851,7 +3805,7 @@ function tve_is_safe_font($font)
  */
 function tve_filter_custom_fonts_for_enqueue_in_editor($fonts_saved)
 {
-    $safe_fonts = tve_font_manager_get_safe_fonts();
+    $safe_fonts = tve_dash_font_manager_get_safe_fonts();
     foreach ($safe_fonts as $safe) {
         foreach ($fonts_saved as $key => $font) {
             if (is_object($font) && $safe['family'] === $font->font_name) {
@@ -3863,16 +3817,6 @@ function tve_filter_custom_fonts_for_enqueue_in_editor($fonts_saved)
     }
 
     return $fonts_saved;
-}
-
-/**
- * Require once the Font Import Manager
- */
-function tve_require_font_import_manager()
-{
-    if (!tve_check_if_thrive_theme() || !class_exists('Thrive_Font_Import_Manager')) {
-        require_once dirname(dirname(__FILE__)) . '/admin/font-import-manager/classes/Thrive_Font_Import_Manager.php';
-    }
 }
 
 /**
@@ -3896,4 +3840,199 @@ function tve_json_utf8_slashit($value)
 function tve_json_utf8_unslashit($value)
 {
     return str_replace('\u', '_tveutf8_', $value);
+}
+
+/**
+ * Loads dashboard's version file
+ */
+function tve_load_dash_version()
+{
+    $tve_dash_path = dirname(dirname(__FILE__)) . '/thrive-dashboard';
+    $tve_dash_file_path = $tve_dash_path . '/version.php';
+
+    if (is_file($tve_dash_file_path)) {
+        $version = require_once($tve_dash_file_path);
+        $GLOBALS['tve_dash_versions'][$version] = array(
+            'path' => $tve_dash_path . '/thrive-dashboard.php',
+            'folder' => '/thrive-visual-editor',
+            'from' => 'plugins'
+        );
+    }
+}
+
+/**
+ * make sure the TCB product is shown in the dashboard product list
+ *
+ * @param array $items
+ * @return array
+ */
+function tve_add_to_dashboard($items)
+{
+    $items[] = new TCB_Product();
+
+    return $items;
+}
+
+/**
+ * make sure all the features required by TCB are shown in the dashboard
+ *
+ * @param array $features
+ *
+ * @return array
+ */
+function tve_dashboard_add_features($features)
+{
+    $features['font_manager'] = true;
+    $features['icon_manager'] = true;
+    $features['api_connections'] = true;
+    $features['general_settings'] = true;
+
+    return $features;
+}
+
+/**
+ * handles all api-related AJAX calls made when editing a Lead Generation element
+ */
+function tve_api_editor_actions()
+{
+    $controller = new Thrive_Dash_List_Editor_Controller();
+    $controller->run();
+}
+
+/**
+ * AJAX call on a Lead Generation form that's connected to an api
+ */
+function tve_api_form_submit()
+{
+    $data = $_POST;
+
+    if (isset($data['_use_captcha']) && $data['_use_captcha'] == '1') {
+        $CAPTCHA_URL = 'https://www.google.com/recaptcha/api/siteverify';
+        $captcha_api = Thrive_Dash_List_Manager::credentials('recaptcha');
+
+        $_capthca_params = array(
+            'response' => $data['g-recaptcha-response'],
+            'secret' => empty($captcha_api['secret_key']) ? '' : $captcha_api['secret_key'],
+            'remoteip' => $_SERVER['REMOTE_ADDR']
+        );
+
+        $request = tve_dash_api_remote_post($CAPTCHA_URL, array('body' => $_capthca_params));
+        $response = json_decode(wp_remote_retrieve_body($request));
+        if (empty($response) || $response->success === false) {
+            exit(json_encode(array(
+                'error' => __('Please prove us that you are not a robot!!!', 'thrive-cb'),
+            )));
+        }
+    }
+
+
+    if (empty($data['email'])) {
+        exit(json_encode(array(
+            'error' => __('The email address is required', 'thrive-cb'),
+        )));
+    }
+
+    if (!is_email($data['email'])) {
+        exit(json_encode(array(
+            'error' => __('The email address is invalid', 'thrive-cb'),
+        )));
+    }
+
+    $post = $data;
+    unset($post['action'], $post['__tcb_lg_fc'], $post['_back_url']);
+
+    /**
+     * action filter -  allows hooking into the form submission event
+     *
+     * @param array $post the full _POST data
+     *
+     */
+    do_action('tcb_api_form_submit', $post);
+
+    if (empty($data['__tcb_lg_fc']) || !($connections = Thrive_Dash_List_Manager::decodeConnectionString($data['__tcb_lg_fc']))) {
+        exit(json_encode(array(
+            'error' => __('No connection for this form', 'thrive-cb'),
+        )));
+    }
+
+    //these are not needed anymore
+    unset($data['__tcb_lg_fc'], $data['_back_url'], $data['action']);
+
+    $result = array();
+    $data['name'] = !empty($data['name']) ? $data['name'] : '';
+    $data['phone'] = !empty($data['phone']) ? $data['phone'] : '';
+
+    /**
+     * filter - allows modifying the data before submitting it to the API
+     *
+     * @param array $data
+     */
+    $data = apply_filters('tcb_api_subscribe_data', $data);
+
+    $available = Thrive_Dash_List_Manager::getAvailableAPIs(true);
+    foreach ($available as $key => $connection) {
+        if (!isset($connections[$key])) {
+            continue;
+        }
+        // Not sure how we can perform validations / mark errors here
+        $result[$key] = tve_api_add_subscriber($connection, $connections[$key], $data);
+    }
+
+    /**
+     * $result will contain boolean 'true' or string error messages for each connected api
+     * these error messages will literally have no meaning for the user - we'll just store them in a db table and show them in admin somewhere
+     */
+    echo json_encode($result);
+    die;
+}
+
+
+/**
+ * make an api call to a subscribe a user
+ *
+ * @param string|Thrive_Dash_List_Connection_Abstract $connection
+ * @param mixed $list_identifier the list identifier
+ * @param array $data submitted data
+ * @param bool $log_error whether or not to log errors in a DB table
+ * @return result mixed
+ */
+function tve_api_add_subscriber($connection, $list_identifier, $data, $log_error = true)
+{
+
+    if (is_string($connection)) {
+        $connection = Thrive_Dash_List_Manager::connectionInstance($connection);
+    }
+
+    /**
+     * filter - allows modifying the sent data to each individual API instance
+     *
+     * @param array $data data to be sent to the API instance
+     * @param Thrive_List_Connection_Abstract $connection the connection instance
+     * @param mixed $list_identifier identifier for the list which will receive the new email
+     */
+    $data = apply_filters('tcb_api_subscribe_data_instance', $data, $connection, $list_identifier);
+
+    /** @var Thrive_Dash_List_Connection_Abstract $connection */
+    $result = $connection->addSubscriber($list_identifier, $data);
+
+    if (!$log_error || true === $result) {
+        return $result;
+    }
+
+    global $wpdb;
+
+    /**
+     * at this point, we need to log the error in a DB table, so that the user can see all these error later on and (maybe) re-subscribe the user
+     */
+    $log_data = array(
+        'date' => date('Y-m-d H:i:s'),
+        'error_message' => $result,
+        'api_data' => serialize($data),
+        'connection' => $connection->getKey(),
+        'list_id' => maybe_serialize($list_identifier)
+    );
+
+    $wpdb->insert($wpdb->prefix . 'tcb_api_error_log', $log_data);
+
+    return $result;
 }

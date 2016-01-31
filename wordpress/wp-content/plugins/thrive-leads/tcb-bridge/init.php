@@ -13,7 +13,9 @@
 /* include autoresponder files for one click signup (new name: Signup Segue) */
 add_filter('tve_leads_include_auto_responder', 'tve_leads_include_auto_responder_file');
 
-require_once dirname(dirname(__FILE__)) . '/tcb/plugin-core.php';
+if (!defined('TVE_TCB_CORE_INCLUDED')) {
+    require_once dirname(dirname(__FILE__)) . '/tcb/plugin-core.php';
+}
 
 /* short-circuit the tve_license_check notice by always returning true */
 add_filter('pre_option_tve_license_status', '__return_true');
@@ -52,12 +54,13 @@ if (!function_exists('tve_editor_url')) {
  */
 function tve_leads_disable_edit($post_types)
 {
-    $post_types['force_whitelist'] = array(
+    $post_types['force_whitelist'] = isset($post_types['force_whitelist']) ? $post_types['force_whitelist'] : array();
+    $post_types['force_whitelist'] = array_merge($post_types['force_whitelist'], array(
         'tcb_lightbox',
         'tve_lead_2s_lightbox',
         TVE_LEADS_POST_FORM_TYPE,
         TVE_LEADS_POST_SHORTCODE_TYPE
-    ); // only allow these types of posts to be editable with TCB
+    )); // only allow these types of posts to be editable with TCB
 
     return $post_types;
 }

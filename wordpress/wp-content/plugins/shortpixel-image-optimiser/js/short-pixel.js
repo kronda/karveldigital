@@ -53,15 +53,18 @@ function showToolBarAlert($status, $message) {
     var robo = jQuery("li.shortpixel-toolbar-processing");
     switch($status) {
         case ShortPixel.STATUS_QUOTA_EXCEEDED:
-            if(window.location.href.search("wp-short-pixel-bulk") > 0) { //if we're in bulk reload to see all options
+            if(  window.location.href.search("wp-short-pixel-bulk") > 0 
+              && jQuery(".sp-quota-exceeded-alert").length == 0) { //if we're in bulk and the alert is not displayed reload to see all options
                 location.reload();
                 return;
             }
             robo.addClass("shortpixel-alert");
             robo.addClass("shortpixel-quota-exceeded");
-            jQuery("a", robo).attr("href", "http://shortpixel.com/login/" + ShortPixel.API_KEY);
-            jQuery("a", robo).attr("target", "_blank");
-            jQuery("a div", robo).attr("title", "ShortPixel quota exceeded. Click to top-up");
+            //jQuery("a", robo).attr("href", "http://shortpixel.com/login/" + ShortPixel.API_KEY);
+            jQuery("a", robo).attr("href", "options-general.php?page=wp-shortpixel");
+            //jQuery("a", robo).attr("target", "_blank");
+            //jQuery("a div", robo).attr("title", "ShortPixel quota exceeded. Click to top-up");
+            jQuery("a div", robo).attr("title", "ShortPixel quota exceeded. Click for details.");
             break;
         case ShortPixel.STATUS_FAIL:        
             robo.addClass("shortpixel-alert shortpixel-processing"); 

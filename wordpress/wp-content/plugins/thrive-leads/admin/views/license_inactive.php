@@ -11,7 +11,7 @@
         <p>
             <?php echo __('You need to', 'thrive-leads') ?>
             <a class="tve-license-link"
-               href="<?php echo admin_url(); ?>options-general.php?page=tve_leads_license_activation"><?php echo __('activate your license', 'thrive-leads') ?></a>
+               href="<?php echo admin_url('admin.php?page=tve_dash_license_manager_section'); ?>"><?php echo __('activate your license', 'thrive-leads') ?></a>
             <?php echo __('before you can use the Thrive Leads plugin!', 'thrive-leads') ?>
         </p>
     </div>

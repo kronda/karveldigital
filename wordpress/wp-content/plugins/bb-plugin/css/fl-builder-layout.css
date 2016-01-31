@@ -62,8 +62,11 @@
 ------------------------------------------------------ */
 
 .fl-visible-medium,
+.fl-visible-medium.fl-col,
 .fl-visible-medium-mobile,
-.fl-visible-mobile {
+.fl-visible-medium-mobile.fl-col,
+.fl-visible-mobile,
+.fl-visible-mobile.fl-col {
 	display: none;
 }
 
@@ -171,10 +174,6 @@
 	min-height: 100vh;
 	
 }
-.fl-builder-ie-11 .fl-row-full-height .fl-row-content-wrap {
-	/*Damn you, IE11!*/
-	height: 1px;
-}
 .fl-row-full-height .fl-row-content{
   -webkit-box-flex: 1 1 auto;
   	 -moz-box-flex: 1 1 auto;
@@ -185,6 +184,14 @@
 .fl-row-full-height .fl-row-full-width.fl-row-content{
 	max-width: 100%;
 	width: 100%;
+}
+
+/* Stupid IE Full Height Row Fixes */
+.fl-builder-ie-11 .fl-row-full-height .fl-row-content-wrap {
+	height: 1px;
+}
+.fl-builder-ie-11 .fl-row-full-height .fl-row-content {
+	margin: 0;
 }
 
 /** 

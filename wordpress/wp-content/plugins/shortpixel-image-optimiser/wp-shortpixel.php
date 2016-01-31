@@ -3,7 +3,7 @@
  * Plugin Name: ShortPixel Image Optimizer
  * Plugin URI: https://shortpixel.com/
  * Description: ShortPixel optimizes images automatically, while guarding the quality of your images. Check your <a href="options-general.php?page=wp-shortpixel" target="_blank">Settings &gt; ShortPixel</a> page on how to start optimizing your image library and make your website load faster. 
- * Version: 3.1.7
+ * Version: 3.1.8
  * Author: ShortPixel
  * Author URI: https://shortpixel.com
  */
@@ -21,7 +21,7 @@ define('SP_RESET_ON_ACTIVATE', false); //if true TODO set false
 
 define('SP_AFFILIATE_CODE', '');
 
-define('PLUGIN_VERSION', "3.1.7");
+define('PLUGIN_VERSION', "3.1.8");
 define('SP_MAX_TIMEOUT', 10);
 define('SP_VALIDATE_MAX_TIMEOUT', 60);
 define('SP_BACKUP', 'ShortpixelBackups');
@@ -76,7 +76,9 @@ class WPShortPixel {
         $this->prioQ = new ShortPixelQueue($this);
         $this->view = new ShortPixelView($this);
         
-        define('QUOTA_EXCEEDED', "Quota Exceeded. <a class='button button-smaller button-primary' href='https://shortpixel.com/login/".$this->_apiKey."' target='_blank'>Extend Quota</a>");        
+        define('QUOTA_EXCEEDED', "Quota Exceeded. <a class='button button-smaller button-primary' href='https://shortpixel.com/login/"
+               .$this->_apiKey."' target='_blank'>Extend Quota</a>"
+               ."<a class='button button-smaller' href='admin.php?action=shortpixel_check_quota' target='_blank'>Check&nbsp;&nbsp;Quota</a>");        
             
         $this->setDefaultViewModeList();//set default mode as list. only @ first run
 
@@ -102,6 +104,8 @@ class WPShortPixel {
         add_action( 'wp_ajax_shortpixel_dismiss_notice', array(&$this, 'dismissAdminNotice'));
         //backup restore
         add_action('admin_action_shortpixel_restore_backup', array(&$this, 'handleRestoreBackup'));
+        //backup restore
+        add_action('admin_action_shortpixel_check_quota', array(&$this, 'handleCheckQuota'));
         
         //This adds the constants used in PHP to be available also in JS
         add_action( 'admin_footer', array( &$this, 'shortPixelJS') );
@@ -272,9 +276,10 @@ class WPShortPixel {
         self::log("TOOLBAR: Quota exceeded: " . self::getOpt( 'wp-short-pixel-quota-exceeded', 0));
         if(self::getOpt( 'wp-short-pixel-quota-exceeded', 0)) {
             $extraClasses = " shortpixel-alert shortpixel-quota-exceeded";
-            $tooltip = "ShortPixel quota exceeded. Click to top-up";
-            $link = "http://shortpixel.com/login/" . $this->_apiKey;
-            $blank = '_blank';
+            $tooltip = "ShortPixel quota exceeded. Click for details.";
+            //$link = "http://shortpixel.com/login/" . $this->_apiKey;
+            $link = "options-general.php?page=wp-shortpixel";
+            //$blank = '_blank';
             //$icon = "shortpixel-alert.png";
         }
         $lastStatus = self::getOpt( 'wp-short-pixel-bulk-last-status', array('Status' => ShortPixelAPI::STATUS_SUCCESS));
@@ -537,9 +542,10 @@ class WPShortPixel {
                     $filePath = explode("/", $meta["file"]);
                     $uploadsUrl = content_url() . "/uploads/";
                     $urlPath = implode("/", array_slice($filePath, 0, count($filePath) - 1));
+                    $urlBkPath = $this->_apiInterface->returnSubDir(get_attached_file($ID));
                     $thumb = (isset($meta["sizes"]["medium"]) ? $meta["sizes"]["medium"]["file"] : (isset($meta["sizes"]["thumbnail"]) ? $meta["sizes"]["thumbnail"]["file"]: ""));
                     if(strlen($thumb) && get_option('wp-short-backup_images') && $this->_processThumbnails) {
-                        $bkThumb = $uploadsUrl . SP_BACKUP . "/" . $urlPath . "/" . $thumb;
+                        $bkThumb = $uploadsUrl . SP_BACKUP . "/" . $urlBkPath . "/" . $thumb;
                     }
                     if(strlen($thumb)) {
                         $thumb = $uploadsUrl . $urlPath . "/" . $thumb;
@@ -643,7 +649,17 @@ class WPShortPixel {
         wp_redirect($sendback);
         // we are done
     }
-
+    
+    public function handleCheckQuota() {
+        $this->getQuotaInformation();
+        // store the referring webpage location
+        $sendback = wp_get_referer();
+        // sanitize the referring webpage location
+        $sendback = preg_replace('|[^a-z0-9-~+_.?#=&;,/:]|i', '', $sendback);
+        // send the user back where they came from
+        wp_redirect($sendback);
+        // we are done
+    }
 
     public function handleDeleteAttachmentInBackup($ID) {
         $file = get_attached_file($ID);

@@ -3,7 +3,7 @@
     * Plugin Name: ClickFunnels
     * Plugin URI: https://www.clickfunnels.com
     * Description: Connect to your ClickFunnels account with simple authorization key and show any ClickFunnels page as your homepage or as 404 error pages or simply choose any of your pages and make clean URLs to your ClickFunnels pages. Don't have an account? <a target="_blank" href="https://www.clickfunnels.com">Sign up for your 2 week <em>free</em> trial now.</a>
-    * Version: 2.0.2
+    * Version: 2.0.3
     * Author: Etison, LLC
     * Author URI: https://www.clickfunnels.com
 */

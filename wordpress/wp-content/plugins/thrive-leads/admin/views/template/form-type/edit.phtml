@@ -1,6 +1,13 @@
 <div class="tve-header">
-    <div class="tve-logo">
-        <?php echo '<img src="' . plugins_url('thrive-leads/admin/img') . '/logo.png" > '; ?>
+    <div class="tve-logo tve_leads_clearfix">
+        <a href="<?php menu_page_url( 'thrive_leads_dashboard' ); ?>" class="tl-leads-users-dashboard-logo"
+           title="<?php echo __( 'Thrive Leads Home', 'thrive-leads' ) ?>">
+					<span class="tl-logo-container">
+						<?php echo '<img class="tl-logo-move tl-logo-move-1" src="' . plugins_url( 'thrive-leads/admin/img' ) . '/tl-logo-part-1-1.png" > '; ?>
+                        <?php echo '<img class="tl-logo-move tl-logo-move-2" src="' . plugins_url( 'thrive-leads/admin/img' ) . '/tl-logo-part-1-2.png" > '; ?>
+                        <?php echo '<img src="' . plugins_url( 'thrive-leads/admin/img' ) . '/tl-logo-part-2.png" > '; ?>
+					</span>
+        </a>
     </div>
 </div>
 <div class="pull-right">

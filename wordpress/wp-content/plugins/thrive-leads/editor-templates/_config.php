@@ -249,7 +249,8 @@ return array(
                 '//fonts.googleapis.com/css?family=Lato:400'
             ),
             'icons' => array(
-                'eight-set-icon-user', 'eight-set-icon-email'
+				'eight-set-icon-user',
+				'eight-set-icon-email'
             )
         ),
         'eight_set_v2' => array(
@@ -294,7 +295,8 @@ return array(
                 '//fonts.googleapis.com/css?family=Open+Sans:400,300,600,700',
             ),
             'icons' => array(
-                'two-set-user', 'two-set-envelope'
+				'two-set-user',
+				'two-set-envelope'
             )
         ),
         'eight_set_vms_step1' => array(
@@ -315,7 +317,8 @@ return array(
                 '//fonts.googleapis.com/css?family=Lato:400'
             ),
             'icons' => array(
-                'two-set-user', 'two-set-envelope'
+				'two-set-user',
+				'two-set-envelope'
             )
         ),
         'nine_set_vms_step1' => array(
@@ -363,7 +366,8 @@ return array(
                 '//fonts.googleapis.com/css?family=Lato:300,400,700'
             ),
             'icons' => array(
-                'eleven-set-icon-beginner', 'eleven-set-icon-advanced'
+				'eleven-set-icon-beginner',
+				'eleven-set-icon-advanced'
             ),
             TVE_LEADS_FIELD_GLOBALS => array(
                 'l_cimg' => TVE_LEADS_URL . 'editor-templates/_form_css/images/eleven_set_bg.png'
@@ -794,8 +798,35 @@ return array(
             TVE_LEADS_FIELD_GLOBALS => array(
                 'l_cpat' => TVE_LEADS_URL . 'editor-templates/_form_css/images/set_53_pattern.jpg'
             )
+		),
+		'54_set_vms_step2'     => array(
+			'multi_step' => true,
+			'name'       => 'Lightbox Set 054',
+			'css'        => '54_set.css',
+			'fonts'      => array(
+				'//fonts.googleapis.com/css?family=Roboto:400,100,300,500,700'
         )
     ),
+		'55_set_vms_step2'     => array(
+			'multi_step' => true,
+			'name'       => 'Lightbox Set 055',
+			'css'        => '55_set.css'
+		),
+		'56_set_vms_step2'     => array(
+			'multi_step' => true,
+			'name'       => 'Lightbox Set 056',
+			'css'        => '56_set.css',
+			'fonts'      => array(
+				'//fonts.googleapis.com/css?family=Roboto:400,100,300,500,700',
+				'//fonts.googleapis.com/css?family=Raleway:700,400'
+			)
+		),
+		'57_set_vms_step2'     => array(
+			'multi_step' => true,
+			'name'       => 'Lightbox Set 057',
+			'css'        => '57_set.css'
+		),
+	),
     'widget' => array(
         'blank_set' => array(
             'name' => 'Blank Widget',
@@ -1289,6 +1320,26 @@ return array(
                 'gr-eight-set-close'
             )
         ),
+        'gr_nine_set' => array(
+            'name' => 'Scroll Mat set 009',
+            'css' => 'gr_nine_set.css',
+            'fonts' => array(
+                '//fonts.googleapis.com/css?family=Open+Sans:400,300,600,700'
+            ),
+            'icons' => array(
+                'gr-nine-set-mail'
+            )
+        ),
+        'gr_ten_set' => array(
+            'name' => 'Scroll Mat set 010',
+            'css' => 'gr_ten_set.css',
+            'fonts' => array(
+                '//fonts.googleapis.com/css?family=Raleway:400,700,300'
+            ),
+            'icons' => array(
+                'gr-nine-set-mail'
+            )
+        ),
         /*'gr_four_set' => array(
             'name' => 'Scroll Mat set 004',
             'css' => 'gr_four_set.css',
@@ -1319,7 +1370,8 @@ return array(
                 '//fonts.googleapis.com/css?family=Open+Sans:400,300,600,700'
             ),
             'icons' => array(
-                'two-set-user', 'two-set-envelope'
+				'two-set-user',
+				'two-set-envelope'
             )
         ),
         'two_set_v2' => array(
@@ -1329,7 +1381,8 @@ return array(
                 '//fonts.googleapis.com/css?family=Open+Sans:400,300,600,700'
             ),
             'icons' => array(
-                'two-set-user', 'two-set-envelope'
+				'two-set-user',
+				'two-set-envelope'
             )
         ),
         'two_set_v3' => array(
@@ -1339,7 +1392,8 @@ return array(
                 '//fonts.googleapis.com/css?family=Open+Sans:400,300,600,700'
             ),
             'icons' => array(
-                'two-set-user', 'two-set-envelope'
+				'two-set-user',
+				'two-set-envelope'
             )
         ),
         'three_set_v1' => array(
@@ -1381,7 +1435,10 @@ return array(
                 '//fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,700,600',
             ),
             'icons' => array (
-                'thirteen-set-icon-file', 'thirteen-set-icon-arrow', 'thrirteen-set-icon-check', 'thrirteen-set-icon-reject'
+				'thirteen-set-icon-file',
+				'thirteen-set-icon-arrow',
+				'thrirteen-set-icon-check',
+				'thrirteen-set-icon-reject'
             ),
         ),
         'thirteen_set_vms_step2' => array(
@@ -1392,7 +1449,8 @@ return array(
                 '//fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,700,600',
             ),
             'icons' => array (
-                'thirteen-set-icon-file', 'thirteen-set-icon-arrow'
+				'thirteen-set-icon-file',
+				'thirteen-set-icon-arrow'
             ),
         ),
         'fourteen_set_vms_step1' => array(
@@ -1422,7 +1480,9 @@ return array(
                 '//fonts.googleapis.com/css?family=Roboto:400,300,500,700'
             ),
             'icons' => array(
-                'fifteen-set-icon-sixpack', 'fifteen-set-icon-burnfat', 'fifteen-set-icon-getstrong'
+				'fifteen-set-icon-sixpack',
+				'fifteen-set-icon-burnfat',
+				'fifteen-set-icon-getstrong'
             )
         ),
         'fifteen_set_vms_step2' => array(
@@ -1434,7 +1494,9 @@ return array(
                 '//fonts.googleapis.com/css?family=Roboto:400,300,500,700'
             ),
             'icons' => array(
-                'fifteen-set-icon-sixpack', 'fifteen-set-icon-burnfat', 'fifteen-set-icon-getstrong'
+				'fifteen-set-icon-sixpack',
+				'fifteen-set-icon-burnfat',
+				'fifteen-set-icon-getstrong'
             )
         ),
         'fifteen_set_vms_step3' => array(
@@ -1446,7 +1508,9 @@ return array(
                 '//fonts.googleapis.com/css?family=Roboto:400,300,500,700'
             ),
             'icons' => array(
-                'fifteen-set-icon-sixpack', 'fifteen-set-icon-burnfat', 'fifteen-set-icon-getstrong'
+				'fifteen-set-icon-sixpack',
+				'fifteen-set-icon-burnfat',
+				'fifteen-set-icon-getstrong'
             )
         ),
         'fifteen_set_vms_step4' => array(
@@ -1458,7 +1522,9 @@ return array(
                 '//fonts.googleapis.com/css?family=Roboto:400,300,500,700'
             ),
             'icons' => array(
-                'fifteen-set-icon-sixpack', 'fifteen-set-icon-burnfat', 'fifteen-set-icon-getstrong'
+				'fifteen-set-icon-sixpack',
+				'fifteen-set-icon-burnfat',
+				'fifteen-set-icon-getstrong'
             )
         ),
         'sixteen_set' => array(
@@ -1899,7 +1965,8 @@ return array(
                 '//fonts.googleapis.com/css?family=Lato:300,400,700'
             ),
             'icons' => array(
-                'eleven-set-icon-beginner', 'eleven-set-icon-advanced'
+				'eleven-set-icon-beginner',
+				'eleven-set-icon-advanced'
             ),
         ),
         'eleven_set_vms_step2' => array(
@@ -2800,7 +2867,8 @@ return array(
                 '//fonts.googleapis.com/css?family=Lato:300,400,700'
             ),
             'icons' => array(
-                'eleven-set-icon-beginner', 'eleven-set-icon-advanced'
+				'eleven-set-icon-beginner',
+				'eleven-set-icon-advanced'
             ),
         ),
         'eleven_set_vms_step2' => array(
@@ -3211,7 +3279,46 @@ return array(
                 '//fonts.googleapis.com/css?family=Lato:300,400,700'
             )
         ),
+		'54_set_vms_step1'     => array(
+			'multi_step' => true,
+			'name'       => 'Shortcode Set 054',
+			'css'        => '54_set.css',
+			'fonts'      => array(
+				'//fonts.googleapis.com/css?family=Roboto:400,100,300,500,700'
     ),
+			'icons'      => array(
+				'set-54-book'
+			)
+		),
+		'55_set_vms_step1'     => array(
+			'multi_step' => true,
+			'name'       => 'Shortcode Set 055',
+			'css'        => '55_set.css',
+			'icons'      => array(
+				'set-55-download'
+			)
+		),
+		'56_set_vms_step1'     => array(
+			'multi_step' => true,
+			'name'       => 'Shortcode Set 056',
+			'css'        => '56_set.css',
+			'fonts'      => array(
+				'//fonts.googleapis.com/css?family=Roboto:400,100,300,500,700',
+				'//fonts.googleapis.com/css?family=Raleway:700,400'
+			),
+			'icons'      => array(
+					'set-56-book'
+			)
+		),
+		'57_set_vms_step1'     => array(
+			'multi_step' => true,
+			'name'       => 'Shortcode Set 057',
+			'css'        => '57_set.css',
+			'icons'      => array(
+				'set-57-hand'
+			)
+		),
+	),
     'multi_step' => array(
         'shortcode' => array(
             'nine_set' => array(
@@ -3408,7 +3515,59 @@ return array(
                     ),
                 )
             ),
+			'54_set'     => array(
+				'name'   => 'Shortcode multi-step set 054',
+				'states' => array(
+					1 => array(
+						'tpl'   => 'shortcode|54_set_vms_step1',
+						'state' => 'default', // or already_subscribed
         ),
+					2 => array(
+						'tpl'   => 'lightbox|54_set_vms_step2',
+						'state' => 'lightbox', // or already_subscribed
+					),
+				)
+			),
+			'55_set'     => array(
+				'name'   => 'Shortcode multi-step set 055',
+				'states' => array(
+					1 => array(
+						'tpl'   => 'shortcode|55_set_vms_step1',
+						'state' => 'default', // or already_subscribed
+					),
+					2 => array(
+						'tpl'   => 'lightbox|55_set_vms_step2',
+						'state' => 'lightbox', // or already_subscribed
+					),
+				)
+			),
+			'56_set'     => array(
+				'name'   => 'Shortcode multi-step set 056',
+				'states' => array(
+					1 => array(
+						'tpl'   => 'shortcode|56_set_vms_step1',
+						'state' => 'default', // or already_subscribed
+					),
+					2 => array(
+						'tpl'   => 'lightbox|56_set_vms_step2',
+						'state' => 'lightbox', // or already_subscribed
+					),
+				)
+			),
+			'57_set'     => array(
+				'name'   => 'Shortcode multi-step set 057',
+				'states' => array(
+					1 => array(
+						'tpl'   => 'shortcode|57_set_vms_step1',
+						'state' => 'default', // or already_subscribed
+					),
+					2 => array(
+						'tpl'   => 'lightbox|57_set_vms_step2',
+						'state' => 'lightbox', // or already_subscribed
+					),
+				)
+			),
+		),
         'post_footer' => array(
             'nine_set' => array(
                 'name' => 'Post Footer multi-step set 009',

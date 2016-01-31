@@ -44,7 +44,7 @@ $tve_display_save_notification = get_option('tve_display_save_notification', 1);
 $tve_disqus_shortname = get_option('tve_comments_disqus_shortname');
 $tve_facebook_admins = get_option('tve_comments_facebook_admins');
 
-$web_safe_fonts = tve_font_manager_get_safe_fonts();
+$web_safe_fonts = tve_dash_font_manager_get_safe_fonts();
 
 ?>
 <div class="tve_wrapper <?php echo $_cPanelPosition . ' ' . $_dColor ?>" id="tve_cpanel">
@@ -2280,6 +2280,8 @@ $web_safe_fonts = tve_font_manager_get_safe_fonts();
         </div>
     </div>
     <div data-elem="sc_responsive_video">
+       asfafas
+
         <div class="responsive_video_placeholder thrv_responsive_video thrv_wrapper">
             <a class="tve_green_button clearfix" href="#" target="_self">
                 <i class="tve_icm tve-ic-upload"></i>

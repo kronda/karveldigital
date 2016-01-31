@@ -19,7 +19,7 @@ class CF_API {
             $funnels = json_decode( $content );
 
             if ($funnels == '') {
-              $response = get_file_content( $new_url );
+              $response = wp_remote_get( $new_url );
               if( is_array($response) ) {
                 $content = $response['body'];
               }

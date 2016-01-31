@@ -6,12 +6,12 @@
 /**
  * The current version of the theme.
  */
-define( 'TTFMAKE_VERSION', '1.6.3' );
+define( 'TTFMAKE_VERSION', '1.6.7' );
 
 /**
  * The minimum version of WordPress required for Make.
  */
-define( 'TTFMAKE_MIN_WP_VERSION', '4.0' );
+define( 'TTFMAKE_MIN_WP_VERSION', '4.2' );
 
 /**
  * The suffix to use for scripts.
@@ -61,7 +61,7 @@ function ttfmake_require_files() {
 	if ( is_admin() ) {
 		$admin_files = array(
 			// Admin notices
-			get_template_directory() . '/inc/admin-notice/admin-notice.php',
+			get_template_directory() . '/inc/admin-notice.php',
 			// Page customizations
 			get_template_directory() . '/inc/edit-page.php',
 			// Page Builder
@@ -187,11 +187,14 @@ function ttfmake_setup() {
 		$editor_styles[] = $google_request;
 	}
 
-	$editor_styles[] = add_query_arg( 'ver', '4.4.0', esc_url( get_template_directory_uri() . '/css/font-awesome.css' ) );
+	$editor_styles[] = add_query_arg( 'ver', '4.5.0', esc_url( get_template_directory_uri() . '/css/font-awesome.css' ) );
 	$editor_styles[] = add_query_arg( 'ver', TTFMAKE_VERSION, esc_url( get_template_directory_uri() . '/css/editor-style.css' ) );
 
 	// Another editor stylesheet is added via ttfmake_mce_css() in inc/customizer/bootstrap.php
 	add_editor_style( $editor_styles );
+
+	// Yoast SEO breadcrumbs
+	add_theme_support( 'yoast-seo-breadcrumbs' );
 }
 endif;
 
@@ -329,7 +332,7 @@ function ttfmake_scripts() {
 		'font-awesome',
 		get_template_directory_uri() . '/css/font-awesome' . TTFMAKE_SUFFIX . '.css',
 		$style_dependencies,
-		'4.4.0'
+		'4.5.0'
 	);
 	$style_dependencies[] = 'font-awesome';
 

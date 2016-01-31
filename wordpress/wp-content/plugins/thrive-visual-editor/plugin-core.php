@@ -1,7 +1,7 @@
 <?php
 
 /* global constants */
-defined('TVE_VERSION') || DEFINE("TVE_VERSION", '1.101.18');
+defined('TVE_VERSION') || DEFINE("TVE_VERSION", '1.200.00');
 defined('TVE_TCB_DB_VERSION') || define('TVE_TCB_DB_VERSION', '1.1');
 defined('TVE_TEMPLATES_PATH') || DEFINE("TVE_TEMPLATES_PATH", plugin_dir_path(__FILE__) . 'shortcodes/templates');
 defined('TVE_LANDING_PAGE_TEMPLATE') || DEFINE("TVE_LANDING_PAGE_TEMPLATE", plugins_url() . '/thrive-visual-editor/landing-page/templates');
@@ -65,17 +65,11 @@ if (is_admin() && !defined('TCB_ADMIN_INIT')) {
 
     function tcb_admin_init()
     {
-        if (!tve_check_if_thrive_theme()) {
-            require_once plugin_dir_path(__FILE__) . 'admin/init.php';
-            thrive_page_template_add_menu_page();
-            require_once plugin_dir_path(__FILE__) . 'admin/font-import-manager/init.php';
-        }
         /* init the font manager admin stuff. TODO: this will be moved also to the themes */
-        require_once plugin_dir_path(__FILE__) . 'admin/icon-manager/init.php';
+
+        require_once plugin_dir_path(__FILE__) . 'inc/TCB_Product.php';
     }
 
-    /** Autoresponder API menu entry */
-    require_once plugin_dir_path(__FILE__) . 'inc/auto-responder/admin.php';
     define('TCB_ADMIN_INIT', true);
 }
 /* ajax hook to get the logged in user's nonce */
@@ -129,7 +123,6 @@ add_action('wp_ajax_tve_posts_list', 'tve_posts_list');
  * Autoresponder APIs AJAX calls
  */
 if ((defined('DOING_AJAX') && DOING_AJAX) || apply_filters('tve_leads_include_auto_responder', false)) {
-    require_once dirname(__FILE__) . '/inc/auto-responder/misc.php';
     add_action('wp_ajax_tve_api_editor_actions', 'tve_api_editor_actions');
 
     /**
@@ -140,9 +133,6 @@ if ((defined('DOING_AJAX') && DOING_AJAX) || apply_filters('tve_leads_include_au
 
     add_action('wp_ajax_nopriv_tve_custom_form_submit', 'tve_custom_form_submit');
     add_action('wp_ajax_tve_custom_form_submit', 'tve_custom_form_submit');
-
-    add_action('wp_ajax_tve_api_form_retry', 'tve_api_form_retry');
-    add_action('wp_ajax_tve_api_delete_log', 'tve_api_delete_log');
 }
 
 /** CONTENT REVISION HOOKS */
@@ -212,12 +202,6 @@ add_action('init', 'tve_load_plugin_textdomain');
 
 // hook for detecting if a post is setup as a Custom Editable piece of content
 add_action('template_redirect', 'tcb_custom_editable_content', 9);
-
-/**
- * we need Font Import Manager required at "init" action
- * because it has some static methods used in frontend
- */
-add_action('init', 'tve_require_font_import_manager');
 
 /**
  * filter used to clean meta-data stuff from the content, when displaying it on frontend, e.g.: lead generation code being saved in the HTML causes SEO issues

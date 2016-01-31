@@ -1,8 +1,23 @@
 <div id="tve-content">
+    <script type="text/javascript">
+        var TVE_Page_Data = {
+            globalSettings: <?php echo json_encode($dashboard_data['global_settings']) ?>,
+        };
+    </script>
     <div id="tve-reporting">
         <div class="tve-header">
-            <div class="tve-logo">
-                <?php echo '<img src="' . plugins_url('thrive-leads/admin/img') . '/logo.png" > '; ?>
+            <div class="tve-logo tve_leads_clearfix">
+                <a href="<?php menu_page_url( 'thrive_leads_dashboard' ); ?>" class="tl-leads-users-dashboard-logo"
+                   title="<?php echo __( 'Thrive Leads Home', 'thrive-leads' ) ?>">
+					<span class="tl-logo-container">
+						<?php echo '<img class="tl-logo-move tl-logo-move-1" src="' . plugins_url( 'thrive-leads/admin/img' ) . '/tl-logo-part-1-1.png" > '; ?>
+                        <?php echo '<img class="tl-logo-move tl-logo-move-2" src="' . plugins_url( 'thrive-leads/admin/img' ) . '/tl-logo-part-1-2.png" > '; ?>
+                        <?php echo '<img src="' . plugins_url( 'thrive-leads/admin/img' ) . '/tl-logo-part-2.png" > '; ?>
+					</span>
+                </a>
+                <div class="tve-global-settings">
+                    <?php require_once(dirname(__FILE__) . '/leads_menu.php') ?>
+                </div>
             </div>
         </div>
         <div class="panel">
@@ -170,6 +185,13 @@
         <div id="pagination-bottom" class="tl-pagination">
         </div>
     </div>
+    <a class="tve-leads-button tve-btn tve-btn-gray tve-reporting-dashboard"
+       href="<?php echo admin_url('admin.php?page=thrive_leads_dashboard'); ?>"
+       title="<?php echo __('Back to Thrive Leads Home') ?>"
+       id="tve-asset-group-dashboard">
+        <span class="tve-icon-double-angle-quotes"></span>
+        <?php echo __('Back to Thrive Leads Home', 'thrive-leads') ?>
+    </a>
 </div>
 
 <style>

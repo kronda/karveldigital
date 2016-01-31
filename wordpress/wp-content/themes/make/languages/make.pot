@@ -2,9 +2,9 @@
 # This file is distributed under the GNU General Public License v2 or later.
 msgid ""
 msgstr ""
-"Project-Id-Version: Make 1.6.3\n"
+"Project-Id-Version: Make 1.6.7\n"
 "Report-Msgid-Bugs-To: https://thethemefoundry.com/support/\n"
-"POT-Creation-Date: 2015-08-19 00:48:29+00:00\n"
+"POT-Creation-Date: 2015-12-17 22:49:07+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -33,11 +33,11 @@ msgstr ""
 msgid "4"
 msgstr ""
 
-#: 404.php:12
+#: 404.php:13
 msgid "Oops! That page can&rsquo;t be found."
 msgstr ""
 
-#: 404.php:18
+#: 404.php:19
 msgid "Maybe try searching this website:"
 msgstr ""
 
@@ -69,27 +69,27 @@ msgstr ""
 msgid "Header Bar Navigation"
 msgstr ""
 
-#: functions.php:211
+#: functions.php:214
 msgid "Left Sidebar"
 msgstr ""
 
-#: functions.php:220
+#: functions.php:223
 msgid "Right Sidebar"
 msgstr ""
 
-#: functions.php:229
+#: functions.php:232
 msgid "Footer 1"
 msgstr ""
 
-#: functions.php:238
+#: functions.php:241
 msgid "Footer 2"
 msgstr ""
 
-#: functions.php:247
+#: functions.php:250
 msgid "Footer 3"
 msgstr ""
 
-#: functions.php:256
+#: functions.php:259
 msgid "Footer 4"
 msgstr ""
 
@@ -97,10 +97,6 @@ msgstr ""
 msgid ""
 "Make requires at least WordPress version %1$s. You are running version "
 "%2$s. Please upgrade and try again."
-msgstr ""
-
-#: inc/admin-notice/template.php:8
-msgid "Hide"
 msgstr ""
 
 #: inc/builder/core/base.php:97
@@ -111,16 +107,16 @@ msgstr ""
 msgid "Use Page Builder"
 msgstr ""
 
-#: inc/builder/core/base.php:334
+#: inc/builder/core/base.php:335
 msgid "Delete the section?"
 msgstr ""
 
-#: inc/builder/core/base.php:431 inc/builder/core/configuration-helpers.php:96
+#: inc/builder/core/base.php:432 inc/builder/core/configuration-helpers.php:96
 #: inc/builder/sections/builder-templates/text.php:142
 msgid "Set image"
 msgstr ""
 
-#: inc/builder/core/base.php:464
+#: inc/builder/core/base.php:465
 #: inc/builder/core/templates/overlay-tinymce.php:4
 #: inc/builder/sections/builder-templates/banner-slide.php:42
 #: inc/builder/sections/builder-templates/banner-slide.php:44
@@ -130,27 +126,27 @@ msgstr ""
 msgid "Edit content"
 msgstr ""
 
-#: inc/builder/core/base.php:550
+#: inc/builder/core/base.php:551
 msgid "Current image"
 msgstr ""
 
-#: inc/builder/core/base.php:552
+#: inc/builder/core/base.php:553
 msgid "Remove Current Image"
 msgstr ""
 
-#: inc/builder/core/base.php:656
+#: inc/builder/core/base.php:657
 msgid "Duplicate this page with %s."
 msgstr ""
 
-#: inc/builder/core/base.php:1047
+#: inc/builder/core/base.php:1048
 msgid "Want some ideas?"
 msgstr ""
 
-#: inc/builder/core/base.php:1050
+#: inc/builder/core/base.php:1051
 msgid "%s and get a quick start with pre-made designer builder templates."
 msgstr ""
 
-#: inc/builder/core/base.php:1055
+#: inc/builder/core/base.php:1056
 #: inc/builder/sections/builder-templates/text.php:27
 msgid "Upgrade to %s"
 msgstr ""
@@ -738,54 +734,70 @@ msgid "Arabic"
 msgstr ""
 
 #: inc/customizer/fonts.php:221
-msgid "Cyrillic"
+msgid "Bengali"
 msgstr ""
 
 #: inc/customizer/fonts.php:222
-msgid "Cyrillic Extended"
+msgid "Cyrillic"
 msgstr ""
 
 #: inc/customizer/fonts.php:223
-msgid "Devanagari"
+msgid "Cyrillic Extended"
 msgstr ""
 
 #: inc/customizer/fonts.php:224
-msgid "Greek"
+msgid "Devanagari"
 msgstr ""
 
 #: inc/customizer/fonts.php:225
-msgid "Greek Extended"
+msgid "Greek"
 msgstr ""
 
 #: inc/customizer/fonts.php:226
-msgid "Hebrew"
+msgid "Greek Extended"
 msgstr ""
 
 #: inc/customizer/fonts.php:227
-msgid "Khmer"
+msgid "Gujarati"
 msgstr ""
 
 #: inc/customizer/fonts.php:228
-msgid "Latin"
+msgid "Hebrew"
 msgstr ""
 
 #: inc/customizer/fonts.php:229
-msgid "Latin Extended"
+msgid "Khmer"
 msgstr ""
 
 #: inc/customizer/fonts.php:230
-msgid "Telugu"
+msgid "Latin"
 msgstr ""
 
 #: inc/customizer/fonts.php:231
+msgid "Latin Extended"
+msgstr ""
+
+#: inc/customizer/fonts.php:232
+msgid "Tamil"
+msgstr ""
+
+#: inc/customizer/fonts.php:233
+msgid "Telugu"
+msgstr ""
+
+#: inc/customizer/fonts.php:234
+msgid "Thai"
+msgstr ""
+
+#: inc/customizer/fonts.php:235
 msgid "Vietnamese"
 msgstr ""
 
-#: inc/customizer/fonts.php:349
+#: inc/customizer/fonts.php:353
 msgid "Standard Fonts"
 msgstr ""
 
-#: inc/customizer/fonts.php:351
+#: inc/customizer/fonts.php:355
 msgid "Google Fonts"
 msgstr ""
 
@@ -1146,101 +1158,113 @@ msgstr ""
 msgid "Archives"
 msgstr ""
 
-#: inc/customizer/sections/content-layout.php:322 inc/extras.php:399
+#: inc/customizer/sections/content-layout.php:323 inc/extras.php:399
 msgid "Search Results"
 msgstr ""
 
-#: inc/customizer/sections/content-layout.php:341 inc/extras.php:400
+#: inc/customizer/sections/content-layout.php:343 inc/extras.php:400
 msgid "Posts"
 msgstr ""
 
-#: inc/customizer/sections/content-layout.php:359 inc/extras.php:401
+#: inc/customizer/sections/content-layout.php:362 inc/extras.php:401
 msgid "Pages"
 msgstr ""
 
-#: inc/customizer/sections/content-layout.php:367
+#: inc/customizer/sections/content-layout.php:370
 msgid "Sidebars are not available on pages using the Builder Template."
 msgstr ""
 
-#: inc/customizer/sections/content-layout.php:380
+#: inc/customizer/sections/content-layout.php:383
 msgid "Page Title"
 msgstr ""
 
-#: inc/customizer/sections/content-layout.php:388
+#: inc/customizer/sections/content-layout.php:391
 msgid "Hide title"
 msgstr ""
 
-#: inc/customizer/sections/content-layout.php:456
+#: inc/customizer/sections/content-layout.php:460
 msgid "Header, Footer, Sidebars"
 msgstr ""
 
-#: inc/customizer/sections/content-layout.php:464
+#: inc/customizer/sections/content-layout.php:468
 msgid "Hide site header"
 msgstr ""
 
-#: inc/customizer/sections/content-layout.php:473
+#: inc/customizer/sections/content-layout.php:477
 msgid "Hide site footer"
 msgstr ""
 
-#: inc/customizer/sections/content-layout.php:482
+#: inc/customizer/sections/content-layout.php:486
 msgid "Show left sidebar"
 msgstr ""
 
-#: inc/customizer/sections/content-layout.php:491
+#: inc/customizer/sections/content-layout.php:495
 msgid "Show right sidebar"
 msgstr ""
 
-#: inc/customizer/sections/content-layout.php:515
+#: inc/customizer/sections/content-layout.php:519
 msgid "Featured Images"
 msgstr ""
 
-#: inc/customizer/sections/content-layout.php:524
-#: inc/customizer/sections/content-layout.php:581
-#: inc/customizer/sections/content-layout.php:627
-#: inc/customizer/sections/content-layout.php:673
+#: inc/customizer/sections/content-layout.php:528
+#: inc/customizer/sections/content-layout.php:585
+#: inc/customizer/sections/content-layout.php:631
+#: inc/customizer/sections/content-layout.php:677
 msgid "Location"
 msgstr ""
 
-#: inc/customizer/sections/content-layout.php:535
+#: inc/customizer/sections/content-layout.php:539
 msgid "Alignment"
 msgstr ""
 
-#: inc/customizer/sections/content-layout.php:561
+#: inc/customizer/sections/content-layout.php:565
 msgid "Post Date"
 msgstr ""
 
-#: inc/customizer/sections/content-layout.php:570
-#: inc/customizer/sections/content-layout.php:616
-#: inc/customizer/sections/content-layout.php:662
+#: inc/customizer/sections/content-layout.php:574
+#: inc/customizer/sections/content-layout.php:620
+#: inc/customizer/sections/content-layout.php:666
 msgid "Style"
 msgstr ""
 
-#: inc/customizer/sections/content-layout.php:607
+#: inc/customizer/sections/content-layout.php:611
 msgid "Post Author"
 msgstr ""
 
-#: inc/customizer/sections/content-layout.php:653
+#: inc/customizer/sections/content-layout.php:657
 msgid "Comment Count"
 msgstr ""
 
-#: inc/customizer/sections/content-layout.php:699
+#: inc/customizer/sections/content-layout.php:703
 msgid "Post Meta"
 msgstr ""
 
-#: inc/customizer/sections/content-layout.php:708
+#: inc/customizer/sections/content-layout.php:712
 msgid "Show categories"
 msgstr ""
 
-#: inc/customizer/sections/content-layout.php:717
+#: inc/customizer/sections/content-layout.php:721
 msgid "Show tags"
 msgstr ""
 
-#: inc/customizer/sections/content-layout.php:741
+#: inc/customizer/sections/content-layout.php:745
 msgid "Content"
 msgstr ""
 
-#: inc/customizer/sections/content-layout.php:750
+#: inc/customizer/sections/content-layout.php:754
 msgid "Generate excerpts automatically"
+msgstr ""
+
+#: inc/customizer/sections/content-layout.php:782
+msgid "Breadcrumbs"
+msgstr ""
+
+#: inc/customizer/sections/content-layout.php:783
+msgid "The Yoast SEO plugin enables this option."
+msgstr ""
+
+#: inc/customizer/sections/content-layout.php:792
+msgid "Show breadcrumbs"
 msgstr ""
 
 #: inc/customizer/sections/general.php:31
@@ -1385,11 +1409,11 @@ msgid ""
 "on the Menus screen in the Appearance section."
 msgstr ""
 
-#: inc/customizer/sections/site-title-tagline.php:38
+#: inc/customizer/sections/site-title-tagline.php:39
 msgid "Hide Site Title"
 msgstr ""
 
-#: inc/customizer/sections/site-title-tagline.php:56
+#: inc/customizer/sections/site-title-tagline.php:58
 msgid "Hide Tagline"
 msgstr ""
 
@@ -1429,7 +1453,7 @@ msgstr ""
 
 #: inc/customizer/sections/typography.php:41
 #: inc/customizer/sections/typography.php:118
-#: inc/customizer/sections/typography.php:294 inc/formatting/formatting.php:211
+#: inc/customizer/sections/typography.php:291 inc/formatting/formatting.php:211
 msgid "Font Weight"
 msgstr ""
 
@@ -1521,12 +1545,12 @@ msgstr ""
 msgid "Font Family"
 msgstr ""
 
-#: inc/customizer/sections/typography.php:279 inc/formatting/formatting.php:187
-msgid "Font Size (px)"
+#: inc/customizer/sections/typography.php:279
+msgid "Font Style"
 msgstr ""
 
-#: inc/customizer/sections/typography.php:306
-msgid "Font Style"
+#: inc/customizer/sections/typography.php:303 inc/formatting/formatting.php:187
+msgid "Font Size (px)"
 msgstr ""
 
 #: inc/customizer/sections/typography.php:318
@@ -1917,21 +1941,21 @@ msgstr ""
 msgid "Technical Details"
 msgstr ""
 
-#: partials/content-none.php:10
+#: partials/content-none.php:11
 msgid "Nothing found"
 msgstr ""
 
-#: partials/content-none.php:16
+#: partials/content-none.php:17
 msgid "Ready to publish your first post? <a href=\"%1$s\">Get started here</a>."
 msgstr ""
 
-#: partials/content-none.php:18
+#: partials/content-none.php:19
 msgid ""
 "Sorry, but nothing matched your search terms. Please try again with some "
 "different keywords."
 msgstr ""
 
-#: partials/content-none.php:20
+#: partials/content-none.php:21
 msgid ""
 "It seems we can&rsquo;t find what you&rsquo;re looking for. Perhaps "
 "searching can help."
@@ -1973,8 +1997,8 @@ msgstr ""
 msgid "homepage"
 msgstr ""
 
-#: partials/header-layout-3.php:29 partials/header-layout-3.php:73
-#: partials/header-layout.php:29 partials/header-layout.php:72
+#: partials/header-layout-3.php:29 partials/header-layout-3.php:72
+#: partials/header-layout.php:29 partials/header-layout.php:71
 msgid "Skip to content"
 msgstr ""
 
@@ -2052,17 +2076,19 @@ msgstr ""
 
 #. Description of the plugin/theme
 msgid ""
-"Create your website without touching a line of code. Make's flexible "
-"customization features and a powerful drag and drop page builder make "
-"designing your site fun and easy. Build almost anything: a simple portfolio "
-"or photography site, an ecommerce business site, a minimalist blog, or even "
-"a professional magazine. You'll start by customizing your background, "
-"layouts, fonts, colors, and logo. Next, add and organize your content using "
-"the drag and drop page builder. Add a photo, a video, a gallery, or even a "
-"slider to any page on your website. Make is responsive, so your website "
-"will naturally look great on phones, tablets, and desktop screens. It's "
-"also fully compatible with popular plugins like WooCommerce, Gravity Forms, "
-"Contact Form 7, Jetpack, and WP PageNavi."
+"Build a website that means business. With Make’s powerful drag and drop "
+"page builder and hundreds of Customizer options, you can effortlessly brand "
+"your site without touching a line of code. Add full-width banners, columns, "
+"and galleries to showcase your best work. The intuitive builder delivers "
+"clean, lean code — not shortcodes — so you can trust your content remains "
+"portable. Make lets you control page layout options, including sidebar "
+"display, on all your posts and pages. Choose from hundreds of Google Fonts "
+"and upload custom backgrounds everywhere. Built on a fully responsive grid, "
+"Make renders as beautifully on tablets and phone screens as it does on "
+"desktop. Make scales with your business and is fully compatible with "
+"popular plugins like WooCommerce, Gravity Forms, Contact Form 7, Jetpack, "
+"and others. For documentation on the page builder and getting started with "
+"Make, see: https://thethemefoundry.com/make-help/"
 msgstr ""
 
 #. Author of the plugin/theme

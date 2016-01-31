@@ -47,8 +47,7 @@ $animationClasses = implode(' ', $animationClasses);
             oPadding = parseInt($body.css('padding-right'));
 
         function close_it($lightbox, skip_body_scroll) {
-
-            $lightbox.find('.thrv_responsive_video iframe').each(function () {
+            $lightbox.find('.thrv_responsive_video iframe, .thrv_responsive_video video').each(function () {
                 var $this = jQuery(this);
                 $this.attr('data-src', $this.attr('src'));
                 $this.attr('src', '');
@@ -93,7 +92,7 @@ $animationClasses = implode(' ', $animationClasses);
             $body.css('padding-right', (oPadding + scroll_width) + 'px');
         }
 
-        $target.find('.thrv_responsive_video iframe').each (function () {
+        $target.find('.thrv_responsive_video iframe, .thrv_responsive_video video').each (function () {
             var $this = jQuery(this);
             if ($this.attr('data-src')) {
                 $this.attr('src', $this.attr('data-src'));

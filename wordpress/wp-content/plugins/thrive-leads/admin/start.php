@@ -10,6 +10,7 @@ define('TL_ASSETS_PAGE', 'thrive-leads_page_thrive_leads_asset_delivery');
 
 add_action('admin_init', 'tve_leads_admin_init');
 add_action('admin_menu', 'tve_leads_admin_menu');
+add_action( 'admin_menu', 'tve_leads_remove_admin_pages' );
 add_action('admin_enqueue_scripts', 'tve_leads_admin_enqueue', 1);
 add_action('admin_enqueue_scripts', 'tve_leads_dequeue_conflicting_scripts', PHP_INT_MAX);
 add_action('admin_print_scripts', 'tve_leads_remove_junk_scripts', 11);
@@ -243,9 +244,17 @@ function tve_leads_admin_enqueue($hook)
             break;
 
         case TL_CONTACTS_PAGE:
+            tve_leads_enqueue_script('tve-leads-contacts-routes', plugins_url('thrive-leads/admin/js-min/contacts/routes.js'), array('jquery', 'backbone', 'thrive-leads-init', 'tve-leads-contacts-views'));
+            tve_leads_enqueue_script('tve-leads-contacts-views', plugins_url('thrive-leads/admin/js-min/contacts/views.js'), array('jquery', 'backbone', 'thrive-leads-init', 'tve-leads-views'));
+
             tve_leads_enqueue_script('thickbox');
             tve_leads_enqueue_script('jquery-ui-datepicker');
-            tve_leads_enqueue_script('tve-leads-contacts', plugins_url('thrive-leads/admin/js-min/contacts.js'), array('jquery'));
+            tve_leads_enqueue_script('tve-leads-contacts', plugins_url('thrive-leads/admin/js-min/contacts/contacts.js'), array(
+                'jquery',
+                'backbone',
+                'tve-leads-contacts-routes',
+                'tve-leads-contacts-views',
+            ));
             break;
         case TL_ASSETS_PAGE:
             wp_enqueue_script('editor');
@@ -351,9 +360,18 @@ function tve_leads_admin_menu()
     add_submenu_page("thrive_leads_dashboard", "Thrive Leads Export", "Lead Export", "manage_options", "thrive_leads_contacts", "thrive_leads_contacts");
 
     /**
-     * page to redirect the user to when he needs to activate his license
+     * old page for license activation
      */
-    add_options_page('Thrive Leads', 'Thrive Leads', 'manage_options', 'tve_leads_license_activation', 'tve_leads_license_activation');
+    add_submenu_page(false, "", "", "manage_options", "tve_leads_license_activation", "tve_leads_license_activation");
+}
+
+/**
+ *  Remove the pages and subpages from the admin menu
+ */
+
+function tve_leads_remove_admin_pages()
+{
+    remove_menu_page( 'thrive_leads_dashboard' );
 }
 
 /**
@@ -411,6 +429,12 @@ function thrive_leads_reporting()
 
     $tve_load_annotations = tve_leads_get_option('tve_load_annotations');
 
+    $dashboard_data = array(
+        'global_settings' => array(
+            'ajax_load' => tve_leads_get_option('ajax_load'),
+        )
+    );
+
     $reporting_data = array(
         'lead_groups' => tve_leads_get_groups(
             array(
@@ -444,6 +468,12 @@ function thrive_leads_contacts()
     }
 
     require_once dirname(__FILE__) . '/inc/classes/Thrive_Leads_Contacts_List.php';
+
+    $dashboard_data = array(
+        'global_settings' => array(
+            'ajax_load' => tve_leads_get_option('ajax_load'),
+        )
+    );
 
     $saved_email = tve_leads_get_option('contacts_send_email');
     $contacts_list = new Thrive_Leads_Contacts_List(array('ajax' => false));

@@ -785,7 +785,7 @@ function tve_leads_trigger_nice_name($variation)
  */
 function tve_leads_license_activated()
 {
-    return (get_option('tve_leads_license_status', '') === 'ACTIVE');
+    return TVE_Dash_Product_LicenseManager::getInstance()->itemActivated(TVE_Dash_Product_LicenseManager::TL_TAG);
 }
 
 /**

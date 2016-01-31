@@ -886,8 +886,8 @@ function tve_leads_get_custom_font_links($custom_font_classes = array())
     $post_fonts = array();
     foreach (array_unique($custom_font_classes) as $cls) {
         foreach ($all_fonts as $font) {
-            if (Thrive_Font_Import_Manager::isImportedFont($font->font_name)) {
-                $post_fonts[] = Thrive_Font_Import_Manager::getCssFile();
+            if (Tve_Dash_Font_Import_Manager::isImportedFont($font->font_name)) {
+                $post_fonts[] = Tve_Dash_Font_Import_Manager::getCssFile();
             } else if ($font->font_class == $cls && !tve_is_safe_font($font)) {
                 $post_fonts[] = tve_custom_font_get_link($font);
                 break;

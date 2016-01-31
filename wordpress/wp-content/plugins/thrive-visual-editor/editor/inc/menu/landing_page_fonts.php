@@ -10,7 +10,7 @@ $selectors = array(
 <div class="tve_options_headline">
     <span class="tve_icm tve-ic-move"></span>
     <span><?php echo __("Landing Page Font Settings", "thrive-cb") ?></span> -
-    <a target="_blank" href="<?php echo admin_url('admin.php?page=thrive_font_manager') ?>"><?php echo __("Add New Custom Fonts", "thrive-cb") ?></a>
+    <a target="_blank" href="<?php echo admin_url('admin.php?page=tve_dash_font_manager') ?>"><?php echo __("Add New Custom Fonts", "thrive-cb") ?></a>
 </div>
 
 <ul class="tve_menu">

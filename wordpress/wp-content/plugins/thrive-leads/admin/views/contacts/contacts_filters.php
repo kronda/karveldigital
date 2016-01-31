@@ -1,6 +1,13 @@
+
 <?php
 
 $per_page_options = array(20, 50, 100);
+
+$dashboard_data = array(
+    'global_settings' => array(
+        'ajax_load' => tve_leads_get_option('ajax_load'),
+    )
+);
 
 $contacts_data = array(
     'lead_groups' => tve_leads_get_groups(
@@ -21,6 +28,12 @@ $contacts_data = array(
 );
 
 ?>
+
+<script type="text/javascript">
+    var TVE_Page_Data = {
+        globalSettings: <?php echo json_encode($dashboard_data['global_settings']) ?>,
+    };
+</script>
 
 <?php if ($which == "top"): ?>
     <input type="hidden" name="tve_template_redirect_contacts" value="true"/>

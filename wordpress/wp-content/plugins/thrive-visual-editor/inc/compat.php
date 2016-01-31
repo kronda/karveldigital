@@ -149,6 +149,14 @@ function tve_compat_content_filters_before_shortcode($content)
         }
     }
 
+    /**
+     * EduSearch plugin not handling shortcodes in the "WP" way
+     * they search for [edu-search] strings and process those
+     */
+    if (function_exists('esn_filter_content')) {
+        $content = esn_filter_content($content);
+    }
+
     return $content;
 }
 

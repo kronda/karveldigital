@@ -3,7 +3,7 @@
 /*
 Plugin Name: Thrive Visual Editor
 Plugin URI: http://www.thrivethemes.com
-Version: 1.101.18
+Version: 1.200.00
 Author: <a href="http://www.thrivethemes.com">Thrive Themes</a>
 Description: Live front end editor for your Wordpress content
 */
@@ -50,6 +50,9 @@ add_action('tcb_extra_fonts_css', 'tve_output_extra_custom_fonts_css');
 /** fires when all plugins are loaded - used for intermediate filter setup / plugin overrides */
 add_action('plugins_loaded', 'tve_plugins_loaded_hook');
 
+//after the plugin is loaded load the dashboard version file
+add_action('plugins_loaded', 'tve_load_dash_version');
+
 /**
  * TCB-specific AJAX actions
  */
@@ -69,6 +72,12 @@ if (!function_exists('tve_editor_url')) {
     {
         return plugins_url() . '/thrive-visual-editor';
     }
+}
+
+if (is_admin()) {
+    add_filter('tve_dash_installed_products', 'tve_add_to_dashboard');
+
+    add_filter('tve_dash_features', 'tve_dashboard_add_features');
 }
 
 /**
@@ -144,7 +153,7 @@ function tve_license_validation()
  */
 function tve_add_settings_menu()
 {
-    add_options_page('Thrive Content Builder', 'Thrive Content Builder', 'manage_options', 'tve_license_validation', 'tve_license_validation');
+    add_submenu_page(false, '', '', 'manage_options', 'tve_license_validation', 'tve_license_validation');
 }
 
 /**
@@ -159,6 +168,7 @@ function tve_add_settings_menu()
  *
  * @param array $pieces
  * @param WP_Query $wpQuery
+ * @return array
  */
 function tve_process_search_clauses($pieces, $wpQuery)
 {

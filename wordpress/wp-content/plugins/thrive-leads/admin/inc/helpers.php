@@ -53,7 +53,10 @@ function tve_load_backbone_templates($dir = '', $root = 'template')
             $template_content = ob_get_contents();
             ob_end_clean();
 
-            $template_path = str_replace(DIRECTORY_SEPARATOR, '/', substr($dir, strpos($dir, $root) + strlen($root) + 1)) . '/' . basename($item, '.phtml');
+            $_parts = explode($root, $dir);
+            $_truncated = end($_parts);
+
+            $template_path = str_replace(DIRECTORY_SEPARATOR, '/', trim($_truncated, '/\\')) . '/' . basename($item, '.phtml');
             $templates[$template_path] = $template_content;
         }
     }

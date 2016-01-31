@@ -1,16 +1,28 @@
 <div class="tve-leads-delivery-step1">
-    <p class="tve-form-description larger-text"><?php echo __('Select the email delivery service you wany yo use for the Asset Delivery feature. Integrating with one of these services ensures that your emails get delivered without you needing to deal with email server setups and spam protection', 'thrive-leads') ?></p>
+    <p class="tve-form-description larger-text"><?php echo __('Select the email delivery service you want to use for the Asset Delivery feature. Integrating with one of these services ensures that your emails get delivered without you needing to deal with email server setups and spam protection', 'thrive-leads') ?></p>
     <p class="tve-form-description tl-text-center larger-text"><?php echo __("Select to continue", "thrive-leads"); ?></p>
 
     <div class="tve-form tve-asset-conections">
         <div class="tve_leads_clearfix">
-            <a href="javascript:void(0)" class="tve-leads-mandrill-api tve-asset-delivery-conection tl-text-center">
+            <a href="javascript:void(0)" id="tve-leads-delivery-mandrill" class="tve-leads-mandrill-api tve-asset-delivery-conection tl-text-center">
                 <span class="tve-asset-conection-icon"></span>
                 <br/><span class="tve-leads-connection-name"><?php echo __("Mandrill", "thrive-leads"); ?></span>
             </a>
-            <a href="javascript:void(0)" class="tve-leads-postmark-api tve-asset-delivery-conection tl-text-center">
+            <a href="javascript:void(0)" id="tve-leads-delivery-postmark" class="tve-leads-postmark-api tve-asset-delivery-conection tl-text-center">
                 <span class="tve-asset-conection-icon"></span>
                 <br/><span class="tve-leads-connection-name"><?php echo __("Postmark", "thrive-leads"); ?></span>
+            </a>
+            <a href="javascript:void(0)" id="tve-leads-delivery-mailgun" class="tve-leads-mailgun-api tve-asset-delivery-conection tl-text-center">
+                <span class="tve-asset-conection-icon"></span>
+                <br/><span class="tve-leads-connection-name"><?php echo __("Mailgun", "thrive-leads"); ?></span>
+            </a>
+            <a href="javascript:void(0)" id="tve-leads-delivery-awsses" class="tve-leads-awsses-api tve-asset-delivery-conection tl-text-center">
+                <span class="tve-asset-conection-icon"></span>
+                <br/><span class="tve-leads-connection-name"><?php echo __("Awsses", "thrive-leads"); ?></span>
+            </a>
+            <a href="javascript:void(0)" id="tve-leads-delivery-sendinblueemail" class="tve-leads-sendinblueemail-api tve-asset-delivery-conection tl-text-center">
+                <span class="tve-asset-conection-icon"></span>
+                <br/><span class="tve-leads-connection-name"><?php echo __("SendinBlue", "thrive-leads"); ?></span>
             </a>
         </div>
     </div>
@@ -31,8 +43,7 @@
 <div class="tve-leads-delivery-postmark tve-leads-delivery-connection" style="display: none;">
     <div class="tve-form">
         <p class="tve-form-description"><?php echo __('Enter your Postmark API key below', 'thrive-leads') ?>. <a class="tl-play-link wistia-popover[height=450,playerColor=2bb914,width=800]" href="//fast.wistia.net/embed/iframe/4wlzzbsk34?popover=true"><?php echo __('Click Here', 'thrive-leads') ?></a> <?php echo __('for instructions on how to get your API key', 'thrive-leads') ?>.</p>
-        <?php $admin_email = get_option('admin_email');
-        ?>
+        <?php $admin_email = get_option('admin_email');  ?>
         <p class="tve-form-description"><?php echo __('Postmark requires your email to be verified before allowing any emails to be sent. Please be sure that the email you set here matches the email you confirmed on the postmark website.', 'thrive-leads') ?></p>
         <table class="form-table">
             <tbody>
@@ -53,6 +64,99 @@
                 <th></th>
                 <td>
                     <button class="tve-btn tve-btn-green tve-leads-submit-connection" value="postmark"><?php echo __("Save Postmark API Key", "thrive-cb") ?></button>
+                    <button class="tve-btn tve-btn-gray tve-leads-back-api"><?php echo __("Go Back", "thrive-cb") ?></button>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+<div class="tve-leads-delivery-mailgun tve-leads-delivery-connection" style="display: none;">
+    <div class="tve-form">
+        <p class="tve-form-description"><?php echo __('Enter your Mailgun API key below', 'thrive-leads') ?>. <a class="tl-play-link wistia-popover[height=450,playerColor=2bb914,width=800]" href="//fast.wistia.net/embed/iframe/4wlzzbsk34?popover=true"><?php echo __('Click Here', 'thrive-leads') ?></a> <?php echo __('for instructions on how to get your API key', 'thrive-leads') ?>.</p>
+
+        <p class="tve-form-description"><?php echo __('Mailgun requires a domain name to be setup in order to send emails. Please be sure that the domain you set matches the domain on the mailgun website. A verification Email will be sent to your admin email, please make sure you have a valid email set.', 'thrive-leads') ?></p>
+        <table class="form-table">
+            <tbody>
+            <tr>
+                <th scope="row"><label><?php echo __("Mailgun-approved domain name", "thrive-cb") ?>:</label></th>
+                <td>
+                    <input placeholder="<?php echo __("Domain name", "thrive-cb") ?>" type="text" class="text tve-leads-domain-mailgun" name="connection[domain]" value=""/>
+
+                </td>
+            </tr>
+            <tr>
+                <th scope="row"><label><?php echo __("API key", "thrive-cb") ?>:</label></th>
+                <td>
+                    <input placeholder="<?php echo __("API key", "thrive-cb") ?>" type="text" class="text tve-leads-key-mailgun" name="connection[key]" value=""/>
+                </td>
+            </tr>
+            <tr>
+                <th></th>
+                <td>
+                    <button class="tve-btn tve-btn-green tve-leads-submit-connection" value="mailgun"><?php echo __("Save Mailgun API Key", "thrive-cb") ?></button>
+                    <button class="tve-btn tve-btn-gray tve-leads-back-api"><?php echo __("Go Back", "thrive-cb") ?></button>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+<div class="tve-leads-delivery-awsses tve-leads-delivery-connection" style="display: none;">
+    <div class="tve-form">
+        <p class="tve-form-description"><?php echo __('Enter your Amazon Web Services Simple Email Service API key below', 'thrive-leads') ?>. <a class="tl-play-link wistia-popover[height=450,playerColor=2bb914,width=800]" href="//fast.wistia.net/embed/iframe/4wlzzbsk34?popover=true"><?php echo __('Click Here', 'thrive-leads') ?></a> <?php echo __('for instructions on how to get your API key', 'thrive-leads') ?>.</p>
+        <p class="tve-form-description"><?php echo __('Amazon Web Services Simple Email Service requires your email to be verified before allowing any emails to be sent. Please be sure that the email you set here matches the email you confirmed on the Amazon Web Services Simple Email Service website. Also Please be sure you', 'thrive-leads') ?></p>
+        <p class="tve-form-description"><?php echo __('Emails will not be sent if Amazon Web Services Simple Email Service is on sandbox mode. If so please contact Amazon Web Services Simple Email Service to increase email limits and to be removed from sandbox. More details ', 'thrive-leads'); ?> <a href="https://docs.aws.amazon.com/ses/latest/DeveloperGuide/request-production-access.html" target="_blank">here</a>.</p>
+        <table class="form-table">
+            <tbody>
+            <tr>
+                <th scope="row"><label><?php echo __("AWS SES-approved email address", "thrive-cb") ?>:</label></th>
+                <td>
+                    <input placeholder="<?php echo __("Email", "thrive-cb") ?>" type="text" class="text tve-leads-email-awsses" name="connection[email]" value="<?php echo $admin_email;  ?>"/>
+
+                </td>
+            </tr>
+            <tr>
+                <th scope="row"><label><?php echo __("Secret Key", "thrive-cb") ?>:</label></th>
+                <td>
+                    <input placeholder="<?php echo __("Secret Key", "thrive-cb") ?>" type="text" class="text tve-leads-secretkey-awsses" name="connection[secretkey]" value=""/>
+
+                </td>
+            </tr>
+            <tr>
+                <th scope="row"><label><?php echo __("API key", "thrive-cb") ?>:</label></th>
+                <td>
+                    <input placeholder="<?php echo __("API key", "thrive-cb") ?>" type="text" class="text tve-leads-key-awsses" name="connection[key]" value=""/>
+                </td>
+            </tr>
+            <tr>
+                <th></th>
+                <td>
+                    <button class="tve-btn tve-btn-green tve-leads-submit-connection" value="awsses"><?php echo __("Save AWS SES API Key", "thrive-cb") ?></button>
+                    <button class="tve-btn tve-btn-gray tve-leads-back-api"><?php echo __("Go Back", "thrive-cb") ?></button>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+<div class="tve-leads-delivery-sendinblueemail tve-leads-delivery-connection" style="display: none;">
+    <div class="tve-form">
+        <p class="tve-form-description"><?php echo __('Enter your SendinBlue key below', 'thrive-leads') ?>. <a class="tl-play-link wistia-popover[height=450,playerColor=2bb914,width=800]" href="//fast.wistia.net/embed/iframe/4wlzzbsk34?popover=true"><?php echo __('Click Here', 'thrive-leads') ?></a> <?php echo __('for instructions on how to get your API key', 'thrive-leads') ?>.</p>
+
+        <p class="tve-form-description"><?php echo __('SendinBlue requires SMTP activation before allowing the SendMail API to work. If SMTP is not activated yet on your account please contact SendinBlue by Email at contact@sendinblue.com for SMTP activation.', 'thrive-leads') ?></p>
+        <table class="form-table">
+            <tbody>
+            <tr>
+                <th scope="row"><label><?php echo __("API key", "thrive-cb") ?>:</label></th>
+                <td>
+                    <input placeholder="<?php echo __("API key", "thrive-cb") ?>" type="text" class="text tve-leads-key-sendinblueemail" name="connection[key]" value=""/>
+                </td>
+            </tr>
+            <tr>
+                <th></th>
+                <td>
+                    <button class="tve-btn tve-btn-green tve-leads-submit-connection" value="sendinblueemail"><?php echo __("Save AWS SES API Key", "thrive-cb") ?></button>
                     <button class="tve-btn tve-btn-gray tve-leads-back-api"><?php echo __("Go Back", "thrive-cb") ?></button>
                 </td>
             </tr>

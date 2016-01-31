@@ -64,7 +64,6 @@
 .tve-success {
   color: green;
 }
-
 .clearfix {
   *zoom: 1;
   &:before,
@@ -226,15 +225,15 @@ body {
     }
   }
   .tve-header {
+    margin-bottom: 25px;
     .tve-logo {
       background-color: #fff;
       margin: 0 -25px;
-      margin-bottom: 25px;
       padding: 25px;
     }
     .tve-page-title {
       background-color: #e8e8e8;
-      margin: -25px -25px 25px -25px;
+      margin: 0 -25px 25px -25px;
       padding: 19px 25px;
       h1 {
         color: #666666;
@@ -246,7 +245,7 @@ body {
   .tve-global-settings {
     float: right;
     margin: 5px 0 0;
-    position: relative; 
+    position: relative;
     z-index: 10;
     .tve-leads-delete-logs {
       float: right;
@@ -255,6 +254,124 @@ body {
         display: block;
         font-size: 20px;
         margin-top: 5px;
+      }
+    }
+    .tl-leads-main-menu {
+      float: left;
+      margin-top: 0;
+      margin-bottom: 0;
+      li {
+        position: relative;
+        float: left;
+        padding: 0 23px;
+        line-height: 35px;
+        &:hover {
+          a {
+            &:hover {
+              color: #334455;
+            }
+          }
+        }
+        a {
+          color: #9fb4bf;
+          display: inline-block;
+          text-align: center;
+          span {
+            font-size: 14px;
+            font-weight: 600;
+            &.tve-menu-icon {
+              color: #9fb4bf;
+              font-weight: 300;
+              margin-right: 5px;
+              top: 0;
+            }
+          }
+        }
+        > ul {
+          background: #ffffff;
+          border-radius: 5px;
+          box-shadow: 0 0 5px 0 rgba(#000, .1);
+          clear: both;
+          display: block;
+          line-height: 30px;
+          position: absolute;
+          left: 0;
+          right: 0;;
+          visibility: hidden;
+          .tl-leads-top-arrow {
+            position: absolute;
+            right: 7px;
+            top: -5px;
+            &:before {
+              border-left: 6px solid transparent;
+              border-right: 6px solid transparent;
+              border-bottom: 6px solid rgba(#000, .1);
+              content: '';
+              height: 0;
+              position: absolute;
+              right: 6px;
+              top: -1px;
+              width: 0;
+            }
+            &:after {
+              content: '';
+              border-left: 5px solid transparent;
+              border-right: 5px solid transparent;
+              border-bottom: 5px solid #fff;
+              height: 0;
+              position: absolute;
+              right: 7px;
+              top: 0;
+              width: 0;
+            }
+          }
+          li {
+            border-bottom: 1px solid #f8f8f8;
+            clear: both;
+            float: none;
+            line-height: 40px;
+            margin-bottom: 0;
+            padding: 0 15px;
+            &:hover {
+              background: #334455;
+              a {
+                color: #fff;
+              }
+              a:hover {
+                color: #fff;
+              }
+            }
+            a {
+              &:hover {
+                color: #fff;
+              }
+            }
+            &:first-of-type {
+              border-top-left-radius: 5px;
+              border-top-right-radius: 5px;
+            }
+            &:last-child {
+              border-bottom: 0;
+              border-bottom-left-radius: 5px;
+              border-bottom-right-radius: 5px;
+            }
+          }
+        }
+        &:hover {
+          > ul {
+            visibility: visible;
+          }
+        }
+      }
+    }
+    .tl-open-settings {
+      color: #666666;
+      //float: left;
+      display: inline-block;
+      // margin: 8px 15px;
+
+      span {
+        font-size: 16px;
       }
     }
     a {
@@ -331,6 +448,10 @@ body {
       color: #222222;
     }
   }
+}
+.tl-leads-dropdown-icon {
+  position: relative;
+  top: 1px;
 }
 .tve-leads-tooltip {
   position: relative;
@@ -2338,7 +2459,7 @@ html body {
   margin: 0 auto;
   width: 97%;
 }
-.tve-leads-delivery-mandrill, .tve-leads-delivery-postmark, .tve-leads-delivery-postmark-edit {
+.tve-leads-delivery-mandrill, .tve-leads-delivery-postmark, .tve-leads-delivery-postmark-edit, .tve-leads-delivery-mailgun, .tve-leads-delivery-mailgun-edit, .tve-leads-delivery-awsses, .tve-leads-delivery-awsses-edit, .tve-leads-delivery-sendinblueemail, .tve-leads-delivery-sendinblueemail-edit {
   table {
     border: none;
     tbody {
@@ -2361,31 +2482,64 @@ html body {
 }
 .tve-asset-delivery-conection {
   float: left;
-  margin-right: 70px;
+  margin: 0 70px 20px 0;
   text-decoration: none;
-  &:last-child {
+  &:nth-of-type(4) {
     margin-right: 0;
+  }
+  &:nth-of-type(5) {
+    clear: both;
   }
   &:focus {
     box-shadow: none;
   }
   &.tve-leads-mandrill-api {
     .tve-asset-conection-icon {
-      background-position: 120px 0;
+      background-position: 120px 480px;
     }
     &:hover {
       .tve-asset-conection-icon {
-        background-position: 120px 119px;
+        background-position: 120px 359px;
       }
     }
   }
   &.tve-leads-postmark-api {
     .tve-asset-conection-icon {
-      background-position: 0 0;
+      background-position: 0 480px;
+    }
+    &:hover {
+      .tve-asset-conection-icon {
+        background-position: 0 360px;
+      }
+    }
+  }
+  &.tve-leads-mailgun-api {
+    .tve-asset-conection-icon {
+      background-position: 0 240px;
     }
     &:hover {
       .tve-asset-conection-icon {
         background-position: 0 120px;
+      }
+    }
+  }
+  &.tve-leads-awsses-api {
+    .tve-asset-conection-icon {
+      background-position: 120px 240px;
+    }
+    &:hover {
+      .tve-asset-conection-icon {
+        background-position: 120px 120px;
+      }
+    }
+  }
+  &.tve-leads-sendinblueemail-api {
+    .tve-asset-conection-icon {
+      background-position: 0 0;
+    }
+    &:hover {
+      .tve-asset-conection-icon {
+        background-position: 120px 0;
       }
     }
   }
@@ -2413,17 +2567,33 @@ html body {
   position: relative;
   &.tve-leads-mandrill-api {
     .tve-asset-conection-icon {
-      background-position: 120px 119px;
+      background-position: 120px 360px;
     }
   }
   &.tve-leads-postmark-api {
     .tve-asset-conection-icon {
+      background-position: 0 360px;
+    }
+  }
+  &.tve-leads-mailgun-api {
+    .tve-asset-conection-icon {
       background-position: 0 120px;
+    }
+  }
+  &.tve-leads-awsses-api {
+    .tve-asset-conection-icon {
+      background-position: 120px 120px;
     }
   }
   .tve-asset-conection-icon {
     border: 3px solid #669934;
     border-radius: 3px;
+  }
+
+  &.tve-leads-sendinblueemail-api {
+    .tve-asset-conection-icon {
+      background-position: 120px 0;
+    }
   }
   .tve-icon-checkmark {
     background: #669934;
@@ -2664,7 +2834,6 @@ html body {
     pointer-events: none;
   }
 }
-
 .tve-leads-shortcode-list {
   visibility: hidden;
   height: 0;
@@ -2694,7 +2863,6 @@ html body {
 #tve-asset-group-files {
   padding: 0 12px;
 }
-
 .tve-form-wrapper {
   border: 1px solid #c0c0c0;
   border-radius: 5px;
@@ -2771,8 +2939,6 @@ html body {
   margin-bottom: 20px;
   padding: 20px;
 }
-
-
 /*****************
  * Contacts View *
 ******************/
@@ -2786,7 +2952,6 @@ table.tve-contacts-filters {
     padding: 5px 10px 5px 0;
   }
 }
-
 .manager-collapse-table-list-item {
   background: #ffffff;
   border: 1px solid #cccccc;
@@ -2801,23 +2966,19 @@ table.tve-contacts-filters {
     margin: 13px 5px 0 0;
   }
 }
-
 .tve-manager-expanded {
   border-bottom: none;
   border-radius: 3px 3px 0 0;
 }
-
 .manager-collapse-table-list-item:hover {
   cursor: pointer;
 }
-
 .tve-manager-content {
   background: #ffffff;
   border: 1px solid #cccccc;
   border-radius: 0 0 3px 3px;
   padding: 10px;
 }
-
 .tve-manager-file-type {
   display: inline-block;
   padding: 0 3% 0 15%;
@@ -2825,28 +2986,22 @@ table.tve-contacts-filters {
     padding-left: 10px;
   }
 }
-
 .tve-manager-download {
   border-bottom: 1px solid #cccccc;
   padding-bottom: 20px;
 }
-
 #tve-contacts-table td {
   border: 0 !important;
 }
-
 #TB_window td, #TB_window table {
   border: 0 !important;
 }
-
 .tve-delete-download {
   margin-left: 5px;
 }
-
 .tve-download {
   margin-right: 5px;
 }
-
 .tve-icon-mail {
   &:focus {
     box-shadow: none;
@@ -2856,29 +3011,24 @@ table.tve-contacts-filters {
     font-size: 24px;
   }
 }
-
 a.tve-icon-trash-o {
   font-size: 24px;
   &:focus {
     box-shadow: none;
   }
 }
-
 .tve-contacts-start-date {
   position: relative;
   top: 3px;
   margin-bottom: 10px;
 }
-
 #tve-contacts .tablenav {
   height: auto !important;
 }
-
 #tve-chart-annotations {
   display: none;
   float: right;
 }
-
 /* **************** */
 /* One Click Signup */
 /* **************** */
@@ -2974,11 +3124,9 @@ a.tve-icon-trash-o {
     }
   }
 }
-
 .tl-no-cursor {
   cursor: default;
 }
-
 .tve_lightbox_link_create {
   color: #444;
   text-decoration: none;
@@ -2991,11 +3139,50 @@ a.tve-icon-trash-o {
     top: 2px;
   }
 }
-
 .tl-mock-paragraph {
   color: #444;
   font-size: 13px;
   font-weight: 400;
   margin: 1em 0;
   padding: 5px 0;
+}
+.tve-download-manager-back {
+  margin: 15px 0 0 5px;
+}
+/*
+  new logo animation
+*/
+.tl-leads-users-dashboard-logo {
+  display: block;
+  float: left;
+  margin: -25px 0;
+  text-decoration: none;
+}
+.tl-logo-container {
+  display: block;
+  position: relative;
+  padding: 25px 0 25px 50px;
+  overflow: hidden;
+}
+.tl-logo-move {
+  @include transition(transform, .3s, ease);
+  position: absolute;
+  left: 0;
+}
+.tl-logo-move-2 {
+  @include transform(translate3d(0, -100px, 0));
+}
+.tl-leads-users-dashboard-logo:hover {
+  .tl-logo-move-1 {
+    @include transform(translate3d(0, 100px, 0));
+  }
+  .tl-logo-move-2 {
+    @include transform(translate3d(0, 0, 0));
+  }
+}
+.tl-open-settings {
+  .tve-icon-settings {
+    position: relative;
+    top: 1px!important;
+  }
 }

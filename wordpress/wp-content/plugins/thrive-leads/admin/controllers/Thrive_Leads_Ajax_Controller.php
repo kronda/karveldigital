@@ -221,7 +221,7 @@ class Thrive_Leads_Ajax_Controller extends Thrive_Leads_Request_Handler
     }
 
     /**
-     * Asset Group Files for CRUD (new name: ThriveBox)
+     * Asset Group Files for CRUD (new name: Asset Delivery)
      *
      * @return mixed based on the handled HTTP operation
      */
@@ -244,7 +244,7 @@ class Thrive_Leads_Ajax_Controller extends Thrive_Leads_Request_Handler
     }
 
     /**
-     * Asset Group Files for CRUD (new name: ThriveBox)
+     * Asset Group Files for CRUD (new name: Asset Delivery)
      *
      * @return mixed based on the handled HTTP operation
      */
@@ -921,12 +921,13 @@ class Thrive_Leads_Ajax_Controller extends Thrive_Leads_Request_Handler
         $api = Thrive_List_Manager::connectionInstance($connection);
         $connection_type = get_option('tve_api_delivery_service', false);
 
-
         if ($connection_type == false) {
             update_option('tve_api_delivery_service', $connection);
         }
         $_POST['connection']['key'] = $_POST['key'];
         $_POST['connection']['email'] = $_POST['email'];
+        $_POST['connection']['domain'] = $_POST['domain'];
+        $_POST['connection']['secretkey'] = $_POST['secretkey'];
 
         $connect = $api->readCredentials();
 

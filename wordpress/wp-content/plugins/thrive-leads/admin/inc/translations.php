@@ -119,4 +119,6 @@ return array(
     'MissingRequiredParams' => __('Please fill in the required fields.', 'thrive-leads'),
     'SelectConnectionMsg' => __('Please select an Api Connection and a mailing list.', 'thrive-leads'),
     'NoListAvailable' => __('No list available.', 'thrive-leads'),
+    'DeleteSignupSegue'=>__('Delete Signup Segue', 'thrive-leads'),
+    'ThankYouPageSettings' => __('Set your thank you page settings here', 'thrive-leads'),
 );

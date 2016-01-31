@@ -3692,11 +3692,35 @@ return array(
         "undefined" => array(
             "all" => array(
                 array(
-                    "label" => "Video color",
-                    "selector" => ".tve_responsive_video_container",
+                    "label" => "Video color/ Play button",
+                    "selector" => ".tve_responsive_video_container, .tve_responsive_video_container .video_overlay",
+                    'opacity' => 1,
                     "property" => "color",
                     "value" => "[color]",
-                )
+                ),
+                array(
+                    "label" => "Play button hover",
+                    "selector" => ".video-overlay",
+                    'opacity' => 1,
+                    "property" => "color",
+                    "value" => "[color]",
+                    'hover' => 1
+                ),
+                array(
+                    "label" => "Play button text shadow",
+                    "selector" => ".overlay_play_button",
+                    'opacity' => 1,
+                    "property" => "text-shadow",
+                    "value" => "0 0 11px [color]"
+                ),
+                array(
+                    "label" => "Play button text shadow hover",
+                    "selector" => ".overlay_play_button",
+                    'opacity' => 1,
+                    "property" => "text-shadow",
+                    "value" => "0 0 11px [color]",
+                    'hover' => 1
+                ),
             )
         )
     )

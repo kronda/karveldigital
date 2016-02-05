@@ -1,0 +1,12 @@
+<?php
+/**
+ * Created by PhpStorm.
+ * User: Auerlian Pop
+ * Date: 06.01.2016
+ * Time: 17:05
+ */
+
+class Thrive_Dash_Api_Sendinblue_Exception extends Exception
+{
+
+}

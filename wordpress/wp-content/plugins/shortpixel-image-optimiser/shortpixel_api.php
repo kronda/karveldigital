@@ -15,41 +15,13 @@ class ShortPixelAPI {
     const STATUS_NO_KEY = -6;
     const STATUS_RETRY = -7;
 
-    private $_apiKey = '';
-    private $_compressionType = '';
-    private $_CMYKtoRGBconversion = '';
+    private $_settings;
     private $_maxAttempts = 10;
-    private $_apiEndPoint = 'https://api.shortpixel.com/v2/reducer.php';
-    private $_resizeImages;
-    private $_resizeWidth;
-    private $_resizeHeight;
+    private $_apiEndPoint = 'https://api.shortpixel.com/v2/reducer_dev.php';
 
-    public function setCompressionType($compressionType) {
-        $this->_compressionType = $compressionType;
-    }
 
-    public function setCMYKtoRGB($CMYK2RGB) {
-        $this->_CMYKtoRGBconversion = $CMYK2RGB;
-    }
-    public function getCompressionType() {
-        return $this->_compressionType;
-    }
-
-    public function setApiKey($apiKey) {
-        $this->_apiKey = $apiKey;
-    }
-
-    public function getApiKey() {
-        return $this->_apiKey;
-    }
-
-    public function __construct($apiKey, $compressionType, $CMYK2RGB, $resize, $width, $height) {
-        $this->_apiKey = $apiKey;
-        $this->setCompressionType($compressionType);
-        $this->setCMYKtoRGB($CMYK2RGB);
-        $this->_resizeImages = $resize;
-        $this->_resizeWidth = $width;
-        $this->_resizeHeight = $height;
+    public function __construct($settings) {
+        $this->_settings = $settings;
         add_action('processImageAction', array(&$this, 'processImageAction'), 10, 4);
     }
 
@@ -61,12 +33,13 @@ class ShortPixelAPI {
         
         $requestParameters = array(
             'plugin_version' => PLUGIN_VERSION,
-            'key' => $this->_apiKey,
-            'lossy' => $this->_compressionType,
-            'cmyk2rgb' => $this->_CMYKtoRGBconversion,
-            'resize' => $this->_resizeImages,
-            'resize_width' => $this->_resizeWidth,
-            'resize_height' => $this->_resizeHeight,
+            'key' => $this->_settings->apiKey,
+            'lossy' => $this->_settings->compressionType,
+            'cmyk2rgb' => $this->_settings->CMYKtoRGBconversion,
+            'keep_exif' => ($this->_settings->keepExif ? "1" : "0"),
+            'resize' => $this->_settings->resizeImages,
+            'resize_width' => $this->_settings->resizeWidth,
+            'resize_height' => $this->_settings->resizeHeight,
             'urllist' => $URLs
         );
         $arguments = array(
@@ -80,8 +53,9 @@ class ShortPixelAPI {
             'body' => json_encode($requestParameters),
             'cookies' => array()
         );
-        
+        //echo("URL:".$this->_apiEndPoint."ARGUMENTS:");var_dump($arguments);
         $response = wp_remote_post($this->_apiEndPoint, $arguments );
+        //echo("RESPONSE:"); var_dump($response);
         
         //only if $Blocking is true analyze the response
         if ( $Blocking )
@@ -125,7 +99,7 @@ class ShortPixelAPI {
         
         $PATHs = self::CheckAndFixImagePaths($PATHs);//check for images to make sure they exist on disk
         if ( $PATHs === false )
-            return array("Status" => self::STATUS_SKIP, "Message" => 'The file(s) do not exist on disk, Image #$ID');
+            return array("Status" => self::STATUS_SKIP, "Message" => 'The file(s) do not exist on disk, Image ID: ' .$ID);
         
         //tries multiple times (till timeout almost reached) to fetch images.
         if($startTime == 0) { 
@@ -208,7 +182,7 @@ class ShortPixelAPI {
     
     public function handleDownload($fileData,$counter){
         //var_dump($fileData);
-        if($this->_compressionType)
+        if($this->_settings->compressionType)
         {
             $fileType = "LossyURL";
             $fileSize = "LossySize";
@@ -344,7 +318,7 @@ class ShortPixelAPI {
                 }
                 else
                 {//all files were copied, optimization data regarding the savings locally in DB
-                    $fileType = ( $this->_compressionType ) ? "LossySize" : "LoselessSize";
+                    $fileType = ( $this->_settings->compressionType ) ? "LossySize" : "LoselessSize";
                     $savedSpace += $APIresponse[$tempFileID]->OriginalSize - $APIresponse[$tempFileID]->$fileType;
                     $originalSpace += $APIresponse[$tempFileID]->OriginalSize;
                     $optimizedSpace += $APIresponse[$tempFileID]->$fileType;
@@ -352,23 +326,25 @@ class ShortPixelAPI {
                     
                     //add the number of files with < 5% optimization
                     if ( ( ( 1 - $APIresponse[$tempFileID]->$fileType/$APIresponse[$tempFileID]->OriginalSize ) * 100 ) < 5 )
-                        update_option( 'wp-short-pixel-files-under-5-percent', get_option('wp-short-pixel-files-under-5-percent') + 1); 
+                        $this->_settings->under5Percent++; 
                         
                 }
             }        
         }
         //old average counting
-        update_option('wp-short-pixel-savedSpace', get_option('wp-short-pixel-savedSpace') + $savedSpace);
-        $averageCompression = get_option('wp-short-pixel-averageCompression') * get_option('wp-short-pixel-fileCount');
-        $averageCompression = $averageCompression /  (get_option('wp-short-pixel-fileCount') + count($APIresponse));
-        update_option('wp-short-pixel-averageCompression', $averageCompression);
-        update_option('wp-short-pixel-fileCount', get_option('wp-short-pixel-fileCount') + count($APIresponse));
+        $this->_settings->savedSpace += $savedSpace;
+        $averageCompression = $this->_settings->averageCompression * $this->_settings->fileCount;
+        $averageCompression = $averageCompression /  ($this->_settings->fileCount + count($APIresponse));
+        $this->_settings->averageCompression = $averageCompression;
+        $this->_settings->fileCount += count($APIresponse);
         //new average counting
-        update_option('wp-short-pixel-total-original', get_option('wp-short-pixel-total-original') + $originalSpace);
-        update_option('wp-short-pixel-total-optimized', get_option('wp-short-pixel-total-optimized') + $optimizedSpace);
+        $this->_settings->totalOriginal += $originalSpace;
+        $this->_settings->totalOptimized += $optimizedSpace;
         //update metadata for this file
         $meta = wp_get_attachment_metadata($ID);
         $meta['ShortPixelImprovement'] = round($percentImprovement,2);
+        $meta['ShortPixel']['type'] = $this->_settings->compressionType == 1 ? 'lossy' : 'lossless';
+        $meta['ShortPixel']['thumbsOpt'] = $this->_settings->processThumbnails && isset($meta['sizes']) ? count($meta['sizes']) : 0;
         wp_update_attachment_metadata($ID, $meta);
         //we reset the retry counter in case of success
         update_option('wp-short-pixel-api-retries', 0);
@@ -407,6 +383,7 @@ class ShortPixelAPI {
         {
             //we try again with a different path
             if ( !file_exists($File) ){
+                //$NewFile = $uploadDir['basedir'] . "/" . substr($File,strpos($File, $StichString));//+strlen($StichString));
                 $NewFile = $uploadDir['basedir'] . substr($File,strpos($File, $StichString)+strlen($StichString));
                 if ( file_exists($NewFile) )
                     $PATHs[$Id] = $NewFile;

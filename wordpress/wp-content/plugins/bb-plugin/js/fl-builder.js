@@ -5533,6 +5533,7 @@
 			FLBuilder.ajax({
 				action: 'render_settings_form',
 				node_id: form.attr('data-node'),
+				node_settings: FLBuilder._getSettings(form),
 				type: type,
 				settings: settings.replace(/&#39;/g, "'")
 			}, 
@@ -5718,7 +5719,8 @@
 				
 			searchInput.autoSuggest(FLBuilder._ajaxUrl({ 
 				'fl_action'         : 'fl_builder_autosuggest',
-				'fl_as_action'      : 'fl_as_links'
+				'fl_as_action'      : 'fl_as_links',
+				'_wpnonce'			: FLBuilderConfig.ajaxNonce
 			}), {
 				asHtmlID                    : searchInput.attr('name'),
 				selectedItemProp            : 'name',

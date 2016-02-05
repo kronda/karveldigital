@@ -45,6 +45,7 @@ final class FLBuilderAJAX {
 	static public function add_action( $action, $method, $args = array() )
 	{
 		self::$actions[ $action ] = array(
+			'action' => $action,
 			'method' => $method,
 			'args'	 => $args
 		);
@@ -167,19 +168,26 @@ final class FLBuilderAJAX {
 		}
 		
 		// Get the action data.
-		$action = self::$actions[ $action ];
-		$args   = array();
+		$action 	= self::$actions[ $action ];
+		$args   	= array();
+		$keys_args  = array();
 		
 		// Build the args array.
 		foreach ( $action['args'] as $arg ) {
-			$args[] = isset( $post_data[ $arg ] ) ? $post_data[ $arg ] : null;
+			$args[] = $keys_args[ $arg ] = isset( $post_data[ $arg ] ) ? $post_data[ $arg ] : null;
 		}
 
 		// Tell WordPress this is an AJAX request.
 		define( 'DOING_AJAX', true );
+		
+		// Allow developers to hook before the action runs.
+		do_action( 'fl_ajax_before_' . $action['action'], $keys_args );
 
-		// Call the method.
-		$result = call_user_func_array( $action['method'], $args );
+		// Call the action and allow developers to filter the result.
+		$result = apply_filters( 'fl_ajax_' . $action['action'], call_user_func_array( $action['method'], $args ), $keys_args );
+		
+		// Allow developers to hook after the action runs.
+		do_action( 'fl_ajax_after_' . $action['action'], $keys_args );
 		
 		// JSON encode the result.
 		echo json_encode( $result );

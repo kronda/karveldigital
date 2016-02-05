@@ -2,7 +2,8 @@
 
 class ShortPixelQueue {
     
-    private $ctrl;    
+    private $ctrl;
+    private $settings;
     private $startBulkId;
     private $stopBulkId;
     private $bulkCount;
@@ -18,17 +19,13 @@ class ShortPixelQueue {
     const BULK_PAUSED = 2; //bulk is paused
     const BULK_FINISHED = 3; //bulk finished
     
-    //handling older
-    public function ShortPixelQueue($controller) {
-        $this->__construct($controller);
-    }
-
-    public function __construct($controller) {
+    public function __construct($controller, $settings) {
         $this->ctrl = $controller;
+        $this->settings = $settings;
     //init the option if needed
         if(!isset($_SESSION["wp-short-pixel-priorityQueue"])) {
             //take the priority list from the options (we persist there the priority IDs from the previous session)
-            $prioQueueOpt = WPShortPixel::getOpt( 'wp-short-pixel-priorityQueue', array());//here we save the IDs for the files that need to be processed after an image upload for example
+            $prioQueueOpt = $this->settings->getOpt( 'wp-short-pixel-priorityQueue', array());//here we save the IDs for the files that need to be processed after an image upload for example
             $_SESSION["wp-short-pixel-priorityQueue"] = array();
             foreach($prioQueueOpt as $ID) {
                 $meta = wp_get_attachment_metadata($ID);
@@ -37,22 +34,27 @@ class ShortPixelQueue {
                     $this->push($ID);
                 }
             }
-            update_option('wp-short-pixel-priorityQueue', $_SESSION["wp-short-pixel-priorityQueue"]);
+            $this->settings->setOpt('wp-short-pixel-priorityQueue', $_SESSION["wp-short-pixel-priorityQueue"]);
             WPShortPixel::log("INIT: Session queue not found, updated from Options with "
                              .json_encode($_SESSION["wp-short-pixel-priorityQueue"]));
         }
         
-        $this->startBulkId = WPShortPixel::getOpt( 'wp-short-pixel-query-id-start', 0);//current query ID used for postmeta queries
-        $this->stopBulkId = WPShortPixel::getOpt( 'wp-short-pixel-query-id-stop', 0);//min ID used for postmeta queries
-        $this->bulkCount = WPShortPixel::getOpt( "wp-short-pixel-bulk-count", 0);
-        $this->bulkPreviousPercent = WPShortPixel::getOpt( "wp-short-pixel-bulk-previous-percent", 0);
-        $this->bulkCurrentlyProcessed = WPShortPixel::getOpt( "wp-short-pixel-bulk-processed-items", 0);
-        $this->bulkAlreadyDoneCount = WPShortPixel::getOpt( "wp-short-pixel-bulk-done-count", 0);
-        $this->lastBulkStartTime = WPShortPixel::getOpt( 'wp-short-pixel-last-bulk-start-time', 0);//time of the last start of the bulk. 
-        $this->lastBulkSuccessTime = WPShortPixel::getOpt( 'wp-short-pixel-last-bulk-success-time', 0);//time of the last start of the bulk. 
-        $this->bulkRunningTime = WPShortPixel::getOpt( 'wp-short-pixel-bulk-running-time', 0);//how long the bulk ran that far. 
+        $this->startBulkId = $this->settings->getOpt( 'wp-short-pixel-query-id-start', 0);//current query ID used for postmeta queries
+        $this->stopBulkId = $this->settings->getOpt( 'wp-short-pixel-query-id-stop', 0);//min ID used for postmeta queries
+        $this->bulkCount = $this->settings->getOpt( "wp-short-pixel-bulk-count", 0);
+        $this->bulkPreviousPercent = $this->settings->getOpt( "wp-short-pixel-bulk-previous-percent", 0);
+        $this->bulkCurrentlyProcessed = $this->settings->getOpt( "wp-short-pixel-bulk-processed-items", 0);
+        $this->bulkAlreadyDoneCount = $this->settings->getOpt( "wp-short-pixel-bulk-done-count", 0);
+        $this->lastBulkStartTime = $this->settings->getOpt( 'wp-short-pixel-last-bulk-start-time', 0);//time of the last start of the bulk. 
+        $this->lastBulkSuccessTime = $this->settings->getOpt( 'wp-short-pixel-last-bulk-success-time', 0);//time of the last start of the bulk. 
+        $this->bulkRunningTime = $this->settings->getOpt( 'wp-short-pixel-bulk-running-time', 0);//how long the bulk ran that far. 
     }
     
+    //handling older
+    public function ShortPixelQueue($controller) {
+        $this->__construct($controller);
+    }
+
     public function get() {
         return $_SESSION["wp-short-pixel-priorityQueue"];//get_option("wp-short-pixel-priorityQueue");
     }
@@ -65,7 +67,7 @@ class ShortPixelQueue {
         $prioQ = array_unique($priorityQueue);
         $_SESSION["wp-short-pixel-priorityQueue"] = $prioQ;
         //push also to the options queue, in case the session gets killed retrieve frm there
-        update_option('wp-short-pixel-priorityQueue', $prioQ);
+        $this->settings->setOpt('wp-short-pixel-priorityQueue', $prioQ);
 
         WPShortPixel::log("PUSH: Updated: ".json_encode($_SESSION["wp-short-pixel-priorityQueue"]));//get_option("wp-short-pixel-priorityQueue")));
     }
@@ -90,31 +92,31 @@ class ShortPixelQueue {
                 $found = true;
             }
         }
-        //update_option("wp-short-pixel-priorityQueue", $newPriorityQueue);
+        //$this->settings->setOpt("wp-short-pixel-priorityQueue", $newPriorityQueue);
         $_SESSION["wp-short-pixel-priorityQueue"] = $newPriorityQueue;
         WPShortPixel::log("REM: " . ($found ? "Updated: " : "Not found") . json_encode($_SESSION["wp-short-pixel-priorityQueue"]));//get_option("wp-short-pixel-priorityQueue")));
         return $found;
     }
     
     public function removeFromFailed($ID) {
-        $failed = explode(",", WPShortPixel::getOpt('wp-short-pixel-failed-imgs',''));
+        $failed = explode(",", $this->settings->getOpt('wp-short-pixel-failed-imgs',''));
         $key = array_search($ID, $failed);
         if($key !== false) {
             unset($failed[$key]);
             $failed = array_values($failed);
-            update_option('wp-short-pixel-failed-imgs',  implode(",", $failed) );
+            $this->settings->setOpt('wp-short-pixel-failed-imgs',  implode(",", $failed) );
         }        
     }
     
     public function addToFailed($ID) {
-        $failed = WPShortPixel::getOpt('wp-short-pixel-failed-imgs','');
+        $failed = $this->settings->getOpt('wp-short-pixel-failed-imgs','');
         if(!in_array($ID, explode(",", $failed))) {
-            update_option('wp-short-pixel-failed-imgs', (strlen($failed) ? $failed . "," : "") . $ID );
+            $this->settings->setOpt('wp-short-pixel-failed-imgs', (strlen($failed) ? $failed . "," : "") . $ID );
         }                        
     }
 
     public function getFailed() {
-        $failed = WPShortPixel::getOpt('wp-short-pixel-failed-imgs','');
+        $failed = $this->settings->getOpt('wp-short-pixel-failed-imgs','');
         if(!strlen($failed)) return array();
         return explode(",", $failed);
     }
@@ -126,11 +128,11 @@ class ShortPixelQueue {
     
     public function bulkPaused() {
         WPShortPixel::log("Bulk Paused: " . get_option( 'wp-short-pixel-cancel-pointer'));
-        return WPShortPixel::getOpt( 'wp-short-pixel-cancel-pointer', 0);
+        return $this->settings->getOpt( 'wp-short-pixel-cancel-pointer', 0);
     }
     
     public function bulkRan() {
-        return WPShortPixel::getOpt("wp-short-pixel-bulk-ever-ran", 0) != 0;
+        return $this->settings->getOpt("wp-short-pixel-bulk-ever-ran", 0) != 0;
     }
     
     public function  processing() {
@@ -139,7 +141,7 @@ class ShortPixelQueue {
     }
     
     public function getFlagBulkId() {
-        return WPShortPixel::getOpt("wp-short-pixel-flag-id",0);
+        return $this->settings->getOpt("wp-short-pixel-flag-id",0);
     }
 
     public function getStartBulkId() {
@@ -152,7 +154,7 @@ class ShortPixelQueue {
     
     public function setStartBulkId($start){
         $this->startBulkId = $start;
-        update_option("wp-short-pixel-query-id-start", $this->startBulkId);
+        $this->settings->setOpt("wp-short-pixel-query-id-start", $this->startBulkId);
     }
 
     public function getStopBulkId() {
@@ -161,21 +163,21 @@ class ShortPixelQueue {
 
     public function resetStopBulkId() {
         $this->stopBulkId = $this->ctrl->getMinMediaId();
-        update_option("wp-short-pixel-query-id-stop", $this->stopBulkId);
+        $this->settings->setOpt("wp-short-pixel-query-id-stop", $this->stopBulkId);
     }
     
     public function setBulkPreviousPercent() {
         //processable
         $res = $this->ctrl->countAllProcessableFiles($this->getFlagBulkId(), $this->stopBulkId);
         $this->bulkCount = $res["mainFiles"];
-        update_option("wp-short-pixel-bulk-count", $this->bulkCount);
+        $this->settings->setOpt("wp-short-pixel-bulk-count", $this->bulkCount);
         //already processed
         $res = $this->ctrl->countAllProcessedFiles($this->getFlagBulkId(), $this->stopBulkId);
         $this->bulkAlreadyDoneCount =  $res["mainFiles"];
-        update_option("wp-short-pixel-bulk-done-count", $this->bulkAlreadyDoneCount);
+        $this->settings->setOpt("wp-short-pixel-bulk-done-count", $this->bulkAlreadyDoneCount);
         //percent already done
         $this->bulkPreviousPercent =  round($this->bulkAlreadyDoneCount / $this->bulkCount *100);
-        update_option("wp-short-pixel-bulk-previous-percent", $this->bulkPreviousPercent);
+        $this->settings->setOpt("wp-short-pixel-bulk-previous-percent", $this->bulkPreviousPercent);
     }
     
     public function getBulkToProcess() {
@@ -183,7 +185,7 @@ class ShortPixelQueue {
     }
     
     public function flagBulkStart() {
-        update_option("wp-short-pixel-flag-id", $this->startBulkId);
+        $this->settings->setOpt("wp-short-pixel-flag-id", $this->startBulkId);
         delete_option('bulkProcessingStatus');        
         add_option('bulkProcessingStatus', 'running');//set bulk flag        
     }
@@ -194,13 +196,13 @@ class ShortPixelQueue {
         $this->flagBulkStart(); //we use this to detect new added files while bulk is running            
         $this->setBulkPreviousPercent();
         $this->resetBulkCurrentlyProcessed();
-        update_option( 'wp-short-pixel-bulk-ever-ran', 1);
+        $this->settings->setOpt( 'wp-short-pixel-bulk-ever-ran', 1);
     }
     
     public function pauseBulk() {
         $cancelPointer = $this->startBulkId;
         $bulkStartId = $this->getFlagBulkId();
-        update_option( 'wp-short-pixel-cancel-pointer', $cancelPointer);//we save this so we can resume bulk processing
+        $this->settings->setOpt( 'wp-short-pixel-cancel-pointer', $cancelPointer);//we save this so we can resume bulk processing
         WPShortPixel::log("PAUSE: Pointer = ".get_option( 'wp-short-pixel-cancel-pointer'));
         //remove the bulk items from prio queue
         foreach($this->get() as $qItem) {
@@ -214,18 +216,18 @@ class ShortPixelQueue {
     public function stopBulk() {
         $this->startBulkId = WPShortPixel::getMaxMediaId();
         $this->stopBulkId = $this->startBulkId;
-        update_option("wp-short-pixel-query-id-start", $this->startBulkId);
-        update_option("wp-short-pixel-query-id-stop", $this->stopBulkId);
+        $this->settings->setOpt("wp-short-pixel-query-id-start", $this->startBulkId);
+        $this->settings->setOpt("wp-short-pixel-query-id-stop", $this->stopBulkId);
         delete_option('bulkProcessingStatus');
-        return WPShortPixel::getOpt('wp-short-pixel-bulk-ever-ran', 0);
+        return $this->settings->getOpt('wp-short-pixel-bulk-ever-ran', 0);
     }
     
     public function resumeBulk() {
         $this->startBulkId = get_option( 'wp-short-pixel-cancel-pointer');
-        update_option("wp-short-pixel-query-id-start", $this->startBulkId);//start downwards from the biggest item ID            
+        $this->settings->setOpt("wp-short-pixel-query-id-start", $this->startBulkId);//start downwards from the biggest item ID            
         $this->stopBulkId = $this->ctrl->getMinMediaId();
-        update_option("wp-short-pixel-query-id-stop", $this->stopBulkId);
-        //update_option("wp-short-pixel-flag-id", $this->startBulkId);//we use to detect new added files while bulk is running
+        $this->settings->setOpt("wp-short-pixel-query-id-stop", $this->stopBulkId);
+        //$this->settings->setOpt("wp-short-pixel-flag-id", $this->startBulkId);//we use to detect new added files while bulk is running
         add_option('bulkProcessingStatus', 'running');//set bulk flag    
         delete_option( 'wp-short-pixel-cancel-pointer');
         WPShortPixel::log("Resumed: (pause says: " . $this->bulkPaused() . ") Start from: " . $this->startBulkId . " to " . $this->stopBulkId);
@@ -233,12 +235,12 @@ class ShortPixelQueue {
     
     public function resetBulkCurrentlyProcessed() {
         $this->bulkCurrentlyProcessed = 0;
-        update_option( "wp-short-pixel-bulk-processed-items", $this->bulkCurrentlyProcessed);
+        $this->settings->setOpt( "wp-short-pixel-bulk-processed-items", $this->bulkCurrentlyProcessed);
     }
     
     public function incrementBulkCurrentlyProcessed() {
         $this->bulkCurrentlyProcessed++;
-        update_option( "wp-short-pixel-bulk-processed-items", $this->bulkCurrentlyProcessed);
+        $this->settings->setOpt( "wp-short-pixel-bulk-processed-items", $this->bulkCurrentlyProcessed);
     }
     
     public function markBulkComplete() {
@@ -275,13 +277,13 @@ class ShortPixelQueue {
         $this->incrementBulkCurrentlyProcessed();
         if($t - $this->lastBulkSuccessTime > 120) { //if break longer than two minutes we mark a pause in the bulk
             $this->bulkRunningTime += ($this->lastBulkSuccessTime - $this->lastBulkStartTime);
-            update_option('wp-short-pixel-bulk-running-time', $this->bulkRunningTime);
+            $this->settings->setOpt('wp-short-pixel-bulk-running-time', $this->bulkRunningTime);
             $this->lastBulkStartTime = $this->lastBulkSuccessTime = $t;
-            update_option('wp-short-pixel-last-bulk-start-time', $t);
-            update_option('wp-short-pixel-last-bulk-success-time', $t);
+            $this->settings->setOpt('wp-short-pixel-last-bulk-start-time', $t);
+            $this->settings->setOpt('wp-short-pixel-last-bulk-success-time', $t);
         } else {
             $this->lastBulkSuccessTime = $t;
-            update_option('wp-short-pixel-last-bulk-success-time', $t);
+            $this->settings->setOpt('wp-short-pixel-last-bulk-success-time', $t);
         }
     }
     

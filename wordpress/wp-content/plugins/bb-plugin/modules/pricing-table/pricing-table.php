@@ -33,11 +33,11 @@ class FLPricingTableModule extends FLBuilderModule {
 			'font_size'         => $this->settings->pricing_columns[$column]->btn_font_size,
 			'icon'              => $this->settings->pricing_columns[$column]->btn_icon,
 			'icon_position'     => $this->settings->pricing_columns[$column]->btn_icon_position,
-			'link'              => $this->settings->pricing_columns[$column]->btn_url,
+			'link'              => $this->settings->pricing_columns[$column]->button_url,
 			'link_target'       => $this->settings->pricing_columns[$column]->btn_link_target,
 			'padding'           => $this->settings->pricing_columns[$column]->btn_padding,
 			'style'             => $this->settings->pricing_columns[$column]->btn_style,
-			'text'              => $this->settings->pricing_columns[$column]->btn_text,
+			'text'              => $this->settings->pricing_columns[$column]->button_text,
 			'text_color'        => $this->settings->pricing_columns[$column]->btn_text_color,
 			'text_hover_color'  => $this->settings->pricing_columns[$column]->btn_text_hover_color,
 			'width'             => $this->settings->pricing_columns[$column]->btn_width
@@ -191,12 +191,12 @@ FLBuilder::register_settings_form('pricing_column_form', array(
 				'default'   => array(
 					'title'         => '',
 					'fields'        => array(
-						'btn_text'      => array(
+						'button_text'   => array(
 							'type'          => 'text',
 							'label'         => __('Button Text', 'fl-builder'),
 							'default'       => __('Get Started', 'fl-builder'),
 						),
-						'btn_url'    	=> array(
+						'button_url'    => array(
 							'type'          => 'link',
 							'label'         => __('Button URL', 'fl-builder')
 						),
@@ -323,7 +323,7 @@ FLBuilder::register_settings_form('pricing_column_form', array(
 						'btn_font_size' => array(
 							'type'          => 'text',
 							'label'         => __('Font Size', 'fl-builder'),
-							'default'       => '14',
+							'default'       => '16',
 							'maxlength'     => '3',
 							'size'          => '4',
 							'description'   => 'px'

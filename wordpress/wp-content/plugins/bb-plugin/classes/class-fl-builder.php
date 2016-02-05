@@ -821,9 +821,11 @@ final class FLBuilder {
 			add_filter( 'the_content', 'FLBuilder::render_content' );
 			
 			// Do shortcodes here since letting the WP filter run can cause an infinite loop.
-			$pattern = get_shortcode_regex();
-			$content = preg_replace_callback( "/$pattern/s", 'FLBuilder::double_escape_shortcodes', $content );
-			$content = do_shortcode( $content );
+			if ( apply_filters( 'fl_builder_render_shortcodes', true ) ) {
+				$pattern = get_shortcode_regex();
+				$content = preg_replace_callback( "/$pattern/s", 'FLBuilder::double_escape_shortcodes', $content );
+				$content = do_shortcode( $content );
+			}
 			
 			// Add srcset attrs to images with the class wp-image-<ID>.
 			if ( function_exists( 'wp_make_content_images_responsive' ) ) {
@@ -2272,6 +2274,8 @@ final class FLBuilder {
 		// Save the js
 		if(!empty($js)) {
 			
+			$js = apply_filters( 'fl_builder_render_js', $js, $nodes, $global_settings );
+			
 			if ( ! defined( 'WP_DEBUG' ) || ! WP_DEBUG ) {
 				$js = FLJSMin::minify( $js );
 			}
@@ -2425,15 +2429,17 @@ final class FLBuilder {
 	}
 
 	/**
-	 * Custom error logging function that handles objects and arrays.
+	 * Custom logging function that handles objects and arrays.
 	 *
 	 * @since 1.0
 	 * @return void
 	 */
-	static public function log($data)
+	static public function log()
 	{
-		ob_start();
-		print_r($data);
-		error_log(ob_get_clean());
+		foreach ( func_get_args() as $arg ) {
+			ob_start();
+			print_r( $arg );
+			error_log( ob_get_clean() );
+		}
 	}
 }

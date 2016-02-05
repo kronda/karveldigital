@@ -1,3 +1,21 @@
+<h4>1.7.3 - 02/01/2016</h4>
+<p><strong>Enhancements</strong></p>
+<ul>
+	<li>Developers can now hook into AJAX requests using the fl_ajax_* hooks.</li>
+	<li>Added the fl_builder_render_js filter for filtering JavaScript cached by the builder.</li>
+	<li>Added the fl_builder_render_shortcodes filter for disabling shortcode parsing by the builder.</li>
+	<li>Added the fl_builder_get_upload_dir and fl_builder_get_cache_dir filters for filtering those paths.</li>
+	<li>Added the fl_builder_before_save_layout and fl_builder_after_save_layout actions for hooking into when layout data is saved .</li>
+</ul>
+<p><strong>Bug Fixes</strong></p>
+<ul>
+	<li>Fixed a bug with vertically centered content in full height rows on iOS devices.</li>
+	<li>Fixed a bug with the read more link not showing in the Posts Slider module when the content is hidden.</li>
+	<li>Fixed a bug with backslashes being stripped out of the layout settings.</li>
+	<li>Fixed a bug with the Pricing Table module buttons caused in 1.7.</li>
+	<li>Fixed a bug with the link field's auto suggest.</li>
+</ul>
+
 <h4>1.7.2 - 01/26/2016</h4>
 <p><strong>Bug Fixes</strong></p>
 <ul>

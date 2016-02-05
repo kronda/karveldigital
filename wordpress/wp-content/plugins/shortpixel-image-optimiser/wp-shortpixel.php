@@ -3,11 +3,12 @@
  * Plugin Name: ShortPixel Image Optimizer
  * Plugin URI: https://shortpixel.com/
  * Description: ShortPixel optimizes images automatically, while guarding the quality of your images. Check your <a href="options-general.php?page=wp-shortpixel" target="_blank">Settings &gt; ShortPixel</a> page on how to start optimizing your image library and make your website load faster. 
- * Version: 3.1.8
+ * Version: 3.1.9
  * Author: ShortPixel
  * Author URI: https://shortpixel.com
  */
 
+require_once('wp-shortpixel-settings.php');
 require_once('shortpixel_api.php');
 require_once('shortpixel_queue.php');
 require_once('shortpixel_view.php');
@@ -21,7 +22,7 @@ define('SP_RESET_ON_ACTIVATE', false); //if true TODO set false
 
 define('SP_AFFILIATE_CODE', '');
 
-define('PLUGIN_VERSION', "3.1.8");
+define('PLUGIN_VERSION', "3.1.9");
 define('SP_MAX_TIMEOUT', 10);
 define('SP_VALIDATE_MAX_TIMEOUT', 60);
 define('SP_BACKUP', 'ShortpixelBackups');
@@ -42,42 +43,27 @@ define("SP_MAX_RESULTS_QUERY", 6);
 class WPShortPixel {
     
     const BULK_EMPTY_QUEUE = 0;
-
-    private $_apiKey = '';
-    private $_affiliateSufix;
-    private $_compressionType = 1;
-    private $_processThumbnails = 1;
-    private $_CMYKtoRGBconversion = 1;
-    private $_backupImages = 1;
-    private $_verifiedKey = false;
     
-    private $_resizeImages = false;
-    private $_resizeWidth = 0;
-    private $_resizeHeight = 0;
+    private $_affiliateSufix;
     
     private $_apiInterface = null;
+    private $_settings = null;
     private $prioQ = null;
     private $view = null;
-
-    //handling older
-    public function WPShortPixel() {
-        $this->__construct();
-    }
 
     public function __construct() {
         if (!session_id()) {
             session_start();
         }
-        $this->populateOptions();
         
         $this->_affiliateSufix = (strlen(SP_AFFILIATE_CODE)) ? "/affiliate/" . SP_AFFILIATE_CODE : "";
-        $this->_apiInterface = new ShortPixelAPI($this->_apiKey, $this->_compressionType, $this->_CMYKtoRGBconversion, 
-                                                 $this->_resizeImages, $this->_resizeWidth, $this->_resizeHeight);
-        $this->prioQ = new ShortPixelQueue($this);
+        $this->_settings = new WPShortPixelSettings();
+        $this->_apiInterface = new ShortPixelAPI($this->_settings);
+        $this->prioQ = new ShortPixelQueue($this, $this->_settings);
         $this->view = new ShortPixelView($this);
         
         define('QUOTA_EXCEEDED', "Quota Exceeded. <a class='button button-smaller button-primary' href='https://shortpixel.com/login/"
-               .$this->_apiKey."' target='_blank'>Extend Quota</a>"
+               .$this->_settings->apiKey."' target='_blank'>Extend Quota</a>"
                ."<a class='button button-smaller' href='admin.php?action=shortpixel_check_quota' target='_blank'>Check&nbsp;&nbsp;Quota</a>");        
             
         $this->setDefaultViewModeList();//set default mode as list. only @ first run
@@ -104,7 +90,7 @@ class WPShortPixel {
         add_action( 'wp_ajax_shortpixel_dismiss_notice', array(&$this, 'dismissAdminNotice'));
         //backup restore
         add_action('admin_action_shortpixel_restore_backup', array(&$this, 'handleRestoreBackup'));
-        //backup restore
+        //check quota
         add_action('admin_action_shortpixel_check_quota', array(&$this, 'handleCheckQuota'));
         
         //This adds the constants used in PHP to be available also in JS
@@ -117,67 +103,18 @@ class WPShortPixel {
         $this->migrateBackupFolder();
     }
 
-    public function populateOptions() {
-
-        $this->_apiKey = self::getOpt('wp-short-pixel-apiKey', '');
-        $this->_verifiedKey = self::getOpt('wp-short-pixel-verifiedKey', $this->_verifiedKey);
-        $this->_compressionType = self::getOpt('wp-short-pixel-compression', $this->_compressionType);
-        $this->_processThumbnails = self::getOpt('wp-short-process_thumbnails', $this->_processThumbnails);
-        $this->_CMYKtoRGBconversion = self::getOpt('wp-short-pixel_cmyk2rgb', $this->_CMYKtoRGBconversion);
-        $this->_backupImages = self::getOpt('wp-short-backup_images', $this->_backupImages);
-        // the following practically set defaults for options if they're not set
-        self::getOpt( 'wp-short-pixel-fileCount', 0);
-        self::getOpt( 'wp-short-pixel-thumbnail-count', 0);//amount of optimized thumbnails               
-        self::getOpt( 'wp-short-pixel-files-under-5-percent', 0);//amount of optimized thumbnails                       
-        self::getOpt( 'wp-short-pixel-savedSpace', 0);
-        self::getOpt( 'wp-short-pixel-api-retries', 0);//sometimes we need to retry processing/downloading a file multiple times
-        self::getOpt( 'wp-short-pixel-quota-exceeded', 0);
-        self::getOpt( 'wp-short-pixel-total-original', 0);//amount of original data
-        self::getOpt( 'wp-short-pixel-total-optimized', 0);//amount of optimized
-        self::getOpt( 'wp-short-pixel-protocol', 'https');
-
-        $this->_resizeImages =  self::getOpt( 'wp-short-pixel-resize-images', 0);        
-        $this->_resizeWidth = self::getOpt( 'wp-short-pixel-resize-width', 0);        
-        $this->_resizeHeight = self::getOpt( 'wp-short-pixel-resize-height', 0);                
+    //handling older
+    public function WPShortPixel() {
+        $this->__construct();
     }
-    
+
     public static function shortPixelActivatePlugin()//reset some params to avoid trouble for plugins that were activated/deactivated/activated
     {
         self::shortPixelDeactivatePlugin();
         if(SP_RESET_ON_ACTIVATE === true && WP_DEBUG === true) { //force reset plugin counters, only on specific occasions and on test environments
-            delete_option('wp-short-pixel-apiKey');
-            delete_option('wp-short-pixel-verifiedKey');
-            delete_option('wp-short-pixel-compression');
-            delete_option('wp-short-process_thumbnails');
-            delete_option('wp-short-pixel_cmyk2rgb');
-            delete_option('wp-short-backup_images');
-            delete_option('wp-short-pixel-view-mode');
-            update_option( 'wp-short-pixel-thumbnail-count', 0);
-            update_option( 'wp-short-pixel-files-under-5-percent', 0);
-            update_option( 'wp-short-pixel-savedSpace', 0);
-            delete_option( 'wp-short-pixel-averageCompression');
-            delete_option( 'wp-short-pixel-fileCount');
-            delete_option( 'wp-short-pixel-total-original');
-            delete_option( 'wp-short-pixel-total-optimized');
-            update_option( 'wp-short-pixel-api-retries', 0);//sometimes we need to retry processing/downloading a file multiple times
-            update_option( 'wp-short-pixel-quota-exceeded', 0);
-            delete_option( 'wp-short-pixel-protocol');
-            update_option( 'wp-short-pixel-bulk-ever-ran', 0);
-            delete_option('wp-short-pixel-priorityQueue');
-            delete_option( 'wp-short-pixel-resize-images');        
-            delete_option( 'wp-short-pixel-resize-width');        
-            delete_option( 'wp-short-pixel-resize-height');
-            delete_option( 'wp-short-pixel-dismissed-notices');
-            if(isset($_SESSION["wp-short-pixel-priorityQueue"])) {
-                unset($_SESSION["wp-short-pixel-priorityQueue"]);
-            }
-            delete_option("wp-short-pixel-bulk-previous-percent");
+            WPShortPixelSettings::debugResetOptions();
         }
-        if(!self::getOpt('wp-short-pixel-verifiedKey', false)) {
-            update_option('wp-short-pixel-activation-notice', true);
-        }
-        update_option( 'wp-short-pixel-activation-date', time());
-        delete_option( 'wp-short-pixel-bulk-last-status');
+        WPShortPixelSettings::onActivate();
     }
     
     public static function shortPixelDeactivatePlugin()//reset some params to avoid trouble for plugins that were activated/deactivated/activated
@@ -185,15 +122,15 @@ class WPShortPixel {
         include_once dirname( __FILE__ ) . '/shortpixel_queue.php';
         ShortPixelQueue::resetBulk();
         ShortPixelQueue::resetPrio();
-        delete_option('wp-short-pixel-activation-notice');
+        WPShortPixelSettings::onDeactivate();
     }    
     
     public function displayAdminNotices() {
-        if(!$this->_verifiedKey) {
-            $dismissed = self::getOpt( 'wp-short-pixel-dismissed-notices', array());
+        if(!$this->_settings->verifiedKey) {
+            $dismissed = $this->_settings->getOpt( 'wp-short-pixel-dismissed-notices', array());
             $now = time();
-            $act = self::getOpt( 'wp-short-pixel-activation-date', $now);
-            if(self::getOpt( 'wp-short-pixel-activation-notice', false)) {
+            $act = $this->_settings->getOpt( 'wp-short-pixel-activation-date', $now);
+            if($this->_settings->getOpt( 'wp-short-pixel-activation-notice', false)) {
                 ShortPixelView::displayActivationNotice();
                 delete_option('wp-short-pixel-activation-notice');
             }
@@ -207,7 +144,7 @@ class WPShortPixel {
     
     public function dismissAdminNotice() {
         $noticeId = preg_replace('|[^a-z0-9]|i', '', $_GET['notice_id']);
-        $dismissed = self::getOpt( 'wp-short-pixel-dismissed-notices', array());
+        $dismissed = $this->_settings->getOpt( 'wp-short-pixel-dismissed-notices', array());
         $dismissed[$noticeId] = true;
         update_option( 'wp-short-pixel-dismissed-notices', $dismissed);
         die(json_encode(array("Status" => 'success', "Message" => 'Notice ID: ' . $noticeId . ' dismissed')));
@@ -216,9 +153,9 @@ class WPShortPixel {
     //set default move as "list". only set once, it won't try to set the default mode again.
     public function setDefaultViewModeList() 
     {
-        if(get_option('wp-short-pixel-view-mode') === false) 
+        if($this->_settings->getOpt('wp-short-pixel-view-mode') === false) 
         {
-            add_option('wp-short-pixel-view-mode', 1, '', 'yes' );
+            $this->_settings->setOpt('wp-short-pixel-view-mode', 1);
             if ( function_exists('get_currentuserinfo') )
                 {
                     global $current_user;
@@ -254,7 +191,7 @@ class WPShortPixel {
                         STATUS_NO_KEY: <?= ShortPixelAPI::STATUS_NO_KEY ?>,
                         STATUS_RETRY: <?= ShortPixelAPI::STATUS_RETRY ?>,
                         WP_PLUGIN_URL: '<?= plugins_url( '', __FILE__ ) ?>',
-                        API_KEY: "<?= $this->_apiKey ?>"
+                        API_KEY: "<?= $this->_settings->apiKey ?>"
                     });
                 }
             });
@@ -273,16 +210,16 @@ class WPShortPixel {
         if($this->prioQ->processing()) {
             $extraClasses = " shortpixel-processing";
         }
-        self::log("TOOLBAR: Quota exceeded: " . self::getOpt( 'wp-short-pixel-quota-exceeded', 0));
-        if(self::getOpt( 'wp-short-pixel-quota-exceeded', 0)) {
+        self::log("TOOLBAR: Quota exceeded: " . $this->_settings->quotaExceeded);
+        if($this->_settings->quotaExceeded) {
             $extraClasses = " shortpixel-alert shortpixel-quota-exceeded";
             $tooltip = "ShortPixel quota exceeded. Click for details.";
-            //$link = "http://shortpixel.com/login/" . $this->_apiKey;
+            //$link = "http://shortpixel.com/login/" . $this->_settings->apiKey;
             $link = "options-general.php?page=wp-shortpixel";
             //$blank = '_blank';
             //$icon = "shortpixel-alert.png";
         }
-        $lastStatus = self::getOpt( 'wp-short-pixel-bulk-last-status', array('Status' => ShortPixelAPI::STATUS_SUCCESS));
+        $lastStatus = $this->_settings->getOpt( 'wp-short-pixel-bulk-last-status', array('Status' => ShortPixelAPI::STATUS_SUCCESS));
         if($lastStatus['Status'] != ShortPixelAPI::STATUS_SUCCESS) {
             $extraClasses = " shortpixel-alert shortpixel-processing";
             $tooltip = $lastStatus['Message'];
@@ -298,13 +235,6 @@ class WPShortPixel {
                 'meta'  => array('target'=> $blank, 'class' => 'shortpixel-toolbar-processing' . $extraClasses)
         );
         $wp_admin_bar->add_node( $args );
-    }
-
-    public static function getOpt($key, $default) {
-        if(get_option($key) === false) {
-            add_option( $key, $default, '', 'yes' );
-        }
-        return get_option($key);
     }
 
     public function handleCustomBulk() {
@@ -337,7 +267,7 @@ class WPShortPixel {
 
     public function handleImageUpload($meta, $ID = null)
     {
-            if( !$this->_verifiedKey) {// no API Key set/verified -> do nothing here, just return
+            if( !$this->_settings->verifiedKey) {// no API Key set/verified -> do nothing here, just return
                 return $meta;
             }
             //else
@@ -351,7 +281,7 @@ class WPShortPixel {
             else 
             {//the kind of file we can process. goody.
                 $this->prioQ->push($ID);
-                $URLsAndPATHs = $this->getURLsAndPATHs($ID, $meta);                
+                $URLsAndPATHs = $this->getURLsAndPATHs($ID, $meta);
                 $this->_apiInterface->doRequests($URLsAndPATHs['URLs'], false, $ID);//send a processing request right after a file was uploaded, do NOT wait for response   
                 self::log("IMG: sent: " . json_encode($URLsAndPATHs));
                 $meta['ShortPixel']['WaitingProcessing'] = true;
@@ -457,7 +387,7 @@ class WPShortPixel {
     public function handleImageProcessing($ID = null) {
         //die("stop");
         //0: check key
-        if( $this->_verifiedKey == false) {
+        if( $this->_settings->verifiedKey == false) {
             if($ID == null){
                 $ids = $this->getFromPrioAndCheck();
                 $ID = (count($ids) > 0 ? $ids[0] : null);
@@ -523,7 +453,7 @@ class WPShortPixel {
             $prio = $this->prioQ->removeFromFailed($ID);
             $meta = wp_get_attachment_metadata($ID);
             $result["ThumbsCount"] = isset($meta['sizes']) && is_array($meta['sizes']) ? count($meta['sizes']): 0;
-            $result["BackupEnabled"] = $this->_backupImages;
+            $result["BackupEnabled"] = $this->_settings->backupImages;
             
             if(!$prio && $ID <= $this->prioQ->getStartBulkId()) {
                 $this->prioQ->setStartBulkId($ID - 1);
@@ -544,7 +474,7 @@ class WPShortPixel {
                     $urlPath = implode("/", array_slice($filePath, 0, count($filePath) - 1));
                     $urlBkPath = $this->_apiInterface->returnSubDir(get_attached_file($ID));
                     $thumb = (isset($meta["sizes"]["medium"]) ? $meta["sizes"]["medium"]["file"] : (isset($meta["sizes"]["thumbnail"]) ? $meta["sizes"]["thumbnail"]["file"]: ""));
-                    if(strlen($thumb) && get_option('wp-short-backup_images') && $this->_processThumbnails) {
+                    if(strlen($thumb) && get_option('wp-short-backup_images') && $this->_settings->processThumbnails) {
                         $bkThumb = $uploadsUrl . SP_BACKUP . "/" . $urlBkPath . "/" . $thumb;
                     }
                     if(strlen($thumb)) {
@@ -724,13 +654,13 @@ class WPShortPixel {
     public function bulkProcess() {
         global $wpdb;
 
-        if( $this->_verifiedKey == false ) {//invalid API Key
+        if( $this->_settings->verifiedKey == false ) {//invalid API Key
             ShortPixelView::displayActivationNotice();
             return;
         }
         
         $quotaData = $this->checkQuotaAndAlert();
-        if(self::getOpt('wp-short-pixel-quota-exceeded', 0) != 0) return;
+        if($this->_settings->getOpt('wp-short-pixel-quota-exceeded', 0) != 0) return;
         
         if(isset($_POST['bulkProcessPause'])) 
         {//pause an ongoing bulk processing, it might be needed sometimes
@@ -783,8 +713,8 @@ class WPShortPixel {
             //$imageCount = $this->countAllProcessableFiles();
             //$imgProcessedCount = $this->countAllProcessedFiles();
             $imageOnlyThumbs = $quotaData['totalFiles'] - $quotaData['mainFiles'];
-            $thumbsProcessedCount = self::getOpt( 'wp-short-pixel-thumbnail-count', 0);//amount of optimized thumbnails
-            $under5PercentCount =  self::getOpt( 'wp-short-pixel-files-under-5-percent', 0);//amount of under 5% optimized imgs.
+            $thumbsProcessedCount = $this->_settings->getOpt( 'wp-short-pixel-thumbnail-count', 0);//amount of optimized thumbnails
+            $under5PercentCount =  $this->_settings->getOpt( 'wp-short-pixel-files-under-5-percent', 0);//amount of under 5% optimized imgs.
 
             //average compression
             $averageCompression = self::getAverageCompression();
@@ -872,9 +802,7 @@ class WPShortPixel {
             {
                 $validityData = $this->getQuotaInformation($_POST['key'], true, isset($_POST['validate']) && $_POST['validate'] == "validate");
     
-                $this->_apiKey = $_POST['key'];
-                $this->_apiInterface->setApiKey($this->_apiKey);
-                update_option('wp-short-pixel-apiKey', $_POST['key']);
+                $this->_settings->apiKey = $_POST['key'];
                 if($validityData['APIKeyValid']) {
                     if(isset($_POST['validate']) && $_POST['validate'] == "validate") {
                         // delete last status if it was no valid key
@@ -889,13 +817,12 @@ class WPShortPixel {
                                    Please make sure that your server is accessible from the Internet before using the API or otherwise we won't be able to optimize them.");
                         } else {
                             if ( function_exists("is_multisite") && is_multisite() )
-                                $notice = array("status" => "success", "msg" => "API Key valid! <br>You seem to be running a multisite, please note that API Key can also be configured in wp-config.php like this:<BR> <b>define('SHORTPIXEL_API_KEY', '".$this->_apiKey."');</b>");
+                                $notice = array("status" => "success", "msg" => "API Key valid! <br>You seem to be running a multisite, please note that API Key can also be configured in wp-config.php like this:<BR> <b>define('SHORTPIXEL_API_KEY', '".$this->_settings->apiKey."');</b>");
                             else
                                 $notice = array("status" => "success", "msg" => 'API Key valid!');
                         }
                     }
-                    update_option('wp-short-pixel-verifiedKey', true);
-                    $this->_verifiedKey = true;
+                    $this->_settings->verifiedKey = true;
                     //test that the "uploads"  have the right rights and also we can create the backup dir for ShortPixel
                     if ( !file_exists(SP_BACKUP_FOLDER) && !@mkdir(SP_BACKUP_FOLDER, 0777, true) )
                         $notice = array("status" => "error", "msg" => "There is something preventing us to create a new folder for backing up your original files.<BR>
@@ -905,29 +832,22 @@ class WPShortPixel {
                         //display notification
                         $notice = array("status" => "error", "msg" => $validityData["Message"]);
                     }
-                    update_option('wp-short-pixel-verifiedKey', false);
-                    $this->_verifiedKey = false;
+                    $this->_settings->verifiedKey = false;
                 }
             }
 
 
             //if save button - we process the rest of the form elements
             if(isset($_POST['save'])) {
-                update_option('wp-short-pixel-compression', $_POST['compressionType']);
-                $this->_compressionType = $_POST['compressionType'];
-                $this->_apiInterface->setCompressionType($this->_compressionType);
-                if(isset($_POST['thumbnails'])) { $this->_processThumbnails = 1; } else { $this->_processThumbnails = 0; }
-                if(isset($_POST['backupImages'])) { $this->_backupImages = 1; } else { $this->_backupImages = 0; }
-                if(isset($_POST['cmyk2rgb'])) { $this->_CMYKtoRGBconversion = 1; } else { $this->_CMYKtoRGBconversion = 0; }
-                update_option('wp-short-process_thumbnails', $this->_processThumbnails);
-                update_option('wp-short-backup_images', $this->_backupImages);
-                update_option('wp-short-pixel_cmyk2rgb', $this->_CMYKtoRGBconversion);
-                $this->_resizeImages = (isset($_POST['resize']) ? 1: 0);
-                $this->_resizeWidth = (isset($_POST['width']) ? $_POST['width']: $this->_resizeWidth);
-                $this->_resizeHeight = (isset($_POST['height']) ? $_POST['height']: $this->_resizeHeight);
-                update_option( 'wp-short-pixel-resize-images', $this->_resizeImages);   
-                update_option( 'wp-short-pixel-resize-width', 0 + $this->_resizeWidth);        
-                update_option( 'wp-short-pixel-resize-height', 0 + $this->_resizeHeight);                
+                $this->_settings->compressionType = $_POST['compressionType'];
+                if(isset($_POST['thumbnails'])) { $this->_settings->processThumbnails = 1; } else { $this->_settings->processThumbnails = 0; }
+                if(isset($_POST['backupImages'])) { $this->_settings->backupImages = 1; } else { $this->_settings->backupImages = 0; }
+                if(isset($_POST['cmyk2rgb'])) { $this->_settings->CMYKtoRGBconversion = 1; } else { $this->_settings->CMYKtoRGBconversion = 0; }
+                $this->_settings->keepExif = isset($_POST['removeExif']) ? 0 : 1;
+                //delete_option('wp-short-pixel-keep-exif');
+				$this->_settings->resizeImages = (isset($_POST['resize']) ? 1: 0);
+                $this->_settings->resizeWidth = (isset($_POST['width']) ? $_POST['width']: $this->_settings->resizeWidth);
+                $this->_settings->resizeHeight = (isset($_POST['height']) ? $_POST['height']: $this->_settings->resizeHeight);
                 
                 if($_POST['save'] == "Save and Go to Bulk Process") {
                     wp_redirect("upload.php?page=wp-short-pixel-bulk");
@@ -947,11 +867,11 @@ class WPShortPixel {
 
         $quotaData = $this->checkQuotaAndAlert();
 
-        if($this->_verifiedKey) {
-            $fileCount = number_format(get_option('wp-short-pixel-fileCount'));
-            $savedSpace = self::formatBytes(get_option('wp-short-pixel-savedSpace'),2);
+        if($this->_settings->verifiedKey) {
+            $fileCount = number_format($this->_settings->fileCount);
+            $savedSpace = self::formatBytes($this->_settings->savedSpace,2);
             $averageCompression = self::getAverageCompression();
-            $savedBandwidth = self::formatBytes(get_option('wp-short-pixel-savedSpace') * 10000,2);
+            $savedBandwidth = self::formatBytes($this->_settings->savedSpace * 10000,2);
             if (is_numeric($quotaData['APICallsQuota'])) {
                 $quotaData['APICallsQuota'] .= "/month";
             }
@@ -970,8 +890,8 @@ class WPShortPixel {
     }
 
     public function getAverageCompression(){
-        return get_option('wp-short-pixel-total-optimized') > 0 
-               ? round(( 1 -  ( get_option('wp-short-pixel-total-optimized') / get_option('wp-short-pixel-total-original') ) ) * 100, 2) 
+        return $this->_settings->totalOptimized > 0 
+               ? round(( 1 -  ( $this->_settings->totalOptimized / $this->_settings->totalOriginal ) ) * 100, 2) 
                : 0;
     }
     
@@ -984,7 +904,7 @@ class WPShortPixel {
      */
     public function getQuotaInformation($apiKey = null, $appendUserAgent = false, $validate = false) {
     
-        if(is_null($apiKey)) { $apiKey = $this->_apiKey; }
+        if(is_null($apiKey)) { $apiKey = $this->_settings->apiKey; }
 
         $requestURL = 'https://api.shortpixel.com/v2/api-status.php';
         $args = array('timeout'=> SP_VALIDATE_MAX_TIMEOUT,
@@ -1049,12 +969,12 @@ class WPShortPixel {
         }
 
         if ( ( $data->APICallsMade + $data->APICallsMadeOneTime ) < ( $data->APICallsQuota + $data->APICallsQuotaOneTime ) ) //reset quota exceeded flag -> user is allowed to process more images. 
-            update_option('wp-short-pixel-quota-exceeded',0);
+            $this->_settings->quotaExceeded = 0;
         else
-            update_option('wp-short-pixel-quota-exceeded',1);//activate quota limiting            
+            $this->_settings->quotaExceeded = 1;//activate quota limiting            
 
         //if a not valid status exists, delete it
-        $lastStatus = self::getOpt( 'wp-short-pixel-bulk-last-status', array('Status' => ShortPixelAPI::STATUS_SUCCESS));
+        $lastStatus = $this->_settings->getOpt( 'wp-short-pixel-bulk-last-status', array('Status' => ShortPixelAPI::STATUS_SUCCESS));
         if($lastStatus['Status'] == ShortPixelAPI::STATUS_NO_KEY) {
             delete_option('wp-short-pixel-bulk-last-status');
         }
@@ -1086,14 +1006,14 @@ class WPShortPixel {
             {
                 if ( $fileExtension <> "pdf" )    
                 {
-                    if(!$this->_verifiedKey)
+                    if(!$this->_settings->verifiedKey)
                         print 'Invalid API Key. <a href="options-general.php?page=wp-shortpixel">Check your Settings</a>';
                     else
                         print 'Optimization N/A';
                 }
                 else
                 {
-                    if ( get_option('wp-short-pixel-quota-exceeded') )
+                    if ( $this->_settings->quotaExceeded )
                     {
                         print QUOTA_EXCEEDED;
                         return;
@@ -1101,7 +1021,7 @@ class WPShortPixel {
                     else
                     {
                         print 'PDF not processed';
-                        //if($this->_verifiedKey) {
+                        //if($this->_settings->verifiedKey) {
                             print " <a class='button button-smaller button-primary' href=\"javascript:manualOptimization({$id})\">Optimize now</a>";
                         //}
                         return;
@@ -1112,7 +1032,7 @@ class WPShortPixel {
             {
                 if(isset($meta['ShortPixel']['BulkProcessing'])) 
                 {
-                    if ( get_option('wp-short-pixel-quota-exceeded') )
+                    if ( $this->_settings->quotaExceeded )
                     {
                         print QUOTA_EXCEEDED;
                     }
@@ -1130,12 +1050,14 @@ class WPShortPixel {
                             print "Bonus processing";
                         } else {                    
                             print 'Reduced by ';
-                            print $data['ShortPixelImprovement'] . '%';
+                            print $data['ShortPixelImprovement'] . '%' . (isset($data['ShortPixel']['type']) ? ' (' . $data['ShortPixel']['type'] . ')' : '' );
                         }
                     if ( get_option('wp-short-backup_images') && !isset($data['ShortPixel']['NoBackup'])) //display restore backup option only when backup is active
                         print " &nbsp; <a class='button button-smaller' href=\"admin.php?action=shortpixel_restore_backup&amp;attachment_ID={$id}\">Restore backup</a>";
-                    if (isset($data['sizes']) && count($data['sizes'])) {
-                        print "<br>+" . count($data['sizes']) . " thumbnails optimized";
+                    if (isset($data['ShortPixel']['thumbs']) || (isset($data['sizes']) && count($data['sizes']))) {
+                        $sizes = count($data['sizes']);
+                        $cnt = isset($data['ShortPixel']['thumbsOpt']) ? $data['ShortPixel']['thumbsOpt'] : $sizes;
+                        print "<br>+" . $cnt . ($sizes > $cnt ? " of ".$sizes : '') . " thumbnails optimized";
                     }
                 }
                 elseif ( $data['ShortPixelImprovement'] <> "Optimization N/A" )
@@ -1143,7 +1065,7 @@ class WPShortPixel {
                     if ( trim(strip_tags($data['ShortPixelImprovement'])) == "Quota exceeded" )
                     {
                         print QUOTA_EXCEEDED;
-                        if ( !get_option('wp-short-pixel-quota-exceeded') )
+                        if ( !$this->_settings->quotaExceeded )
                             print " <a class='button button-smaller button-primary' href=\"javascript:manualOptimization({$id})\">Try again</a>";
                     }
                     elseif ( trim(strip_tags($data['ShortPixelImprovement'])) == "Cannot write optimized file" )
@@ -1162,7 +1084,7 @@ class WPShortPixel {
                     print "Optimization N/A";
                 }
             } elseif(isset($data['ShortPixel']['WaitingProcessing'])) {
-                if ( get_option('wp-short-pixel-quota-exceeded') )
+                if ( $this->_settings->quotaExceeded )
                 {
                     print QUOTA_EXCEEDED;
                 }
@@ -1180,7 +1102,7 @@ class WPShortPixel {
                 
                 if ( wp_attachment_is_image( $id ) ) 
                 {
-                    if ( get_option('wp-short-pixel-quota-exceeded') )
+                    if ( $this->_settings->quotaExceeded )
                     {
                         print QUOTA_EXCEEDED;
                     }
@@ -1195,7 +1117,7 @@ class WPShortPixel {
                 }
                 elseif ( $fileExtension == "pdf" )
                 {
-                    if ( get_option('wp-short-pixel-quota-exceeded') )
+                    if ( $this->_settings->quotaExceeded )
                     {
                         print QUOTA_EXCEEDED;
                     }
@@ -1279,7 +1201,7 @@ class WPShortPixel {
 
         //it is NOT a PDF file and thumbs are processable
         if (    strtolower(substr($filePath[0],strrpos($filePath[0], ".")+1)) != "pdf" 
-             && $this->_processThumbnails 
+             && $this->_settings->processThumbnails 
              && isset($meta['sizes']) && is_array($meta['sizes'])) 
         {
             foreach( $meta['sizes'] as $thumbnailInfo ) 
@@ -1359,6 +1281,20 @@ class WPShortPixel {
         $limit = 500;
         $pointer = 0;
 
+        //METODA DE A OBTINE LISTA DE IMAGINI CU API-UL WP
+        $query_images_args = array(
+            'post_type'      => 'attachment',
+            'post_mime_type' => array('image','application/pdf'),
+            'post_status'    => 'inherit',
+            'posts_per_page' => - 1,
+        );
+
+        $query_images = new WP_Query( $query_images_args );
+
+        //var_dump(count($query_images->posts));
+      
+
+
         //count all the files, main and thumbs 
         while ( 1 ) 
         {
@@ -1369,28 +1305,31 @@ class WPShortPixel {
             if ( empty($filesList) ) //we parsed all the results
                 break;
              
+            $filesMap = array();
             foreach ( $filesList as $file ) 
             {
                 if ( $file->meta_key == "_wp_attached_file" )
                 {//count pdf files only
                     $extension = substr($file->meta_value, strrpos($file->meta_value,".") + 1 );
-                    if ( $extension == "pdf" )
+                    if ( $extension == "pdf" && !isset($filesMap[$file->meta_value]))
                     {
                         $totalFiles++;
                         $mainFiles++;
+                        $filesMap[$file->meta_value] = 1;
                     }
                 }
                 else
                 {
                     $attachment = unserialize($file->meta_value);
-                    if(isset($attachment['file']) && self::isProcessablePath($attachment['file'])){
-                        if ( isset($attachment['sizes']) )
+                    if(isset($attachment['file']) && !isset($filesMap[$attachment['file']]) && self::isProcessablePath($attachment['file'])){
+                        if ( isset($attachment['sizes']) ) {
                             $totalFiles += count($attachment['sizes']);            
-
+                        }
                         if ( isset($attachment['file']) )
                         {
                             $totalFiles++;
                             $mainFiles++;
+                            $filesMap[$attachment['file']] = 1;
                         }
                     }
                 }
@@ -1404,7 +1343,7 @@ class WPShortPixel {
 }  
 
 
-    //count all the processable files in media library (while limiting the results to max 10000)
+    //count all the already processed files in media library (while limiting the results to max 10000)
     public function countAllProcessedFiles($maxId = PHP_INT_MAX, $minId = 0){
         global  $wpdb;
         
@@ -1413,6 +1352,7 @@ class WPShortPixel {
         $pointer = 0;
 
         //count all the files, main and thumbs 
+        $filesMap = array();
         while ( 1 ) 
         {
             $filesList= $wpdb->get_results("SELECT * FROM " . $wpdb->prefix . "postmeta
@@ -1425,11 +1365,19 @@ class WPShortPixel {
             foreach ( $filesList as $file ) 
             {
                 $attachment = unserialize($file->meta_value);
-                if ( isset($attachment['ShortPixelImprovement']) && ($attachment['ShortPixelImprovement'] > 0 || $attachment['ShortPixelImprovement'] === 0.0)) {
+                if (   isset($attachment['ShortPixelImprovement'])
+                    && ($attachment['ShortPixelImprovement'] > 0 || $attachment['ShortPixelImprovement'] === 0.0)
+                    //for PDFs there is no file field so just let it pass.
+                    && (!isset($attachment['file']) || !isset($filesMap[$attachment['file']])) ) { 
                     $processedMainFiles++;            
                     $processedTotalFiles++;            
-                    if ( isset($attachment['sizes']) ) {
+                    if ( isset($attachment['ShortPixel']['thumbsOpt']) ) {
+                        $processedTotalFiles += $attachment['ShortPixel']['thumbsOpt'];
+                    } elseif ( isset($attachment['sizes']) ) {
                         $processedTotalFiles += count($attachment['sizes']);            
+                    }
+                    if ( isset($attachment['file']) ) {
+                        $filesMap[$attachment['file']] = 1;
                     }
                 }
             }   
@@ -1486,7 +1434,7 @@ class WPShortPixel {
     }
 
     public function getApiKey() {
-        return $this->_apiKey;
+        return $this->_settings->apiKey;
     }
     
     public function getPrioQ() {
@@ -1494,35 +1442,41 @@ class WPShortPixel {
     }
     
     public function backupImages() {
-        return $this->_backupImages;
+        return $this->_settings->backupImages;
     }
 
     public function processThumbnails() {
-        return $this->_processThumbnails;
+        return $this->_settings->processThumbnails;
     }
+    
     public function getCMYKtoRGBconversion() {
-        return $this->_CMYKtoRGBconversion;
+        return $this->_settings->CMYKtoRGBconversion;
+    }
+    
+    public function getSettings() {
+        return $this->_settings;
     }
 
-        public function getResizeImages() {
-        return $this->_resizeImages;
+
+    public function getResizeImages() {
+        return $this->_settings->resizeImages;
     }
 
     public function getResizeWidth() {
-        return $this->_resizeWidth;
+        return $this->_settings->resizeWidth;
     }
 
     public function getResizeHeight() {
-        return $this->_resizeHeight;
+        return $this->_settings->resizeHeight;
     }
     public function getAffiliateSufix() {
         return $this->_affiliateSufix;
     }
     public function getVerifiedKey() {
-        return $this->_verifiedKey;
+        return $this->_settings->verifiedKey;
     }
     public function getCompressionType() {
-        return $this->_compressionType;
+        return $this->_settings->compressionType;
     }
 
 }

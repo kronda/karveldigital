@@ -2,7 +2,7 @@
 Contributors: infinitewp
 Tags: admin, administration, amazon, api, authentication, automatic, dashboard, dropbox, events, integration, manage, multisite, multiple, notification, performance, s3, security, seo, stats, tracking, infinitewp, updates, backup, restore, iwp, infinite
 Requires at least: 3.0
-Tested up to: 4.3.1
+Tested up to: 4.4.1
 Stable tag: trunk
 
 Install this plugin on unlimited sites and manage them all from a central dashboard.
@@ -48,8 +48,20 @@ Credits: [Vladimir Prelovac](http://prelovac.com/vladimir) for his worker plugin
 
 == Changelog ==
 
-= 1.4.3 =
+= 1.5.0 =
+
+* Improvement: Compatibility with PHP7.
+* Improvement: Memory usage in Multi call backup now optimized.
+* Improvement: Support for new Amazon S3 SDK. Added support for Frankfut bucket which will solve random errors in amazon backup. For php < v5.3.3 will use older S3 library.
+* Improvement: Timeout will be reduced in Single call backup Zip Archive.
+* Improvement: Client plugin will support MySQLi by using wpdb class.
+* Improvement: All tables created by client plugin will use default DB engine.
 * Improvement: Maintenance mode status also included in reload data. This will result in the IWP Admin Panel displaying relevant status colours.
+* Improvement: Support for WP Maintenance Addon's new options - Clear trash comments, Clear trash posts, Unused posts metadata, Unused comments metadata, Remove pingbacks, Remove trackbacks.
+* Improvement: Dedicated cacert.pem file introduced for Dropbox API." client plugin.
+* Fix: Issue with IWP DB Table version not updating.
+* Fix: Backup DB table now uses WP's charset (default UTF8). This will solve filename issues with foreign (umlaut) characters.
+* Fix: Temp files not getting deleted while using single call backup in certain cases.
 
 = 1.4.2.2 =
 * Fix: Fatal error while calling wp_get_translation_updates() in WP versions lower than v3.7.

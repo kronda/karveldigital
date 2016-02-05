@@ -4,15 +4,15 @@ class ShortPixelView {
     
     private $ctrl;
     
+    public function __construct($controller) {
+        $this->ctrl = $controller;
+    }
+    
         //handling older
     public function ShortPixelView($controller) {
         $this->__construct($controller);
     }
 
-    public function __construct($controller) {
-        $this->ctrl = $controller;
-    }
-    
     public function displayQuotaExceededAlert($quotaData) 
     { ?>    
         <br/>
@@ -327,9 +327,11 @@ class ShortPixelView {
     }    
     
     public function displaySettingsForm($quotaData) {
+        $settings = $this->ctrl->getSettings();
         $checked = ($this->ctrl->processThumbnails() ? 'checked' : '');
         $checkedBackupImages = ($this->ctrl->backupImages() ? 'checked' : '');
         $cmyk2rgb = ($this->ctrl->getCMYKtoRGBconversion() ? 'checked' : '');
+        $removeExif = ($settings->keepExif ? '' : 'checked');
         $resize = ($this->ctrl->getResizeImages() ? 'checked' : '');
         $resizeDisabled = ($this->ctrl->getResizeImages() ? '' : 'disabled');        
         $minSizes = $this->ctrl->getMaxIntermediateImageSize();
@@ -364,13 +366,13 @@ class ShortPixelView {
                             <label for="compressionType">Compression type:</label>
                         </th>
                         <td>
-                            <input type="radio" name="compressionType" value="1" <?= $this->ctrl->getCompressionType() == 1 ? "checked" : "" ?>>Lossy</br>
-                            <p class="settings-info"> <b>Lossy compression: </b>lossy has a better compression rate than lossless compression.</br>The resulting image
-                                is not 100% identical with the original. Works well for photos taken with your camera.</p></br>
+                            <input type="radio" name="compressionType" value="1" <?= $this->ctrl->getCompressionType() == 1 ? "checked" : "" ?>>Lossy (recommended)</br>
+                            <p class="settings-info"> <b>Lossy compression: </b>lossy has a better compression rate than lossless compression.</br>While the resulting image
+                                is not 100% identical with the original, in the vast majority of cases the difference is not noticeable. You can 
+                                <a href="https://shortpixel.com/online-image-compression" target="_blank">freely test your images</a> for lossy optimization.</p></br>
                             <input type="radio" name="compressionType" value="0" <?= $this->ctrl->getCompressionType() != 1 ? "checked" : "" ?>>Lossless
-                            <p class="settings-info"><b>Lossless compression: </b> the shrunk image will be identical with the original and smaller in size.</br>Use this
-                            when you do not want to lose any of the original image's details. Works best for technical drawings,
-                            clip art and comics. </p>
+                            <p class="settings-info"><b>Lossless compression: </b> the shrunk image will be identical with the original and smaller in size.</br>In some rare cases you will need to use 
+                            this type of compression. Some technical drawings or images from vector graphics are possible situations.</p>
                         </td>
                     </tr>
                 </tbody>
@@ -381,19 +383,29 @@ class ShortPixelView {
                         <th scope="row"><label for="thumbnails">Also include thumbnails:</label></th>
                         <td><input name="thumbnails" type="checkbox" id="thumbnails" <?= $checked ?>> Apply compression also to 
                                 <strong><?=$thumbnailsToProcess ? number_format($thumbnailsToProcess) : ""?> image thumbnails.</strong>
-                            <p class="settings-info">Thumbnails count up to your total quota, and should be optimized for best results of your website's speed.</p>
+                            <p class="settings-info">It is highly recommended that you optimize the thumbnails as they are usually the images most viewed by end users and can generate most traffic.<br>Please note that thumbnails count up to your total quota.</p>
                         </td>
                     </tr>
                     <tr>
                         <th scope="row"><label for="backupImages">Image backup</label></th>
                         <td>
                             <input name="backupImages" type="checkbox" id="backupImages" <?= $checkedBackupImages ?>> Save and keep a backup of your original images in a separate folder.
+                            <p class="settings-info">Usually recommended for safety.</p>
                         </td>
                     </tr>
                     <tr>
-                        <th scope="row"><label for="backupImages">CMYK to RGB conversion</label></th>
+                        <th scope="row"><label for="cmyk2rgb">CMYK to RGB conversion</label></th>
                         <td>
                             <input name="cmyk2rgb" type="checkbox" id="cmyk2rgb" <?= $cmyk2rgb ?>>Adjust your images for computer and mobile screen display.
+                        </td>
+                    </tr>
+                    <tr>
+                        <th scope="row"><label for="removeExif">Remove EXIF</label></th>
+                        <td>
+                            <input name="removeExif" type="checkbox" id="removeExif" <?= $removeExif ?>>Remove the EXIF tag and ICC profile of the image (recommended).
+                            <p class="settings-info"> EXIF is a set of various pieces of information that are automatically embedded into the image upon creation. This can include GPS position, camera manufacturer, date and time, etc. 
+                                ICC profile specifies the color profile that is used by the image.  
+                                Unless you really need that data to be kept we recommend you removing it as it can lead to <a href="http://blog.shortpixel.com/how-much-smaller-can-be-images-without-exif-icc" target="_blank">better compression rates</a>.</p></br>
                         </td>
                     </tr>
                     <tr>
@@ -401,7 +413,7 @@ class ShortPixelView {
                         <td>
                             <input name="resize" type="checkbox" id="resize" <?= $resize ?>> to maximum
                             <input type="text" name="width" id="width" style="width:70px" value="<?= max($this->ctrl->getResizeWidth(), min(1024, $minSizes['width'])) ?>" <?= $resizeDisabled ?>/> pixels wide &times; 
-                            <input type="text" name="height" id="height" style="width:70px" value="<?= max($this->ctrl->getResizeHeight(), min(1024, $minSizes['height'])) ?>" <?= $resizeDisabled ?>/> pixels high
+                            <input type="text" name="height" id="height" style="width:70px" value="<?= max($this->ctrl->getResizeHeight(), min(1024, $minSizes['height'])) ?>" <?= $resizeDisabled ?>/> pixels high (original aspect ratio is preserved)
                             <p class="settings-info"> Recommended for large photos, like the ones taken with your phone. Saved space can go up to 80% or more after resizing.<br/>
                                 The new resolution should not be less than your largest thumbnail size, which is <?=$minSizes['width']?> &times; <?=$minSizes['height']?> pixels.</p>
                         </td>

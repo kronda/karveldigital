@@ -106,7 +106,7 @@ function checkQuotaExceededAlert() {
  * calls itself until receives an Empty queue message
  */
 function checkBulkProgress() {
-    if(window.location.href.search("wp-admin/upload.php") < 0
+    if(   window.location.href.search("wp-admin/upload.php") < 0
        && window.location.href.search("wp-admin/edit.php") < 0
        && window.location.href.search("wp-admin/edit-tags.php") < 0
        && window.location.href.search("wp-admin/post-new.php") < 0
@@ -201,7 +201,7 @@ function checkBulkProcessingCallApi(){
                 case ShortPixel.STATUS_SUCCESS:
                     var percent = data["PercentImprovement"];
                     var cellMsg = "Reduced by <span class='percent'>" + percent + "%</span> " 
-                          + (data["BackupEnabled"] == 1 ? "| <a href=\"admin.php?action=shortpixel_restore_backup&attachment_ID=" + id + ")\">Restore backup</a>" : "");
+                          + (data["BackupEnabled"] == 1 ? "<a class='button button-smaller' href=\"admin.php?action=shortpixel_restore_backup&attachment_ID=" + id + ")\">Restore backup</a>" : "");
                     if(0 + data['ThumbsCount'] > 0) {
                         cellMsg += "<br>+" + data['ThumbsCount'] + " thumbnails optimized";
                     }

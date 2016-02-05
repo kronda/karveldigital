@@ -199,7 +199,7 @@
  */
 @media all and (device-width: 768px) and (device-height: 1024px) and (orientation:portrait){
   .fl-row-full-height .fl-row-content-wrap{
-    height: 1024px;
+    min-height: 1024px;
   }
 }
 
@@ -208,7 +208,7 @@
  */
 @media all and (device-width: 1024px) and (device-height: 768px) and (orientation:landscape){
   .fl-row-full-height .fl-row-content-wrap{
-    height: 768px;
+    min-height: 768px;
   }
 }
 
@@ -218,7 +218,7 @@
  */
 @media screen and (device-aspect-ratio: 40/71) {
   .fl-row-full-height .fl-row-content-wrap {
-    height: 500px;
+    min-height: 500px;
   }
 }
 

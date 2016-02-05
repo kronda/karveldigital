@@ -391,10 +391,15 @@ final class FLBuilderAJAXLayout {
 		// Get the rendered HTML.
 		$html = ob_get_clean();
 		
-		// Process shortcodes and return the HTML.
-		ob_start();
-		echo do_shortcode( $html );
-		return ob_get_clean();
+		// Render shortcodes.
+		if ( apply_filters( 'fl_builder_render_shortcodes', true ) ) {
+			ob_start();
+			echo do_shortcode( $html );
+			$html = ob_get_clean();
+		}
+		
+		// Return the rendered HTML.
+		return $html;
 	}
 
 	/**

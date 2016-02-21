@@ -124,7 +124,9 @@ TVE_Dash.API.views = TVE_Dash.API.views || {};
             if (window.rebindWistiaFancyBoxes) {
                 window.rebindWistiaFancyBoxes();
             }
-
+            this.$el.find( 'select' ).each( function () {
+                jQuery( this ).material_select()
+            } );
             return this;
         }
     });
@@ -359,7 +361,7 @@ TVE_Dash.API.views = TVE_Dash.API.views || {};
                 else {
                     $(this).siblings('label, i').removeClass('tvd-active');
                 }
-            });
+             });
 
             return this;
         },
@@ -521,6 +523,7 @@ TVE_Dash.API.views = TVE_Dash.API.views || {};
             this.$el.html('');
             this.renderAddNewConnection(TVE_Dash.API.ToBeConnected);
             this.collection.each(this.renderConnection, this);
+
         },
         renderConnection: function (item) {
             var v = new TVE_Dash.API.views.Connection({
@@ -553,19 +556,3 @@ TVE_Dash.API.views = TVE_Dash.API.views || {};
     });
 
 })(jQuery);
-
-//jQuery(document).ready(function () {
-//    $('.tve-api-notice').on('click', '.tve-api-dismiss', function () {
-//        var $this = $(this);
-//        $this.parents('.tve-api-notice').fadeOut();
-//        $.ajax({
-//            url: ajaxurl,
-//            type: 'post',
-//            data: {
-//                action: 'tve_api_hide_notice',
-//                key: $this.attr('data-key'),
-//                nonce: $this.parents('.tve-api-notice').find('span.nonce').text()
-//            }
-//        });
-//    });
-//});

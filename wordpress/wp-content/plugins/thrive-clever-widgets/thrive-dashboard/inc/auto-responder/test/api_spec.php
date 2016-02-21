@@ -7,16 +7,16 @@ require_once '../misc.php';
  *  Postmark Email test
  */
 $postmark_key = "b95d97f2-fb54-470b-9672-ad84ee6d0bdc";
-$postmark = new Thrive_Dash_Api_Postmark($postmark_key);
+$postmark     = new Thrive_Dash_Api_Postmark( $postmark_key );
 
 $sendResult = $postmark->sendEmail(
-    "aurelian.pop@bitstone.eu",
-    "aurelian.pop@bitstone.eu",
-    "Hello from Postmark!",
-    "This is just a friendly hello from your friends at Postmark."
+	"aurelian.pop@bitstone.eu",
+	"aurelian.pop@bitstone.eu",
+	"Hello from Postmark!",
+	"This is just a friendly hello from your friends at Postmark."
 );
 
-var_dump($sendResult);
+var_dump( $sendResult );
 
 /** Mandrill Email Test */
 //$mandrill_key = "vUItKclMpLrIJWuZceOZug";
@@ -101,19 +101,18 @@ var_dump($sendResult);
 //var_dump($result);
 
 
-
-    /**
-$mailchimp_key = 'c902447483f66c6cc5b78ffb51f46e79-us4';
-
-
-
-$mc = new Thrive_Dash_Api_Mailchimp($mailchimp_key, array(
-    'debug' => true
-));
-//var_dump($mc->lists->getList());
-var_dump($mc->lists->subscribe('98e94d7dcb', array('email' => 'radu.groza@live.com')));
+/**
+ * $mailchimp_key = 'c902447483f66c6cc5b78ffb51f46e79-us4';
  *
-*/
+ *
+ *
+ * $mc = new Thrive_Dash_Api_Mailchimp($mailchimp_key, array(
+ * 'debug' => true
+ * ));
+ * //var_dump($mc->lists->getList());
+ * var_dump($mc->lists->subscribe('98e94d7dcb', array('email' => 'radu.groza@live.com')));
+ *
+ */
 
 //$mc = Thrive_Dash_List_Manager::connectionInstance('mailchimp');
 ///** @var Thrive_Dash_Api_Mailchimp $api */
@@ -173,7 +172,7 @@ var_dump($mc->lists->subscribe('98e94d7dcb', array('email' => 'radu.groza@live.c
 
 //Ontraport
 
-$client = new Thrive_Dash_Api_Ontraport('2_21425_1I4AjAUgj', '9L11s2auliQZOGQ');
+$client = new Thrive_Dash_Api_Ontraport( '2_21425_1I4AjAUgj', '9L11s2auliQZOGQ' );
 //echo '<pre>';
 //print_r($client->v2Call('1/objects', array('objectID' => 0)));
 //die;

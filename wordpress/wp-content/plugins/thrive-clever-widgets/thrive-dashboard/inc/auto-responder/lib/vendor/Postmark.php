@@ -7,109 +7,116 @@
  */
 class Thrive_Dash_Api_Postmark extends Thrive_Dash_Api_Postmark_ClientBase {
 
-	private $server_token = NULL;
+	private $server_token = null;
 
 	/**
 	 * Create a new PostmarkClient.
 	 *
-	 * @param string $server_token  The token associated with "Server" you'd like to use to send/receive email from.
+	 * @param string $server_token The token associated with "Server" you'd like to use to send/receive email from.
 	 * @param integer $timeout The timeout, in seconds to wait for an API call to complete before throwing an Exception.
 	 */
-	function __construct($serverToken, $timeout = 30) {
-		parent::__construct($serverToken, 'X-Postmark-Server-Token', $timeout);
+	function __construct( $serverToken, $timeout = 30 ) {
+		parent::__construct( $serverToken, 'X-Postmark-Server-Token', $timeout );
 	}
 
 	/**
 	 * Send an email.
 	 *
-	 * @param  string $from: The sender of the email. (Your account must have an associated Sender Signature for the address used.)
-	 * @param  string $to  The recipient of the email.
-	 * @param  string $subject  The subject of the email.
-	 * @param  string $htmlBody  The HTML content of the message, optional if Text Body is specified.
-	 * @param  string $textBody  The text content of the message, optional if HTML Body is specified.
-	 * @param  string $tag  A tag associated with this message, useful for classifying sent messages.
-	 * @param  boolean $trackOpens  True if you want Postmark to track opens of HTML emails.
-	 * @param  string $replyTo  Reply to email address.
-	 * @param  string $cc  Carbon Copy recipients, comma-separated
-	 * @param  string $bcc  Blind Carbon Copy recipients, comma-separated.
-	 * @param  array $headers  Headers to be included with the sent email message.
-	 * @param  array $attachments  An array of PostmarkAttachment objects.
+	 * @param  string $from : The sender of the email. (Your account must have an associated Sender Signature for the address used.)
+	 * @param  string $to The recipient of the email.
+	 * @param  string $subject The subject of the email.
+	 * @param  string $htmlBody The HTML content of the message, optional if Text Body is specified.
+	 * @param  string $textBody The text content of the message, optional if HTML Body is specified.
+	 * @param  string $tag A tag associated with this message, useful for classifying sent messages.
+	 * @param  boolean $trackOpens True if you want Postmark to track opens of HTML emails.
+	 * @param  string $replyTo Reply to email address.
+	 * @param  string $cc Carbon Copy recipients, comma-separated
+	 * @param  string $bcc Blind Carbon Copy recipients, comma-separated.
+	 * @param  array $headers Headers to be included with the sent email message.
+	 * @param  array $attachments An array of PostmarkAttachment objects.
+	 *
 	 * @return DyanamicResponseModel
 	 */
-	function sendEmail($from, $to, $subject, $htmlBody = NULL, $textBody = NULL,
-		$tag = NULL, $trackOpens = true, $replyTo = NULL, $cc = NULL, $bcc = NULL,
-		$headers = NULL, $attachments = NULL) {
+	function sendEmail(
+		$from, $to, $subject, $htmlBody = null, $textBody = null,
+		$tag = null, $trackOpens = true, $replyTo = null, $cc = null, $bcc = null,
+		$headers = null, $attachments = null
+	) {
 
-		$body = array();
-		$body['From'] = $from;
-		$body['To'] = $to;
-		$body['Cc'] = $cc;
-		$body['Bcc'] = $bcc;
-		$body['Subject'] = $subject;
-		$body['HtmlBody'] = $htmlBody;
-		$body['TextBody'] = $textBody;
-		$body['Tag'] = $tag;
-		$body['ReplyTo'] = $replyTo;
-		$body['Headers'] = $this->fixHeaders($headers);
-		$body['TrackOpens'] = $trackOpens;
+		$body                = array();
+		$body['From']        = $from;
+		$body['To']          = $to;
+		$body['Cc']          = $cc;
+		$body['Bcc']         = $bcc;
+		$body['Subject']     = $subject;
+		$body['HtmlBody']    = $htmlBody;
+		$body['TextBody']    = $textBody;
+		$body['Tag']         = $tag;
+		$body['ReplyTo']     = $replyTo;
+		$body['Headers']     = $this->fixHeaders( $headers );
+		$body['TrackOpens']  = $trackOpens;
 		$body['Attachments'] = $attachments;
 
-		return new Thrive_Dash_Api_Postmark_DynamicResponseModel($this->processRestRequest('POST', '/email', $body));
+		return new Thrive_Dash_Api_Postmark_DynamicResponseModel( $this->processRestRequest( 'POST', '/email', $body ) );
 	}
 
 	/**
 	 * Send an email using a template.
 	 *
-	 * @param  string $from: The sender of the email. (Your account must have an associated Sender Signature for the address used.)
-	 * @param  string $to  The recipient of the email.
-	 * @param  integer $templateId  The ID of the template to use to generate the content of this message.
-	 * @param  object $templateModel  The values to combine with the Templated content.
-	 * @param  boolean $inlineCss  If the template contains an HTMLBody, CSS is automatically inlined, you may opt-out of this by passing 'false' for this parameter.
-	 * @param  string $tag  A tag associated with this message, useful for classifying sent messages.
-	 * @param  boolean $trackOpens  True if you want Postmark to track opens of HTML emails.
-	 * @param  string $replyTo  Reply to email address.
-	 * @param  string $cc  Carbon Copy recipients, comma-separated
-	 * @param  string $bcc  Blind Carbon Copy recipients, comma-separated.
-	 * @param  array $headers  Headers to be included with the sent email message.
-	 * @param  array $attachments  An array of PostmarkAttachment objects.
+	 * @param  string $from : The sender of the email. (Your account must have an associated Sender Signature for the address used.)
+	 * @param  string $to The recipient of the email.
+	 * @param  integer $templateId The ID of the template to use to generate the content of this message.
+	 * @param  object $templateModel The values to combine with the Templated content.
+	 * @param  boolean $inlineCss If the template contains an HTMLBody, CSS is automatically inlined, you may opt-out of this by passing 'false' for this parameter.
+	 * @param  string $tag A tag associated with this message, useful for classifying sent messages.
+	 * @param  boolean $trackOpens True if you want Postmark to track opens of HTML emails.
+	 * @param  string $replyTo Reply to email address.
+	 * @param  string $cc Carbon Copy recipients, comma-separated
+	 * @param  string $bcc Blind Carbon Copy recipients, comma-separated.
+	 * @param  array $headers Headers to be included with the sent email message.
+	 * @param  array $attachments An array of PostmarkAttachment objects.
+	 *
 	 * @return DyanamicResponseModel
 	 */
-	function sendEmailWithTemplate($from, $to, $templateId, $templateModel, $inlineCss = true,
-		$tag = NULL, $trackOpens = true, $replyTo = NULL,
-		$cc = NULL, $bcc = NULL,
-		$headers = NULL, $attachments = NULL) {
+	function sendEmailWithTemplate(
+		$from, $to, $templateId, $templateModel, $inlineCss = true,
+		$tag = null, $trackOpens = true, $replyTo = null,
+		$cc = null, $bcc = null,
+		$headers = null, $attachments = null
+	) {
 
-		$body = array();
-		$body['From'] = $from;
-		$body['To'] = $to;
-		$body['Cc'] = $cc;
-		$body['Bcc'] = $bcc;
-		$body['Tag'] = $tag;
-		$body['ReplyTo'] = $replyTo;
-		$body['Headers'] = $this->fixHeaders($headers);
-		$body['TrackOpens'] = $trackOpens;
-		$body['Attachments'] = $attachments;
+		$body                  = array();
+		$body['From']          = $from;
+		$body['To']            = $to;
+		$body['Cc']            = $cc;
+		$body['Bcc']           = $bcc;
+		$body['Tag']           = $tag;
+		$body['ReplyTo']       = $replyTo;
+		$body['Headers']       = $this->fixHeaders( $headers );
+		$body['TrackOpens']    = $trackOpens;
+		$body['Attachments']   = $attachments;
 		$body['TemplateModel'] = $templateModel;
-		$body['TemplateId'] = $templateId;
-		$body['InlineCss'] = $inlineCss;
+		$body['TemplateId']    = $templateId;
+		$body['InlineCss']     = $inlineCss;
 
-		return new Thrive_Dash_Api_Postmark_DynamicResponseModel($this->processRestRequest('POST', '/email/withTemplate', $body));
+		return new Thrive_Dash_Api_Postmark_DynamicResponseModel( $this->processRestRequest( 'POST', '/email/withTemplate', $body ) );
 	}
 
 	/**
 	 * The Postmark API wants an Array of Key-Value pairs, not a dictionary object,
 	 * therefore, we need to wrap the elements in an array.
 	 */
-	private function fixHeaders($headers) {
-		$retval = NULL;
-		if ($headers != NULL) {
+	private function fixHeaders( $headers ) {
+		$retval = null;
+		if ( $headers != null ) {
 			$retval = array();
-			$index = 0;
-			foreach ($headers as $key => $value) {
-				$retval[$index] = array('Name' => $key, 'Value' => $value);
-				$index++;
+			$index  = 0;
+			foreach ( $headers as $key => $value ) {
+				$retval[ $index ] = array( 'Name' => $key, 'Value' => $value );
+				$index ++;
 			}
 		}
+
 		return $retval;
 	}
 
@@ -120,24 +127,24 @@ class Thrive_Dash_Api_Postmark extends Thrive_Dash_Api_Postmark_ClientBase {
 	 * key must be an array of 'PostmarkAttachment' objects if you intend to send
 	 * attachments with an email.
 	 *
-	 * @param array $emailBatch  An array of emails to be sent in one batch.
+	 * @param array $emailBatch An array of emails to be sent in one batch.
 	 *
 	 * @return DyanamicResponseModel
 	 */
-	function sendEmailBatch($emailBatch = array()) {
+	function sendEmailBatch( $emailBatch = array() ) {
 
 		$final = array();
 
-		foreach ($emailBatch as $key => $email) {
-			foreach ($email as $emailIdx => $emailValue) {
-				if (strtolower($emailIdx) == 'headers') {
-					$email[$emailIdx] = $this->fixHeaders($emailValue);
+		foreach ( $emailBatch as $key => $email ) {
+			foreach ( $email as $emailIdx => $emailValue ) {
+				if ( strtolower( $emailIdx ) == 'headers' ) {
+					$email[ $emailIdx ] = $this->fixHeaders( $emailValue );
 				}
 			}
-			array_push($final, $email);
+			array_push( $final, $email );
 		}
 
-		return new Thrive_Dash_Api_Postmark_DynamicResponseModel($this->processRestRequest('POST', '/email/batch', $final));
+		return new Thrive_Dash_Api_Postmark_DynamicResponseModel( $this->processRestRequest( 'POST', '/email/batch', $final ) );
 	}
 
 	/**
@@ -146,7 +153,7 @@ class Thrive_Dash_Api_Postmark extends Thrive_Dash_Api_Postmark_ClientBase {
 	 * @return DyanamicResponseModel
 	 */
 	function getDeliveryStatistics() {
-		return new Thrive_Dash_Api_Postmark_DynamicResponseModel($this->processRestRequest('GET', '/deliverystats'));
+		return new Thrive_Dash_Api_Postmark_DynamicResponseModel( $this->processRestRequest( 'GET', '/deliverystats' ) );
 	}
 
 	/**
@@ -161,49 +168,54 @@ class Thrive_Dash_Api_Postmark extends Thrive_Dash_Api_Postmark_ClientBase {
 	 * @param  string $messageID Filter by MessageID
 	 * :return DynamicResponseModel
 	 */
-	function getBounces($count = 100, $offset = 0, $type = NULL,
-		$inactive = NULL, $emailFilter = NULL, $tag = NULL, $messageID = NULL) {
+	function getBounces(
+		$count = 100, $offset = 0, $type = null,
+		$inactive = null, $emailFilter = null, $tag = null, $messageID = null
+	) {
 
-		$query = array();
-		$query['type'] = $type;
-		$query['inactive'] = $inactive;
+		$query                = array();
+		$query['type']        = $type;
+		$query['inactive']    = $inactive;
 		$query['emailFilter'] = $emailFilter;
-		$query['tag'] = $tag;
-		$query['messageID'] = $messageID;
-		$query['count'] = $count;
-		$query['offset'] = $offset;
+		$query['tag']         = $tag;
+		$query['messageID']   = $messageID;
+		$query['count']       = $count;
+		$query['offset']      = $offset;
 
-		return new Thrive_Dash_Api_Postmark_DynamicResponseModel($this->processRestRequest('GET', '/bounces', $query));
+		return new Thrive_Dash_Api_Postmark_DynamicResponseModel( $this->processRestRequest( 'GET', '/bounces', $query ) );
 	}
 
 	/**
 	 * Locate information on a specific email bounce.
 	 *
 	 * @param  integer $id The ID of the bounce to get.
+	 *
 	 * @return DyanamicResponseModel
 	 */
-	function getBounce($id) {
-		return new Thrive_Dash_Api_Postmark_DynamicResponseModel($this->processRestRequest('GET', "/bounces/$id"));
+	function getBounce( $id ) {
+		return new Thrive_Dash_Api_Postmark_DynamicResponseModel( $this->processRestRequest( 'GET', "/bounces/$id" ) );
 	}
 
 	/**
 	 * Get a "dump" for a specific bounce.
 	 *
 	 * @param  integer $id The ID of the bounce for which we want a dump.
+	 *
 	 * @return string
 	 */
-	function getBounceDump($id) {
-		return new Thrive_Dash_Api_Postmark_DynamicResponseModel($this->processRestRequest('GET', "/bounces/$id/dump"));
+	function getBounceDump( $id ) {
+		return new Thrive_Dash_Api_Postmark_DynamicResponseModel( $this->processRestRequest( 'GET', "/bounces/$id/dump" ) );
 	}
 
 	/**
 	 * Cause the email address associated with a Bounce to be reactivated.
 	 *
 	 * @param  integer $id The bounce which has a deactivated email address.
+	 *
 	 * @return DyanamicResponseModel
 	 */
-	function activateBounce($id) {
-		return new Thrive_Dash_Api_Postmark_DynamicResponseModel($this->processRestRequest('PUT', "/bounces/$id/activate"));
+	function activateBounce( $id ) {
+		return new Thrive_Dash_Api_Postmark_DynamicResponseModel( $this->processRestRequest( 'PUT', "/bounces/$id/activate" ) );
 	}
 
 	/**
@@ -214,7 +226,7 @@ class Thrive_Dash_Api_Postmark extends Thrive_Dash_Api_Postmark_ClientBase {
 	 * @return array
 	 */
 	function getBounceTags() {
-		return $this->processRestRequest('GET', '/bounces/tags');
+		return $this->processRestRequest( 'GET', '/bounces/tags' );
 	}
 
 	/**
@@ -224,7 +236,7 @@ class Thrive_Dash_Api_Postmark extends Thrive_Dash_Api_Postmark_ClientBase {
 	 * @return DyanamicResponseModel
 	 */
 	function getServer() {
-		return new Thrive_Dash_Api_Postmark_DynamicResponseModel($this->processRestRequest('GET', '/server'));
+		return new Thrive_Dash_Api_Postmark_DynamicResponseModel( $this->processRestRequest( 'GET', '/server' ) );
 	}
 
 	/**
@@ -242,27 +254,30 @@ class Thrive_Dash_Api_Postmark extends Thrive_Dash_Api_Postmark_ClientBase {
 	 * @param  bool $trackOpens Indicates if all emails being sent through this server have open tracking enabled.
 	 * @param  string $inboundDomain Inbound domain for MX setup.
 	 * @param  integer $inboundSpamThreshold The maximum spam score for an inbound message before it's blocked (range from 0-30).
+	 *
 	 * @return DyanamicResponseModel
 	 */
-	function editServer($name = NULL, $color = NULL, $rawEmailEnabled = NULL,
-		$smtpApiActivated = NULL, $inboundHookUrl = NULL, $bounceHookUrl = NULL,
-		$openHookUrl = NULL, $postFirstOpenOnly = NULL, $trackOpens = NULL,
-		$inboundDomain = NULL, $inboundSpamThreshold = NULL) {
+	function editServer(
+		$name = null, $color = null, $rawEmailEnabled = null,
+		$smtpApiActivated = null, $inboundHookUrl = null, $bounceHookUrl = null,
+		$openHookUrl = null, $postFirstOpenOnly = null, $trackOpens = null,
+		$inboundDomain = null, $inboundSpamThreshold = null
+	) {
 
-		$body = array();
-		$body["Name"] = $name;
-		$body["Color"] = $color;
-		$body["RawEmailEnabled"] = $rawEmailEnabled;
-		$body["SmtpApiActivated"] = $smtpApiActivated;
-		$body["InboundHookUrl"] = $inboundHookUrl;
-		$body["BounceHookUrl"] = $bounceHookUrl;
-		$body["OpenHookUrl"] = $openHookUrl;
-		$body["PostFirstOpenOnly"] = $postFirstOpenOnly;
-		$body["TrackOpens"] = $trackOpens;
-		$body["InboundDomain"] = $inboundDomain;
+		$body                         = array();
+		$body["Name"]                 = $name;
+		$body["Color"]                = $color;
+		$body["RawEmailEnabled"]      = $rawEmailEnabled;
+		$body["SmtpApiActivated"]     = $smtpApiActivated;
+		$body["InboundHookUrl"]       = $inboundHookUrl;
+		$body["BounceHookUrl"]        = $bounceHookUrl;
+		$body["OpenHookUrl"]          = $openHookUrl;
+		$body["PostFirstOpenOnly"]    = $postFirstOpenOnly;
+		$body["TrackOpens"]           = $trackOpens;
+		$body["InboundDomain"]        = $inboundDomain;
 		$body["InboundSpamThreshold"] = $inboundSpamThreshold;
 
-		return new Thrive_Dash_Api_Postmark_DynamicResponseModel($this->processRestRequest('PUT', '/server', $body));
+		return new Thrive_Dash_Api_Postmark_DynamicResponseModel( $this->processRestRequest( 'PUT', '/server', $body ) );
 	}
 
 	/**
@@ -275,46 +290,52 @@ class Thrive_Dash_Api_Postmark extends Thrive_Dash_Api_Postmark_ClientBase {
 	 * @param  string $tag Filter by tag.
 	 * @param  string $subject Filter by subject.
 	 * @param  string $status The current status for the outbound messages to return defaults to 'sent'
-	 * @param  string $fromdate Filter to messages on or after YYYY-MM-DD 
-	 * @param  string $todate Filter to messages on or before YYYY-MM-DD 
+	 * @param  string $fromdate Filter to messages on or after YYYY-MM-DD
+	 * @param  string $todate Filter to messages on or before YYYY-MM-DD
+	 *
 	 * @return DyanamicResponseModel
 	 */
-	function getOutboundMessages($count = 100, $offset = 0, $recipient = NULL,
-		$fromEmail = NULL, $tag = NULL, $subject = NULL, $status = NULL, 
-		$fromdate = NULL, $todate = NULL) {
+	function getOutboundMessages(
+		$count = 100, $offset = 0, $recipient = null,
+		$fromEmail = null, $tag = null, $subject = null, $status = null,
+		$fromdate = null, $todate = null
+	) {
 
-		$query = array();
+		$query              = array();
 		$query["recipient"] = $recipient;
 		$query["fromemail"] = $fromEmail;
-		$query["tag"] = $tag;
-		$query["subject"] = $subject;
-		$query["count"] = $count;
-		$query["offset"] = $offset;
-		$query["status"] = $status;
-		$query["fromdate"] = $fromdate;
-		$query["todate"] = $todate;
+		$query["tag"]       = $tag;
+		$query["subject"]   = $subject;
+		$query["count"]     = $count;
+		$query["offset"]    = $offset;
+		$query["status"]    = $status;
+		$query["fromdate"]  = $fromdate;
+		$query["todate"]    = $todate;
 
-		return new Thrive_Dash_Api_Postmark_DynamicResponseModel($this->processRestRequest('GET', '/messages/outbound', $query));
+		return new Thrive_Dash_Api_Postmark_DynamicResponseModel( $this->processRestRequest( 'GET', '/messages/outbound', $query ) );
 	}
 
 	/**
 	 * Get information related to a specific sent message.
 	 *
 	 * @param integer $id The ID of the Message for which we want details.
+	 *
 	 * @return Thrive_Dash_Api_Postmark_DynamicResponseModel
 	 */
-	function getOutboundMessageDetails($id) {
-		return new Thrive_Dash_Api_Postmark_DynamicResponseModel($this->processRestRequest('GET', "/messages/outbound/$id/details"));
+	function getOutboundMessageDetails( $id ) {
+		return new Thrive_Dash_Api_Postmark_DynamicResponseModel( $this->processRestRequest( 'GET', "/messages/outbound/$id/details" ) );
 	}
 
 	/**
 	 * Get the raw content for a message that was sent.
 	 * This response
+	 *
 	 * @param  integer $id The ID of the message for which we want a dump.
+	 *
 	 * @return Thrive_Dash_Api_Postmark_DynamicResponseModel
 	 */
-	function getOutboundMessageDump($id) {
-		return new Thrive_Dash_Api_Postmark_DynamicResponseModel($this->processRestRequest('GET', "/messages/outbound/$id/dump"));
+	function getOutboundMessageDump( $id ) {
+		return new Thrive_Dash_Api_Postmark_DynamicResponseModel( $this->processRestRequest( 'GET', "/messages/outbound/$id/dump" ) );
 	}
 
 	/**
@@ -328,37 +349,41 @@ class Thrive_Dash_Api_Postmark extends Thrive_Dash_Api_Postmark_ClientBase {
 	 * @param  string $subject Filter by the message subject
 	 * @param  string $mailboxHash Filter by the mailboxHash
 	 * @param  string $status Filter by status ('blocked' or 'processed')
-	 * @param  string $fromdate Filter to messages on or after YYYY-MM-DD 
+	 * @param  string $fromdate Filter to messages on or after YYYY-MM-DD
 	 * @param  string $todate Filter to messages on or before YYYY-MM-DD
+	 *
 	 * @return Thrive_Dash_Api_Postmark_DynamicResponseModel
 	 */
-	function getInboundMessages($count = 100, $offset = 0, $recipient = NULL, $fromEmail = NULL,
-		$tag = NULL, $subject = NULL, $mailboxHash = NULL, $status = NULL, $fromdate = NULL,
-		$todate = NULL) {
+	function getInboundMessages(
+		$count = 100, $offset = 0, $recipient = null, $fromEmail = null,
+		$tag = null, $subject = null, $mailboxHash = null, $status = null, $fromdate = null,
+		$todate = null
+	) {
 
-		$query = array();
-		$query['recipient'] = $recipient;
-		$query['fromemail'] = $fromEmail;
-		$query['tag'] = $tag;
-		$query['subject'] = $subject;
+		$query                = array();
+		$query['recipient']   = $recipient;
+		$query['fromemail']   = $fromEmail;
+		$query['tag']         = $tag;
+		$query['subject']     = $subject;
 		$query['mailboxhash'] = $mailboxHash;
-		$query['count'] = $count;
-		$query['status'] = $status;
-		$query['offset'] = $offset;
-		$query['fromdate'] = $fromdate;
-		$query['todate'] = $todate;
+		$query['count']       = $count;
+		$query['status']      = $status;
+		$query['offset']      = $offset;
+		$query['fromdate']    = $fromdate;
+		$query['todate']      = $todate;
 
-		return new Thrive_Dash_Api_Postmark_DynamicResponseModel($this->processRestRequest('GET', '/messages/inbound', $query));
+		return new Thrive_Dash_Api_Postmark_DynamicResponseModel( $this->processRestRequest( 'GET', '/messages/inbound', $query ) );
 	}
 
 	/**
 	 * Get details for a specific inbound message.
 	 *
 	 * @param integer $id The ID of the message for which we went to get details.
+	 *
 	 * @return Thrive_Dash_Api_Postmark_DynamicResponseModel
 	 */
-	function getInboundMessageDetails($id) {
-		return new Thrive_Dash_Api_Postmark_DynamicResponseModel($this->processRestRequest('GET', "/messages/inbound/$id/details"));
+	function getInboundMessageDetails( $id ) {
+		return new Thrive_Dash_Api_Postmark_DynamicResponseModel( $this->processRestRequest( 'GET', "/messages/inbound/$id/details" ) );
 	}
 
 	/**
@@ -366,20 +391,22 @@ class Thrive_Dash_Api_Postmark extends Thrive_Dash_Api_Postmark_ClientBase {
 	 * prevent it from being processed.
 	 *
 	 * @param integer $id The ID for a message that we wish to unblock.
+	 *
 	 * @return Thrive_Dash_Api_Postmark_DynamicResponseModel
 	 */
-	function bypassInboundMessageRules($id) {
-		return new Thrive_Dash_Api_Postmark_DynamicResponseModel($this->processRestRequest('PUT', "/messages/inbound/$id/bypass"));
+	function bypassInboundMessageRules( $id ) {
+		return new Thrive_Dash_Api_Postmark_DynamicResponseModel( $this->processRestRequest( 'PUT', "/messages/inbound/$id/bypass" ) );
 	}
 
 	/**
 	 * Request that Postmark retry POSTing the specified message to the Server's Inbound Hook.
 	 *
 	 * @param integer $id The ID for a message that we wish retry the inbound hook for.
+	 *
 	 * @return Thrive_Dash_Api_Postmark_DynamicResponseModel
 	 */
-	function retryInboundMessageHook($id) {
-		return new Thrive_Dash_Api_Postmark_DynamicResponseModel($this->processRestRequest('PUT', "/messages/inbound/$id/retry"));
+	function retryInboundMessageHook( $id ) {
+		return new Thrive_Dash_Api_Postmark_DynamicResponseModel( $this->processRestRequest( 'PUT', "/messages/inbound/$id/retry" ) );
 	}
 
 	/**
@@ -399,30 +426,33 @@ class Thrive_Dash_Api_Postmark extends Thrive_Dash_Api_Postmark_ClientBase {
 	 * @param  string $country Filter by Country.
 	 * @param  string $region Filter by Region.
 	 * @param  string $city Filter by City.
+	 *
 	 * @return Thrive_Dash_Api_Postmark_DynamicResponseModel
 	 */
-	function getOpenStatistics($count = 100, $offset = 0, $recipient = NULL,
-		$tag = NULL, $clientName = NULL, $clientCompany = NULL, $clientFamily = NULL,
-		$osName = NULL, $osFamily = NULL, $osCompany = NULL, $platform = NULL,
-		$country = NULL, $region = NULL, $city = NULL) {
+	function getOpenStatistics(
+		$count = 100, $offset = 0, $recipient = null,
+		$tag = null, $clientName = null, $clientCompany = null, $clientFamily = null,
+		$osName = null, $osFamily = null, $osCompany = null, $platform = null,
+		$country = null, $region = null, $city = null
+	) {
 
-		$query = array();
-		$query['count'] = $count;
-		$query['offset'] = $offset;
-		$query['recipient'] = $recipient;
-		$query['tag'] = $tag;
-		$query['client_name'] = $clientName;
+		$query                   = array();
+		$query['count']          = $count;
+		$query['offset']         = $offset;
+		$query['recipient']      = $recipient;
+		$query['tag']            = $tag;
+		$query['client_name']    = $clientName;
 		$query['client_company'] = $clientCompany;
-		$query['client_family'] = $clientFamily;
-		$query['os_name'] = $osName;
-		$query['os_family'] = $osFamily;
-		$query['os_company'] = $osCompany;
-		$query['platform'] = $platform;
-		$query['country'] = $country;
-		$query['region'] = $region;
-		$query['city'] = $city;
+		$query['client_family']  = $clientFamily;
+		$query['os_name']        = $osName;
+		$query['os_family']      = $osFamily;
+		$query['os_company']     = $osCompany;
+		$query['platform']       = $platform;
+		$query['country']        = $country;
+		$query['region']         = $region;
+		$query['city']           = $city;
 
-		return new Thrive_Dash_Api_Postmark_DynamicResponseModel($this->processRestRequest('GET', '/messages/outbound/opens', $query));
+		return new Thrive_Dash_Api_Postmark_DynamicResponseModel( $this->processRestRequest( 'GET', '/messages/outbound/opens', $query ) );
 	}
 
 	/**
@@ -431,15 +461,16 @@ class Thrive_Dash_Api_Postmark extends Thrive_Dash_Api_Postmark_ClientBase {
 	 * @param  integer $id The ID for the message that we want statistics for.
 	 * @param  integer $count How many statistics should we retrieve?
 	 * @param  integer $offset How many should we 'skip' when 'paging' through statistics.
+	 *
 	 * @return Thrive_Dash_Api_Postmark_DynamicResponseModel
 	 */
-	function getOpenStatisticsForMessage($id, $count = 100, $offset = 0) {
+	function getOpenStatisticsForMessage( $id, $count = 100, $offset = 0 ) {
 		$query = array();
 
-		$query['count'] = $count;
+		$query['count']  = $count;
 		$query['offset'] = $offset;
 
-		return new Thrive_Dash_Api_Postmark_DynamicResponseModel($this->processRestRequest('GET', "/messages/outbound/opens/$id", $query));
+		return new Thrive_Dash_Api_Postmark_DynamicResponseModel( $this->processRestRequest( 'GET', "/messages/outbound/opens/$id", $query ) );
 	}
 
 	/**
@@ -447,18 +478,19 @@ class Thrive_Dash_Api_Postmark extends Thrive_Dash_Api_Postmark_ClientBase {
 	 * optionally filtering on message tag, and a to and from date.
 	 *
 	 * @param  string $tag Filter by tag.
-	 * @param  string $fromdate  must be of the format 'YYYY-MM-DD'
-	 * @param  string $todate  must be of the format 'YYYY-MM-DD'
+	 * @param  string $fromdate must be of the format 'YYYY-MM-DD'
+	 * @param  string $todate must be of the format 'YYYY-MM-DD'
+	 *
 	 * @return Thrive_Dash_Api_Postmark_DynamicResponseModel
 	 */
-	function getOutboundOverviewStatistics($tag = NULL, $fromdate = NULL, $todate = NULL) {
+	function getOutboundOverviewStatistics( $tag = null, $fromdate = null, $todate = null ) {
 		$query = array();
 
-		$query['tag'] = $tag;
+		$query['tag']      = $tag;
 		$query['fromdate'] = $fromdate;
-		$query['todate'] = $todate;
+		$query['todate']   = $todate;
 
-		return new Thrive_Dash_Api_Postmark_DynamicResponseModel($this->processRestRequest('GET', '/stats/outbound', $query));
+		return new Thrive_Dash_Api_Postmark_DynamicResponseModel( $this->processRestRequest( 'GET', '/stats/outbound', $query ) );
 	}
 
 	/**
@@ -466,18 +498,19 @@ class Thrive_Dash_Api_Postmark extends Thrive_Dash_Api_Postmark_ClientBase {
 	 * optionally filtering on message tag, and a to and from date.
 	 *
 	 * @param  string $tag Filter by tag.
-	 * @param  string $fromdate  must be of the format 'YYYY-MM-DD'
-	 * @param  string $todate  must be of the format 'YYYY-MM-DD'
+	 * @param  string $fromdate must be of the format 'YYYY-MM-DD'
+	 * @param  string $todate must be of the format 'YYYY-MM-DD'
+	 *
 	 * @return Thrive_Dash_Api_Postmark_DynamicResponseModel
 	 */
-	function getOutboundSendStatistics($tag = NULL, $fromdate = NULL, $todate = NULL) {
+	function getOutboundSendStatistics( $tag = null, $fromdate = null, $todate = null ) {
 		$query = array();
 
-		$query['tag'] = $tag;
+		$query['tag']      = $tag;
 		$query['fromdate'] = $fromdate;
-		$query['todate'] = $todate;
+		$query['todate']   = $todate;
 
-		return new Thrive_Dash_Api_Postmark_DynamicResponseModel($this->processRestRequest('GET', '/stats/outbound/sends', $query));
+		return new Thrive_Dash_Api_Postmark_DynamicResponseModel( $this->processRestRequest( 'GET', '/stats/outbound/sends', $query ) );
 	}
 
 	/**
@@ -485,18 +518,19 @@ class Thrive_Dash_Api_Postmark extends Thrive_Dash_Api_Postmark_ClientBase {
 	 * optionally filtering on message tag, and a to and from date.
 	 *
 	 * @param  string $tag Filter by tag.
-	 * @param  string $fromdate  must be of the format 'YYYY-MM-DD'
-	 * @param  string $todate  must be of the format 'YYYY-MM-DD'
+	 * @param  string $fromdate must be of the format 'YYYY-MM-DD'
+	 * @param  string $todate must be of the format 'YYYY-MM-DD'
+	 *
 	 * @return Thrive_Dash_Api_Postmark_DynamicResponseModel
 	 */
-	function getOutboundBounceStatistics($tag = NULL, $fromdate = NULL, $todate = NULL) {
+	function getOutboundBounceStatistics( $tag = null, $fromdate = null, $todate = null ) {
 		$query = array();
 
-		$query['tag'] = $tag;
+		$query['tag']      = $tag;
 		$query['fromdate'] = $fromdate;
-		$query['todate'] = $todate;
+		$query['todate']   = $todate;
 
-		return new Thrive_Dash_Api_Postmark_DynamicResponseModel($this->processRestRequest('GET', '/stats/outbound/bounces', $query));
+		return new Thrive_Dash_Api_Postmark_DynamicResponseModel( $this->processRestRequest( 'GET', '/stats/outbound/bounces', $query ) );
 	}
 
 	/**
@@ -504,18 +538,19 @@ class Thrive_Dash_Api_Postmark extends Thrive_Dash_Api_Postmark_ClientBase {
 	 * optionally filtering on message tag, and a to and from date.
 	 *
 	 * @param  string $tag Filter by tag.
-	 * @param  string $fromdate  must be of the format 'YYYY-MM-DD'
-	 * @param  string $todate  must be of the format 'YYYY-MM-DD'
+	 * @param  string $fromdate must be of the format 'YYYY-MM-DD'
+	 * @param  string $todate must be of the format 'YYYY-MM-DD'
+	 *
 	 * @return Thrive_Dash_Api_Postmark_DynamicResponseModel
 	 */
-	function getOutboundSpamComplaintStatistics($tag = NULL, $fromdate = NULL, $todate = NULL) {
+	function getOutboundSpamComplaintStatistics( $tag = null, $fromdate = null, $todate = null ) {
 		$query = array();
 
-		$query['tag'] = $tag;
+		$query['tag']      = $tag;
 		$query['fromdate'] = $fromdate;
-		$query['todate'] = $todate;
+		$query['todate']   = $todate;
 
-		return new Thrive_Dash_Api_Postmark_DynamicResponseModel($this->processRestRequest('GET', '/stats/outbound/spam', $query));
+		return new Thrive_Dash_Api_Postmark_DynamicResponseModel( $this->processRestRequest( 'GET', '/stats/outbound/spam', $query ) );
 	}
 
 	/**
@@ -523,18 +558,19 @@ class Thrive_Dash_Api_Postmark extends Thrive_Dash_Api_Postmark_ClientBase {
 	 * optionally filtering on message tag, and a to and from date.
 	 *
 	 * @param  string $tag Filter by tag.
-	 * @param  string $fromdate  must be of the format 'YYYY-MM-DD'
-	 * @param  string $todate  must be of the format 'YYYY-MM-DD'
+	 * @param  string $fromdate must be of the format 'YYYY-MM-DD'
+	 * @param  string $todate must be of the format 'YYYY-MM-DD'
+	 *
 	 * @return Thrive_Dash_Api_Postmark_DynamicResponseModel
 	 */
-	function getOutboundTrackedStatistics($tag = NULL, $fromdate = NULL, $todate = NULL) {
+	function getOutboundTrackedStatistics( $tag = null, $fromdate = null, $todate = null ) {
 		$query = array();
 
-		$query['tag'] = $tag;
+		$query['tag']      = $tag;
 		$query['fromdate'] = $fromdate;
-		$query['todate'] = $todate;
+		$query['todate']   = $todate;
 
-		return new Thrive_Dash_Api_Postmark_DynamicResponseModel($this->processRestRequest('GET', '/stats/outbound/tracked', $query));
+		return new Thrive_Dash_Api_Postmark_DynamicResponseModel( $this->processRestRequest( 'GET', '/stats/outbound/tracked', $query ) );
 	}
 
 	/**
@@ -542,18 +578,19 @@ class Thrive_Dash_Api_Postmark extends Thrive_Dash_Api_Postmark_ClientBase {
 	 * optionally filtering on message tag, and a to and from date.
 	 *
 	 * @param  string $tag Filter by tag.
-	 * @param  string $fromdate  must be of the format 'YYYY-MM-DD'
-	 * @param  string $todate  must be of the format 'YYYY-MM-DD'
+	 * @param  string $fromdate must be of the format 'YYYY-MM-DD'
+	 * @param  string $todate must be of the format 'YYYY-MM-DD'
+	 *
 	 * @return Thrive_Dash_Api_Postmark_DynamicResponseModel
 	 */
-	function getOutboundOpenStatistics($tag = NULL, $fromdate = NULL, $todate = NULL) {
+	function getOutboundOpenStatistics( $tag = null, $fromdate = null, $todate = null ) {
 		$query = array();
 
-		$query['tag'] = $tag;
+		$query['tag']      = $tag;
 		$query['fromdate'] = $fromdate;
-		$query['todate'] = $todate;
+		$query['todate']   = $todate;
 
-		return new Thrive_Dash_Api_Postmark_DynamicResponseModel($this->processRestRequest('GET', '/stats/outbound/opens', $query));
+		return new Thrive_Dash_Api_Postmark_DynamicResponseModel( $this->processRestRequest( 'GET', '/stats/outbound/opens', $query ) );
 	}
 
 	/**
@@ -561,18 +598,19 @@ class Thrive_Dash_Api_Postmark extends Thrive_Dash_Api_Postmark_ClientBase {
 	 * optionally filtering on message tag, and a to and from date.
 	 *
 	 * @param  string $tag Filter by tag.
-	 * @param  string $fromdate  must be of the format 'YYYY-MM-DD'
-	 * @param  string $todate  must be of the format 'YYYY-MM-DD'
+	 * @param  string $fromdate must be of the format 'YYYY-MM-DD'
+	 * @param  string $todate must be of the format 'YYYY-MM-DD'
+	 *
 	 * @return Thrive_Dash_Api_Postmark_DynamicResponseModel
 	 */
-	function getOutboundPlatformStatistics($tag = NULL, $fromdate = NULL, $todate = NULL) {
+	function getOutboundPlatformStatistics( $tag = null, $fromdate = null, $todate = null ) {
 		$query = array();
 
-		$query['tag'] = $tag;
+		$query['tag']      = $tag;
 		$query['fromdate'] = $fromdate;
-		$query['todate'] = $todate;
+		$query['todate']   = $todate;
 
-		return new Thrive_Dash_Api_Postmark_DynamicResponseModel($this->processRestRequest('GET', '/stats/outbound/opens/platforms', $query));
+		return new Thrive_Dash_Api_Postmark_DynamicResponseModel( $this->processRestRequest( 'GET', '/stats/outbound/opens/platforms', $query ) );
 	}
 
 	/**
@@ -580,18 +618,19 @@ class Thrive_Dash_Api_Postmark extends Thrive_Dash_Api_Postmark_ClientBase {
 	 * optionally filtering on message tag, and a to and from date.
 	 *
 	 * @param  string $tag Filter by tag.
-	 * @param  string $fromdate  must be of the format 'YYYY-MM-DD'
-	 * @param  string $todate  must be of the format 'YYYY-MM-DD'
+	 * @param  string $fromdate must be of the format 'YYYY-MM-DD'
+	 * @param  string $todate must be of the format 'YYYY-MM-DD'
+	 *
 	 * @return Thrive_Dash_Api_Postmark_DynamicResponseModel
 	 */
-	function getOutboundEmailClientStatistics($tag = NULL, $fromdate = NULL, $todate = NULL) {
+	function getOutboundEmailClientStatistics( $tag = null, $fromdate = null, $todate = null ) {
 		$query = array();
 
-		$query['tag'] = $tag;
+		$query['tag']      = $tag;
 		$query['fromdate'] = $fromdate;
-		$query['todate'] = $todate;
+		$query['todate']   = $todate;
 
-		return new Thrive_Dash_Api_Postmark_DynamicResponseModel($this->processRestRequest('GET', '/stats/outbound/opens/emailclients', $query));
+		return new Thrive_Dash_Api_Postmark_DynamicResponseModel( $this->processRestRequest( 'GET', '/stats/outbound/opens/emailclients', $query ) );
 	}
 
 	/**
@@ -599,18 +638,19 @@ class Thrive_Dash_Api_Postmark extends Thrive_Dash_Api_Postmark_ClientBase {
 	 * optionally filtering on message tag, and a to and from date.
 	 *
 	 * @param  string $tag Filter by tag.
-	 * @param  string $fromdate  must be of the format 'YYYY-MM-DD'
-	 * @param  string $todate  must be of the format 'YYYY-MM-DD'
+	 * @param  string $fromdate must be of the format 'YYYY-MM-DD'
+	 * @param  string $todate must be of the format 'YYYY-MM-DD'
+	 *
 	 * @return Thrive_Dash_Api_Postmark_DynamicResponseModel
 	 */
-	function getOutboundReadTimeStatistics($tag = NULL, $fromdate = NULL, $todate = NULL) {
+	function getOutboundReadTimeStatistics( $tag = null, $fromdate = null, $todate = null ) {
 		$query = array();
 
-		$query['tag'] = $tag;
+		$query['tag']      = $tag;
 		$query['fromdate'] = $fromdate;
-		$query['todate'] = $todate;
+		$query['todate']   = $todate;
 
-		return new Thrive_Dash_Api_Postmark_DynamicResponseModel($this->processRestRequest('GET', '/stats/outbound/opens/readtimes', $query));
+		return new Thrive_Dash_Api_Postmark_DynamicResponseModel( $this->processRestRequest( 'GET', '/stats/outbound/opens/readtimes', $query ) );
 	}
 
 	/**
@@ -618,24 +658,26 @@ class Thrive_Dash_Api_Postmark extends Thrive_Dash_Api_Postmark_ClientBase {
 	 *
 	 * @param  string $matchName Name of the tag that will activate this trigger.
 	 * @param  boolean $trackOpens Indicates if this trigger activates open tracking.
+	 *
 	 * @return Thrive_Dash_Api_Postmark_DynamicResponseModel
 	 */
-	function createTagTrigger($matchName, $trackOpens = true) {
-		$body = array();
-		$body["MatchName"] = $matchName;
+	function createTagTrigger( $matchName, $trackOpens = true ) {
+		$body               = array();
+		$body["MatchName"]  = $matchName;
 		$body["TrackOpens"] = $trackOpens;
 
-		return new Thrive_Dash_Api_Postmark_DynamicResponseModel($this->processRestRequest('POST', '/triggers/tags', $body));
+		return new Thrive_Dash_Api_Postmark_DynamicResponseModel( $this->processRestRequest( 'POST', '/triggers/tags', $body ) );
 	}
 
 	/**
 	 * Delete a Tag Trigger with the given ID.
 	 *
 	 * @param integer $id The ID of the Tag Trigger we wish to delete.
+	 *
 	 * @return Thrive_Dash_Api_Postmark_DynamicResponseModel
 	 */
-	function deleteTagTrigger($id) {
-		return new Thrive_Dash_Api_Postmark_DynamicResponseModel($this->processRestRequest('DELETE', "/triggers/tags/$id"));
+	function deleteTagTrigger( $id ) {
+		return new Thrive_Dash_Api_Postmark_DynamicResponseModel( $this->processRestRequest( 'DELETE', "/triggers/tags/$id" ) );
 	}
 
 	/**
@@ -644,16 +686,17 @@ class Thrive_Dash_Api_Postmark extends Thrive_Dash_Api_Postmark_ClientBase {
 	 * @param  integer $count The number of triggers to return with this request.
 	 * @param  integer $offset The number of triggers to 'skip' when 'paging' through tag triggers.
 	 * @param  string $matchName
+	 *
 	 * @return Thrive_Dash_Api_Postmark_DynamicResponseModel
 	 */
-	function searchTagTriggers($count = 100, $offset = 0, $matchName = NULL) {
+	function searchTagTriggers( $count = 100, $offset = 0, $matchName = null ) {
 		$query = array();
 
-		$query["count"] = $count;
-		$query["offset"] = $offset;
+		$query["count"]      = $count;
+		$query["offset"]     = $offset;
 		$query["match_name"] = $matchName;
 
-		return new Thrive_Dash_Api_Postmark_DynamicResponseModel($this->processRestRequest('GET', '/triggers/tags', $query));
+		return new Thrive_Dash_Api_Postmark_DynamicResponseModel( $this->processRestRequest( 'GET', '/triggers/tags', $query ) );
 	}
 
 	/**
@@ -662,37 +705,40 @@ class Thrive_Dash_Api_Postmark extends Thrive_Dash_Api_Postmark_ClientBase {
 	 * @param  integer $id The ID of the Tag Trigger we wish to modify.
 	 * @param  string $matchName Name of the tag that will activate this trigger.
 	 * @param  boolean $trackOpens Indicates if this trigger activates open tracking.
+	 *
 	 * @return Thrive_Dash_Api_Postmark_DynamicResponseModel
 	 */
-	function editTagTrigger($id, $matchName, $trackOpens = true) {
-		$body = array();
-		$body["MatchName"] = $matchName;
+	function editTagTrigger( $id, $matchName, $trackOpens = true ) {
+		$body               = array();
+		$body["MatchName"]  = $matchName;
 		$body["TrackOpens"] = $trackOpens;
 
-		return new Thrive_Dash_Api_Postmark_DynamicResponseModel($this->processRestRequest('PUT', "/triggers/tags/$id", $body));
+		return new Thrive_Dash_Api_Postmark_DynamicResponseModel( $this->processRestRequest( 'PUT', "/triggers/tags/$id", $body ) );
 	}
 
 	/**
 	 * Retrieve information related to the associated Tag Trigger
 	 *
 	 * @param integer $id The ID of the Tag Trigger we wish to retrieve.
+	 *
 	 * @return Thrive_Dash_Api_Postmark_DynamicResponseModel
 	 */
-	function getTagTrigger($id) {
-		return new Thrive_Dash_Api_Postmark_DynamicResponseModel($this->processRestRequest('GET', "/triggers/tags/$id"));
+	function getTagTrigger( $id ) {
+		return new Thrive_Dash_Api_Postmark_DynamicResponseModel( $this->processRestRequest( 'GET', "/triggers/tags/$id" ) );
 	}
 
 	/**
 	 * Create an Inbound Rule to block messages from a single email address, or an entire domain.
 	 *
 	 * @param  string $rule The email address (or domain) that will be blocked.
+	 *
 	 * @return Thrive_Dash_Api_Postmark_DynamicResponseModel
 	 */
-	function createInboundRuleTrigger($rule) {
-		$body = array();
+	function createInboundRuleTrigger( $rule ) {
+		$body         = array();
 		$body["Rule"] = $rule;
 
-		return new Thrive_Dash_Api_Postmark_DynamicResponseModel($this->processRestRequest('POST', '/triggers/inboundrules', $body));
+		return new Thrive_Dash_Api_Postmark_DynamicResponseModel( $this->processRestRequest( 'POST', '/triggers/inboundrules', $body ) );
 	}
 
 	/**
@@ -700,35 +746,38 @@ class Thrive_Dash_Api_Postmark extends Thrive_Dash_Api_Postmark_ClientBase {
 	 *
 	 * @param integer $count The number of rule triggers to return with this request.
 	 * @param integer $offset The number of triggers to 'skip' when 'paging' through rule triggers.
+	 *
 	 * @return Thrive_Dash_Api_Postmark_DynamicResponseModel
 	 */
-	function listInboundRuleTriggers($count = 100, $offset = 0) {
+	function listInboundRuleTriggers( $count = 100, $offset = 0 ) {
 		$query = array();
 
-		$query["count"] = $count;
+		$query["count"]  = $count;
 		$query["offset"] = $offset;
 
-		return new Thrive_Dash_Api_Postmark_DynamicResponseModel($this->processRestRequest('GET', '/triggers/inboundrules', $query));
+		return new Thrive_Dash_Api_Postmark_DynamicResponseModel( $this->processRestRequest( 'GET', '/triggers/inboundrules', $query ) );
 	}
 
 	/**
 	 * Delete an Inbound Rule Trigger.
 	 *
 	 * @param integer $id The ID of the rule trigger we wish to delete.
+	 *
 	 * @return Thrive_Dash_Api_Postmark_DynamicResponseModel
 	 */
-	function deleteInboundRuleTrigger($id) {
-		return new Thrive_Dash_Api_Postmark_DynamicResponseModel($this->processRestRequest('DELETE', "/triggers/inboundrules/$id"));
+	function deleteInboundRuleTrigger( $id ) {
+		return new Thrive_Dash_Api_Postmark_DynamicResponseModel( $this->processRestRequest( 'DELETE', "/triggers/inboundrules/$id" ) );
 	}
 
 	/**
 	 * Delete a template.
 	 *
 	 * @param integer $id The ID of the template to delete.
+	 *
 	 * @return Thrive_Dash_Api_Postmark_DynamicResponseModel
 	 */
-	function deleteTemplate($id) {
-		return new Thrive_Dash_Api_Postmark_DynamicResponseModel($this->processRestRequest('DELETE', "/templates/$id"));
+	function deleteTemplate( $id ) {
+		return new Thrive_Dash_Api_Postmark_DynamicResponseModel( $this->processRestRequest( 'DELETE', "/templates/$id" ) );
 	}
 
 	/**
@@ -741,13 +790,14 @@ class Thrive_Dash_Api_Postmark extends Thrive_Dash_Api_Postmark_ClientBase {
 	 *
 	 * @return Thrive_Dash_Api_Postmark_DynamicResponseModel
 	 */
-	function createTemplate($name, $subject, $htmlBody, $textBody) {
-		$template = array();
-		$template["name"] = $name;
-		$template["subject"] = $subject;
+	function createTemplate( $name, $subject, $htmlBody, $textBody ) {
+		$template             = array();
+		$template["name"]     = $name;
+		$template["subject"]  = $subject;
 		$template["htmlBody"] = $htmlBody;
 		$template["textBody"] = $textBody;
-		return new Thrive_Dash_Api_Postmark_DynamicResponseModel($this->processRestRequest('POST', "/templates", $template));
+
+		return new Thrive_Dash_Api_Postmark_DynamicResponseModel( $this->processRestRequest( 'POST', "/templates", $template ) );
 	}
 
 	/**
@@ -761,24 +811,25 @@ class Thrive_Dash_Api_Postmark extends Thrive_Dash_Api_Postmark_ClientBase {
 	 *
 	 * @return Thrive_Dash_Api_Postmark_DynamicResponseModel
 	 */
-	function editTemplate($id, $name = NULL, $subject = NULL, $htmlBody = NULL, $textBody = NULL) {
-		$template = array();
-		$template["name"] = $name;
-		$template["subject"] = $subject;
+	function editTemplate( $id, $name = null, $subject = null, $htmlBody = null, $textBody = null ) {
+		$template             = array();
+		$template["name"]     = $name;
+		$template["subject"]  = $subject;
 		$template["htmlBody"] = $htmlBody;
 		$template["textBody"] = $textBody;
 
-		return new Thrive_Dash_Api_Postmark_DynamicResponseModel($this->processRestRequest('PUT', "/templates/$id", $template));
+		return new Thrive_Dash_Api_Postmark_DynamicResponseModel( $this->processRestRequest( 'PUT', "/templates/$id", $template ) );
 	}
 
 	/**
 	 * Get the current information for a specific template.
 	 *
 	 * @param integer $id the Id for the template info you wish to retrieve.
+	 *
 	 * @return Thrive_Dash_Api_Postmark_DynamicResponseModel
 	 */
-	function getTemplate($id) {
-		return new Thrive_Dash_Api_Postmark_DynamicResponseModel($this->processRestRequest('GET', "/templates/$id"));
+	function getTemplate( $id ) {
+		return new Thrive_Dash_Api_Postmark_DynamicResponseModel( $this->processRestRequest( 'GET', "/templates/$id" ) );
 	}
 
 	/**
@@ -789,13 +840,13 @@ class Thrive_Dash_Api_Postmark extends Thrive_Dash_Api_Postmark_ClientBase {
 	 *
 	 * @return Thrive_Dash_Api_Postmark_DynamicResponseModel
 	 */
-	function listTemplates($count = 100, $offset = 0) {
+	function listTemplates( $count = 100, $offset = 0 ) {
 		$query = array();
 
-		$query["count"] = $count;
+		$query["count"]  = $count;
 		$query["offset"] = $offset;
 
-		return new Thrive_Dash_Api_Postmark_DynamicResponseModel($this->processRestRequest('GET', "/templates", $query));
+		return new Thrive_Dash_Api_Postmark_DynamicResponseModel( $this->processRestRequest( 'GET', "/templates", $query ) );
 	}
 
 	/**
@@ -806,18 +857,19 @@ class Thrive_Dash_Api_Postmark extends Thrive_Dash_Api_Postmark_ClientBase {
 	 * @param string $textBody The number of templates to "Skip" before returning results.
 	 * @param object $testingRenderModel The model to be used when doing test renders of the templates that successfully parse in this request.
 	 * @param bool $inlineCssForHtmlTestRender If htmlBody is specified, the test render will automatically do CSS Inlining for the HTML content. You may opt-out of this behavior by passing 'false' for this parameter.
+	 *
 	 * @return Thrive_Dash_Api_Postmark_DynamicResponseModel
 	 */
-	function validateTemplate($subject = NULL, $htmlBody = NULL, $textBody = NULL, $testRenderModel = NULL, $inlineCssForHtmlTestRender = true) {
+	function validateTemplate( $subject = null, $htmlBody = null, $textBody = null, $testRenderModel = null, $inlineCssForHtmlTestRender = true ) {
 		$query = array();
 
-		$query["subject"] = $subject;
-		$query["htmlBody"] = $htmlBody;
-		$query["textBody"] = $textBody;
-		$query["testRenderModel"] = $testRenderModel;
+		$query["subject"]                    = $subject;
+		$query["htmlBody"]                   = $htmlBody;
+		$query["textBody"]                   = $textBody;
+		$query["testRenderModel"]            = $testRenderModel;
 		$query["inlineCssForHtmlTestRender"] = $inlineCssForHtmlTestRender;
 
-		return new Thrive_Dash_Api_Postmark_DynamicResponseModel($this->processRestRequest('POST', "/templates/validate", $query));
+		return new Thrive_Dash_Api_Postmark_DynamicResponseModel( $this->processRestRequest( 'POST', "/templates/validate", $query ) );
 	}
 }
 

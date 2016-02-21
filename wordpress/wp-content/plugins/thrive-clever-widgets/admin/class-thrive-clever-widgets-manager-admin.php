@@ -33,7 +33,9 @@ class Thrive_Clever_Widgets_Manager_Admin
      */
     public function enqueue_scripts($hook)
     {
-        if ($hook != 'widgets.php') {
+        global $wp_customize;
+
+        if ($hook != 'widgets.php' || isset($wp_customize)) {
             return;
         }
 

@@ -13,130 +13,152 @@
  *
  * Class TVE_Dash_AjaxController
  */
-class TVE_Dash_AjaxController
-{
-    /**
-     * @var TVE_Dash_AjaxController
-     */
-    private static $instance;
+class TVE_Dash_AjaxController {
+	/**
+	 * @var TVE_Dash_AjaxController
+	 */
+	private static $instance;
 
-    /**
-     * singleton implementation
-     *
-     * @return TVE_Dash_AjaxController
-     */
-    public static function instance()
-    {
-        if (null === self::$instance) {
-            self::$instance = new TVE_Dash_AjaxController();
-        }
+	/**
+	 * singleton implementation
+	 *
+	 * @return TVE_Dash_AjaxController
+	 */
+	public static function instance() {
+		if ( null === self::$instance ) {
+			self::$instance = new TVE_Dash_AjaxController();
+		}
 
-        /**
-         * Remove these actions
-         * Because some other plugins have hook on these actions and some errors may occur
-         */
-        remove_all_actions('wp_insert_post');
-        remove_all_actions('save_post');
+		/**
+		 * Remove these actions
+		 * Because some other plugins have hook on these actions and some errors may occur
+		 */
+		remove_all_actions( 'wp_insert_post' );
+		remove_all_actions( 'save_post' );
 
-        return self::$instance;
-    }
+		return self::$instance;
+	}
 
-    /**
-     * gets a request value and returns a default if the key is not set
-     * it will first search the POST array
-     *
-     * @param string $key
-     * @param mixed $default
-     *
-     * @return mixed
-     */
-    private function param($key, $default = null)
-    {
-        return isset($_POST[$key]) ? $_POST[$key] : (isset($_REQUEST[$key]) ? $_REQUEST[$key] : $default);
-    }
+	/**
+	 * gets a request value and returns a default if the key is not set
+	 * it will first search the POST array
+	 *
+	 * @param string $key
+	 * @param mixed $default
+	 *
+	 * @return mixed
+	 */
+	private function param( $key, $default = null ) {
+		return isset( $_POST[ $key ] ) ? $_POST[ $key ] : ( isset( $_REQUEST[ $key ] ) ? $_REQUEST[ $key ] : $default );
+	}
 
-    /**
-     * entry-point for each ajax request
-     * this should dispatch the request to the appropriate method based on the "route" parameter
-     *
-     * @return array|object
-     */
-    public function handle()
-    {
-        $route = $this->param('route');
+	/**
+	 * entry-point for each ajax request
+	 * this should dispatch the request to the appropriate method based on the "route" parameter
+	 *
+	 * @return array|object
+	 */
+	public function handle() {
+		$route = $this->param( 'route' );
 
-        $route = preg_replace('#([^a-zA-Z0-9-])#', '', $route);
-        $methodName = $route . 'Action';
+		$route      = preg_replace( '#([^a-zA-Z0-9-])#', '', $route );
+		$methodName = $route . 'Action';
 
-        return $this->{$methodName}();
-    }
+		return $this->{$methodName}();
+	}
 
-    /**
-     * save global settings for the plugin
-     */
-    public function generalSettingsAction()
-    {
-        $allowed = array(
-            'tve_social_fb_app_id',
-            'tve_comments_facebook_admins',
-            'tve_comments_disqus_shortname'
-        );
-        $field = $this->param('field');
-        $value = $this->param('value');
+	/**
+	 * save global settings for the plugin
+	 */
+	public function generalSettingsAction() {
+		$allowed = array(
+			'tve_social_fb_app_id',
+			'tve_comments_facebook_admins',
+			'tve_comments_disqus_shortname'
+		);
+		$field   = $this->param( 'field' );
+		$value   = $this->param( 'value' );
 
-        if (!in_array($field, $allowed)) {
-            exit();
-        }
+		if ( ! in_array( $field, $allowed ) ) {
+			exit();
+		}
 
-        tve_dash_update_option($field, $value);
-        exit();
-    }
+		tve_dash_update_option( $field, $value );
 
-    public function licenseAction()
-    {
-        $email = !empty($_POST['email']) ? trim($_POST['email'], ' ') : '';
-        $key = !empty($_POST['license']) ? trim($_POST['license'], ' ') : '';
-        $tag = !empty($_POST['tag']) ? trim($_POST['tag'], ' ') : false;
+		switch ( $field ) {
+			case 'tve_social_fb_app_id':
+				$object = wp_remote_get( "https://graph.facebook.com/{$value}" );
+				$body   = json_decode( wp_remote_retrieve_body( $object ) );
+				if ( $body && ! empty( $body->link ) ) {
+					return array( 'valid' => 1, 'elem' => 'tve_social_fb_app_id' );
+				} else {
+					return array( 'valid' => 0, 'elem' => 'tve_social_fb_app_id' );
+				}
+				break;
+			case 'tve_comments_facebook_admins':
+				if ( ! empty( $value ) ) {
+					return array( 'valid' => 1, 'elem' => 'tve_comments_facebook_admins' );
+				} else {
+					return array( 'valid' => 0, 'elem' => 'tve_comments_facebook_admins' );
+				}
+				break;
+			case 'tve_comments_disqus_shortname':
+				if ( ! empty( $value ) ) {
+					return array( 'valid' => 1, 'elem' => 'tve_comments_disqus_shortname' );
+				} else {
+					return array( 'valid' => 0, 'elem' => 'tve_comments_disqus_shortname' );
+				}
+				break;
+			default:
+				break;
+		}
 
-        $licenseManager = TVE_Dash_Product_LicenseManager::getInstance();
-        $response = $licenseManager->checkLicense($email, $key, $tag);
+		exit();
+	}
 
-        if (!empty($response['success'])) {
-            $licenseManager->activateProducts($response);
-        }
+	public function licenseAction() {
+		$email = ! empty( $_POST['email'] ) ? trim( $_POST['email'], ' ' ) : '';
+		$key   = ! empty( $_POST['license'] ) ? trim( $_POST['license'], ' ' ) : '';
+		$tag   = ! empty( $_POST['tag'] ) ? trim( $_POST['tag'], ' ' ) : false;
 
-        exit(json_encode($response));
-    }
+		$licenseManager = TVE_Dash_Product_LicenseManager::getInstance();
+		$response       = $licenseManager->checkLicense( $email, $key, $tag );
 
-    public function activeStateAction()
-    {
-        $_products = $this->param('products');
+		if ( ! empty( $response['success'] ) ) {
+			$licenseManager->activateProducts( $response );
+		}
 
-        if (empty($_products)) {
-            wp_send_json(array('items' => array()));
-        }
+		exit( json_encode( $response ) );
+	}
 
-        $installed = tve_dash_get_products();
-        $to_show = array();
-        foreach ($_products as $product) {
-            if ($product === 'all') {
-                $to_show = $installed;
-                break;
-            } elseif (isset($installed[$product])) {
-                $to_show []= $installed[$product];
-            }
-        }
+	public function activeStateAction() {
+		$_products = $this->param( 'products' );
 
-        $response = array();
-        foreach ($to_show as $_product) {
-            /** @var TVE_Dash_Product_Abstract $product */
-            ob_start();
-            $_product->render();
-            $response[$_product->getTag()] = ob_get_contents();
-            ob_end_clean();
-        }
+		if ( empty( $_products ) ) {
+			wp_send_json( array( 'items' => array() ) );
+		}
 
-        wp_send_json($response);
+		$installed = tve_dash_get_products();
+		$to_show   = array();
+		foreach ( $_products as $product ) {
+			if ( $product === 'all' ) {
+				$to_show = $installed;
+				break;
+			} elseif ( isset( $installed[ $product ] ) ) {
+				$to_show [] = $installed[ $product ];
+			}
+		}
 
-    }
+		$response = array();
+		foreach ( $to_show as $_product ) {
+			/** @var TVE_Dash_Product_Abstract $product */
+			ob_start();
+			$_product->render();
+			$response[ $_product->getTag() ] = ob_get_contents();
+			ob_end_clean();
+		}
+
+		wp_send_json( $response );
+
+	}
 }

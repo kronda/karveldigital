@@ -6,294 +6,287 @@
  * Date: 03.04.2015
  * Time: 16:59
  */
-class Thrive_Dash_Api_AWeber_Collection extends Thrive_Dash_Api_AWeber_Response implements ArrayAccess, Iterator, Countable
-{
+class Thrive_Dash_Api_AWeber_Collection extends Thrive_Dash_Api_AWeber_Response implements ArrayAccess, Iterator, Countable {
 
-    protected $pageSize = 100;
-    protected $pageStart = 0;
+	protected $pageSize = 100;
+	protected $pageStart = 0;
 
-    protected function _updatePageSize()
-    {
+	protected function _updatePageSize() {
 
-        # grab the url, or prev and next url and pull ws.size from it
-        $url = $this->url;
-        if (array_key_exists('next_collection_link', $this->data)) {
-            $url = $this->data['next_collection_link'];
+		# grab the url, or prev and next url and pull ws.size from it
+		$url = $this->url;
+		if ( array_key_exists( 'next_collection_link', $this->data ) ) {
+			$url = $this->data['next_collection_link'];
 
-        } elseif (array_key_exists('prev_collection_link', $this->data)) {
-            $url = $this->data['prev_collection_link'];
-        }
+		} elseif ( array_key_exists( 'prev_collection_link', $this->data ) ) {
+			$url = $this->data['prev_collection_link'];
+		}
 
-        # scan querystring for ws_size
-        $url_parts = parse_url($url);
+		# scan querystring for ws_size
+		$url_parts = parse_url( $url );
 
-        # we have a query string
-        if (array_key_exists('query', $url_parts)) {
-            parse_str($url_parts['query'], $params);
+		# we have a query string
+		if ( array_key_exists( 'query', $url_parts ) ) {
+			parse_str( $url_parts['query'], $params );
 
-            # we have a ws_size
-            if (array_key_exists('ws_size', $params)) {
+			# we have a ws_size
+			if ( array_key_exists( 'ws_size', $params ) ) {
 
-                # set pageSize
-                $this->pageSize = $params['ws_size'];
-                return;
-            }
-        }
+				# set pageSize
+				$this->pageSize = $params['ws_size'];
 
-        # we dont have one, just count the # of entries
-        $this->pageSize = count($this->data['entries']);
-    }
+				return;
+			}
+		}
 
-    public function __construct($response, $url, $adapter)
-    {
-        parent::__construct($response, $url, $adapter);
-        $this->_updatePageSize();
-    }
+		# we dont have one, just count the # of entries
+		$this->pageSize = count( $this->data['entries'] );
+	}
 
-    /**
-     * @var array Holds list of keys that are not publicly accessible
-     */
-    protected $_privateData = array(
-        'entries',
-        'start',
-        'next_collection_link',
-    );
+	public function __construct( $response, $url, $adapter ) {
+		parent::__construct( $response, $url, $adapter );
+		$this->_updatePageSize();
+	}
 
-    /**
-     * getById
-     *
-     * Gets an entry object of this collection type with the given id
-     * @param mixed $id ID of the entry you are requesting
-     * @access public
-     * @return Thrive_Dash_Api_AWeber_Entry
-     */
-    public function getById($id)
-    {
-        $data = $this->adapter->request('GET', "{$this->url}/{$id}");
-        $url = "{$this->url}/{$id}";
-        return new Thrive_Dash_Api_AWeber_Entry($data, $url, $this->adapter);
-    }
+	/**
+	 * @var array Holds list of keys that are not publicly accessible
+	 */
+	protected $_privateData = array(
+		'entries',
+		'start',
+		'next_collection_link',
+	);
 
-    /** getParentEntry
-     *
-     * Gets an entry's parent entry
-     * Returns NULL if no parent entry
-     */
-    public function getParentEntry()
-    {
-        $url_parts = explode('/', $this->url);
-        $size = count($url_parts);
+	/**
+	 * getById
+	 *
+	 * Gets an entry object of this collection type with the given id
+	 *
+	 * @param mixed $id ID of the entry you are requesting
+	 *
+	 * @access public
+	 * @return Thrive_Dash_Api_AWeber_Entry
+	 */
+	public function getById( $id ) {
+		$data = $this->adapter->request( 'GET', "{$this->url}/{$id}" );
+		$url  = "{$this->url}/{$id}";
 
-        # Remove collection id and slash from end of url
-        $url = substr($this->url, 0, -strlen($url_parts[$size - 1]) - 1);
+		return new Thrive_Dash_Api_AWeber_Entry( $data, $url, $this->adapter );
+	}
 
-        try {
-            $data = $this->adapter->request('GET', $url);
-            return new Thrive_Dash_Api_AWeber_Entry($data, $url, $this->adapter);
-        } catch (Exception $e) {
-            return NULL;
-        }
-    }
+	/** getParentEntry
+	 *
+	 * Gets an entry's parent entry
+	 * Returns NULL if no parent entry
+	 */
+	public function getParentEntry() {
+		$url_parts = explode( '/', $this->url );
+		$size      = count( $url_parts );
 
-    /**
-     * _type
-     *
-     * Interpret what type of resources are held in this collection by
-     * analyzing the URL
-     *
-     * @access protected
-     * @return mixed
-     */
-    protected function _type()
-    {
-        $urlParts = explode('/', $this->url);
-        $type = array_pop($urlParts);
-        return $type;
-    }
+		# Remove collection id and slash from end of url
+		$url = substr( $this->url, 0, - strlen( $url_parts[ $size - 1 ] ) - 1 );
 
-    /**
-     * create
-     *
-     * Invoke the API method to CREATE a new entry resource.
-     *
-     * Note: Not all entry resources are eligible to be created, please
-     *       refer to the AWeber API Reference Documentation at
-     *       https://labs.aweber.com/docs/reference/1.0 for more
-     *       details on which entry resources may be created and what
-     *       attributes are required for creating resources.
-     *
-     * @access public
-     * @param params mixed  associtative array of key/value pairs.
-     * @return Thrive_Dash_Api_AWeber_Entry(Resource) The new resource created
-     */
-    public function create($kv_pairs)
-    {
-        # Create Resource
-        $params = array_merge(array('ws.op' => 'create'), $kv_pairs);
-        $data = $this->adapter->request('POST', $this->url, $params, array('return' => 'headers'));
+		try {
+			$data = $this->adapter->request( 'GET', $url );
 
-        # Return new Resource
-        $url = isset($data['Location']) ? $data['Location'] : $data['location'];
-        $resource_data = $this->adapter->request('GET', $url);
-        return new Thrive_Dash_Api_AWeber_Entry($resource_data, $url, $this->adapter);
-    }
+			return new Thrive_Dash_Api_AWeber_Entry( $data, $url, $this->adapter );
+		} catch ( Exception $e ) {
+			return null;
+		}
+	}
 
-    /**
-     * find
-     *
-     * Invoke the API 'find' operation on a collection to return a subset
-     * of that collection.  Not all collections support the 'find' operation.
-     * refer to https://labs.aweber.com/docs/reference/1.0 for more information.
-     *
-     * @param mixed $search_data Associative array of key/value pairs used as search filters
-     *                             * refer to https://labs.aweber.com/docs/reference/1.0 for a
-     *                               complete list of valid search filters.
-     *                             * filtering on attributes that require additional permissions to
-     *                               display requires an app authorized with those additional permissions.
-     * @access public
-     * @return Thrive_Dash_Api_AWeber_Collection
-     */
-    public function find($search_data)
-    {
-        # invoke find operation
-        $params = array_merge($search_data, array('ws.op' => 'find'));
-        $data = $this->adapter->request('GET', $this->url, $params);
+	/**
+	 * _type
+	 *
+	 * Interpret what type of resources are held in this collection by
+	 * analyzing the URL
+	 *
+	 * @access protected
+	 * @return mixed
+	 */
+	protected function _type() {
+		$urlParts = explode( '/', $this->url );
+		$type     = array_pop( $urlParts );
 
-        # get total size
-        $ts_params = array_merge($params, array('ws.show' => 'total_size'));
-        $total_size = $this->adapter->request('GET', $this->url, $ts_params, array('return' => 'integer'));
-        $data['total_size'] = $total_size;
+		return $type;
+	}
 
-        # return collection
-        return $this->readResponse($data, $this->url);
-    }
+	/**
+	 * create
+	 *
+	 * Invoke the API method to CREATE a new entry resource.
+	 *
+	 * Note: Not all entry resources are eligible to be created, please
+	 *       refer to the AWeber API Reference Documentation at
+	 *       https://labs.aweber.com/docs/reference/1.0 for more
+	 *       details on which entry resources may be created and what
+	 *       attributes are required for creating resources.
+	 *
+	 * @access public
+	 *
+	 * @param params mixed  associtative array of key/value pairs.
+	 *
+	 * @return Thrive_Dash_Api_AWeber_Entry(Resource) The new resource created
+	 */
+	public function create( $kv_pairs ) {
+		# Create Resource
+		$params = array_merge( array( 'ws.op' => 'create' ), $kv_pairs );
+		$data   = $this->adapter->request( 'POST', $this->url, $params, array( 'return' => 'headers' ) );
 
-    /*
-     * ArrayAccess Functions
-     *
-     * Allows this object to be accessed via bracket notation (ie $obj[$x])
-     * http://php.net/manual/en/class.arrayaccess.php
-     */
+		# Return new Resource
+		$url           = isset( $data['Location'] ) ? $data['Location'] : $data['location'];
+		$resource_data = $this->adapter->request( 'GET', $url );
 
-    public function offsetSet($offset, $value)
-    {
-    }
+		return new Thrive_Dash_Api_AWeber_Entry( $resource_data, $url, $this->adapter );
+	}
 
-    public function offsetUnset($offset)
-    {
-    }
+	/**
+	 * find
+	 *
+	 * Invoke the API 'find' operation on a collection to return a subset
+	 * of that collection.  Not all collections support the 'find' operation.
+	 * refer to https://labs.aweber.com/docs/reference/1.0 for more information.
+	 *
+	 * @param mixed $search_data Associative array of key/value pairs used as search filters
+	 *                             * refer to https://labs.aweber.com/docs/reference/1.0 for a
+	 *                               complete list of valid search filters.
+	 *                             * filtering on attributes that require additional permissions to
+	 *                               display requires an app authorized with those additional permissions.
+	 *
+	 * @access public
+	 * @return Thrive_Dash_Api_AWeber_Collection
+	 */
+	public function find( $search_data ) {
+		# invoke find operation
+		$params = array_merge( $search_data, array( 'ws.op' => 'find' ) );
+		$data   = $this->adapter->request( 'GET', $this->url, $params );
 
-    public function offsetExists($offset)
-    {
+		# get total size
+		$ts_params          = array_merge( $params, array( 'ws.show' => 'total_size' ) );
+		$total_size         = $this->adapter->request( 'GET', $this->url, $ts_params, array( 'return' => 'integer' ) );
+		$data['total_size'] = $total_size;
 
-        if ($offset >= 0 && $offset < $this->total_size) {
-            return true;
-        }
-        return false;
-    }
+		# return collection
+		return $this->readResponse( $data, $this->url );
+	}
 
-    protected function _fetchCollectionData($offset)
-    {
+	/*
+	 * ArrayAccess Functions
+	 *
+	 * Allows this object to be accessed via bracket notation (ie $obj[$x])
+	 * http://php.net/manual/en/class.arrayaccess.php
+	 */
 
-        # we dont have a next page, we're done
-        if (!array_key_exists('next_collection_link', $this->data)) {
-            return null;
-        }
+	public function offsetSet( $offset, $value ) {
+	}
 
-        # snag query string args from collection
-        $parsed = parse_url($this->data['next_collection_link']);
+	public function offsetUnset( $offset ) {
+	}
 
-        # parse the query string to get params
-        $pairs = explode('&', $parsed['query']);
-        foreach ($pairs as $pair) {
-            list($key, $val) = explode('=', $pair);
-            $params[$key] = $val;
-        }
+	public function offsetExists( $offset ) {
 
-        # calculate new args
-        $limit = $params['ws.size'];
-        $pagination_offset = intval($offset / $limit) * $limit;
-        $params['ws.start'] = $pagination_offset;
+		if ( $offset >= 0 && $offset < $this->total_size ) {
+			return true;
+		}
 
-        # fetch data, exclude query string
-        $url_parts = explode('?', $this->url);
-        $data = $this->adapter->request('GET', $url_parts[0], $params);
-        $this->pageStart = $params['ws.start'];
-        $this->pageSize = $params['ws.size'];
+		return false;
+	}
 
-        $collection_data = array('entries', 'next_collection_link', 'prev_collection_link', 'ws.start');
+	protected function _fetchCollectionData( $offset ) {
 
-        foreach ($collection_data as $item) {
-            if (!array_key_exists($item, $this->data)) {
-                continue;
-            }
-            if (!array_key_exists($item, $data)) {
-                continue;
-            }
-            $this->data[$item] = $data[$item];
-        }
-    }
+		# we dont have a next page, we're done
+		if ( ! array_key_exists( 'next_collection_link', $this->data ) ) {
+			return null;
+		}
 
-    public function offsetGet($offset)
-    {
+		# snag query string args from collection
+		$parsed = parse_url( $this->data['next_collection_link'] );
 
-        if (!$this->offsetExists($offset)) {
-            return null;
-        }
+		# parse the query string to get params
+		$pairs = explode( '&', $parsed['query'] );
+		foreach ( $pairs as $pair ) {
+			list( $key, $val ) = explode( '=', $pair );
+			$params[ $key ] = $val;
+		}
 
-        $limit = $this->pageSize;
-        $pagination_offset = intval($offset / $limit) * $limit;
+		# calculate new args
+		$limit              = $params['ws.size'];
+		$pagination_offset  = intval( $offset / $limit ) * $limit;
+		$params['ws.start'] = $pagination_offset;
 
-        # load collection page if needed
-        if ($pagination_offset !== $this->pageStart) {
-            $this->_fetchCollectionData($offset);
-        }
+		# fetch data, exclude query string
+		$url_parts       = explode( '?', $this->url );
+		$data            = $this->adapter->request( 'GET', $url_parts[0], $params );
+		$this->pageStart = $params['ws.start'];
+		$this->pageSize  = $params['ws.size'];
 
-        $entry = $this->data['entries'][$offset - $pagination_offset];
+		$collection_data = array( 'entries', 'next_collection_link', 'prev_collection_link', 'ws.start' );
 
-        # we have an entry, cast it to an Thrive_Dash_Api_AWeber_Entry and return it
-        $entry_url = $this->adapter->app->removeBaseUri($entry['self_link']);
-        return new Thrive_Dash_Api_AWeber_Entry($entry, $entry_url, $this->adapter);
-    }
+		foreach ( $collection_data as $item ) {
+			if ( ! array_key_exists( $item, $this->data ) ) {
+				continue;
+			}
+			if ( ! array_key_exists( $item, $data ) ) {
+				continue;
+			}
+			$this->data[ $item ] = $data[ $item ];
+		}
+	}
 
-    /*
-     * Iterator
-     */
-    protected $_iterationKey = 0;
+	public function offsetGet( $offset ) {
 
-    public function current()
-    {
-        return $this->offsetGet($this->_iterationKey);
-    }
+		if ( ! $this->offsetExists( $offset ) ) {
+			return null;
+		}
 
-    public function key()
-    {
-        return $this->_iterationKey;
-    }
+		$limit             = $this->pageSize;
+		$pagination_offset = intval( $offset / $limit ) * $limit;
 
-    public function next()
-    {
-        $this->_iterationKey++;
-    }
+		# load collection page if needed
+		if ( $pagination_offset !== $this->pageStart ) {
+			$this->_fetchCollectionData( $offset );
+		}
 
-    public function rewind()
-    {
-        $this->_iterationKey = 0;
-    }
+		$entry = $this->data['entries'][ $offset - $pagination_offset ];
 
-    public function valid()
-    {
-        return $this->offsetExists($this->key());
-    }
+		# we have an entry, cast it to an Thrive_Dash_Api_AWeber_Entry and return it
+		$entry_url = $this->adapter->app->removeBaseUri( $entry['self_link'] );
 
-    /*
-     * Countable interface methods
-     * Allows PHP's count() and sizeOf() functions to act on this object
-     * http://www.php.net/manual/en/class.countable.php
-     */
+		return new Thrive_Dash_Api_AWeber_Entry( $entry, $entry_url, $this->adapter );
+	}
 
-    public function count()
-    {
-        return $this->total_size;
-    }
+	/*
+	 * Iterator
+	 */
+	protected $_iterationKey = 0;
+
+	public function current() {
+		return $this->offsetGet( $this->_iterationKey );
+	}
+
+	public function key() {
+		return $this->_iterationKey;
+	}
+
+	public function next() {
+		$this->_iterationKey ++;
+	}
+
+	public function rewind() {
+		$this->_iterationKey = 0;
+	}
+
+	public function valid() {
+		return $this->offsetExists( $this->key() );
+	}
+
+	/*
+	 * Countable interface methods
+	 * Allows PHP's count() and sizeOf() functions to act on this object
+	 * http://www.php.net/manual/en/class.countable.php
+	 */
+
+	public function count() {
+		return $this->total_size;
+	}
 }

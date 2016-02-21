@@ -1,15 +1,15 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Thrive Dashboard\n"
-"POT-Creation-Date: 2016-01-14 11:47+0200\n"
-"PO-Revision-Date: 2016-01-14 11:52+0200\n"
+"POT-Creation-Date: 2016-01-18 12:59+0200\n"
+"PO-Revision-Date: 2016-01-18 12:59+0200\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: en\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Poedit 1.8.6\n"
+"X-Generator: Poedit 1.8.4\n"
 "X-Poedit-Basepath: ..\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "X-Poedit-KeywordsList: __;_e\n"
@@ -314,7 +314,7 @@ msgstr ""
 msgid "Could not connect to MadMimi using the provided data"
 msgstr ""
 
-#: inc/auto-responder/classes/Connection/MadMimi.php:66
+#: inc/auto-responder/classes/Connection/MadMimi.php:67
 msgid "MadMimi connected successfully"
 msgstr ""
 
@@ -547,15 +547,12 @@ msgstr ""
 
 #: inc/auto-responder/classes/LogsTable.php:152
 #: inc/auto-responder/views/admin-list.php:136
-#: templates/product/inactive.phtml:91
-#: templates/sections/license_manager.phtml:54
 msgid "Retry"
 msgstr ""
 
 #: inc/auto-responder/classes/LogsTable.php:158
 #: inc/auto-responder/views/admin-list.php:76
 #: inc/font-manager/views/admin-font-manager.php:49
-#: templates/settings/text_setting_row.phtml:19
 msgid "Delete"
 msgstr ""
 
@@ -669,7 +666,6 @@ msgstr ""
 #: inc/auto-responder/views/admin-list.php:40
 #: inc/font-manager/views/admin-font-manager.php:58
 #: inc/icon-manager/views/main.php:39
-#: templates/settings/general_settings.phtml:23
 msgid "Back To Dashboard"
 msgstr ""
 
@@ -736,7 +732,6 @@ msgstr ""
 #: inc/auto-responder/views/setup/sendy.php:37
 #: inc/auto-responder/views/setup/webinarjamstudio.php:14
 #: inc/auto-responder/views/setup/wordpress.php:7
-#: templates/product/inactive.phtml:51 templates/product/inactive.phtml:86
 msgid "Cancel"
 msgstr ""
 
@@ -782,8 +777,7 @@ msgstr ""
 
 #: inc/auto-responder/views/editor/add-api.php:17
 #: inc/auto-responder/views/editor/dashboard-api.php:93
-#: inc/font-manager/views/admin-font-options.php:135
-#: templates/settings/text_setting_row.phtml:14
+#: inc/font-manager/views/admin-font-options.php:158
 msgid "Save"
 msgstr ""
 
@@ -861,7 +855,7 @@ msgstr ""
 
 #: inc/auto-responder/views/editor/captcha-settings.php:43
 #: inc/font-manager/views/admin-font-manager.php:22
-#: inc/font-manager/views/admin-font-options.php:94
+#: inc/font-manager/views/admin-font-options.php:98
 msgid "Size"
 msgstr ""
 
@@ -1424,7 +1418,7 @@ msgid "Font name"
 msgstr ""
 
 #: inc/font-manager/views/admin-font-manager.php:25
-#: inc/font-manager/views/admin-font-options.php:121
+#: inc/font-manager/views/admin-font-options.php:141
 msgid "Color"
 msgstr ""
 
@@ -1448,39 +1442,43 @@ msgstr ""
 msgid "Add Custom Font"
 msgstr ""
 
-#: inc/font-manager/views/admin-font-options.php:44
+#: inc/font-manager/views/admin-font-manager.php:68
+msgid "Update Posts"
+msgstr ""
+
+#: inc/font-manager/views/admin-font-options.php:46
 msgid "Show all fonts"
 msgstr ""
 
-#: inc/font-manager/views/admin-font-options.php:48
+#: inc/font-manager/views/admin-font-options.php:51
 msgid "Recommended Fonts Only"
 msgstr ""
 
-#: inc/font-manager/views/admin-font-options.php:52
+#: inc/font-manager/views/admin-font-options.php:55
 msgid "Web Safe Fonts"
 msgstr ""
 
-#: inc/font-manager/views/admin-font-options.php:56
+#: inc/font-manager/views/admin-font-options.php:59
 msgid "Imported Fonts"
 msgstr ""
 
-#: inc/font-manager/views/admin-font-options.php:60
+#: inc/font-manager/views/admin-font-options.php:63
 msgid "View All Google Font Previews"
 msgstr ""
 
-#: inc/font-manager/views/admin-font-options.php:67
+#: inc/font-manager/views/admin-font-options.php:71
 msgid "- Select Font -"
 msgstr ""
 
-#: inc/font-manager/views/admin-font-options.php:87
+#: inc/font-manager/views/admin-font-options.php:91
 msgid "Class"
 msgstr ""
 
-#: inc/font-manager/views/admin-font-options.php:108
+#: inc/font-manager/views/admin-font-options.php:120
 msgid "Line Height"
 msgstr ""
 
-#: inc/font-manager/views/admin-font-options.php:127
+#: inc/font-manager/views/admin-font-options.php:148
 msgid "Custom CSS"
 msgstr ""
 
@@ -1524,7 +1522,7 @@ msgid "Manage Fonts"
 msgstr ""
 
 #: inc/functions.php:215
-msgid "Retina Icons"
+msgid "Icon Manager"
 msgstr ""
 
 #: inc/functions.php:216
@@ -1535,7 +1533,7 @@ msgstr ""
 msgid "Manage Icons"
 msgstr ""
 
-#: inc/functions.php:222 templates/settings/general_settings.phtml:2
+#: inc/functions.php:222
 msgid "General Settings"
 msgstr ""
 
@@ -1547,39 +1545,39 @@ msgstr ""
 msgid "Manage Settings"
 msgstr ""
 
-#: inc/hooks.php:115
+#: inc/hooks.php:113
 msgid "Unknown error"
 msgstr ""
 
-#: inc/hooks.php:116
+#: inc/hooks.php:114
 msgid "Deleting..."
 msgstr ""
 
-#: inc/hooks.php:117
+#: inc/hooks.php:115
 msgid "Testing..."
 msgstr ""
 
-#: inc/hooks.php:118
+#: inc/hooks.php:116
 msgid "Loading..."
 msgstr ""
 
-#: inc/hooks.php:119
+#: inc/hooks.php:117
 msgid "Connection works!"
 msgstr ""
 
-#: inc/hooks.php:120
+#: inc/hooks.php:118
 msgid "Connection failed!"
 msgstr ""
 
-#: inc/hooks.php:121
+#: inc/hooks.php:119
 msgid "Unlimited"
 msgstr ""
 
-#: inc/hooks.php:131
+#: inc/hooks.php:129
 msgid "Individual product"
 msgstr ""
 
-#: inc/hooks.php:132
+#: inc/hooks.php:130
 msgid "Full membership"
 msgstr ""
 
@@ -1624,7 +1622,6 @@ msgid ""
 msgstr ""
 
 #: inc/icon-manager/views/main.php:13
-#: templates/sections/license_manager.phtml:30
 msgid "Click here"
 msgstr ""
 
@@ -1654,106 +1651,4 @@ msgstr ""
 msgid ""
 "Your custom icon pack has been loaded. To modify your icon pack, simply "
 "upload a new file."
-msgstr ""
-
-#: templates/product/inactive.phtml:16
-#: templates/sections/license_manager.phtml:24
-msgid "Activate License"
-msgstr ""
-
-#: templates/product/inactive.phtml:28
-#: templates/sections/license_manager.phtml:9
-msgid "Enter your license details:"
-msgstr ""
-
-#: templates/product/inactive.phtml:34
-#: templates/sections/license_manager.phtml:16
-msgid "Email address"
-msgstr ""
-
-#: templates/product/inactive.phtml:38
-#: templates/sections/license_manager.phtml:20
-msgid "License key"
-msgstr ""
-
-#: templates/product/inactive.phtml:47
-msgid "Validate"
-msgstr ""
-
-#: templates/product/inactive.phtml:66
-msgid "License Activated"
-msgstr ""
-
-#: templates/product/inactive.phtml:76
-msgid "We weren't able to validate your license."
-msgstr ""
-
-#: templates/product/inactive.phtml:80
-#: templates/sections/license_manager.phtml:44
-msgid "Reason:"
-msgstr ""
-
-#: templates/sections/dashboard.phtml:2
-msgid "Your installed products"
-msgstr ""
-
-#: templates/sections/dashboard.phtml:12
-msgid "Thrive features"
-msgstr ""
-
-#: templates/sections/license_manager.phtml:2
-msgid "Thrive product licenses"
-msgstr ""
-
-#: templates/sections/license_manager.phtml:26
-msgid "Need help finding your license key?"
-msgstr ""
-
-#: templates/sections/license_manager.phtml:40
-msgid "Sorry, we weren't able to validate your license."
-msgstr ""
-
-#: templates/sections/license_manager.phtml:47
-#, php-format
-msgid "To resolve this problem, please %s and try entering it again"
-msgstr ""
-
-#: templates/sections/license_manager.phtml:47
-msgid "check your license key"
-msgstr ""
-
-#: templates/sections/license_manager.phtml:66
-msgid "Success!"
-msgstr ""
-
-#: templates/sections/license_manager.phtml:71
-msgid "Product:"
-msgstr ""
-
-#: templates/sections/license_manager.phtml:75
-msgid "Licenses used:"
-msgstr ""
-
-#: templates/sections/license_manager.phtml:79
-msgid "License type:"
-msgstr ""
-
-#: templates/sections/license_manager.phtml:89
-msgid "New License"
-msgstr ""
-
-#: templates/sections/license_manager.phtml:95
-msgid "Go Back"
-msgstr ""
-
-#: templates/sections/license_manager.phtml:100
-msgid "Go To Dashboard"
-msgstr ""
-
-#: templates/sections/license_manager.phtml:119
-msgid "Active:"
-msgstr ""
-
-#: templates/settings/text_setting_row.phtml:16
-msgid "Add"
 msgstr ""

@@ -13,6 +13,7 @@ foreach ($landing_pages as $code => $_item) {
         $landing_pages[$code]['tags_classes'][$index] = $clean;
     }
 }
+$tags['tag-downloaded-template'] = __('Downloaded templates', 'thrive-cb');
 ?>
 <div class="tve_large_lightbox">
     <div class=" thrv_columns tve_clearfix">
@@ -24,7 +25,7 @@ foreach ($landing_pages as $code => $_item) {
                     <p>
                         <?php echo __("If you change your landing page template without saving the current revision, you won't be able to revert back to it later.", "thrive-cb") ?>
                     </p>
-                    <input id="tve_landing_page_name" type="text" value="" placeholder="<?php echo __("Template Name", "thrive-cb")?>"
+					<input id="tve_landing_page_name" type="text" value="" placeholder="<?php echo __( "Template Name", "thrive-cb" ) ?>"
                            class="tve_lightbox_input"><br><br>
                     <a id="tve_landing_page_save" class="tve_click tve_editor_button tve_editor_button_success"
                        href="javascript:void(0)"><?php echo __("Save Landing Page", "thrive-cb") ?></a>
@@ -65,9 +66,11 @@ foreach ($landing_pages as $code => $_item) {
                 </div>
                 <div class="tve_scT tve_green">
                     <ul class="tve_clearfix">
-                        <li class="tve_tS tve_click"><span class="tve_scTC1"><?php echo __("Default Landing Pages", "thrive-cb") ?></span></li>
+                        <li id="tve_default_templates" class="tve_tS tve_click"><span class="tve_scTC1"><?php echo __("Default Landing Pages", "thrive-cb") ?></span></li>
                         <li id="tve_saved_landing_pages" class="tve_click"><span
                                 class="tve_scTC2"><?php echo __("Custom Landing Pages", "thrive-cb") ?></span></li>
+                        <li id="tve_cloud_templates" class="tve_click" data-template="<?php echo $_POST['landing_page'] ?>"><span
+                                class="tve_scTC3"><?php echo __("Thrive Template Cloud", "thrive-cb") ?></span></li>
                     </ul>
                     <div class="tve_scTC tve_scTC1" style="display: block">
 
@@ -77,11 +80,11 @@ foreach ($landing_pages as $code => $_item) {
                                 <span
                                     class="<?php echo empty($data['tags_classes']) ? '' : implode(' ', $data['tags_classes']) ?> tve_grid_cell tve_landing_page_template tve_click<?php echo $_POST['landing_page'] == $code ? ' tve_cell_selected' : '' ?>"
                                     title="<?php __("Choose", "thrive") ?> <?php echo $data['name'] ?>">
-                <input type="hidden" class="lp_code" value="<?php echo $code ?>"/>
-                <img src="<?php echo $data['thumbnail'] ?>" width="166" height="140"/>
-                <span class="tve_cell_caption_holder"><span class="tve_cell_caption"><?php echo $data['name'] ?></span></span>
-                <span class="tve_cell_check tve_icm tve-ic-checkmark"></span>
-            </span>
+                                    <input type="hidden" class="lp_code" value="<?php echo $code ?>"/>
+                                    <img src="<?php echo $data['thumbnail'] ?>" width="166" height="140"/>
+                                    <span class="tve_cell_caption_holder"><span class="tve_cell_caption"><?php echo $data['name'] ?></span></span>
+                                    <span class="tve_cell_check tve_icm tve-ic-checkmark"></span>
+                                </span>
                             <?php endforeach ?>
                         </div>
                         <div class="tve_clear" style="height: 5px;"></div>
@@ -92,6 +95,7 @@ foreach ($landing_pages as $code => $_item) {
                             <?php echo __("Delete Template", "thrive-cb") ?>
                         </a>
                         <h6><?php echo __("Choose from your saved Landing Pages", "thrive-cb") ?></h6>
+
                         <div class="tve_lightbox_input_holder">
                             <input type="checkbox" id="tve_landing_page_user_filter" class="tve_change tve_lightbox_input" value="1"/>
                             <label for="tve_landing_page_user_filter"><?php echo __("Show only saved versions of the current template", "thrive-cb") ?></label>
@@ -100,6 +104,13 @@ foreach ($landing_pages as $code => $_item) {
                         <div class="tve_overflow_y" id="tve_user_landing_pages">
                             <p>
                                 <?php echo __("No saved Templates found.", "thrive-cb") ?>
+                            </p>
+                        </div>
+                    </div>
+                    <div class="tve_scTC tve_scTC3" style="display: none;">
+                        <div class="tve_overflow_y" id="tve_cloud_template_list">
+                            <p>
+                                <?php echo __("Fetching the list of templates ...", "thrive-cb") ?>
                             </p>
                         </div>
                     </div>
@@ -124,6 +135,9 @@ foreach ($landing_pages as $code => $_item) {
 </div>
 <script data-cfasync="false" type="text/javascript">
     jQuery(function () {
+        <?php if (!empty($_POST['landing_page']) && tve_is_cloud_template($_POST['landing_page'])) : ?>
+        jQuery('li#tve_cloud_templates').click();
+        <?php endif ?>
         setTimeout(function () {
             jQuery('#tve_landing_page_filter').focus();
         }, 200);

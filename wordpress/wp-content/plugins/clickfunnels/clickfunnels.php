@@ -3,7 +3,7 @@
     * Plugin Name: ClickFunnels
     * Plugin URI: https://www.clickfunnels.com
     * Description: Connect to your ClickFunnels account with simple authorization key and show any ClickFunnels page as your homepage or as 404 error pages or simply choose any of your pages and make clean URLs to your ClickFunnels pages. Don't have an account? <a target="_blank" href="https://www.clickfunnels.com">Sign up for your 2 week <em>free</em> trial now.</a>
-    * Version: 2.0.3
+    * Version: 2.0.9
     * Author: Etison, LLC
     * Author URI: https://www.clickfunnels.com
 */
@@ -25,7 +25,7 @@ class ClickFunnels {
         add_filter( 'manage_edit-clickfunnels_columns', array( $this, 'add_columns' ) );
         add_action( 'save_post', array( $this, 'save_meta' ), 10, 2 );
         add_action( 'manage_posts_custom_column', array( $this, 'fill_columns' ) );
-        add_action( "template_redirect", array( $this, "do_redirects" ), 10, 2 );
+        add_action( "template_redirect", array( $this, "do_redirects" ), 1, 2 );
         add_action( 'trashed_post', array( $this, 'post_trash' ), 10 );
         add_filter( 'post_updated_messages', array( $this, 'updated_message' ) );
         // check permalinks
@@ -362,8 +362,10 @@ class ClickFunnels {
             update_post_meta( $post_id, "cf_wptracking_code", $cf_wptracking_code );
             update_post_meta( $post_id, "cf_favicon_choice", $cf_favicon_choice );
             $cf_options = get_option( "cf_options" );
-            unset( $cf_options['pages'][$cf_slug] );
-            update_option( "cf_options", $cf_options );
+            if(isset( $cf_options['pages'][$cf_slug] )):
+                unset( $cf_options['pages'][$cf_slug] );
+                update_option( "cf_options", $cf_options );
+            endif;
         if ( $this->is_404( $post_id ) )
             $this->set_404( "", "" );
         if ( $this->is_home( $post_id ) )
@@ -389,7 +391,7 @@ class ClickFunnels {
     }
     public function get_page( $page_slug ) {
         $cf_options = get_option( "cf_options" );
-        return $cf_options['pages'][$page_slug];
+        return (isset($cf_options['pages'][$page_slug])) ? $cf_options['pages'][$page_slug] : array();
     }
     public function is_page( $page_slug ) {
         $cf_options = get_option( "cf_options" );
@@ -405,11 +407,11 @@ class ClickFunnels {
     }
     public function get_home() {
         $cf_options = get_option( "cf_options" );
-        return $cf_options['home'];
+        return (isset($cf_options['home'])) ? $cf_options['home'] : array();
     }
     public function is_home( $post_id ) {
         $cf_options = get_option( "cf_options" );
-        if ( $cf_options['home']['post_id'] == $post_id )
+        if ( isset($cf_options['home']['post_id']) and $cf_options['home']['post_id'] == $post_id )
             return true;
         return false;
     }
@@ -425,7 +427,7 @@ class ClickFunnels {
     }
     public function is_404( $post_id ) {
         $cf_options = get_option( "cf_options" );
-        if ( $cf_options['404']['post_id'] == $post_id )
+        if ( isset($cf_options['404']['post_id']) and $cf_options['404']['post_id'] == $post_id )
             return true;
         return false;
     }
@@ -502,7 +504,10 @@ class ClickFunnels {
             $original_cf_type = "p";
         if ( $original_cf_type == "p" ) {
             $data['cf_type'] = 'p';
-            $data['cf_page'] =  $this->get_page( $slug );
+            $data['cf_page'] =  '';
+            if($this->is_page($slug)):
+                $data['cf_page'] =  $this->get_page( $slug );
+            endif;
             $data['cf_slug'] = $slug;
         }
         if ( $this->is_home( $id ) ) {
@@ -593,7 +598,7 @@ class ClickFunnels {
             array(
                 'labels' =>  $labels,
                 'public' => true,
-                'menu_icon' => plugins_url( )."/clickfunnels/icon.png",
+                'menu_icon' => plugins_url( 'icon.png', __FILE__ ),
                 'has_archive' => true,
                 'supports' => array( '' ),
                 'rewrite' => array( 'slug' => 'clickfunnels' ),
@@ -848,6 +853,7 @@ function clickfunnels_clickoptin( $atts ) {
       $subdomain = $a['subdomain'] . '.clickfunnels.com';
     }
 
+    $js_file_url = plugins_url( 'jquery.js', __FILE__ );
 
     return "<div id='clickoptin_cf_wrapper_".$a['id']."' class='clickoptin_".$a['theme_style']."'>
     <input type='text' id='clickoptin_cf_email_".$a['id']."' placeholder='".$placeholder."' class='clickoptin_".$a['input_icon']."' />
@@ -856,7 +862,7 @@ function clickfunnels_clickoptin( $atts ) {
 <script>
     if (!window.jQuery) {
       var jq = document.createElement('script'); jq.type = 'text/javascript';
-      jq.src = 'wp-content/plugins/clickfunnels/jquery.js';
+      jq.src = '" . $js_file_url . "';
       document.getElementsByTagName('head')[0].appendChild(jq);
       var jQueries = jQuery.noConflict();
 
@@ -880,7 +886,7 @@ function clickfunnels_clickoptin( $atts ) {
     }
     else {
       var jq = document.createElement('script'); jq.type = 'text/javascript';
-      jq.src = 'wp-content/plugins/clickfunnels/jquery.js';
+      jq.src = '" . $js_file_url . "';
       document.getElementsByTagName('head')[0].appendChild(jq);
       var $ = jQuery.noConflict();
 
@@ -1058,7 +1064,7 @@ register_activation_hook( __FILE__, 'clickfunnels_plugin_activated' );
 add_action('all_admin_notices', 'clickfunnels_edit_page_settings');
 function clickfunnels_edit_page_settings() {
     $url = 'http://' . $_SERVER['SERVER_NAME'] . $_SERVER['REQUEST_URI'];
-    if ($_GET['post_type'] == 'clickfunnels' && strpos($url,'edit.php') !== false && !$_GET['page']) {
+    if (isset($_GET['post_type']) and $_GET['post_type'] == 'clickfunnels' && strpos($url,'edit.php') !== false && !isset($_GET['page'])) {
     ?>
         <script>
             jQuery(function() {
@@ -1076,7 +1082,7 @@ function clickfunnels_edit_page_settings() {
 add_action('all_admin_notices', 'clickfunnels_check_meta_data');
 function clickfunnels_check_meta_data() {
     $url = 'http://' . $_SERVER['SERVER_NAME'] . $_SERVER['REQUEST_URI'];
-    if ($_GET['post_type'] == 'clickfunnels' && strpos($url,'edit.php') !== false && !$_GET['page']) {
+    if (isset($_GET['post_type']) and $_GET['post_type'] == 'clickfunnels' && strpos($url,'edit.php') !== false && !isset($_GET['page'])) {
     ?>
         <style>#cf_metaupdate { width: 75px; font-size: 11px; color: #777; } #cf_thepage { width: 100px;}</style>
         <script>

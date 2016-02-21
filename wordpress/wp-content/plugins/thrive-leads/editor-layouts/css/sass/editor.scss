@@ -77,7 +77,7 @@ body {
 
 /* Slide in - editor page */
 .tve-leads-slide-in {
-  position: static;
+  position: static !important;
   &.tl_bot_left {
     //    bottom: 20px;
     //    left: 20px;

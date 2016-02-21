@@ -6,165 +6,159 @@
  * Date: 9/10/2015
  * Time: 4:59 PM
  */
-class Thrive_Dash_List_Connection_ArpReach extends Thrive_Dash_List_Connection_Abstract
-{
-    /**
-     * Return the connection type
-     * @return String
-     */
-    public static function getType()
-    {
-        return 'autoresponder';
-    }
+class Thrive_Dash_List_Connection_ArpReach extends Thrive_Dash_List_Connection_Abstract {
+	/**
+	 * Return the connection type
+	 * @return String
+	 */
+	public static function getType() {
+		return 'autoresponder';
+	}
 
-    /**
-     * @return string the API connection title
-     */
-    public function getTitle()
-    {
-        return 'ArpReach';
-    }
+	/**
+	 * @return string the API connection title
+	 */
+	public function getTitle() {
+		return 'ArpReach';
+	}
 
-    /**
-     * output the setup form html
-     *
-     * @return void
-     */
-    public function outputSetupForm()
-    {
-        $this->_directFormHtml('arpreach');
-    }
+	/**
+	 * output the setup form html
+	 *
+	 * @return void
+	 */
+	public function outputSetupForm() {
+		$this->_directFormHtml( 'arpreach' );
+	}
 
-    /**
-     * should handle: read data from post / get, test connection and save the details
-     *
-     * on error, it should register an error message (and redirect?)
-     */
-    public function readCredentials()
-    {
-        $url = !empty($_POST['connection']['url']) ? $_POST['connection']['url'] : '';
+	/**
+	 * should handle: read data from post / get, test connection and save the details
+	 *
+	 * on error, it should register an error message (and redirect?)
+	 */
+	public function readCredentials() {
+		$url = ! empty( $_POST['connection']['url'] ) ? $_POST['connection']['url'] : '';
 
-        $app_key = !empty($_POST['connection']['api_key']) ? $_POST['connection']['api_key'] : '';
+		$app_key = ! empty( $_POST['connection']['api_key'] ) ? $_POST['connection']['api_key'] : '';
 
-        $lists = !empty($_POST['connection']['lists']) ? $_POST['connection']['lists'] : array();
+		$lists = ! empty( $_POST['connection']['lists'] ) ? $_POST['connection']['lists'] : array();
 
-        $lists = array_filter($lists);
+		$lists = array_filter( $lists );
 
-        if (empty($url) || empty($app_key)) {
-            return $this->error(__("Invalid URL or API key", TVE_DASH_TRANSLATE_DOMAIN));
-        }
+		if ( empty( $url ) || empty( $app_key ) ) {
+			return $this->error( __( "Invalid URL or API key", TVE_DASH_TRANSLATE_DOMAIN ) );
+		}
 
-        if (empty($lists)) {
-            return $this->error(__('Please provide at least one list for your subscribers', TVE_DASH_TRANSLATE_DOMAIN));
-        }
+		if ( empty( $lists ) ) {
+			return $this->error( __( 'Please provide at least one list for your subscribers', TVE_DASH_TRANSLATE_DOMAIN ) );
+		}
 
-        $_POST['connection']['lists'] = $lists;
+		$_POST['connection']['lists'] = $lists;
 
-        $this->setCredentials($_POST['connection']);
+		$this->setCredentials( $_POST['connection'] );
 
-        if ($this->testConnection() !== true) {
-            return $this->error(__("Invalid URL or API key", TVE_DASH_TRANSLATE_DOMAIN));
-        }
+		if ( $this->testConnection() !== true ) {
+			return $this->error( __( "Invalid URL or API key", TVE_DASH_TRANSLATE_DOMAIN ) );
+		}
 
-        $this->save();
+		$this->save();
 
-        return $this->success(__('ArpReach connected successfully', TVE_DASH_TRANSLATE_DOMAIN));
-    }
+		return $this->success( __( 'ArpReach connected successfully', TVE_DASH_TRANSLATE_DOMAIN ) );
+	}
 
-    /**
-     * test if a connection can be made to the service using the stored credentials
-     *
-     * @return bool|string true for success or error message for failure
-     */
-    public function testConnection()
-    {
-        try {
-            /** @var Thrive_Dash_Api_ArpReach $api */
-            $api = $this->getApi();
+	/**
+	 * test if a connection can be made to the service using the stored credentials
+	 *
+	 * @return bool|string true for success or error message for failure
+	 */
+	public function testConnection() {
+		try {
+			/** @var Thrive_Dash_Api_ArpReach $api */
+			$api = $this->getApi();
 
-            return strtolower($api->testConnection()->status) === 'ok';
+			return strtolower( $api->testConnection()->status ) === 'ok';
 
-        } catch (Exception $e) {
-            $this->error($e->getMessage());
-            return false;
-        }
-    }
+		} catch ( Exception $e ) {
+			$this->error( $e->getMessage() );
 
-    /**
-     * instantiate the API code required for this connection
-     *
-     * @return mixed
-     */
-    protected function _apiInstance()
-    {
-        $api = new Thrive_Dash_Api_ArpReach($this->param('url'), $this->param('api_key'));
+			return false;
+		}
+	}
 
-        return $api;
-    }
+	/**
+	 * instantiate the API code required for this connection
+	 *
+	 * @return mixed
+	 */
+	protected function _apiInstance() {
+		$api = new Thrive_Dash_Api_ArpReach( $this->param( 'url' ), $this->param( 'api_key' ) );
 
-    /**
-     * get all Subscriber Lists from this API service
-     *
-     * @return array|bool for error
-     */
-    protected function _getLists()
-    {
-        try {
-            $lists = array();
+		return $api;
+	}
 
-            foreach ($this->param('lists') as $id) {
-                $lists[] = array(
-                    'id' => $id,
-                    'name' => "#" . $id
-                );
-            }
+	/**
+	 * get all Subscriber Lists from this API service
+	 *
+	 * @return array|bool for error
+	 */
+	protected function _getLists() {
+		try {
+			$lists = array();
 
-            return $lists;
+			foreach ( $this->param( 'lists' ) as $id ) {
+				$lists[] = array(
+					'id'   => $id,
+					'name' => "#" . $id
+				);
+			}
 
-        } catch (Exception $e) {
+			return $lists;
 
-        }
+		} catch ( Exception $e ) {
 
-        return null;
-    }
+		}
 
-    /**
-     * add a contact to a list
-     *
-     * @param mixed $list_identifier
-     * @param array $arguments
-     * @return mixed
-     */
-    public function addSubscriber($list_identifier, $arguments)
-    {
-        try {
+		return null;
+	}
 
-            list($first_name, $last_name) = explode(" ", !empty($arguments['name']) ? $arguments['name'] : ' ');
+	/**
+	 * add a contact to a list
+	 *
+	 * @param mixed $list_identifier
+	 * @param array $arguments
+	 *
+	 * @return mixed
+	 */
+	public function addSubscriber( $list_identifier, $arguments ) {
+		try {
 
-            $params = array(
-                'email' => $arguments['email'],
-                'phone' => !empty($arguments['phone']) ? $arguments['phone'] : '',
-                'first_name' => $first_name,
-                'last_name' => $last_name
-            );
+			list( $first_name, $last_name ) = explode( " ", ! empty( $arguments['name'] ) ? $arguments['name'] : ' ' );
 
-            /** @var Thrive_Dash_Api_ArpReach $api */
-            $api = $this->getApi();
+			$params = array(
+				'email'      => $arguments['email'],
+				'phone'      => ! empty( $arguments['phone'] ) ? $arguments['phone'] : '',
+				'first_name' => $first_name,
+				'last_name'  => $last_name
+			);
 
-            //add contact
-            $api->addContact($params);
-            //add to list
-            $api->addToList($list_identifier, $params);
+			/** @var Thrive_Dash_Api_ArpReach $api */
+			$api = $this->getApi();
 
-            return true;
-        } catch (Thrive_Dash_Api_ArpReach_ContactException_Exists $e) {
-            // make sure the contact is updated
-            $api->editContact($params);
-            // add contact to the list
-            $api->addToList($list_identifier, $params);
-            return true;
-        } catch (Exception $e) {
-            return $e->getMessage();
-        }
-    }
+			//add contact
+			$api->addContact( $params );
+			//add to list
+			$api->addToList( $list_identifier, $params );
+
+			return true;
+		} catch ( Thrive_Dash_Api_ArpReach_ContactException_Exists $e ) {
+			// make sure the contact is updated
+			$api->editContact( $params );
+			// add contact to the list
+			$api->addToList( $list_identifier, $params );
+
+			return true;
+		} catch ( Exception $e ) {
+			return $e->getMessage();
+		}
+	}
 }

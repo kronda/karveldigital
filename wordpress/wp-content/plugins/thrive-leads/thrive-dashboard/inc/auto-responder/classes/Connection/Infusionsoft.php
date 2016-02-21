@@ -6,181 +6,174 @@
  * Date: 02.04.2015
  * Time: 15:33
  */
-class Thrive_Dash_List_Connection_Infusionsoft extends Thrive_Dash_List_Connection_Abstract
-{
-    /**
-     * Return the connection type
-     * @return String
-     */
-    public static function getType()
-    {
-        return 'autoresponder';
-    }
+class Thrive_Dash_List_Connection_Infusionsoft extends Thrive_Dash_List_Connection_Abstract {
+	/**
+	 * Return the connection type
+	 * @return String
+	 */
+	public static function getType() {
+		return 'autoresponder';
+	}
 
-    /**
-     * @return string
-     */
-    public function getTitle()
-    {
-        return 'Infusionsoft';
-    }
+	/**
+	 * @return string
+	 */
+	public function getTitle() {
+		return 'Infusionsoft';
+	}
 
-    /**
-     * output the setup form html
-     *
-     * @return void
-     */
-    public function outputSetupForm()
-    {
-        $this->_directFormHtml('infusionsoft');
-    }
+	/**
+	 * output the setup form html
+	 *
+	 * @return void
+	 */
+	public function outputSetupForm() {
+		$this->_directFormHtml( 'infusionsoft' );
+	}
 
-    /**
-     * just save the key in the database
-     *
-     * @return mixed|void
-     */
-    public function readCredentials()
-    {
-        $client_id = !empty($_POST['connection']['client_id']) ? $_POST['connection']['client_id'] : '';
-        $key = !empty($_POST['connection']['api_key']) ? $_POST['connection']['api_key'] : '';
+	/**
+	 * just save the key in the database
+	 *
+	 * @return mixed|void
+	 */
+	public function readCredentials() {
+		$client_id = ! empty( $_POST['connection']['client_id'] ) ? $_POST['connection']['client_id'] : '';
+		$key       = ! empty( $_POST['connection']['api_key'] ) ? $_POST['connection']['api_key'] : '';
 
-        if (empty($key) || empty($client_id)) {
-            return $this->error(__('You must provide a valid Infusionsoft credentials', TVE_DASH_TRANSLATE_DOMAIN));
-        }
+		if ( empty( $key ) || empty( $client_id ) ) {
+			return $this->error( __( 'You must provide a valid Infusionsoft credentials', TVE_DASH_TRANSLATE_DOMAIN ) );
+		}
 
-        $this->setCredentials($_POST['connection']);
+		$this->setCredentials( $_POST['connection'] );
 
-        $result = $this->testConnection();
+		$result = $this->testConnection();
 
-        if ($result !== true) {
-            return $this->error(sprintf(__('Could not connect to Infusionsoft using the provided credentials (<strong>%s</strong>)', TVE_DASH_TRANSLATE_DOMAIN), $result));
-        }
+		if ( $result !== true ) {
+			return $this->error( sprintf( __( 'Could not connect to Infusionsoft using the provided credentials (<strong>%s</strong>)', TVE_DASH_TRANSLATE_DOMAIN ), $result ) );
+		}
 
-        /**
-         * finally, save the connection details
-         */
-        $this->save();
-        return $this->success('Infusionsoft connected successfully');
-    }
+		/**
+		 * finally, save the connection details
+		 */
+		$this->save();
 
-    /**
-     * test if a connection can be made to the service using the stored credentials
-     *
-     * @return bool|string true for success or error message for failure
-     */
-    public function testConnection()
-    {
-        /**
-         * just try getting a list as a connection test
-         */
-        return is_array($this->_getLists());
-    }
+		return $this->success( 'Infusionsoft connected successfully' );
+	}
 
-    /**
-     * instantiate the API code required for this connection
-     *
-     * @return mixed
-     */
-    protected function _apiInstance()
-    {
-        return new Thrive_Dash_Api_Infusionsoft($this->param('client_id'), $this->param('api_key'));
-    }
+	/**
+	 * test if a connection can be made to the service using the stored credentials
+	 *
+	 * @return bool|string true for success or error message for failure
+	 */
+	public function testConnection() {
+		/**
+		 * just try getting a list as a connection test
+		 */
+		return is_array( $this->_getLists() );
+	}
 
-    /**
-     * get all Subscriber Lists from this API service
-     *
-     * @return array
-     */
-    protected function _getLists()
-    {
-        try {
-            /** @var Thrive_Dash_Api_Infusionsoft $api */
-            $api = $this->getApi();
+	/**
+	 * instantiate the API code required for this connection
+	 *
+	 * @return mixed
+	 */
+	protected function _apiInstance() {
+		return new Thrive_Dash_Api_Infusionsoft( $this->param( 'client_id' ), $this->param( 'api_key' ) );
+	}
 
-            $queryData = array(
-                'GroupName' => '%',
-            );
-            $selectedFields = array('Id', 'GroupName');
-            $response = $api->data('query', 'ContactGroup', 1000, 0, $queryData, $selectedFields);
+	/**
+	 * get all Subscriber Lists from this API service
+	 *
+	 * @return array
+	 */
+	protected function _getLists() {
+		try {
+			/** @var Thrive_Dash_Api_Infusionsoft $api */
+			$api = $this->getApi();
 
-            if (empty($response)) {
-                return array();
-            }
+			$queryData      = array(
+				'GroupName' => '%',
+			);
+			$selectedFields = array( 'Id', 'GroupName' );
+			$response       = $api->data( 'query', 'ContactGroup', 1000, 0, $queryData, $selectedFields );
 
-            $lists = array();
+			if ( empty( $response ) ) {
+				return array();
+			}
 
-            foreach ($response as $item) {
-                $lists[] = array(
-                    'id' => $item['Id'],
-                    'name' => $item['GroupName'],
-                );
-            }
+			$lists = array();
 
-            return $lists;
+			foreach ( $response as $item ) {
+				$lists[] = array(
+					'id'   => $item['Id'],
+					'name' => $item['GroupName'],
+				);
+			}
 
-        } catch (Exception $e) {
-            return $e->getMessage();
-        }
-    }
+			return $lists;
 
-    /**
-     * add a contact to a list
-     *
-     * @param mixed $list_identifier
-     * @param array $arguments
-     * @return bool|string true for success or string error message for failure
-     */
-    public function addSubscriber($list_identifier, $arguments)
-    {
-        try {
-            /** @var Thrive_Dash_Api_Infusionsoft $api */
-            $api = $this->getApi();
+		} catch ( Exception $e ) {
+			return $e->getMessage();
+		}
+	}
 
-            list($first_name, $last_name) = $this->_getNameParts($arguments['name']);
+	/**
+	 * add a contact to a list
+	 *
+	 * @param mixed $list_identifier
+	 * @param array $arguments
+	 *
+	 * @return bool|string true for success or string error message for failure
+	 */
+	public function addSubscriber( $list_identifier, $arguments ) {
+		try {
+			/** @var Thrive_Dash_Api_Infusionsoft $api */
+			$api = $this->getApi();
 
-            $data = array(
-                'FirstName' => $first_name,
-                'LastName' => $last_name,
-                'Email' => $arguments['email'],
-                'Phone1' => $arguments['phone']
-            );
+			list( $first_name, $last_name ) = $this->_getNameParts( $arguments['name'] );
 
-            $contact_id = $api->contact('addWithDupCheck', $data, 'Email');
+			$data = array(
+				'FirstName' => $first_name,
+				'LastName'  => $last_name,
+				'Email'     => $arguments['email'],
+				'Phone1'    => $arguments['phone']
+			);
 
-            if ($contact_id) {
-                $api->APIEmail('optIn', $data['Email'], 'my reason');
+			$contact_id = $api->contact( 'addWithDupCheck', $data, 'Email' );
 
-                $today = date('Ymj\TG:i:s');
-                $creationNotes = "A web form was submitted with the following information:";
-                if (!empty($arguments['url'])) {
-                    $creationNotes .= "\nReferring URL: " . $arguments['url'];
-                }
-                $creationNotes .= "\nIP Address: " . $_SERVER['REMOTE_ADDR'];
-                $creationNotes .= "\ninf_field_Email: " . $arguments['email'];
-                $creationNotes .= "\ninf_field_LastName: " . $last_name;
-                $creationNotes .= "\ninf_field_FirstName: " . $first_name;
-                $addNote = array(
-                    'ContactId' => $contact_id,
-                    'CreationDate' => $today,
-                    'CompletionDate' => $today,
-                    'ActionDate' => $today,
-                    'EndDate' => $today,
-                    'ActionType' => 'Other',
-                    'ActionDescription' => 'Thrive Leads Note',
-                    'CreationNotes' => $creationNotes
-                );
+			if ( $contact_id ) {
+				$api->APIEmail( 'optIn', $data['Email'], 'my reason' );
 
-                $api->data('add', 'ContactAction', $addNote);
-            }
+				$today         = date( 'Ymj\TG:i:s' );
+				$creationNotes = "A web form was submitted with the following information:";
+				if ( ! empty( $arguments['url'] ) ) {
+					$creationNotes .= "\nReferring URL: " . $arguments['url'];
+				}
+				$creationNotes .= "\nIP Address: " . $_SERVER['REMOTE_ADDR'];
+				$creationNotes .= "\ninf_field_Email: " . $arguments['email'];
+				$creationNotes .= "\ninf_field_LastName: " . $last_name;
+				$creationNotes .= "\ninf_field_FirstName: " . $first_name;
+				$addNote = array(
+					'ContactId'         => $contact_id,
+					'CreationDate'      => $today,
+					'CompletionDate'    => $today,
+					'ActionDate'        => $today,
+					'EndDate'           => $today,
+					'ActionType'        => 'Other',
+					'ActionDescription' => 'Thrive Leads Note',
+					'CreationNotes'     => $creationNotes
+				);
 
-            $api->contact('addToGroup', $contact_id, $list_identifier);
+				$api->data( 'add', 'ContactAction', $addNote );
+			}
 
-            return true;
+			$api->contact( 'addToGroup', $contact_id, $list_identifier );
 
-        } catch (Exception $e) {
-            return $e->getMessage();
-        }
-    }
+			return true;
+
+		} catch ( Exception $e ) {
+			return $e->getMessage();
+		}
+	}
 
 }

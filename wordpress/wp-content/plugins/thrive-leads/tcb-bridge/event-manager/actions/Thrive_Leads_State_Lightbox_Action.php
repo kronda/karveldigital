@@ -206,7 +206,7 @@ if (!class_exists('Thrive_Leads_State_Lightbox_Action')) {
                 return '';
             }
 
-            if (!isset($GLOBALS['tl_event_parse_variation'])) {
+            if (empty($GLOBALS['tl_event_parse_variation'])) {
                 return '';
             }
 
@@ -220,7 +220,7 @@ if (!class_exists('Thrive_Leads_State_Lightbox_Action')) {
             $params = array(
                 'wrap' => false,
             );
-            $current_variation = $GLOBALS['tl_event_parse_variation'];
+            $current_variation = end($GLOBALS['tl_event_parse_variation']);
             $current_form_type = tve_leads_get_form_type_from_variation($current_variation);
             /**
              * if current variation is a lightbox, then this action will be changed to "switch state"
@@ -238,8 +238,15 @@ if (!class_exists('Thrive_Leads_State_Lightbox_Action')) {
                 self::$FOOTER_HTML[$state['parent_id']]['root'] = '<div class="tl-states-root tl-anim-' . $state['display_animation'] . '">';
                 self::$FOOTER_HTML[$state['parent_id']]['states'] = array();
             }
-
-            array_unshift(self::$FOOTER_HTML[$state['parent_id']]['states'], tve_leads_display_form_lightbox('__return_content', tve_editor_custom_content($state), $state, null, null, $params));
+            /**
+             * if the lightbox is opened from a non-lightbox state we need to wrap the lightbox in a div
+             */
+            if ($current_form_type != 'lightbox') {
+                $params['wrap_tl_style'] = true;
+                self::$FOOTER_HTML[$state['parent_id']]['states'] []= tve_leads_display_form_lightbox('__return_content', tve_editor_custom_content($state), $state, null, null, $params);
+            } else {
+                array_unshift(self::$FOOTER_HTML[$state['parent_id']]['states'], tve_leads_display_form_lightbox('__return_content', tve_editor_custom_content($state), $state, null, null, $params));
+            }
 
             remove_filter('tve_leads_append_states_ajax', array('Thrive_Leads_State_Lightbox_Action', 'ajax_output_states'), 10);
             add_filter('tve_leads_append_states_ajax', array('Thrive_Leads_State_Lightbox_Action', 'ajax_output_states'), 10, 2);

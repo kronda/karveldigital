@@ -928,6 +928,7 @@ class Thrive_Leads_Ajax_Controller extends Thrive_Leads_Request_Handler
         $_POST['connection']['email'] = $_POST['email'];
         $_POST['connection']['domain'] = $_POST['domain'];
         $_POST['connection']['secretkey'] = $_POST['secretkey'];
+        $_POST['connection']['country'] = $_POST['country'];
 
         $connect = $api->readCredentials();
 

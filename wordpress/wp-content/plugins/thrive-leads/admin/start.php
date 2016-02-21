@@ -9,8 +9,8 @@ define('TL_ASSETS_PAGE', 'thrive-leads_page_thrive_leads_asset_delivery');
 
 
 add_action('admin_init', 'tve_leads_admin_init');
-add_action('admin_menu', 'tve_leads_admin_menu');
-add_action( 'admin_menu', 'tve_leads_remove_admin_pages' );
+add_action('admin_menu', 'tve_leads_admin_menu', 11);
+add_action( 'admin_menu', 'tve_leads_remove_admin_pages', 11 );
 add_action('admin_enqueue_scripts', 'tve_leads_admin_enqueue', 1);
 add_action('admin_enqueue_scripts', 'tve_leads_dequeue_conflicting_scripts', PHP_INT_MAX);
 add_action('admin_print_scripts', 'tve_leads_remove_junk_scripts', 11);
@@ -358,6 +358,7 @@ function tve_leads_admin_menu()
     add_submenu_page("thrive_leads_dashboard", "Thrive Leads Reporting", "Reporting", "manage_options", "thrive_leads_reporting", "thrive_leads_reporting");
     add_submenu_page("thrive_leads_dashboard", "Thrive Leads Asset Delivery", "Asset Delivery", "manage_options", "thrive_leads_asset_delivery", "thrive_leads_asset_delivery");
     add_submenu_page("thrive_leads_dashboard", "Thrive Leads Export", "Lead Export", "manage_options", "thrive_leads_contacts", "thrive_leads_contacts");
+    add_submenu_page("tve_dash_section", "Thrive Leads Dashboard", "Leads Dashboard", "manage_options", "thrive_leads_dashboard", "thrive_leads_dashboard");
 
     /**
      * old page for license activation

@@ -6,25 +6,24 @@
 /**
  * general admin conflict notifications
  */
-add_action('admin_notices', 'tve_admin_notices');
+add_action( 'admin_notices', 'tve_admin_notices' );
 
 /**
  * filter for including wp affiliates scripts and styles if the shortcode is found in TCB content
  */
-add_filter('affwp_force_frontend_scripts', 'tve_compat_wp_affiliate_scripts');
+add_filter( 'affwp_force_frontend_scripts', 'tve_compat_wp_affiliate_scripts' );
 
 /**
  * display any possible conflicts with other plugins / themes as error notification in the admin panel
  */
-function tve_admin_notices()
-{
-    $has_wp_seo_conflict = tve_has_wordpress_seo_conflict();
+function tve_admin_notices() {
+	$has_wp_seo_conflict = tve_has_wordpress_seo_conflict();
 
-    if ($has_wp_seo_conflict) {
-        $link = sprintf('<a href="%s">%s</a>', admin_url('admin.php?page=wpseo_advanced&tab=permalinks'), __('Wordpress SEO settings'));
-        $message = sprintf(__('Thrive Content Builder and Thrive Leads cannot work with the current configuration of Wordpress SEO. Please go to %s and disable the %s"Redirect ugly URL\'s to clean permalinks"%s option', 'thrive-cb'), $link, '<strong>', '</strong>');
-        echo sprintf('<div class="error"><p>%s</p></div>', $message);
-    }
+	if ( $has_wp_seo_conflict ) {
+		$link    = sprintf( '<a href="%s">%s</a>', admin_url( 'admin.php?page=wpseo_advanced&tab=permalinks' ), __( 'Wordpress SEO settings' ) );
+		$message = sprintf( __( 'Thrive Content Builder and Thrive Leads cannot work with the current configuration of Wordpress SEO. Please go to %s and disable the %s"Redirect ugly URL\'s to clean permalinks"%s option', 'thrive-cb' ), $link, '<strong>', '</strong>' );
+		echo sprintf( '<div class="error"><p>%s</p></div>', $message );
+	}
 }
 
 /**
@@ -32,26 +31,25 @@ function tve_admin_notices()
  * our landing pages seem to overwrite their "Coming soon" functionality
  * this would check for any coming soon plugins that use the template_redirect hook
  */
-function tve_hooked_in_template_redirect()
-{
-    include_once ABSPATH . '/wp-admin/includes/plugin.php';
+function tve_hooked_in_template_redirect() {
+	include_once ABSPATH . '/wp-admin/includes/plugin.php';
 
-    $hooked_in_template_redirect = array(
-        'wishlist-member/wpm.php',
-        'ultimate-coming-soon-page/ultimate-coming-soon-page.php',
-        'easy-pie-coming-soon/easy-pie-coming-soon.php',
-        'coming-soon-page/coming_soon.php',
-        'cc-coming-soon/cc-coming-soon.php',
-        'wordpress-seo/wp-seo.php',
-    );
+	$hooked_in_template_redirect = array(
+		'wishlist-member/wpm.php',
+		'ultimate-coming-soon-page/ultimate-coming-soon-page.php',
+		'easy-pie-coming-soon/easy-pie-coming-soon.php',
+		'coming-soon-page/coming_soon.php',
+		'cc-coming-soon/cc-coming-soon.php',
+		'wordpress-seo/wp-seo.php',
+	);
 
-    foreach ($hooked_in_template_redirect as $plugin) {
-        if (is_plugin_active($plugin)) {
-            return true;
-        }
-    }
+	foreach ( $hooked_in_template_redirect as $plugin ) {
+		if ( is_plugin_active( $plugin ) ) {
+			return true;
+		}
+	}
 
-    return false;
+	return false;
 }
 
 /**
@@ -59,9 +57,8 @@ function tve_hooked_in_template_redirect()
  *
  * @return bool
  */
-function tve_has_wordpress_seo_conflict()
-{
-    return is_plugin_active('wordpress-seo/wp-seo.php') && ($wpseo_options = get_option('wpseo_permalinks')) && !empty($wpseo_options['cleanpermalinks']);
+function tve_has_wordpress_seo_conflict() {
+	return is_plugin_active( 'wordpress-seo/wp-seo.php' ) && ( $wpseo_options = get_option( 'wpseo_permalinks' ) ) && ! empty( $wpseo_options['cleanpermalinks'] );
 }
 
 
@@ -76,20 +73,19 @@ function tve_has_wordpress_seo_conflict()
  *
  * 2. TheRetailer theme - they remove the WP media js files for some reason (??)
  */
-function tve_fix_plugin_conflicts()
-{
-    global $yarpp;
-    if (is_editor_page_raw()) {
-        if ($yarpp) {
-            remove_filter('the_content', array($yarpp, 'the_content'), 1200);
-        }
-        /**
-         * Theretailer theme deregisters the mediaelement for some reason
-         */
-        if (function_exists('theretailer_deregister')) {
-            remove_action('wp_enqueue_scripts', 'theretailer_deregister');
-        }
-    }
+function tve_fix_plugin_conflicts() {
+	global $yarpp;
+	if ( is_editor_page_raw() ) {
+		if ( $yarpp ) {
+			remove_filter( 'the_content', array( $yarpp, 'the_content' ), 1200 );
+		}
+		/**
+		 * Theretailer theme deregisters the mediaelement for some reason
+		 */
+		if ( function_exists( 'theretailer_deregister' ) ) {
+			remove_action( 'wp_enqueue_scripts', 'theretailer_deregister' );
+		}
+	}
 }
 
 /**
@@ -101,63 +97,62 @@ function tve_fix_plugin_conflicts()
  *
  * @return string
  */
-function tve_compat_content_filters_before_shortcode($content)
-{
-    /**
-     * Digital Access Pass %% links in the content, e.g.: %%LOGIN_FORM%%
-     */
-    if (function_exists('dap_login')) {
-        $content = dap_login($content);
-    }
+function tve_compat_content_filters_before_shortcode( $content ) {
+	/**
+	 * Digital Access Pass %% links in the content, e.g.: %%LOGIN_FORM%%
+	 */
+	if ( function_exists( 'dap_login' ) ) {
+		$content = dap_login( $content );
+	}
 
-    if (function_exists('dap_personalize')) {
-        $content = dap_personalize($content);
-    }
+	if ( function_exists( 'dap_personalize' ) ) {
+		$content = dap_personalize( $content );
+	}
 
-    if (function_exists('dap_personalize_error')) {
-        $content = dap_personalize_error($content);
-    }
+	if ( function_exists( 'dap_personalize_error' ) ) {
+		$content = dap_personalize_error( $content );
+	}
 
-    if (function_exists('dap_product_links')) {
-        $content = dap_product_links($content);
-    }
+	if ( function_exists( 'dap_product_links' ) ) {
+		$content = dap_product_links( $content );
+	}
 
-    /**
-     * s3 amazon links - they don't handle shortcodes in the "WP" way
-     */
-    if (function_exists('s3mv')) {
-        $content = s3mv($content);
-    }
+	/**
+	 * s3 amazon links - they don't handle shortcodes in the "WP" way
+	 */
+	if ( function_exists( 's3mv' ) ) {
+		$content = s3mv( $content );
+	}
 
-    /**
-     * FD Footnotes plugin does not have standard shortcodes
-     */
-    if (function_exists('fdfootnote_convert')) {
-        $content = fdfootnote_convert($content);
-    }
+	/**
+	 * FD Footnotes plugin does not have standard shortcodes
+	 */
+	if ( function_exists( 'fdfootnote_convert' ) ) {
+		$content = fdfootnote_convert( $content );
+	}
 
-    /**
-     * A3 Lazy Load plugin
-     * This plugin adds a filter on "the_content" inside of "wp" action callback -> the same as TCB does
-     * Its "the_content" filter callback is executed first because of its name -> A3
-     * We call its filter implementation on TCB content
-     */
-    if (class_exists('A3_Lazy_Load') && method_exists('A3_Lazy_Load', 'filter_content_images')) {
-        global $a3_lazy_load_global_settings;
-        if ($a3_lazy_load_global_settings['a3l_apply_image_to_content'] == true) {
-            $content = A3_Lazy_Load::filter_content_images($content);
-        }
-    }
+	/**
+	 * A3 Lazy Load plugin
+	 * This plugin adds a filter on "the_content" inside of "wp" action callback -> the same as TCB does
+	 * Its "the_content" filter callback is executed first because of its name -> A3
+	 * We call its filter implementation on TCB content
+	 */
+	if ( class_exists( 'A3_Lazy_Load' ) && method_exists( 'A3_Lazy_Load', 'filter_content_images' ) ) {
+		global $a3_lazy_load_global_settings;
+		if ( $a3_lazy_load_global_settings['a3l_apply_image_to_content'] == true ) {
+			$content = A3_Lazy_Load::filter_content_images( $content );
+		}
+	}
 
-    /**
-     * EduSearch plugin not handling shortcodes in the "WP" way
-     * they search for [edu-search] strings and process those
-     */
-    if (function_exists('esn_filter_content')) {
-        $content = esn_filter_content($content);
-    }
+	/**
+	 * EduSearch plugin not handling shortcodes in the "WP" way
+	 * they search for [edu-search] strings and process those
+	 */
+	if ( function_exists( 'esn_filter_content' ) ) {
+		$content = esn_filter_content( $content );
+	}
 
-    return $content;
+	return $content;
 }
 
 
@@ -165,27 +160,27 @@ function tve_compat_content_filters_before_shortcode($content)
  * apply some of currently known 3rd party filters to the TCB saved_content - after do_shortcode is being called
  *
  * FormMaker: Form_maker_fornt_end_main
+ *
  * @param string $content
  *
  * @return string
  */
-function tve_compat_content_filters_after_shortcode($content)
-{
-    /**
-     * FormMaker does not use WP shortcode as they should
-     */
-    if (function_exists('Form_maker_fornt_end_main')) {
-        $content = Form_maker_fornt_end_main($content);
-    }
+function tve_compat_content_filters_after_shortcode( $content ) {
+	/**
+	 * FormMaker does not use WP shortcode as they should
+	 */
+	if ( function_exists( 'Form_maker_fornt_end_main' ) ) {
+		$content = Form_maker_fornt_end_main( $content );
+	}
 
-    /**
-     * in case they will ever correct the function name
-     */
-    if (function_exists('Form_maker_front_end_main')) {
-        $content = Form_maker_front_end_main($content);
-    }
+	/**
+	 * in case they will ever correct the function name
+	 */
+	if ( function_exists( 'Form_maker_front_end_main' ) ) {
+		$content = Form_maker_front_end_main( $content );
+	}
 
-    return $content;
+	return $content;
 }
 
 /**
@@ -195,14 +190,13 @@ function tve_compat_content_filters_after_shortcode($content)
  *
  * @return bool
  */
-function tve_compat_wp_affiliate_scripts($bool)
-{
-    if ($bool || !is_singular() || is_editor_page()) {
-        return $bool;
-    }
+function tve_compat_wp_affiliate_scripts( $bool ) {
+	if ( $bool || ! is_singular() || is_editor_page() ) {
+		return $bool;
+	}
 
-    $tve_saved_content = tve_get_post_meta(get_the_ID(), 'tve_updated_post');
+	$tve_saved_content = tve_get_post_meta( get_the_ID(), 'tve_updated_post' );
 
-    return has_shortcode($tve_saved_content, 'affiliate_area') || has_shortcode($tve_saved_content, 'affiliate_creatives');
+	return has_shortcode( $tve_saved_content, 'affiliate_area' ) || has_shortcode( $tve_saved_content, 'affiliate_creatives' );
 
 }

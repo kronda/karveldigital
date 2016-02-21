@@ -3,134 +3,132 @@
 /**
  * API wrapper for HubSpot
  */
-class Thrive_Dash_Api_HubSpot
-{
-    const API_URL = 'https://api.hubapi.com/';
+class Thrive_Dash_Api_HubSpot {
+	const API_URL = 'https://api.hubapi.com/';
 
-    protected $apiKey;
+	protected $apiKey;
 
-    /**
-     * @param string $apiKey always required
-     *
-     * @throws Thrive_Dash_Api_HubSpot_Exception
-     */
-    public function __construct($apiKey)
-    {
-        if (empty($apiKey)) {
-            throw new Thrive_Dash_Api_HubSpot_Exception('API Key is required');
-        }
-        $this->apiKey = $apiKey;
-    }
+	/**
+	 * @param string $apiKey always required
+	 *
+	 * @throws Thrive_Dash_Api_HubSpot_Exception
+	 */
+	public function __construct( $apiKey ) {
+		if ( empty( $apiKey ) ) {
+			throw new Thrive_Dash_Api_HubSpot_Exception( 'API Key is required' );
+		}
+		$this->apiKey = $apiKey;
+	}
 
-    /**
-     * get the static contact lists
-     * HubSpot is letting us to work only with static contact lists
-     * "Please note that you cannot manually add (via this API call) contacts to dynamic lists - they can only be updated by the contacts app."
-     *
-     * @return mixed
-     * @throws Thrive_Dash_Api_HubSpot_Exception
-     */
-    public function getContactLists()
-    {
-        $params = array(
-            'hapikey' => $this->apiKey
-        );
+	/**
+	 * get the static contact lists
+	 * HubSpot is letting us to work only with static contact lists
+	 * "Please note that you cannot manually add (via this API call) contacts to dynamic lists - they can only be updated by the contacts app."
+	 *
+	 * @return mixed
+	 * @throws Thrive_Dash_Api_HubSpot_Exception
+	 */
+	public function getContactLists() {
+		$params = array(
+			'hapikey' => $this->apiKey
+		);
 
-        $data = $this->_call('/contacts/v1/lists/static', $params, 'GET');
-        return is_array($data) && isset($data['lists']) ? $data['lists'] : array();
-    }
+		$data = $this->_call( '/contacts/v1/lists/static', $params, 'GET' );
 
-    /**
-     * register a new user to a static contact list
-     *
-     * @param $webinarKey
-     * @param $name
-     * @param $email
-     * @return bool
-     * @throws Thrive_Dash_Api_HubSpot_Exception
-     */
-    public function registerToContactList($contactListId, $name, $email)
-    {
-        $params = array(
-            'properties' => array(
-                array(
-                    'property' => 'email',
-                    'value' => $email
-                ),
-                array(
-                    'property' => 'firstname',
-                    'value' => $name ? $name : ''
-                )
-            )
-        );
-        $data = $this->_call('/contacts/v1/contact/createOrUpdate/email/' . $email . '/?hapikey=' . $this->apiKey, $params, 'POST');
-        $contactId = $data['vid'];
+		return is_array( $data ) && isset( $data['lists'] ) ? $data['lists'] : array();
+	}
 
-        $request_body = array('vids' => array($contactId));
-        $this->_call('contacts/v1/lists/' . $contactListId . '/add?hapikey=' . $this->apiKey, $request_body, 'POST');
-        return true;
-    }
+	/**
+	 * register a new user to a static contact list
+	 *
+	 * @param $webinarKey
+	 * @param $name
+	 * @param $email
+	 *
+	 * @return bool
+	 * @throws Thrive_Dash_Api_HubSpot_Exception
+	 */
+	public function registerToContactList( $contactListId, $name, $email ) {
+		$params    = array(
+			'properties' => array(
+				array(
+					'property' => 'email',
+					'value'    => $email
+				),
+				array(
+					'property' => 'firstname',
+					'value'    => $name ? $name : ''
+				)
+			)
+		);
+		$data      = $this->_call( '/contacts/v1/contact/createOrUpdate/email/' . $email . '/?hapikey=' . $this->apiKey, $params, 'POST' );
+		$contactId = $data['vid'];
 
-    /**
-     * perform a webservice call
-     *
-     * @param string $path api path
-     * @param array $params request parameters
-     * @param string $method GET or POST
-     *
-     * @throws Thrive_Dash_Api_HubSpot_Exception
-     */
-    protected function _call($path, $params = array(), $method = 'GET')
-    {
-        $url = self::API_URL . ltrim($path, '/');
+		$request_body = array( 'vids' => array( $contactId ) );
+		$this->_call( 'contacts/v1/lists/' . $contactListId . '/add?hapikey=' . $this->apiKey, $request_body, 'POST' );
 
-        $args = array(
-            'headers' => array(
-                'Content-type' => 'application/json',
-                'Accept' => 'application/json',
-            ),
-            'body' => json_encode($params)
-        );
+		return true;
+	}
 
-        switch ($method) {
-            case 'POST':
-                $args['body'] = json_encode($params);
-                $result = tve_dash_api_remote_post($url, $args);
-                break;
-            case 'GET':
-            default:
-                $query_string = '';
-                foreach ($params as $k => $v) {
-                    $query_string .= $query_string ? '&' : '';
-                    $query_string .= $k . '=' . $v;
-                }
-                if ($query_string) {
-                    $url .= (strpos($url, '?') !== false ? '&' : '?') . $query_string;
-                }
+	/**
+	 * perform a webservice call
+	 *
+	 * @param string $path api path
+	 * @param array $params request parameters
+	 * @param string $method GET or POST
+	 *
+	 * @throws Thrive_Dash_Api_HubSpot_Exception
+	 */
+	protected function _call( $path, $params = array(), $method = 'GET' ) {
+		$url = self::API_URL . ltrim( $path, '/' );
 
-                $result = tve_dash_api_remote_get($url, $args);
-                break;
-        }
+		$args = array(
+			'headers' => array(
+				'Content-type' => 'application/json',
+				'Accept'       => 'application/json',
+			),
+			'body'    => json_encode( $params )
+		);
 
-        if ($result instanceof WP_Error) {
-            throw new Thrive_Dash_Api_HubSpot_Exception('Failed connecting to HubSpot: ' . $result->get_error_message());
-        }
+		switch ( $method ) {
+			case 'POST':
+				$args['body'] = json_encode( $params );
+				$result       = tve_dash_api_remote_post( $url, $args );
+				break;
+			case 'GET':
+			default:
+				$query_string = '';
+				foreach ( $params as $k => $v ) {
+					$query_string .= $query_string ? '&' : '';
+					$query_string .= $k . '=' . $v;
+				}
+				if ( $query_string ) {
+					$url .= ( strpos( $url, '?' ) !== false ? '&' : '?' ) . $query_string;
+				}
 
-        $body = trim(wp_remote_retrieve_body($result));
-        $statusMsg = trim(wp_remote_retrieve_response_message($result));
-        $data = json_decode($body, true);
+				$result = tve_dash_api_remote_get( $url, $args );
+				break;
+		}
 
-        if (!is_array($data)) {
-            throw new Thrive_Dash_Api_HubSpot_Exception('API call error. Response was: ' . $body);
-        }
+		if ( $result instanceof WP_Error ) {
+			throw new Thrive_Dash_Api_HubSpot_Exception( 'Failed connecting to HubSpot: ' . $result->get_error_message() );
+		}
 
-        if ($statusMsg != 'OK') {
-            if (empty($statusMsg)) {
-                $statusMsg = 'Raw response was: ' . $body;
-            }
-            throw new Thrive_Dash_Api_HubSpot_Exception('API call error: ' . $statusMsg);
-        }
+		$body      = trim( wp_remote_retrieve_body( $result ) );
+		$statusMsg = trim( wp_remote_retrieve_response_message( $result ) );
+		$data      = json_decode( $body, true );
 
-        return $data;
-    }
+		if ( ! is_array( $data ) ) {
+			throw new Thrive_Dash_Api_HubSpot_Exception( 'API call error. Response was: ' . $body );
+		}
+
+		if ( $statusMsg != 'OK' ) {
+			if ( empty( $statusMsg ) ) {
+				$statusMsg = 'Raw response was: ' . $body;
+			}
+			throw new Thrive_Dash_Api_HubSpot_Exception( 'API call error: ' . $statusMsg );
+		}
+
+		return $data;
+	}
 }

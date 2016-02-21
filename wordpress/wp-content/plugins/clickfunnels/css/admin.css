@@ -348,8 +348,6 @@
     display: none;
 }
 input.input-xlarge {
-    padding: 7px !important;
-    padding: 10px !important;
     height: 27px;
 }
 #app_sidebar {

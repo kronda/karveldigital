@@ -16,35 +16,37 @@ class Thrive_Dash_Api_Postmark_AdminClient extends Thrive_Dash_Api_Postmark_Clie
 	 *
 	 * @param integer $timeout The timeout, in seconds, that API calls should wait before throwing an exception.
 	 */
-	function __construct($accountToken, $timeout = 30) {
-		parent::__construct($accountToken, "X-Postmark-Account-Token", $timeout);
+	function __construct( $accountToken, $timeout = 30 ) {
+		parent::__construct( $accountToken, "X-Postmark-Account-Token", $timeout );
 	}
 
 	/**
 	 * Request a given server by ID.
 	 *
 	 * @param int $id The Id for the server you wish to retrieve.
+	 *
 	 * @return Thrive_Dash_Api_Postmark_DynamicResponseModel
 	 */
-	function getServer($id) {
-		return new Thrive_Dash_Api_Postmark_DynamicResponseModel($this->processRestRequest('GET', "/servers/$id"));
+	function getServer( $id ) {
+		return new Thrive_Dash_Api_Postmark_DynamicResponseModel( $this->processRestRequest( 'GET', "/servers/$id" ) );
 	}
 
 	/**
 	 * Get a list of all servers configured on the account.
 	 *
-	 * @param integer $count  The number of servers to retrieve in the request, defaults to 100.
-	 * @param integer $offset  The number of servers to "skip" when paging through lists of servers.
+	 * @param integer $count The number of servers to retrieve in the request, defaults to 100.
+	 * @param integer $offset The number of servers to "skip" when paging through lists of servers.
 	 * @param string $name Filter by server name.
+	 *
 	 * @return Thrive_Dash_Api_Postmark_DynamicResponseModel
 	 */
-	function listServers($count = 100, $offset = 0, $name = NULL) {
-		$query = array();
-		$query['count'] = $count;
+	function listServers( $count = 100, $offset = 0, $name = null ) {
+		$query           = array();
+		$query['count']  = $count;
 		$query['offset'] = $offset;
-		$query['name'] = $name;
+		$query['name']   = $name;
 
-		return new Thrive_Dash_Api_Postmark_DynamicResponseModel($this->processRestRequest('GET', '/servers/', $query));
+		return new Thrive_Dash_Api_Postmark_DynamicResponseModel( $this->processRestRequest( 'GET', '/servers/', $query ) );
 	}
 
 	/**
@@ -55,8 +57,8 @@ class Thrive_Dash_Api_Postmark_AdminClient extends Thrive_Dash_Api_Postmark_Clie
 	 * @param  integer $id The ID of the Server to delete.
 	 * :return DynamicResponseModel
 	 */
-	function deleteServer($id) {
-		return new Thrive_Dash_Api_Postmark_DynamicResponseModel($this->processRestRequest('DELETE', "/servers/$id"));
+	function deleteServer( $id ) {
+		return new Thrive_Dash_Api_Postmark_DynamicResponseModel( $this->processRestRequest( 'DELETE', "/servers/$id" ) );
 	}
 
 	/**
@@ -78,26 +80,29 @@ class Thrive_Dash_Api_Postmark_AdminClient extends Thrive_Dash_Api_Postmark_Clie
 	 *
 	 * @return Thrive_Dash_Api_Postmark_DynamicResponseModel
 	 */
-	function editServer($id, $name = NULL, $color = NULL,
-		$rawEmailEnabled = NULL, $smtpApiActivated = NULL, $inboundHookUrl = NULL,
-		$bounceHookUrl = NULL, $openHookUrl = NULL, $postFirstOpenOnly = NULL,
-		$trackOpens = NULL, $inboundDomain = NULL, $inboundSpamThreshold = NULL) {
+	function editServer(
+		$id, $name = null, $color = null,
+		$rawEmailEnabled = null, $smtpApiActivated = null, $inboundHookUrl = null,
+		$bounceHookUrl = null, $openHookUrl = null, $postFirstOpenOnly = null,
+		$trackOpens = null, $inboundDomain = null, $inboundSpamThreshold = null
+	) {
 
-		$body = array();
-		$body['name'] = $name;
-		$body['color'] = $color;
-		$body['rawEmailEnabled'] = $rawEmailEnabled;
-		$body['smtpApiActivated'] = $smtpApiActivated;
-		$body['inboundHookUrl'] = $inboundHookUrl;
-		$body['bounceHookUrl'] = $bounceHookUrl;
-		$body['openHookUrl'] = $openHookUrl;
-		$body['postFirstOpenOnly'] = $postFirstOpenOnly;
-		$body['trackOpens'] = $trackOpens;
-		$body['inboundDomain'] = $inboundDomain;
+		$body                         = array();
+		$body['name']                 = $name;
+		$body['color']                = $color;
+		$body['rawEmailEnabled']      = $rawEmailEnabled;
+		$body['smtpApiActivated']     = $smtpApiActivated;
+		$body['inboundHookUrl']       = $inboundHookUrl;
+		$body['bounceHookUrl']        = $bounceHookUrl;
+		$body['openHookUrl']          = $openHookUrl;
+		$body['postFirstOpenOnly']    = $postFirstOpenOnly;
+		$body['trackOpens']           = $trackOpens;
+		$body['inboundDomain']        = $inboundDomain;
 		$body['inboundSpamThreshold'] = $inboundSpamThreshold;
 
-		$response = new Thrive_Dash_Api_Postmark_DynamicResponseModel($this->processRestRequest('PUT', "/servers/$id", $body));
+		$response       = new Thrive_Dash_Api_Postmark_DynamicResponseModel( $this->processRestRequest( 'PUT', "/servers/$id", $body ) );
 		$response["ID"] = $id;
+
 		return $response;
 	}
 
@@ -116,27 +121,30 @@ class Thrive_Dash_Api_Postmark_AdminClient extends Thrive_Dash_Api_Postmark_Clie
 	 * @param bool $trackOpens Indicates if all emails being sent through this server have open tracking enabled.
 	 * @param string $inboundDomain Inbound domain for MX setup.
 	 * @param integer $inboundSpamThreshold The maximum spam score for an inbound message before it's blocked (range from 0-30).
+	 *
 	 * @return Thrive_Dash_Api_Postmark_DynamicResponseModel
 	 */
-	function createServer($name, $color = NULL,
-		$rawEmailEnabled = NULL, $smtpApiActivated = NULL, $inboundHookUrl = NULL,
-		$bounceHookUrl = NULL, $openHookUrl = NULL, $postFirstOpenOnly = NULL,
-		$trackOpens = NULL, $inboundDomain = NULL, $inboundSpamThreshold = NULL) {
+	function createServer(
+		$name, $color = null,
+		$rawEmailEnabled = null, $smtpApiActivated = null, $inboundHookUrl = null,
+		$bounceHookUrl = null, $openHookUrl = null, $postFirstOpenOnly = null,
+		$trackOpens = null, $inboundDomain = null, $inboundSpamThreshold = null
+	) {
 
-		$body = array();
-		$body['name'] = $name;
-		$body['color'] = $color;
-		$body['rawEmailEnabled'] = $rawEmailEnabled;
-		$body['smtpApiActivated'] = $smtpApiActivated;
-		$body['inboundHookUrl'] = $inboundHookUrl;
-		$body['bounceHookUrl'] = $bounceHookUrl;
-		$body['openHookUrl'] = $openHookUrl;
-		$body['postFirstOpenOnly'] = $postFirstOpenOnly;
-		$body['trackOpens'] = $trackOpens;
-		$body['inboundDomain'] = $inboundDomain;
+		$body                         = array();
+		$body['name']                 = $name;
+		$body['color']                = $color;
+		$body['rawEmailEnabled']      = $rawEmailEnabled;
+		$body['smtpApiActivated']     = $smtpApiActivated;
+		$body['inboundHookUrl']       = $inboundHookUrl;
+		$body['bounceHookUrl']        = $bounceHookUrl;
+		$body['openHookUrl']          = $openHookUrl;
+		$body['postFirstOpenOnly']    = $postFirstOpenOnly;
+		$body['trackOpens']           = $trackOpens;
+		$body['inboundDomain']        = $inboundDomain;
 		$body['inboundSpamThreshold'] = $inboundSpamThreshold;
 
-		return new Thrive_Dash_Api_Postmark_DynamicResponseModel($this->processRestRequest('POST', '/servers/', $body));
+		return new Thrive_Dash_Api_Postmark_DynamicResponseModel( $this->processRestRequest( 'POST', '/servers/', $body ) );
 	}
 
 	/**
@@ -144,25 +152,27 @@ class Thrive_Dash_Api_Postmark_AdminClient extends Thrive_Dash_Api_Postmark_Clie
 	 *
 	 * @param  integer $count The number of Sender Signatures to retrieve with this request.
 	 *  param  integer $offset The number of Sender Signatures to 'skip' when 'paging' through them.
+	 *
 	 * @return Thrive_Dash_Api_Postmark_DynamicResponseModel
 	 */
-	function listSenderSignatures($count = 100, $offset = 0) {
+	function listSenderSignatures( $count = 100, $offset = 0 ) {
 
-		$query = array();
-		$query['count'] = $count;
+		$query           = array();
+		$query['count']  = $count;
 		$query['offset'] = $offset;
 
-		return new Thrive_Dash_Api_Postmark_DynamicResponseModel($this->processRestRequest('GET', '/senders/', $query));
+		return new Thrive_Dash_Api_Postmark_DynamicResponseModel( $this->processRestRequest( 'GET', '/senders/', $query ) );
 	}
 
 	/**
 	 * Get information for a sepcific Sender Signature.
 	 *
 	 * @param  integer $id The ID for the Sender Signature you wish to retrieve.
+	 *
 	 * @return Thrive_Dash_Api_Postmark_DynamicResponseModel
 	 */
-	function getSenderSignature($id) {
-		return new Thrive_Dash_Api_Postmark_DynamicResponseModel($this->processRestRequest('GET', "/senders/$id"));
+	function getSenderSignature( $id ) {
+		return new Thrive_Dash_Api_Postmark_DynamicResponseModel( $this->processRestRequest( 'GET', "/senders/$id" ) );
 	}
 
 	/**
@@ -174,17 +184,18 @@ class Thrive_Dash_Api_Postmark_AdminClient extends Thrive_Dash_Api_Postmark_Clie
 	 * @param  string $name The name of the Sender Signature.
 	 * @param  string $replyToEmail The reply-to email address for the Sender Signature.
 	 * @param  string $returnPathDomain The custom Return-Path domain for the Sender Signature.
+	 *
 	 * @return Thrive_Dash_Api_Postmark_DynamicResponseModel
 	 */
-	function createSenderSignature($fromEmail, $name, $replyToEmail = NULL, $returnPathDomain = NULL) {
+	function createSenderSignature( $fromEmail, $name, $replyToEmail = null, $returnPathDomain = null ) {
 
-		$body = array();
-		$body['fromEmail'] = $fromEmail;
-		$body['name'] = $name;
-		$body['replyToEmail'] = $replyToEmail;
+		$body                     = array();
+		$body['fromEmail']        = $fromEmail;
+		$body['name']             = $name;
+		$body['replyToEmail']     = $replyToEmail;
 		$body['returnPathDomain'] = $returnPathDomain;
 
-		return new Thrive_Dash_Api_Postmark_DynamicResponseModel($this->processRestRequest('POST', '/senders/', $body));
+		return new Thrive_Dash_Api_Postmark_DynamicResponseModel( $this->processRestRequest( 'POST', '/senders/', $body ) );
 	}
 
 	/**
@@ -194,26 +205,28 @@ class Thrive_Dash_Api_Postmark_AdminClient extends Thrive_Dash_Api_Postmark_Clie
 	 * @param  string $name The name of the Sender Signature.
 	 * @param  string $replyToEmail The reply-to email address for the Sender Signature.
 	 * @param  string $returnPathDomain The custom Return-Path domain for the Sender Signature.
+	 *
 	 * @return Thrive_Dash_Api_Postmark_DynamicResponseModel
 	 */
-	function editSenderSignature($id, $name = NULL, $replyToEmail = NULL, $returnPathDomain = NULL) {
+	function editSenderSignature( $id, $name = null, $replyToEmail = null, $returnPathDomain = null ) {
 
-		$body = array();
-		$body['name'] = $name;
-		$body['replyToEmail'] = $replyToEmail;
+		$body                     = array();
+		$body['name']             = $name;
+		$body['replyToEmail']     = $replyToEmail;
 		$body['returnPathDomain'] = $returnPathDomain;
 
-		return new Thrive_Dash_Api_Postmark_DynamicResponseModel($this->processRestRequest('PUT', "/senders/$id", $body));
+		return new Thrive_Dash_Api_Postmark_DynamicResponseModel( $this->processRestRequest( 'PUT', "/senders/$id", $body ) );
 	}
 
 	/**
 	 * Delete a Sender Signature with the given ID.
 	 *
 	 * @param  integer $id The ID for the Sender Signature we wish to delete.
+	 *
 	 * @return Thrive_Dash_Api_Postmark_DynamicResponseModel
 	 */
-	function deleteSenderSignature($id) {
-		return new Thrive_Dash_Api_Postmark_DynamicResponseModel($this->processRestRequest('DELETE', "/senders/$id"));
+	function deleteSenderSignature( $id ) {
+		return new Thrive_Dash_Api_Postmark_DynamicResponseModel( $this->processRestRequest( 'DELETE', "/senders/$id" ) );
 	}
 
 	/**
@@ -221,10 +234,11 @@ class Thrive_Dash_Api_Postmark_AdminClient extends Thrive_Dash_Api_Postmark_Clie
 	 * Sender Signatures require verification before they may be used to send email through the Postmark API.
 	 *
 	 * @param  integer $id The ID for the Sender Signature to which we wish to resend a verification email.
+	 *
 	 * @return Thrive_Dash_Api_Postmark_DynamicResponseModel
 	 */
-	function resendSenderSignatureConfirmation($id) {
-		return new Thrive_Dash_Api_Postmark_DynamicResponseModel($this->processRestRequest('POST', "/senders/$id/resend"));
+	function resendSenderSignatureConfirmation( $id ) {
+		return new Thrive_Dash_Api_Postmark_DynamicResponseModel( $this->processRestRequest( 'POST', "/senders/$id/resend" ) );
 	}
 
 	/**
@@ -233,10 +247,11 @@ class Thrive_Dash_Api_Postmark_AdminClient extends Thrive_Dash_Api_Postmark_Clie
 	 * Postmark, but it is highly recommended, and can improve delivery rates.
 	 *
 	 * @param  integer $id The ID for the Sender Signature for which we wish to verify the SPF records.
+	 *
 	 * @return Thrive_Dash_Api_Postmark_DynamicResponseModel
 	 */
-	function verifySenderSignatureSPF($id) {
-		return new Thrive_Dash_Api_Postmark_DynamicResponseModel($this->processRestRequest('POST', "/senders/$id/verifyspf"));
+	function verifySenderSignatureSPF( $id ) {
+		return new Thrive_Dash_Api_Postmark_DynamicResponseModel( $this->processRestRequest( 'POST', "/senders/$id/verifyspf" ) );
 	}
 
 	/**
@@ -245,10 +260,12 @@ class Thrive_Dash_Api_Postmark_AdminClient extends Thrive_Dash_Api_Postmark_Clie
 	 * on DKIM and its purpose, see http://www.dkim.org/
 	 *
 	 * @param  integer $id The ID for the Sender Signature for which we wish to get an updated DKIM configuration.
+	 *
 	 * @return Thrive_Dash_Api_Postmark_DynamicResponseModel
 	 */
-	function requestNewSenderSignatureDKIM($id) {
-		return new Thrive_Dash_Api_Postmark_DynamicResponseModel($this->processRestRequest('POST', "/senders/$id/requestnewdkim"));
+	function requestNewSenderSignatureDKIM( $id ) {
+		return new Thrive_Dash_Api_Postmark_DynamicResponseModel( $this->processRestRequest( 'POST', "/senders/$id/requestnewdkim" ) );
 	}
 }
+
 ?>

@@ -55,25 +55,25 @@ $events_config = array(
 		</div>
 		<div class="tve_vs_img">
 			<div class="tve_vs_st2">
-                <div class="tve_vs_fe">
-                    <div style="width: 206px;" class="thrv_wrapper tve_image_caption aligncenter tve_no_drag">
+				<div class="tve_vs_fe">
+					<div style="width: 206px;" class="thrv_wrapper tve_image_caption aligncenter tve_no_drag">
                         <span class="tve_image_frame">
                             <img draggable="false" class="tve_image"
                                  src="<?php echo TVE_LANDING_PAGE_TEMPLATE . '/css/images/find_email.png' ?>"
                                  style="width: 206px;"/>
                         </span>
-                    </div>
-                </div>
-                <div class="tve_vs_st1i">
-                    <div style="width: 384px;"
-                         class="thrv_wrapper tve_image_caption aligncenter tve_no_drag tve_no_icons">
+					</div>
+				</div>
+				<div class="tve_vs_st1i">
+					<div style="width: 384px;"
+					     class="thrv_wrapper tve_image_caption aligncenter tve_no_drag tve_no_icons">
                         <span class="tve_image_frame">
                             <img draggable="false" class="tve_image"
                                  src="<?php echo TVE_LANDING_PAGE_TEMPLATE . '/css/images/vision_confirmation_bg.png' ?>"
                                  style="width: 384px;"/>
                         </span>
-                    </div>
-                </div>
+					</div>
+				</div>
 			</div>
 		</div>
 		<div class="thrv_columns tve_clearfix">
@@ -81,13 +81,13 @@ $events_config = array(
 				<div class="tve_vs_st3">
 					<div class="tve_vs_st">
 						<div class="tve_vs_sti">
-                            <p style="font-size: 14px; color: #476f80; margin-bottom: 0;margin-top: 0;padding-bottom: 0;" class="tve_no_drag tve_no_icons">
+							<p style="font-size: 14px; color: #476f80; margin-bottom: 0;margin-top: 0;padding-bottom: 0;" class="tve_no_drag tve_no_icons">
 								<span class="bold_text">STEP 2</span>
 							</p>
 						</div>
 					</div>
 					<div style="font-size: 25px; color: #fff" class="thrv_wrapper thrv_icon aligncenter">
-                        <span style="margin-top: 15px;" class="tve_sc_icon vision-confirmation-mailopen" data-tve-icon="vision-confirmation-mailopen"></span>
+						<span style="margin-top: 15px;" class="tve_sc_icon vision-confirmation-mailopen" data-tve-icon="vision-confirmation-mailopen"></span>
 					</div>
 					<p class="tve_p_center" style="color: #fff; font-size: 16px;">
 						<span class="bold_text">Open the email sent by us. It has
@@ -100,13 +100,13 @@ $events_config = array(
 				<div class="tve_vs_st4">
 					<div class="tve_vs_st">
 						<div class="tve_vs_sti">
-                            <p style="font-size: 14px; color: #476f80; margin-bottom: 0;margin-top: 0;padding-bottom: 0;"  class="tve_no_drag tve_no_icons">
+							<p style="font-size: 14px; color: #476f80; margin-bottom: 0;margin-top: 0;padding-bottom: 0;" class="tve_no_drag tve_no_icons">
 								<span class="bold_text">STEP 3</span>
 							</p>
 						</div>
 					</div>
 					<div style="font-size: 25px; color: #fff" class="thrv_wrapper thrv_icon aligncenter">
-                        <span style="margin-top: 15px;" class="tve_sc_icon vision-confirmation-link" data-tve-icon="vision-confirmation-link"></span>
+						<span style="margin-top: 15px;" class="tve_sc_icon vision-confirmation-link" data-tve-icon="vision-confirmation-link"></span>
 					</div>
 					<p class="tve_p_center" style="color: #fff; font-size: 16px;">
 						<span class="bold_text">Click on the confirmation link</span>
@@ -117,13 +117,13 @@ $events_config = array(
 				<div class="tve_vs_st5">
 					<div class="tve_vs_st">
 						<div class="tve_vs_sti">
-                            <p style="font-size: 14px; color: #476f80; margin-bottom: 0;margin-top: 0;padding-bottom: 0;"  class="tve_no_drag tve_no_icons">
+							<p style="font-size: 14px; color: #476f80; margin-bottom: 0;margin-top: 0;padding-bottom: 0;" class="tve_no_drag tve_no_icons">
 								<span class="bold_text">STEP 4</span>
 							</p>
 						</div>
 					</div>
 					<div style="font-size: 25px; color: #fff" class="thrv_wrapper thrv_icon aligncenter">
-                        <span style="margin-top: 15px;" class="tve_sc_icon vision-confirmation-download" data-tve-icon="vision-confirmation-download"></span>
+						<span style="margin-top: 15px;" class="tve_sc_icon vision-confirmation-download" data-tve-icon="vision-confirmation-download"></span>
 					</div>
 					<p class="tve_p_center" style="color: #fff; font-size: 16px;">
 						<span class="bold_text">Enjoy your free download</span>

@@ -6,200 +6,196 @@
  * Date: 9/15/2015
  * Time: 12:45 PM
  */
-class Thrive_Dash_List_Connection_Drip extends Thrive_Dash_List_Connection_Abstract
-{
-    /**
-     * Return the connection type
-     * @return String
-     */
-    public static function getType()
-    {
-        return 'autoresponder';
-    }
+class Thrive_Dash_List_Connection_Drip extends Thrive_Dash_List_Connection_Abstract {
+	/**
+	 * Return the connection type
+	 * @return String
+	 */
+	public static function getType() {
+		return 'autoresponder';
+	}
 
-    /**
-     * @return string the API connection title
-     */
-    public function getTitle()
-    {
-        return 'Drip';
-    }
+	/**
+	 * @return string the API connection title
+	 */
+	public function getTitle() {
+		return 'Drip';
+	}
 
-    /**
-     * instantiate the API code required for this connection
-     *
-     * @return mixed
-     */
-    protected function _apiInstance()
-    {
-        return new Thrive_Dash_Api_Drip($this->param('token'));
-    }
+	/**
+	 * instantiate the API code required for this connection
+	 *
+	 * @return mixed
+	 */
+	protected function _apiInstance() {
+		return new Thrive_Dash_Api_Drip( $this->param( 'token' ) );
+	}
 
-    /**
-     * output the setup form html
-     *
-     * @return void
-     */
-    public function outputSetupForm()
-    {
-        $this->_directFormHtml('drip');
-    }
+	/**
+	 * output the setup form html
+	 *
+	 * @return void
+	 */
+	public function outputSetupForm() {
+		$this->_directFormHtml( 'drip' );
+	}
 
-    /**
-     * should handle: read data from post / get, test connection and save the details
-     *
-     * on error, it should register an error message (and redirect?)
-     *
-     * @return mixed
-     */
-    public function readCredentials()
-    {
-        $token = !empty($_POST['connection']['token']) ? $_POST['connection']['token'] : '';
-        $client_id = !empty($_POST['connection']['client_id']) ? $_POST['connection']['client_id'] : '';
+	/**
+	 * should handle: read data from post / get, test connection and save the details
+	 *
+	 * on error, it should register an error message (and redirect?)
+	 *
+	 * @return mixed
+	 */
+	public function readCredentials() {
+		$token     = ! empty( $_POST['connection']['token'] ) ? $_POST['connection']['token'] : '';
+		$client_id = ! empty( $_POST['connection']['client_id'] ) ? $_POST['connection']['client_id'] : '';
 
-        if (empty($token) || empty($client_id)) {
-            return $this->error(__('You must provide a valid Drip token and Client ID', TVE_DASH_TRANSLATE_DOMAIN));
-        }
+		if ( empty( $token ) || empty( $client_id ) ) {
+			return $this->error( __( 'You must provide a valid Drip token and Client ID', TVE_DASH_TRANSLATE_DOMAIN ) );
+		}
 
-        $this->setCredentials($_POST['connection']);
+		$this->setCredentials( $_POST['connection'] );
 
-        $result = $this->testConnection();
+		$result = $this->testConnection();
 
-        if ($result !== true) {
-            return $this->error(sprintf(__('Could not connect to Drip using the provided Token and Client ID (<strong>%s</strong>)', TVE_DASH_TRANSLATE_DOMAIN), $result));
-        }
+		if ( $result !== true ) {
+			return $this->error( sprintf( __( 'Could not connect to Drip using the provided Token and Client ID (<strong>%s</strong>)', TVE_DASH_TRANSLATE_DOMAIN ), $result ) );
+		}
 
-        /**
-         * finally, save the connection details
-         */
-        $this->save();
-        return $this->success(__('Drip connected successfully', TVE_DASH_TRANSLATE_DOMAIN));
-    }
+		/**
+		 * finally, save the connection details
+		 */
+		$this->save();
 
-    /**
-     * test if a connection can be made to the service using the stored credentials
-     *
-     * @return bool|string true for success or error message for failure
-     */
-    public function testConnection()
-    {
-        try {
+		return $this->success( __( 'Drip connected successfully', TVE_DASH_TRANSLATE_DOMAIN ) );
+	}
 
-            /** @var Thrive_Dash_Api_Drip $api */
-            $api = $this->getApi();
+	/**
+	 * test if a connection can be made to the service using the stored credentials
+	 *
+	 * @return bool|string true for success or error message for failure
+	 */
+	public function testConnection() {
+		try {
 
-            $accounts = $api->get_accounts();
+			/** @var Thrive_Dash_Api_Drip $api */
+			$api = $this->getApi();
 
-            if (empty($accounts) || !is_array($accounts)) {
-                return __("Drip connection could not be validated!", TVE_DASH_TRANSLATE_DOMAIN);
-            }
+			$accounts = $api->get_accounts();
 
-            foreach ($accounts['accounts'] as $account) {
-                if ($account['id'] === $this->param('client_id')) {
-                    return true;
-                }
-            }
+			if ( empty( $accounts ) || ! is_array( $accounts ) ) {
+				return __( "Drip connection could not be validated!", TVE_DASH_TRANSLATE_DOMAIN );
+			}
 
-            return false;
+			foreach ( $accounts['accounts'] as $account ) {
+				if ( $account['id'] === $this->param( 'client_id' ) ) {
+					return true;
+				}
+			}
 
-        } catch (Exception $e) {
-            return $e->getMessage();
-        }
-    }
+			return false;
 
-    /**
-     * get all Subscriber Lists from this API service
-     *
-     * @return array|bool for error
-     */
-    protected function _getLists()
-    {
-        try {
-            /** @var Thrive_Dash_Api_Drip $api */
-            $api = $this->getApi();
+		} catch ( Exception $e ) {
+			return $e->getMessage();
+		}
+	}
 
-            $campaigns = $api->get_campaigns(array(
-                'account_id' => $this->param('client_id'),
-                'status' => 'all',
-            ));
+	/**
+	 * get all Subscriber Lists from this API service
+	 *
+	 * @return array|bool for error
+	 */
+	protected function _getLists() {
+		try {
+			/** @var Thrive_Dash_Api_Drip $api */
+			$api = $this->getApi();
 
-            if (empty($campaigns) || !is_array($campaigns)) {
-                $this->_error = __('There is not Campaign in your Drip account to be fetched !', TVE_DASH_TRANSLATE_DOMAIN);
-                return false;
-            }
+			$campaigns = $api->get_campaigns( array(
+				'account_id' => $this->param( 'client_id' ),
+				'status'     => 'all',
+			) );
 
-            $lists = array();
+			if ( empty( $campaigns ) || ! is_array( $campaigns ) ) {
+				$this->_error = __( 'There is not Campaign in your Drip account to be fetched !', TVE_DASH_TRANSLATE_DOMAIN );
 
-            foreach ($campaigns['campaigns'] as $campaign) {
-                $lists[] = array(
-                    'id' => $campaign['id'],
-                    'name' => $campaign['name']
-                );
-            }
+				return false;
+			}
 
-            return $lists;
+			$lists = array();
 
-        } catch (Exception $e) {
-            $this->_error = $e->getMessage();
-            return false;
-        }
-    }
+			foreach ( $campaigns['campaigns'] as $campaign ) {
+				$lists[] = array(
+					'id'   => $campaign['id'],
+					'name' => $campaign['name']
+				);
+			}
 
-    /**
-     * add a contact to a list
-     *
-     * @param mixed $list_identifier
-     * @param array $arguments
-     * @return mixed
-     */
-    public function addSubscriber($list_identifier, $arguments)
-    {
-        list($first_name, $last_name) = $this->_getNameParts($arguments['name']);
-        $phone = !empty($arguments['phone']) ? $arguments['phone'] : '';
+			return $lists;
 
-        try {
-            /** @var Thrive_Dash_Api_Drip $api */
-            $api = $this->getApi();
+		} catch ( Exception $e ) {
+			$this->_error = $e->getMessage();
 
-            $user = array(
-                'account_id' => $this->param('client_id'),
-                'campaign_id' => $list_identifier,
-                'email' => $arguments['email'],
-                'ip_address' => $_SERVER['REMOTE_ADDR'],
-                'custom_fields' => array(
-                    'thrive_first_name' => $first_name,
-                    'thrive_last_name' => $last_name,
-                    'thrive_phone' => $phone
-                )
-            );
+			return false;
+		}
+	}
 
-            $lead = $api->create_or_update_subscriber($user);
-            if (empty($user)) {
-                return __("User could not be subscribed", TVE_DASH_TRANSLATE_DOMAIN);
-            }
+	/**
+	 * add a contact to a list
+	 *
+	 * @param mixed $list_identifier
+	 * @param array $arguments
+	 *
+	 * @return mixed
+	 */
+	public function addSubscriber( $list_identifier, $arguments ) {
+		list( $first_name, $last_name ) = $this->_getNameParts( $arguments['name'] );
+		$phone = ! empty( $arguments['phone'] ) ? $arguments['phone'] : '';
 
-            $client = array_shift($lead['subscribers']);
+		try {
+			/** @var Thrive_Dash_Api_Drip $api */
+			$api = $this->getApi();
 
-            $api->subscribe_subscriber(array(
-                'account_id' => $this->param('client_id'),
-                'campaign_id' => $list_identifier,
-                'email' => $client['email'],
-            ));
+			$user = array(
+				'account_id'    => $this->param( 'client_id' ),
+				'campaign_id'   => $list_identifier,
+				'email'         => $arguments['email'],
+				'ip_address'    => $_SERVER['REMOTE_ADDR'],
+				'custom_fields' => array(
+					'thrive_first_name' => $first_name,
+					'thrive_last_name'  => $last_name,
+					'thrive_phone'      => $phone
+				)
+			);
 
-            $api->record_event(array(
-                'account_id' => $this->param('client_id'),
-                'action' => 'Submitted a Thrive Leads form',
-                'email' => $arguments['email']
-            ));
+			$lead = $api->create_or_update_subscriber( $user );
+			if ( empty( $user ) ) {
+				return __( "User could not be subscribed", TVE_DASH_TRANSLATE_DOMAIN );
+			}
 
-            return true;
+			$client = array_shift( $lead['subscribers'] );
 
-        } catch (Thrive_Dash_Api_Drip_Exception_Unsubscribed $e) {
-            $api->delete_subscriber($user);
-            return $this->addSubscriber($list_identifier, $arguments);
+			$api->subscribe_subscriber( array(
+				'account_id'  => $this->param( 'client_id' ),
+				'campaign_id' => $list_identifier,
+				'email'       => $client['email'],
+			) );
 
-        } catch (Exception $e) {
-            return $e->getMessage();
-        }
-    }
+			$api->record_event( array(
+				'account_id' => $this->param( 'client_id' ),
+				'action'     => 'Submitted a Thrive Leads form',
+				'email'      => $arguments['email']
+			) );
+
+			return true;
+
+		} catch ( Thrive_Dash_Api_Drip_Exception_Unsubscribed $e ) {
+			$api->delete_subscriber( $user );
+
+			return $this->addSubscriber( $list_identifier, $arguments );
+
+		} catch ( Exception $e ) {
+			return $e->getMessage();
+		}
+	}
 }

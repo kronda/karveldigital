@@ -3,7 +3,7 @@
 /*
 Plugin Name: Thrive Visual Editor
 Plugin URI: http://www.thrivethemes.com
-Version: 1.200.00
+Version: 1.200.2
 Author: <a href="http://www.thrivethemes.com">Thrive Themes</a>
 Description: Live front end editor for your Wordpress content
 */
@@ -53,11 +53,15 @@ add_action('plugins_loaded', 'tve_plugins_loaded_hook');
 //after the plugin is loaded load the dashboard version file
 add_action('plugins_loaded', 'tve_load_dash_version');
 
+/* only TCB-specific classes should be loaded here */
+add_action('init', 'tve_load_tcb_classes');
+
 /**
  * TCB-specific AJAX actions
  */
 add_action('wp_ajax_tve_lp_export', 'tve_ajax_landing_page_export');
 add_action('wp_ajax_tve_lp_import', 'tve_ajax_landing_page_import');
+add_action('wp_ajax_tve_cloud_templates', 'tve_ajax_landing_page_cloud');
 
 /**
  * AJAX call to return the TCB-added content for a post
@@ -68,8 +72,7 @@ if (!function_exists('tve_editor_url')) {
     /**
      * @return string the absolute url to this plugin's folder
      */
-    function tve_editor_url()
-    {
+	function tve_editor_url() {
         return plugins_url() . '/thrive-visual-editor';
     }
 }
@@ -83,8 +86,7 @@ if (is_admin()) {
 /**
  * enqueue scripts for the frontend - also editor and preview
  */
-function tve_frontend_enqueue_scripts()
-{
+function tve_frontend_enqueue_scripts() {
     $js_suffix = defined('TVE_DEBUG') && TVE_DEBUG ? '.js' : '.min.js';
 
     if (!is_editor_page_raw()) {
@@ -107,6 +109,7 @@ function tve_frontend_enqueue_scripts()
             return;
         }
     }
+
     wp_enqueue_style("tve_default", tve_editor_css() . '/thrive_default.css');
     wp_enqueue_style("tve_colors", tve_editor_css() . '/thrive_colors.css');
     tve_enqueue_style_family();
@@ -143,16 +146,14 @@ function tve_frontend_enqueue_scripts()
 /**
  * output the admin license validation page
  */
-function tve_license_validation()
-{
+function tve_license_validation() {
     include('tve_settings.php');
 }
 
 /**
  * add the options link to the admin menu
  */
-function tve_add_settings_menu()
-{
+function tve_add_settings_menu() {
     add_submenu_page(false, '', '', 'manage_options', 'tve_license_validation', 'tve_license_validation');
 }
 
@@ -168,10 +169,10 @@ function tve_add_settings_menu()
  *
  * @param array $pieces
  * @param WP_Query $wpQuery
+ *
  * @return array
  */
-function tve_process_search_clauses($pieces, $wpQuery)
-{
+function tve_process_search_clauses( $pieces, $wpQuery ) {
     if (is_admin() || empty($pieces) || !$wpQuery->is_search()) {
         return $pieces;
     }
@@ -223,8 +224,7 @@ function tve_process_search_clauses($pieces, $wpQuery)
  *
  * @return string $content
  */
-function tve_genesis_get_post_excerpt($output, $content, $link, $max_characters)
-{
+function tve_genesis_get_post_excerpt( $output, $content, $link, $max_characters ) {
     global $post;
     $post_id = get_the_ID();
 
@@ -241,6 +241,7 @@ function tve_genesis_get_post_excerpt($output, $content, $link, $max_characters)
                 stripslashes($content_before_more) .
                 $more_link .
                 "</div>";
+
             return tve_restore_script_tags($content);
         }
 
@@ -272,8 +273,7 @@ function tve_genesis_get_post_excerpt($output, $content, $link, $max_characters)
  *
  * @param $events
  */
-function tve_page_events($events)
-{
+function tve_page_events( $events ) {
     $triggers = tve_get_event_triggers('page');
     $actions = tve_get_event_actions('page');
 
@@ -361,8 +361,7 @@ function tve_page_events($events)
  *
  * @param $post_id
  */
-function tve_save_post_callback($post_id)
-{
+function tve_save_post_callback( $post_id ) {
     /**
      * If $post_id is an ID of a revision POST
      */
@@ -412,8 +411,7 @@ function tve_save_post_callback($post_id)
  *
  * @return string $content
  */
-function tve_yoast_seo_integration($content)
-{
+function tve_yoast_seo_integration( $content ) {
     $post_id = get_the_ID();
     if ($post_id && !tve_is_post_type_editable(get_post_type($post_id))) {
         return $content;
@@ -432,6 +430,7 @@ function tve_yoast_seo_integration($content)
     $tve_saved_content = str_replace('<p></p>', '', $tve_saved_content);
 
     $content = $tve_saved_content . " " . $content;
+
     return $content;
 }
 
@@ -443,8 +442,7 @@ function tve_yoast_seo_integration($content)
  *
  * @return array
  */
-function tve_yoast_sitemap_images($images, $post_id)
-{
+function tve_yoast_sitemap_images( $images, $post_id ) {
     $post_type = get_post_type($post_id);
     $p = get_post($post_id);
 
@@ -523,8 +521,7 @@ function tve_yoast_sitemap_images($images, $post_id)
 /**
  * export a Landing Page as a Zip file
  */
-function tve_ajax_landing_page_export()
-{
+function tve_ajax_landing_page_export() {
     $response = array(
         'success' => true
     );
@@ -534,8 +531,6 @@ function tve_ajax_landing_page_export()
         $response['message'] = __('Invalid request', 'thrive-cb');
         wp_send_json($response);
     }
-
-    require_once plugin_dir_path(__FILE__) . 'landing-page/inc/TCB_Landing_Page_Transfer.php';
 
     $transfer = new TCB_Landing_Page_Transfer();
 
@@ -559,8 +554,7 @@ function tve_ajax_landing_page_export()
  * import a landing page from an attachment ID received in POST
  * the attachment should be a .zip file created with the "Export Landing Page" functionality
  */
-function tve_ajax_landing_page_import()
-{
+function tve_ajax_landing_page_import() {
     $response = array(
         'success' => true,
         'message' => '',
@@ -572,7 +566,6 @@ function tve_ajax_landing_page_import()
         wp_send_json($response);
     }
 
-    require_once plugin_dir_path(__FILE__) . 'landing-page/inc/TCB_Landing_Page_Transfer.php';
     $transfer = new TCB_Landing_Page_Transfer();
     try {
 
@@ -593,10 +586,10 @@ function tve_ajax_landing_page_import()
  *
  * @param array $icons
  * @param int $post_id
+ *
  * @return array
  */
-function tve_landing_page_extra_icon_packs($icons, $post_id)
-{
+function tve_landing_page_extra_icon_packs( $icons, $post_id ) {
     if (empty($post_id)) {
         return $icons;
     }
@@ -625,8 +618,7 @@ function tve_landing_page_extra_icon_packs($icons, $post_id)
  * @see tve_enqueue_extra_resources
  *
  */
-function tve_output_extra_custom_fonts_css($post_id = null)
-{
+function tve_output_extra_custom_fonts_css( $post_id = null ) {
     $fonts = apply_filters('tcb_extra_custom_fonts', array(), $post_id);
 
     if (empty($fonts)) {
@@ -643,10 +635,10 @@ function tve_output_extra_custom_fonts_css($post_id = null)
  *
  * @param $fonts
  * @param null $post_id
+ *
  * @return array
  */
-function tve_get_extra_custom_fonts($fonts, $post_id = null)
-{
+function tve_get_extra_custom_fonts( $fonts, $post_id = null ) {
     if (empty($post_id)) {
         $post_id = get_the_ID();
     }
@@ -665,8 +657,7 @@ function tve_get_extra_custom_fonts($fonts, $post_id = null)
 /**
  * called on the 'plugins_loaded' hook
  */
-function tve_plugins_loaded_hook()
-{
+function tve_plugins_loaded_hook() {
     if (defined('WPSEO_VERSION')) {
         // integration with YOAST SEO
         /* version 3 removed this filter completely - this is handled from javascript from version 3.0 onwards */
@@ -687,8 +678,7 @@ function tve_plugins_loaded_hook()
  *
  * @return void
  */
-function tve_ajax_yoast_tcb_post_content()
-{
+function tve_ajax_yoast_tcb_post_content() {
     $id = filter_input(INPUT_POST, 'post_id', FILTER_SANITIZE_NUMBER_INT);
 
     /**
@@ -706,4 +696,183 @@ function tve_ajax_yoast_tcb_post_content()
         'post_id' => $post->ID,
         'content' => $all_content
     ));
+}
+
+/**
+ * called on the 'init' hook
+ *
+ * load all classes and files needed for TCB
+ */
+function tve_load_tcb_classes()
+{
+    require_once plugin_dir_path(__FILE__) . 'landing-page/inc/TCB_Landing_Page_Transfer.php';
+}
+
+/**
+ * main entry-point for Landing Pages stored in the cloud - get all, download etc
+ */
+function tve_ajax_landing_page_cloud()
+{
+    if (empty($_POST['task'])) {
+        $error = __('Invalid request', 'thrive-cb');
+    }
+
+    if (!isset($error)) {
+
+        try {
+            switch ($_POST['task']) {
+                case 'get_all':
+                    $templates = tve_get_cloud_templates();
+                    $downloaded = tve_get_downloaded_templates();
+                    $selected = empty($_POST['current_template']) ? '' : $_POST['current_template'];
+
+                    /* check if update is required for a template */
+                    foreach ($downloaded as $k => $tpl) {
+                        if (!isset($templates[$k])) {
+                            unset($downloaded[$k]);
+                            continue;
+                        }
+                        if (empty($tpl['version']) || version_compare($templates[$k]['version'], $tpl['version'], '>')) {
+                            $downloaded[$k]['update_available'] = true;
+                        }
+                    }
+
+                    break;
+                case 'download':
+                    $template = isset($_POST['template']) ? $_POST['template'] : '';
+                    if (empty($template)) {
+                        throw new Exception(__('Invalid template', 'thrive-cb'));
+                    }
+                    /**
+                     * this will throw Exception if anything goes wrong
+                     */
+                    $template_downloaded = TCB_Landing_Page_Cloud_Templates_Api::getInstance()->download($template);
+                    $is_update = !empty($_POST['is_update']);
+                    /* we just return a button that will replace the "Preview" and "Download" buttons */
+                    break;
+            }
+        } catch (Exception $e) {
+            $error = $e->getMessage();
+        }
+    }
+
+    include plugin_dir_path(__FILE__) . 'editor/views/landing-page-cloud-templates.php';
+    exit();
+
+}
+
+/**
+ * get a list of templates from the cloud
+ * search first in a local wp_option (to avoid making too many requests to the templates server)
+ * cache the results for a set period of time
+ *
+ * default cache interval: 8h
+ *
+ * @param bool $force_fetch whether or not to get the template list from the cloud or try a local cache first
+ *
+ * @return array
+ */
+function tve_get_cloud_templates($force_fetch = false)
+{
+    $keep_cache_for = 0;//3600 * 8;
+
+    $cache = get_option('thrive_template_cloud', array());
+
+    if ($force_fetch || empty($cache['created_at']) || $cache['created_at'] < time() - $keep_cache_for || !isset($cache['templates'])) {
+        $cache = array(
+            'templates' => TCB_Landing_Page_Cloud_Templates_Api::getInstance()->getTemplateList(),
+            'created_at' => time(),
+        );
+        update_option('thrive_template_cloud', $cache);
+    }
+
+    return $cache['templates'];
+}
+
+/**
+ * get a list of all landing page templates downloaded from the cloud
+ *
+ * @return array
+ */
+function tve_get_downloaded_templates()
+{
+    return get_option('thrive_tcb_download_lp', array());
+}
+
+
+/**
+ * save the list of downloaded templates into the wp_option used for these
+ *
+ * @param array $templates
+ */
+function tve_save_downloaded_templates($templates)
+{
+    update_option('thrive_tcb_download_lp', $templates);
+}
+
+/**
+ * check if a landing page template is originating from the cloud (has been downloaded previously)
+ *
+ * @param string $lp_template
+ *
+ * @return bool
+ */
+function tve_is_cloud_template($lp_template)
+{
+    $templates = tve_get_downloaded_templates();
+
+    return array_key_exists($lp_template, $templates);
+}
+
+/**
+ * get the configuration stored in the wp_option table for this template (this only applies to templates downloaded from the cloud)
+ * if $validate === true => also perform validations of the files (ensure the required files exist in the uploads folder)
+ *
+ * @param string $lp_template
+ * @param bool $validate if true, causes the configuration to be validated
+ *
+ * @return array|bool false in case there is something wrong (missing files, invalid template name etc)
+ */
+function tve_get_cloud_template_config($lp_template, $validate = true)
+{
+    $templates = tve_get_downloaded_templates();
+    if (!isset($templates[$lp_template])) {
+        return false;
+    }
+
+    $config = $templates[$lp_template];
+    $config['cloud'] = true;
+
+    /**
+     * skip the validation process if $validate is falsy
+     */
+    if (!$validate) {
+        return $config;
+    }
+
+    $base_folder = trailingslashit($config['base_dir']);
+
+    $required_files = array(
+        'templates/' . $lp_template. '.tpl', // html contents
+        'templates/css/' . $lp_template . '.css', // css file
+    );
+
+    foreach ($required_files as $file) {
+        if (!is_readable($base_folder . $file)) {
+            unset($templates[$lp_template]);
+            tve_save_downloaded_templates($templates);
+            return false;
+        }
+    }
+
+    return $config;
+}
+
+/**
+ * resets all stored metadata for downloaded templates
+ * this can be used if some of the template files have been deleted
+ */
+function tve_reset_cloud_templates_meta()
+{
+    tve_save_downloaded_templates(array());
 }

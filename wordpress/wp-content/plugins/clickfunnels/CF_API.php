@@ -41,19 +41,50 @@ public function get_page_html( $funnel_id, $pagekey = 0, $meta = "", $title = ""
     }
 
     if ($favicon_choice == 'default') {
-        $favicon_url = '';
-        $favicon_js = '$("link[rel=\'icon\']").remove();';
-    }
-    else {
-         $favicon_url = '<link href="'.$favicon.'" rel="shortcut icon" type="image/x-icon" />';
-         $favicon_js = '$("link[rel=\'icon\']").attr(\'href\',\''.$favicon.'\');';
+        $changed = false;
+        
+        if($site_icon = get_option('site_icon')):
+            $favicon = wp_get_attachment_image_src($site_icon, 'full');
+            $favicon = $favicon[0];
+            $changed = true;
+        else:
+            $home_page_full_html_code = @file_get_contents(home_url());
+            if($home_page_full_html_code !== false):
+                preg_match_all('!<link(.*?)rel="(.*?)icon(.*?)"(.*?)href="(.*?)"(.*?)>!si', $home_page_full_html_code, $res);
+                foreach($res as $row):
+                    foreach($row as $item):
+                        $img_res = @exif_imagetype($item);
+                        if($img_res > 0 and $img_res < 18): // This is image
+                            $favicon = $item;
+                            $changed = true;
+                            break;
+                        endif;
+                    endforeach;
+                endforeach;
+            endif;
+        endif;
+        
+        if($changed):
+            $favicon_url = '<link href="'.$favicon.'" rel="shortcut icon" type="image/x-icon" />';
+            $favicon_js = '$("link[rel=\'icon\']").attr(\'href\',\''.$favicon.'\');';
+        else:
+            $favicon_url = '';
+            $favicon_js = '$("link[rel=\'icon\']").remove();';
+        endif;
+    }  else {
+        $favicon_url = '<link href="'.$favicon.'" rel="shortcut icon" type="image/x-icon" />';
+        $favicon_js = '$("link[rel=\'icon\']").attr(\'href\',\''.$favicon.'\');';
     }
 
+$og_url_content = $slug;
+if(is_front_page()):
+    $og_url_content = get_home_url();
+endif;
 $newHTML = '<!DOCTYPE html>
 <html>
     <head>
         <meta content="text/html;charset=utf-8" http-equiv="Content-Type">
-        '.$$favicon_url.'
+        '.$favicon_url.'
         <meta name="nodo-proxy" content="html">
         <!-- Meta Data -->
         <title>'.urldecode($title).'</title>
@@ -65,7 +96,7 @@ $newHTML = '<!DOCTYPE html>
         <meta content="'.urldecode($title).'" property="og:title">
         <meta content="'.urldecode($desc).'" property="og:description">
         <meta content="'.$social.'" property="og:image">
-        <meta property="og:url" content="'.$slug.'">
+        <meta property="og:url" content="'.$og_url_content.'">
         <meta property="og:type" content="website">
         <!-- WordPress Only Tracking Code -->
         '.$tracking.'
@@ -73,8 +104,9 @@ $newHTML = '<!DOCTYPE html>
         <style type="text/css">#IntercomDefaultWidget{display:none;}#Intercom{display:none;}</style>
         <link href="https://assets3.clickfunnels.com/assets/lander.css" media="screen" rel="stylesheet"/>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
-        <script type="text/javascript" src="https://static.clickfunnels.com/clickfunnels/landers/tmp/'.$pagekey.'.js"></script>
-        <script type="text/javascript">
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/velocity/1.2.3/velocity.min.js"></script>
+        <script data-cfasync="false" type="text/javascript" src="https://static.clickfunnels.com/clickfunnels/landers/tmp/'.$pagekey.'.js"></script>
+        <script data-cfasync="false" type="text/javascript">
             // Clean up duplicate meta data
             '.$favicon_js.'
             $(".metaTagTop").remove();
@@ -150,6 +182,7 @@ $iframeVersion = '<!DOCTYPE html>
             }
         </style>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/velocity/1.2.3/velocity.min.js"></script>
         <script>
             $("body").ready(function () {
                 $(".socialheader_desc").attr("content", $("meta[name=description]").attr("content"));

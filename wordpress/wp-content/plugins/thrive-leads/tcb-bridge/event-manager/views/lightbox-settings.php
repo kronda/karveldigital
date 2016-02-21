@@ -10,13 +10,15 @@ if ($this->success_message) : ?>
     <tr>
         <td width="35%"><?php echo __('Which ThriveBox should be displayed ?', 'thrive-leads') ?></td>
         <td width="65%">
-            <select name="l_id" class="tve_ctrl_validate" id="tl-choose-2-step" data-validators="required">
-                <option value=""><?php echo __('Select Lighbox', 'thrive-leads') ?></option>
-                <?php foreach ($this->lightboxes as $lightbox) : ?>
-                    <option value="<?php echo $lightbox->ID ?>"<?php
-                    echo !empty($this->config['l_id']) && $this->config['l_id'] == $lightbox->ID ? ' selected="selected"' : '' ?>><?php echo $lightbox->post_title ?></option>
-                <?php endforeach ?>
-            </select>
+            <div class="tve_lightbox_select_holder">
+                <select name="l_id" class="tve_ctrl_validate" id="tl-choose-2-step" data-validators="required">
+                    <option value=""><?php echo __('Select Lighbox', 'thrive-leads') ?></option>
+                    <?php foreach ($this->lightboxes as $lightbox) : ?>
+                        <option value="<?php echo $lightbox->ID ?>"<?php
+                        echo !empty($this->config['l_id']) && $this->config['l_id'] == $lightbox->ID ? ' selected="selected"' : '' ?>><?php echo $lightbox->post_title ?></option>
+                    <?php endforeach ?>
+                </select>
+            </div>
         </td>
     </tr>
     <tr>

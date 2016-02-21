@@ -6,49 +6,46 @@
  * Date: 04.12.2015
  * Time: 14:44
  */
-class TCB_Thrive_Image_Zoom extends TCB_Event_Action_Abstract
-{
+class TCB_Thrive_Image_Zoom extends TCB_Event_Action_Abstract {
 
 
-    /**
-     * Should return the user-friendly name for this Action
-     *
-     * @return string
-     */
-    public function getName()
-    {
-        return __('Zoom Image', 'thrive-cb');
-    }
+	/**
+	 * Should return the user-friendly name for this Action
+	 *
+	 * @return string
+	 */
+	public function getName() {
+		return __( 'Zoom Image', 'thrive-cb' );
+	}
 
-    /**
-     * Should output the settings needed for this Action when a user selects it from the list
-     *
-     * @param mixed $data existing configuration data, etc
-     * @return string html
-     */
-    public function renderSettings($data)
-    {
-        return $this->renderTCBSettings('zoom', $data);
-    }
+	/**
+	 * Should output the settings needed for this Action when a user selects it from the list
+	 *
+	 * @param mixed $data existing configuration data, etc
+	 *
+	 * @return string html
+	 */
+	public function renderSettings( $data ) {
+		return $this->renderTCBSettings( 'zoom', $data );
+	}
 
-    /**
-     * Should return an actual string containing the JS function that's handling this action.
-     * The function will be called with 3 parameters:
-     *      -> event_trigger (e.g. click, dblclick etc)
-     *      -> action_code (the action that's being executed)
-     *      -> config (specific configuration for each specific action - the same configuration that has been setup in the settings section)
-     *
-     * Example (php): return 'function (trigger, action, config) { console.log(trigger, action, config); }';
-     *
-     * The function will be called in the context of the element
-     *
-     * The output MUST be a valid JS function definition.
-     *
-     * @return string the JS function definition (declaration + body)
-     */
-    public function getJsActionCallback()
-    {
-        return '
+	/**
+	 * Should return an actual string containing the JS function that's handling this action.
+	 * The function will be called with 3 parameters:
+	 *      -> event_trigger (e.g. click, dblclick etc)
+	 *      -> action_code (the action that's being executed)
+	 *      -> config (specific configuration for each specific action - the same configuration that has been setup in the settings section)
+	 *
+	 * Example (php): return 'function (trigger, action, config) { console.log(trigger, action, config); }';
+	 *
+	 * The function will be called in the context of the element
+	 *
+	 * The output MUST be a valid JS function definition.
+	 *
+	 * @return string the JS function definition (declaration + body)
+	 */
+	public function getJsActionCallback() {
+		return '
             function (trigger, action, config) {
                 var $element = jQuery(this),
                     image_src = $element.attr("src"),
@@ -145,18 +142,17 @@ class TCB_Thrive_Image_Zoom extends TCB_Event_Action_Abstract
                 $lightbox.css("margin-left", -(img_size.width+30) / 2);
                 $lightbox.css("margin-top", -(img_size.height+30) / 2);
             }';
-    }
+	}
 
-    /**
-     * should check if the current action is available to be displayed in the lists inside the event manager
-     * @return bool
-     */
-    public function isAvailable()
-    {
-        if (!empty($_REQUEST['elementType']) && $_REQUEST['elementType'] == "img") {
-            return true;
-        }
-        
-        return false;
-    }
+	/**
+	 * should check if the current action is available to be displayed in the lists inside the event manager
+	 * @return bool
+	 */
+	public function isAvailable() {
+		if ( ! empty( $_REQUEST['elementType'] ) && $_REQUEST['elementType'] == "img" ) {
+			return true;
+		}
+
+		return false;
+	}
 }

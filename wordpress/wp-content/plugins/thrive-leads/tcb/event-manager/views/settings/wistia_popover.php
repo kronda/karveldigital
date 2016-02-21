@@ -32,23 +32,31 @@ if ( $this->success_message ) : ?>
        value="<?php echo isset( $this->config['event_start_sec_time'] ) ? $this->config['event_start_sec_time'] : ""; ?>"/>&nbsp;<?php echo __( "secs", "thrive-cb" ) ?>&nbsp;
 <br><br>
 <div class="tve_lightbox_input_holder">
-	<input name="event_option_play_bar" type="checkbox" id="event_option_play_bar" <?php if ( isset( $this->config['event_option_play_bar'] ) && $this->config['event_option_play_bar'] == 'on' ) {	echo "checked='checked'";} ?> />
+	<input name="event_option_play_bar" type="checkbox" id="event_option_play_bar" <?php if ( isset( $this->config['event_option_play_bar'] ) && $this->config['event_option_play_bar'] == 'on' ) {
+		echo "checked='checked'";
+	} ?> />
 	<label for="event_option_play_bar" class="tve_left"><?php echo __( "Play bar", "thrive-cb" ) ?></label>
 </div>
 <div class="tve_lightbox_input_holder">
-	<input name="event_option_hide_controls" type="checkbox" id="event_option_hide_controls" <?php if ( isset( $this->config['event_option_hide_controls'] ) && $this->config['event_option_hide_controls'] == 'on' ) {echo "checked='checked'";} ?> />
+	<input name="event_option_hide_controls" type="checkbox" id="event_option_hide_controls" <?php if ( isset( $this->config['event_option_hide_controls'] ) && $this->config['event_option_hide_controls'] == 'on' ) {
+		echo "checked='checked'";
+	} ?> />
 	<label for="event_option_hide_controls" class="tve_left"><?php echo __( "Auto-hide player controls", "thrive-cb" ) ?></label>
 </div>
 <div class="tve_lightbox_input_holder">
-	<input name="event_option_onload" type="checkbox" id="event_option_onload" <?php if ( isset( $this->config['event_option_onload'] ) && $this->config['event_option_onload'] == 'on' ) {echo "checked='checked'";} ?> />
+	<input name="event_option_onload" type="checkbox" id="event_option_onload" <?php if ( isset( $this->config['event_option_onload'] ) && $this->config['event_option_onload'] == 'on' ) {
+		echo "checked='checked'";
+	} ?> />
 	<label for="event_option_onload" class="tve_left"><?php echo __( "Controls visible on load", "thrive-cb" ) ?></label>
 </div>
 <div class="tve_lightbox_input_holder">
-	<input name="event_option_fs" type="checkbox" id="event_option_fs" <?php if ( isset( $this->config['event_option_fs'] ) && $this->config['event_option_fs'] == 'on' ) {echo "checked='checked'";} ?>/>
+	<input name="event_option_fs" type="checkbox" id="event_option_fs" <?php if ( isset( $this->config['event_option_fs'] ) && $this->config['event_option_fs'] == 'on' ) {
+		echo "checked='checked'";
+	} ?>/>
 	<label for="event_option_fs" class="tve_left"><?php echo __( "Hide full-screen button", "thrive-cb" ) ?></label>
 </div>
 
-<input name="event_option_uniq" type="hidden" value="<?php echo isset($this->config['event_option_uniq']) ? $this->config['event_option_uniq'] : substr(md5(microtime()),0,10);; ?>" />
+<input name="event_option_uniq" type="hidden" value="<?php echo isset( $this->config['event_option_uniq'] ) ? $this->config['event_option_uniq'] : substr( md5( microtime() ), 0, 10 );; ?>"/>
 
 <script type="text/javascript">
 	jQuery(document).ready(function ($) {

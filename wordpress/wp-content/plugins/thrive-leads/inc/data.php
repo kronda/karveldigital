@@ -431,6 +431,11 @@ function tve_leads_get_form_types($params = array())
                 'tracking_data' => false
             ));
         }
+
+        if(isset($available[$post->tve_form_type]['video_link'])) {
+            $post->video_link = $available[$post->tve_form_type]['video_link'];
+        }
+
         $existing[$post->tve_form_type] = $post;
     }
 

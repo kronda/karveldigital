@@ -27,8 +27,8 @@ class Thrive_Dash_Api_Postmark_DynamicResponseModel extends Thrive_Dash_Api_Post
 	 *
 	 * @param array $data The source associative array.
 	 */
-	function __construct(array $data) {
-		parent::__construct($data);
+	function __construct( array $data ) {
+		parent::__construct( $data );
 	}
 
 	/**
@@ -36,14 +36,14 @@ class Thrive_Dash_Api_Postmark_DynamicResponseModel extends Thrive_Dash_Api_Post
 	 *
 	 * @param mixed $name Name of element to get from the dynamic response model.
 	 */
-	public function __get($name) {
+	public function __get( $name ) {
 
-		$value = $this[$name];
+		$value = $this[ $name ];
 
 		// If there's a value and it's an array,
 		// convert it to a dynamic response object, too.
-		if ($value != NULL && is_array($value)) {
-			$value = new Thrive_Dash_Api_Postmark_DynamicResponseModel($value);
+		if ( $value != null && is_array( $value ) ) {
+			$value = new Thrive_Dash_Api_Postmark_DynamicResponseModel( $value );
 		}
 
 		return $value;
@@ -52,11 +52,12 @@ class Thrive_Dash_Api_Postmark_DynamicResponseModel extends Thrive_Dash_Api_Post
 	/**
 	 * Infrastructure. Allows indexer to return a DynamicResponseModel.
 	 */
-	public function offsetGet($offset) {
-		$result = parent::offsetGet($offset);
-		if ($result != NULL && is_array($result)) {
-			$result = new Thrive_Dash_Api_Postmark_DynamicResponseModel($result);
+	public function offsetGet( $offset ) {
+		$result = parent::offsetGet( $offset );
+		if ( $result != null && is_array( $result ) ) {
+			$result = new Thrive_Dash_Api_Postmark_DynamicResponseModel( $result );
 		}
+
 		return $result;
 	}
 }

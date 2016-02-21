@@ -6,7 +6,7 @@ Author URI: https://profiles.wordpress.org/clickfunnelscom
 Tags: landing pages, clickfunnels, funnels, sales funnel, optin, internet marketing
 Requires at least: 3.0
 Tested up to: 4.4.1
-Stable tag: 2.0.3
+Stable tag: 2.0.9
 
 Connect your ClickFunnels pages to your WordPress blog. Create custom pages, set as homepage or 404 page with easy setup.
 
@@ -99,6 +99,32 @@ By re-selecting the page it will ping the server which should refresh your page.
 == Changelog ==
 
 Stay current with the latest version of the plugin:
+
+= Version 2.0.9 =
+
+* Add warning if there is no funnels in client account
+
+= Version 2.0.8 =
+
+* JS match() fix
+* favicon warning fix
+
+= Version 2.0.7 =
+
+* Add velocity lib to fix popups
+
+= Version 2.0.6 =
+
+* Warnings, Offset fixes
+
+= Version 2.0.5 =
+
+* Redirect fixes
+
+= Version 2.0.4 =
+
+* White screan fix
+* Favicon fix
 
 = Version 2.0.3 =
 

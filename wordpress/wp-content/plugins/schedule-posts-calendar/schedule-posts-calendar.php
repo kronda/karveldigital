@@ -1,7 +1,7 @@
 <?php
 /*
 Plugin Name: Schedule Posts Calendar
-Version: 5.0
+Version: 5.1
 Plugin URI: http://toolstack.com/SchedulePostsCalendar
 Author: Greg Ross
 Author URI: http://toolstack.com
@@ -16,7 +16,7 @@ Copyright (c) 2012-15 by Greg Ross
 This software is released under the GPL v2.0, see license.txt for details
 */
 
-define( 'SCHEDULEPOSTCALENDARVERSION', '5.0' );
+define( 'SCHEDULEPOSTCALENDARVERSION', '5.1' );
 
 /*
  	This function is called to add the .css and .js files for the calendar to 
@@ -70,11 +70,16 @@ function schedule_posts_calendar()
 	schedule_posts_calendar_add_cal( $options['theme'], $plugin_url );
 	
 	// Add the css file that will hide the default WordPress timestamp field.
-	if( $options['hide-timestamp'] == 1 )
+	if( array_key_exists( 'hide-timestamp', $options ) && $options['hide-timestamp'] == 1 )
 		{
 		wp_register_style( 'hide-timestamp', $plugin_url . '/hide-timestamp.css' );
 		wp_enqueue_style( 'hide-timestamp' );
 		}
+	
+
+	if( ! array_key_exists( 'theme', $options ) ) { $options['theme'] = false; }
+	if( ! array_key_exists( 'startofweek', $options ) ) { $options['startofweek'] = false; }
+	if( ! array_key_exists( 'popup-calendar', $options ) ) { $options['popup-calendar'] = false; }
 	
 	// Register and enqueue the calender scripts.
 	wp_register_script( 'schedulepostscalendar', $plugin_url . '/schedule-posts-calendar.js?theme=' . $options['theme'] . '&startofweek=' . $options['startofweek'] . '&popupcalendar=' . $options['popup-calendar'], "dhtmlxcalendar" );
@@ -445,7 +450,7 @@ function schedule_posts_calendar_lang()
 		echo '    dhtmlXCalendarObject.prototype.langData["wordpress"] = {' . "\n";
 
 		// Check to see if we're using the WordPress translation or not
-		if( $options['override-translation'] == 1 )
+		if( array_key_exists( 'override-translation', $options ) && $options['override-translation'] == 1 )
 			{
 			// Overriding may be useful if the WordPress functions don't return 'good' translations.
 			echo '        monthesFNames: ["' . $options['FMNJanuary'] . '","' . $options['FMNFebruary'] . '","' . $options['FMNMarch'] . '","' . $options['FMNApril'] . '","' . $options['FMNMay'] . '","' . $options['FMNJune'] . '","' . $options['FMNJuly'] . '","' . $options['FMNAugust'] . '","' . $options['FMNSeptember'] . '","' . $options['FMNOctober'] . '","' . $options['FMNNovember'] . '","' . $options['FMNDecember'] . '"],' . "\n";

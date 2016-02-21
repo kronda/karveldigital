@@ -369,7 +369,6 @@ body {
       //float: left;
       display: inline-block;
       // margin: 8px 15px;
-
       span {
         font-size: 16px;
       }
@@ -394,11 +393,12 @@ body {
       }
     }
     .tve-settings {
-      display: none;
+      //display: none;
       position: absolute;
       right: 0;
       top: 32px;
       width: 300px;
+      visibility: hidden;
       h3 {
         font-size: 14px;
         line-height: 1.4;
@@ -1588,6 +1588,11 @@ table {
             .tve-form-type-item {
               border-bottom: 1px solid #ebeaea;
               padding: 9px 0;
+              .tve-group-part {
+                a {
+                  text-decoration: none;
+                }
+              }
               &:after {
                 clear: both;
                 content: " ";
@@ -3184,5 +3189,14 @@ a.tve-icon-trash-o {
   .tve-icon-settings {
     position: relative;
     top: 1px!important;
+  }
+}
+
+.tve-group-title a {
+    text-decoration: none;
+}
+.tl-open-settings:hover {
+  .tve-settings {
+    visibility: visible !important;
   }
 }

@@ -38,6 +38,7 @@ function tve_leads_init()
         'label' => 'ThriveBoxes Menu Trigger',
         'labels' => array(
             'singular_name' => 'ThriveBox',
+            'menu_name' => 'ThriveBoxes'
         )
     ));
 
@@ -1081,7 +1082,7 @@ function tve_leads_display_form_lightbox($flag = '', $form_output = null, $varia
         '<div %s class="tl-style" id="%s" data-state="%s">
         <div class="%s tve_post_lightbox tve-leads-lightbox">
         <div style="%s" class="tl-lb-target %s"><div class="tve_p_lb_overlay" style="%s"%s></div>' .
-        '<div class="tve_p_lb_content %s bSe cnt%s" style="%s"%s><div class="tve_p_lb_inner" id="tve-p-scroller" style="%s"><article>%s</article></div>' .
+        '<div data-anim="' . (isset($parent) ? $parent['display_animation'] : $variation['display_animation']) . '" class="tve_p_lb_content %s bSe cnt%s" style="%s"%s><div class="tve_p_lb_inner" id="tve-p-scroller" style="%s"><article>%s</article></div>' .
         '<a href="javascript:void(0)" class="tve_p_lb_close%s" style="%s"%s title="Close">x</a></div></div></div></div>',
         empty($control['hide']) ? '' : 'style="display:none"',
         'tve_' . preg_replace('#_v(.*)$#', '', $key),
@@ -1101,6 +1102,9 @@ function tve_leads_display_form_lightbox($flag = '', $form_output = null, $varia
         $config['close']['css'],
         $config['close']['custom_color']
     );
+    if (!empty($control['wrap_tl_style'])) {
+        $html = '<div>' . $html . '</div>';
+    }
 
     $html .= $already_subscribed . (empty($variation['parent_id']) ? apply_filters('tve_leads_variation_append_states', '', $variation) : ''); // if this is the main (default) state, we need to bring together all the other states
     if (empty($variation['parent_id'])) {

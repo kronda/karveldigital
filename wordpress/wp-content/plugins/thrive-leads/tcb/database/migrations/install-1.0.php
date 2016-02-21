@@ -4,10 +4,10 @@
  */
 
 
-defined('TVE_TCB_DB_UPGRADE') or exit();
+defined( 'TVE_TCB_DB_UPGRADE' ) or exit();
 global $wpdb;
 
-$table_prefix = $wpdb->prefix . 'tcb_';
+$table_prefix  = $wpdb->prefix . 'tcb_';
 $api_log_table = $table_prefix . 'api_error_log';
 
 $sql = "CREATE TABLE IF NOT EXISTS {$api_log_table}(
@@ -20,4 +20,4 @@ $sql = "CREATE TABLE IF NOT EXISTS {$api_log_table}(
      PRIMARY KEY( `id` )
  )";
 
-$wpdb->query($sql);
+$wpdb->query( $sql );

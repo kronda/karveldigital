@@ -496,7 +496,7 @@ if (jQuery) {
   $.fn.extend({
     openModal: function(options) {
 
-      $('body').css('overflow', 'hidden');
+      var $body = $('body').css('overflow', 'hidden');
 
       var defaults = {
         opacity: 0.7,
@@ -516,7 +516,7 @@ if (jQuery) {
       $overlay.attr('id', overlayID).css('z-index', 1000 + lStack * 2);
       $modal.data('tvd-overlay-id', overlayID).css('z-index', 1000 + lStack * 2 + 1);
 
-      $("body").append($overlay);
+      $body.append($overlay);
 
       // Override defaults
       options = $.extend(defaults, options);
@@ -1065,6 +1065,13 @@ if (jQuery) {
       var $newSelect = $('<input type="text" class="tvd-select-dropdown" readonly="true" ' + (($select.is(':disabled')) ? 'disabled' : '') + ' data-activates="tvd-select-options-' + uniqueID +'" value="'+ sanitizedLabelHtml +'"/>');
       $select.before($newSelect);
       $newSelect.before(dropdownIcon);
+
+        // preventing the select to close when clicking on the scroll bar
+        options.on('mousedown', function (event) {
+            if (!$(event.target).is('span')) {
+                return false;
+            }
+        });
 
       $newSelect.after(options);
       // Check if section element is disabled
@@ -4758,7 +4765,23 @@ if (jQuery) {
                 type: 'POST',
                 data: data
             }).done(function (response) {
+                if (response) {
+                    $("label[for='"+response.elem+"']").addClass("tvd-active");
+                    if (response.valid == '1') {
+                        $("."+response.elem).removeClass('tvd-invalid');
+                        $("."+response.elem).addClass('tvd-valid');
+                    } else {
+                        $("."+response.elem).removeClass('tvd-valid');
+                        $("."+response.elem).addClass('tvd-invalid');
+                    }
 
+                    $(".tve_comments_facebook_admins").each(function() {
+                        if($(this).val() == ""){
+                            $(this).removeClass('tvd-valid');
+                            $(this).addClass('tvd-invalid');
+                        }
+                    });
+                }
             }).always(function () {
                 TVE_Dash.settings.hideLoading($this);
             });
@@ -4805,7 +4828,7 @@ if (jQuery) {
         },
         showLoading: function ($element) {
             $element.addClass('tvd-disabled');
-            $element.prepend('<i style="font-size: 14px;" class="tvd-icon-spinner mdi-pulse"></i> &nbsp;');
+            $element.prepend('<i style="font-size: 14px;" class="tvd-icon-spinner mdi-pulse">&nbsp;</i>');
         },
         hideLoading: function ($element) {
             $element.removeClass('tvd-disabled');

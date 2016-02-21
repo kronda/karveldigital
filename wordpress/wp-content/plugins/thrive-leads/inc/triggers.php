@@ -252,7 +252,7 @@ class TVE_Leads_Trigger_Scroll_Percent extends TVE_Leads_Trigger_Abstract
     protected $key = 'scroll_percent';
 
     protected $applies_to = array(
-        'lightbox', 'slide_in', 'screen_filler'
+        'lightbox', 'slide_in', 'screen_filler', 'ribbon'
     );
 
     protected $default_config = array(

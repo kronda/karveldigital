@@ -340,6 +340,7 @@ function tve_leads_editor_javascript_params($javascript_params, $post_id, $post_
 function tve_leads_get_form_layout($current_templates, $post_id, $post_type)
 {
     global $variation;
+    $js_suffix = defined('TVE_DEBUG') && TVE_DEBUG ? '.js' : '.min.js';
     if (!tve_leads_post_type_editable($post_type)) {
         return $current_templates;
     }
@@ -665,9 +666,10 @@ function tve_editor_custom_content($variation = null, $filters = array())
         $tve_saved_content = tve_restore_script_tags($tve_saved_content);
 
         /* prepare Events configuration */
-        $GLOBALS['tl_event_parse_variation'] = $variation;
+        $GLOBALS['tl_event_parse_variation'] = isset($GLOBALS['tl_event_parse_variation']) ? $GLOBALS['tl_event_parse_variation'] : array();
+        $GLOBALS['tl_event_parse_variation'] []= $variation;
         tve_parse_events($tve_saved_content);
-        unset($GLOBALS['tl_event_parse_variation']);
+        array_pop($GLOBALS['tl_event_parse_variation']);
 
         $parent_form_type = tve_leads_get_form_type_from_variation($variation, true, false);
 

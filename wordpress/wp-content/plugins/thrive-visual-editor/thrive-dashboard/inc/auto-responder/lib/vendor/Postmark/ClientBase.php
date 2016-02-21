@@ -23,29 +23,29 @@ abstract class Thrive_Dash_Api_Postmark_ClientBase {
 	public static $BASE_URL = "https://api.postmarkapp.com";
 
 	/**
-	 * CERTIFICATE_PATH is NULL by default. 
+	 * CERTIFICATE_PATH is NULL by default.
 	 * This can be set to your own certificate chain if your PHP instance is not able to verify the SSL.
 	 *
 	 * Setting this value causes SSL/TLS requests to use this certificate chain for verifying Postmark requests.
-	 * 
+	 *
 	 * See: https://guzzle.readthedocs.org/en/5.3/clients.html#verify
 	 *
 	 * @var string
 	 */
-	public static $CERTIFICATE_PATH = NULL;
+	public static $CERTIFICATE_PATH = null;
 
-	protected $authorization_token = NULL;
-	protected $authorization_header = NULL;
-	protected $version = NULL;
-	protected $os = NULL;
+	protected $authorization_token = null;
+	protected $authorization_header = null;
+	protected $version = null;
+	protected $os = null;
 	protected $timeout = 30;
 
-	protected function __construct($token, $header, $timeout = 30) {
+	protected function __construct( $token, $header, $timeout = 30 ) {
 		$this->authorization_header = $header;
-		$this->authorization_token = $token;
-		$this->version = phpversion();
-		$this->os = PHP_OS;
-		$this->timeout = $timeout;
+		$this->authorization_token  = $token;
+		$this->version              = phpversion();
+		$this->os                   = PHP_OS;
+		$this->timeout              = $timeout;
 	}
 
 	/**
@@ -54,15 +54,16 @@ abstract class Thrive_Dash_Api_Postmark_ClientBase {
 	 * @param string $method The request VERB to use (GET, POST, PUT, DELETE)
 	 * @param string $path The API path.
 	 * @param array $body The content to be used (either as the query, or the json post/put body)
+	 *
 	 * @return object
 	 */
-	protected function processRestRequest($method = NULL, $path = NULL, $body = NULL) {
+	protected function processRestRequest( $method = null, $path = null, $body = null ) {
 
 		$fn = '';
-		$v = $this->version;
-		$o = $this->os;
+		$v  = $this->version;
+		$o  = $this->os;
 
-		switch($method) {
+		switch ( $method ) {
 			case 'GET':
 				$fn = 'tve_dash_api_remote_get';
 				break;
@@ -74,54 +75,55 @@ abstract class Thrive_Dash_Api_Postmark_ClientBase {
 		$url = Thrive_Dash_Api_Postmark_ClientBase::$BASE_URL . $path;
 
 
-		$response = $fn($url, array(
-			'body' => json_encode($body),
-			'timeout' => 15,
-			'headers' => array(
-				'User-Agent' => "Postmark-PHP (PHP Version:$v, OS:$o)",
-				'Content-Type' => 'application/json',
-				'Accept' => 'application/json',
+		$response = $fn( $url, array(
+			'body'      => json_encode( $body ),
+			'timeout'   => 15,
+			'headers'   => array(
+				'User-Agent'                => "Postmark-PHP (PHP Version:$v, OS:$o)",
+				'Content-Type'              => 'application/json',
+				'Accept'                    => 'application/json',
 				$this->authorization_header => $this->authorization_token,
 			),
 			'sslverify' => false,
-		));
+		) );
 
-		$result = NULL;
+		$result = null;
 
-		switch ($response['response']['code']) {
+		switch ( $response['response']['code'] ) {
 			case 200:
-				$response_obj = json_decode($response['body']);
-				$result = (array) $response_obj;
+				$response_obj = json_decode( $response['body'] );
+				$result       = (array) $response_obj;
 				break;
 			case 401:
 
-				$ex = new Thrive_Dash_Api_Postmark_Exception();
-				$ex->message = 'Unauthorized: Missing or incorrect API token in header. ' .
-				'Please verify that you used the correct token when you constructed your client.';
+				$ex                 = new Thrive_Dash_Api_Postmark_Exception();
+				$ex->message        = 'Unauthorized: Missing or incorrect API token in header. ' .
+				                      'Please verify that you used the correct token when you constructed your client.';
 				$ex->httpStatusCode = 401;
 				throw $ex;
 				break;
 			case 422:
 				$ex = new Thrive_Dash_Api_Postmark_Exception();
 
-				$response_obj = json_decode($response['body']);
-				$body = (array) $response_obj;
+				$response_obj = json_decode( $response['body'] );
+				$body         = (array) $response_obj;
 
-				$ex->httpStatusCode = 422;
+				$ex->httpStatusCode       = 422;
 				$ex->postmarkApiErrorCode = $body['ErrorCode'];
-				$ex->message = $body['Message'];
+				$ex->message              = $body['Message'];
 
 				throw $ex;
 				break;
 			case 500:
-				$ex = new Thrive_Dash_Api_Postmark_Exception();
+				$ex                 = new Thrive_Dash_Api_Postmark_Exception();
 				$ex->httpStatusCode = 500;
-				$ex->message = 'Internal Server Error: This is an issue with Postmark’s servers processing your request. ' .
-				'In most cases the message is lost during the process, ' .
-				'and Postmark is notified so that we can investigate the issue.';
+				$ex->message        = 'Internal Server Error: This is an issue with Postmark’s servers processing your request. ' .
+				                      'In most cases the message is lost during the process, ' .
+				                      'and Postmark is notified so that we can investigate the issue.';
 				throw $ex;
 				break;
 		}
+
 		return $result;
 
 	}

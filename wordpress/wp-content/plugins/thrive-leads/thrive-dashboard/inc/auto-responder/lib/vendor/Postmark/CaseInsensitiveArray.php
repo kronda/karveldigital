@@ -10,8 +10,8 @@ class Thrive_Dash_Api_Postmark_CaseInsensitiveArray implements ArrayAccess, Iter
 	private $_container = array();
 	private $_pointer = 0;
 
-	private function fixOffsetName($offset) {
-		return preg_replace('/_/', '', strtolower($offset));
+	private function fixOffsetName( $offset ) {
+		return preg_replace( '/_/', '', strtolower( $offset ) );
 	}
 
 	/**
@@ -19,59 +19,61 @@ class Thrive_Dash_Api_Postmark_CaseInsensitiveArray implements ArrayAccess, Iter
 	 *
 	 * @param array $initialArray The base array from which to create the new array.
 	 */
-	public function __construct(Array $initialArray = array()) {
-		$this->_container = array_change_key_case($initialArray);
+	public function __construct( Array $initialArray = array() ) {
+		$this->_container = array_change_key_case( $initialArray );
 	}
 
-	public function offsetSet($offset, $value) {
-		if (is_string($offset)) {
-			$offset = $this->fixOffsetName($offset);
+	public function offsetSet( $offset, $value ) {
+		if ( is_string( $offset ) ) {
+			$offset = $this->fixOffsetName( $offset );
 		}
 
-		if (is_null($offset)) {
+		if ( is_null( $offset ) ) {
 			$this->_container[] = $value;
 		} else {
-			$this->_container[$offset] = $value;
+			$this->_container[ $offset ] = $value;
 		}
 	}
 
-	public function offsetExists($offset) {
-		if (is_string($offset)) {
-			$offset = $this->fixOffsetName($offset);
+	public function offsetExists( $offset ) {
+		if ( is_string( $offset ) ) {
+			$offset = $this->fixOffsetName( $offset );
 		}
 
-		return isset($this->_container[$offset]);
+		return isset( $this->_container[ $offset ] );
 	}
 
-	public function offsetUnset($offset) {
-		if (is_string($offset)) {
-			$offset = $this->fixOffsetName($offset);
+	public function offsetUnset( $offset ) {
+		if ( is_string( $offset ) ) {
+			$offset = $this->fixOffsetName( $offset );
 		}
 
-		unset($this->_container[$offset]);
+		unset( $this->_container[ $offset ] );
 	}
 
-	public function offsetGet($offset) {
-		if (is_string($offset)) {
-			$offset = $this->fixOffsetName($offset);
+	public function offsetGet( $offset ) {
+		if ( is_string( $offset ) ) {
+			$offset = $this->fixOffsetName( $offset );
 		}
-		return isset($this->_container[$offset]) ?
-		$this->_container[$offset] : null;
+
+		return isset( $this->_container[ $offset ] ) ?
+			$this->_container[ $offset ] : null;
 	}
 
 	public function current() {
 		// use "offsetGet" instead of indexes
 		// so that subclasses can override behavior if needed.
-		return $this->offsetGet($this->key());
+		return $this->offsetGet( $this->key() );
 	}
 
 	public function key() {
-        $keys = array_keys($this->_container);
-		return $keys[$this->_pointer];
+		$keys = array_keys( $this->_container );
+
+		return $keys[ $this->_pointer ];
 	}
 
 	public function next() {
-		$this->_pointer++;
+		$this->_pointer ++;
 	}
 
 	public function rewind() {
@@ -79,7 +81,7 @@ class Thrive_Dash_Api_Postmark_CaseInsensitiveArray implements ArrayAccess, Iter
 	}
 
 	public function valid() {
-		return count(array_keys($this->_container)) > $this->_pointer;
+		return count( array_keys( $this->_container ) ) > $this->_pointer;
 	}
 }
 

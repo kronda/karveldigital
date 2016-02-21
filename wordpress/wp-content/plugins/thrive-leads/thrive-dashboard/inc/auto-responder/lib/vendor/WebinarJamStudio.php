@@ -3,142 +3,138 @@
 /**
  * API wrapper for WebinarJamStudio
  */
-class Thrive_Dash_Api_WebinarJamStudio
-{
-    const API_URL = 'https://app.webinarjam.com/api/v2/';
+class Thrive_Dash_Api_WebinarJamStudio {
+	const API_URL = 'https://app.webinarjam.com/api/v2/';
 
-    protected $apiKey;
+	protected $apiKey;
 
-    /**
-     * @param string $apiKey always required
-     *
-     * @throws Thrive_Dash_Api_WebinarJamStudio_Exception
-     */
-    public function __construct($apiKey)
-    {
-        if (empty($apiKey)) {
-            throw new Thrive_Dash_Api_WebinarJamStudio_Exception('API Key is required');
-        }
-        $this->apiKey = $apiKey;
-    }
+	/**
+	 * @param string $apiKey always required
+	 *
+	 * @throws Thrive_Dash_Api_WebinarJamStudio_Exception
+	 */
+	public function __construct( $apiKey ) {
+		if ( empty( $apiKey ) ) {
+			throw new Thrive_Dash_Api_WebinarJamStudio_Exception( 'API Key is required' );
+		}
+		$this->apiKey = $apiKey;
+	}
 
-    /**
-     * get the list of webinars scheduled for the future
-     *
-     * @return mixed
-     * @throws Thrive_Dash_Api_WebinarJamStudio_Exception
-     */
-    public function getUpcomingWebinars()
-    {
-        $params = array(
-            'api_key' => $this->apiKey
-        );
-        $data = $this->_call('webinars', $params, 'POST');
+	/**
+	 * get the list of webinars scheduled for the future
+	 *
+	 * @return mixed
+	 * @throws Thrive_Dash_Api_WebinarJamStudio_Exception
+	 */
+	public function getUpcomingWebinars() {
+		$params = array(
+			'api_key' => $this->apiKey
+		);
+		$data   = $this->_call( 'webinars', $params, 'POST' );
 
-        return is_array($data) && isset($data['webinars']) ? $data['webinars'] : array();
-    }
+		return is_array( $data ) && isset( $data['webinars'] ) ? $data['webinars'] : array();
+	}
 
-    /**
-     * register a new user to a webinar
-     *
-     * @param $webinarKey
-     * @param $name
-     * @param $email
-     * @return bool
-     * @throws Thrive_Dash_Api_WebinarJamStudio_Exception
-     */
-    public function registerToWebinar($webinarKey, $name, $email)
-    {
-        $params = array(
-            'api_key' => $this->apiKey,
-            'webinar_id' => $webinarKey,
-            'name' => $name ? $name : ' ',
-            'email' => $email,
-            'schedule' => 0
-        );
-        $this->_call('register', $params, 'POST');
-        return true;
-    }
+	/**
+	 * register a new user to a webinar
+	 *
+	 * @param $webinarKey
+	 * @param $name
+	 * @param $email
+	 *
+	 * @return bool
+	 * @throws Thrive_Dash_Api_WebinarJamStudio_Exception
+	 */
+	public function registerToWebinar( $webinarKey, $name, $email ) {
+		$params = array(
+			'api_key'    => $this->apiKey,
+			'webinar_id' => $webinarKey,
+			'name'       => $name ? $name : ' ',
+			'email'      => $email,
+			'schedule'   => 0
+		);
+		$this->_call( 'register', $params, 'POST' );
 
-    /**
-     * retrieve info for a specific webinar
-     *
-     * @param string $webinar_id
-     *
-     * @return array
-     *
-     * @throws Thrive_Dash_Api_WebinarJamStudio_Exception
-     */
-    public function getWebinar($webinar_id)
-    {
-        $params = array(
-            'api_key' => $this->apiKey,
-            'webinar_id' => $webinar_id
-        );
+		return true;
+	}
 
-        return $this->_call('webinar', $params, 'POST');
-    }
+	/**
+	 * retrieve info for a specific webinar
+	 *
+	 * @param string $webinar_id
+	 *
+	 * @return array
+	 *
+	 * @throws Thrive_Dash_Api_WebinarJamStudio_Exception
+	 */
+	public function getWebinar( $webinar_id ) {
+		$params = array(
+			'api_key'    => $this->apiKey,
+			'webinar_id' => $webinar_id
+		);
 
-    /**
-     * perform a webservice call
-     *
-     * @param string $path api path
-     * @param array $params request parameters
-     * @param string $method GET or POST
-     *
-     * @throws Thrive_Dash_Api_WebinarJamStudio_Exception
-     */
-    protected function _call($path, $params = array(), $method = 'GET')
-    {
-        $url = self::API_URL . ltrim($path, '/');
+		return $this->_call( 'webinar', $params, 'POST' );
+	}
 
-        $args = array(
-            'headers' => array(
-                'Content-type' => 'application/json',
-                'Accept' => 'application/json',
-            ),
-        );
+	/**
+	 * perform a webservice call
+	 *
+	 * @param string $path api path
+	 * @param array $params request parameters
+	 * @param string $method GET or POST
+	 *
+	 * @throws Thrive_Dash_Api_WebinarJamStudio_Exception
+	 */
+	protected function _call( $path, $params = array(), $method = 'GET' ) {
+		$url = self::API_URL . ltrim( $path, '/' );
 
-        switch ($method) {
-            case 'POST':
-                $args['body'] = json_encode($params);
-                $result = tve_dash_api_remote_post($url, $args);
-                break;
-            case 'GET':
-            default:
-                $query_string = '';
-                foreach ($params as $k => $v) {
-                    $query_string .= $query_string ? '&' : '';
-                    $query_string .= $k . '=' . $v;
-                }
-                if ($query_string) {
-                    $url .= (strpos($url, '?') !== false ? '&' : '?') . $query_string;
-                }
+		$args = array(
+			'headers' => array(
+				'Content-type' => 'application/json',
+				'Accept'       => 'application/json',
+			),
+		);
 
-                $result = tve_dash_api_remote_get($url, $args);
-                break;
-        }
+		switch ( $method ) {
+			case 'POST':
+				$args['body'] = json_encode( $params );
+				$result       = tve_dash_api_remote_post( $url, $args );
+				break;
+			case 'GET':
+			default:
+				$query_string = '';
+				foreach ( $params as $k => $v ) {
+					$query_string .= $query_string ? '&' : '';
+					$query_string .= $k . '=' . $v;
+				}
+				if ( $query_string ) {
+					$url .= ( strpos( $url, '?' ) !== false ? '&' : '?' ) . $query_string;
+				}
 
-        if ($result instanceof WP_Error) {
-            throw new Thrive_Dash_Api_WebinarJamStudio_Exception('Failed connecting to WebinarJamStudio: ' . $result->get_error_message());
-        }
+				$result = tve_dash_api_remote_get( $url, $args );
+				break;
+		}
 
-        $body = trim(wp_remote_retrieve_body($result));
+		if ( $result instanceof WP_Error ) {
+			throw new Thrive_Dash_Api_WebinarJamStudio_Exception( 'Failed connecting to WebinarJamStudio: ' . $result->get_error_message() );
+		}
 
-        $data = json_decode($body, true);
+		$body = trim( wp_remote_retrieve_body( $result ) );
 
-        if (!is_array($data)) {
-            throw new Thrive_Dash_Api_WebinarJamStudio_Exception('API call error. Response was: ' . $body);
-        }
+		$data = json_decode( $body, true );
 
-        if ($data['status'] != 'success') {
-            $message = isset($data['message']) ? $data['message'] : '';
-            if (empty($message)) {
-                $message = 'Raw response was: ' . $body;
-            }
-            throw new Thrive_Dash_Api_WebinarJamStudio_Exception('API call error: ' . $message);
-        }
+		if ( ! is_array( $data ) ) {
+			throw new Thrive_Dash_Api_WebinarJamStudio_Exception( 'API call error. Response was: ' . $body );
+		}
 
-        return $data;
-    }
+		if ( $data['status'] != 'success' ) {
+			$message = isset( $data['message'] ) ? $data['message'] : '';
+			if ( empty( $message ) ) {
+				$message = 'Raw response was: ' . $body;
+			}
+			throw new Thrive_Dash_Api_WebinarJamStudio_Exception( 'API call error: ' . $message );
+		}
+
+		return $data;
+	}
 }

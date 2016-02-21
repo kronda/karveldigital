@@ -9,8 +9,7 @@
 
 if (!class_exists('TCB_Landing_Page')) {
 
-    class TCB_Landing_Page
-    {
+	class TCB_Landing_Page {
         const HOOK_HEAD = 'tcb_landing_head';
         const HOOK_BODY_OPEN = 'tcb_landing_body_open';
         const HOOK_FOOTER = 'tcb_landing_footer';
@@ -48,18 +47,36 @@ if (!class_exists('TCB_Landing_Page')) {
         protected $globalScripts = array();
 
         /**
+         * stores the configuration for a template downloaded from the cloud, if this landing page is using one
+         *
+         * @var array
+         */
+        protected $cloudTemplateData = array();
+
+        /**
+         * flag that holds whether or not this is a template downloaded from the cloud
+         *
+         * @var bool
+         */
+        protected $isCloudTemplate = false;
+
+        /**
          * sent all necessary parameters to avoid extra calls to get_post_meta
          *
          * @param int $landing_page_id
          * @param string $landing_page_template
          */
-        public function __construct($landing_page_id, $landing_page_template)
-        {
+		public function __construct( $landing_page_id, $landing_page_template ) {
             $this->id = $landing_page_id;
             $this->globals = tve_get_post_meta($landing_page_id, 'tve_globals');
             $this->config = tve_get_landing_page_config($landing_page_template);
             $this->template = $landing_page_template;
             $this->globalScripts = get_post_meta(get_the_ID(), 'tve_global_scripts', true);
+
+            if (tve_is_cloud_template($landing_page_template)) {
+                $this->isCloudTemplate = true;
+                $this->cloudTemplateData = tve_get_cloud_template_config($landing_page_template);
+            }
 
             if (empty($this->globals)) {
                 $this->globals = array();
@@ -70,8 +87,7 @@ if (!class_exists('TCB_Landing_Page')) {
          * outputs the HEAD section specific to the landing page
          * finally, it calls the tcb_landing_head hook to allow injecting other stuff in the head
          */
-        public function head()
-        {
+		public function head() {
             /* I think the favicon should be added using the wp_head hook and not like this */
             if (function_exists('thrive_get_options_for_post')) {
                 $options = thrive_get_options_for_post();
@@ -100,8 +116,7 @@ if (!class_exists('TCB_Landing_Page')) {
          *
          * @return TCB_Landing_Page allows chained calls
          */
-        protected function fonts()
-        {
+		protected function fonts() {
             if (empty($this->config['fonts'])) {
                 return $this;
             }
@@ -115,15 +130,19 @@ if (!class_exists('TCB_Landing_Page')) {
         /**
          * this calls the WP wp_head() function, it will remove every <style>..</style> from the head
          */
-        protected function stripHeadCss()
-        {
+		protected function stripHeadCss() {
             /* capture the output and strip out some of the <style></style> nodes */
             ob_start();
             wp_head();
             $contents = ob_get_clean();
             /* keywords to search for within the CSS rules */
             $tcb_rules_keywords = array(
-                '.ttfm', 'data-tve-custom-colour', '.tve_more_tag', '.thrive-adminbar-icon', '#wpadminbar', 'html { margin-top: 32px !important; }'
+				'.ttfm',
+				'data-tve-custom-colour',
+				'.tve_more_tag',
+				'.thrive-adminbar-icon',
+				'#wpadminbar',
+				'html { margin-top: 32px !important; }'
             );
             /* keywords to search for within CSS style node - classes and ids for the <style> element */
             $tcb_style_classes = array('tve_user_custom_style', 'tve_custom_style');
@@ -160,8 +179,7 @@ if (!class_exists('TCB_Landing_Page')) {
          *
          * @return array
          */
-        public function getCssData()
-        {
+		public function getCssData() {
             $config = $this->globals;
             $lp_data = array(
                 'custom_color' => !empty($config['lp_bg']) ? ' data-tve-custom-colour="' . $config['lp_bg'] . '"' : '',
@@ -200,8 +218,7 @@ if (!class_exists('TCB_Landing_Page')) {
         /**
          * called right after <body> open tag
          */
-        public function afterBodyOpen()
-        {
+		public function afterBodyOpen() {
             if (!empty($this->globalScripts['body'])) {
                 $this->globalScripts['body'] = $this->removeJQuery($this->globalScripts['body']);
                 echo $this->globalScripts['body'];
@@ -213,16 +230,14 @@ if (!class_exists('TCB_Landing_Page')) {
         /**
          * called before the WP get_footer hook
          */
-        public function footer()
-        {
+		public function footer() {
             apply_filters(self::HOOK_FOOTER, $this->id);
         }
 
         /**
          * called right before the <body> end tag
          */
-        public function beforeBodyEnd()
-        {
+		public function beforeBodyEnd() {
             apply_filters(self::HOOK_BODY_CLOSE, $this->id);
 
             if (!empty($this->globalScripts['footer'])) {
@@ -236,16 +251,16 @@ if (!class_exists('TCB_Landing_Page')) {
         /**
          * whether or not this landing page should have lightbox associated
          */
-        public function needsLightbox()
-        {
+		public function needsLightbox() {
             return !empty($this->config['has_lightbox']);
         }
 
         /**
          * check if the associated lightbox exists and, if not, create it
          */
-        public function checkLightbox()
-        {
+		public function checkLightbox() {
+            $this->replaceDefaultTexts();
+
             if (!$this->needsLightbox()) {
                 return;
             }
@@ -266,8 +281,28 @@ if (!class_exists('TCB_Landing_Page')) {
 
             /* check if the id of the lightbox from the content is different than the id of the generated lightbox */
             $post_content = tve_get_post_meta($this->id, 'tve_updated_post');
+
+            /* 12.10.2015 - lightbox events can also be setup with a simple string: tcb_open_lightbox */
+            $open_lightbox_event = '{tcb_open_lightbox}';
+            $events_config = array(
+                array(
+                    't' => 'click',
+                    'a' => 'thrive_lightbox',
+                    'config' => array(
+                        'l_id' => empty($this->globals['lightbox_id']) ? '' : $this->globals['lightbox_id'],
+                        'l_anim' => 'slide_top'
+                    )
+                )
+            );
+            $post_content = str_replace($open_lightbox_event, '__TCB_EVENT_' . htmlentities(json_encode($events_config))  . '_TNEVE_BCT__', $post_content, $number_of_replacements);
+            $save_it = $number_of_replacements;
+
             if (strpos($post_content, "&quot;l_id&quot;:&quot;{$this->globals['lightbox_id']}&quot;") === false) {
                 $post_content = preg_replace('#&quot;l_id&quot;:(null|&quot;(.*?)&quot;)#', '&quot;l_id&quot;:&quot;' . $this->globals['lightbox_id'] . '&quot;', $post_content);
+                $save_it = true;
+            }
+
+            if ($save_it) {
                 tve_update_post_meta($this->id, 'tve_updated_post', $post_content);
                 tve_update_post_meta($this->id, 'tve_save_post', $post_content);
             }
@@ -277,8 +312,7 @@ if (!class_exists('TCB_Landing_Page')) {
         /**
          * generate new lightbox specific for this landing page
          */
-        public function newLightbox()
-        {
+		public function newLightbox() {
             $landing_page = get_post($this->id);
 
             $tcb_content = $this->lightboxDefaultContent();
@@ -294,13 +328,29 @@ if (!class_exists('TCB_Landing_Page')) {
         /**
          * fetch default lightbox content from one of the files inside landing-page/lightbox/ folder
          */
-        public function lightboxDefaultContent()
-        {
+		public function lightboxDefaultContent() {
+            if ($this->isCloudTemplate) {
+                /* if it's a cloud template, the lightbox content needs to be fetched from wp-uploads/tcb_lp_templates/lightboxes/{template_name}.tpl */
+                $lb_file = trailingslashit($this->config['base_dir']) . 'lightboxes/' . $this->template . '.tpl';
+                $contents = '';
+                if (file_exists($lb_file)) {
+                    $contents = file_get_contents($lb_file);
+                }
+                return $this->replaceDefaultTexts($contents);
+            }
+
+            /**
+             * from this point forward => this is a regular template - the lightbox content is available in a local php file from the plugin
+             */
+
             ob_start();
             if (file_exists(dirname(dirname(__FILE__)) . '/lightboxes/' . $this->template . '.php')) {
                 include dirname(dirname(__FILE__)) . '/lightboxes/' . $this->template . '.php';
             }
-            return ob_get_clean();
+            $contents = ob_get_contents();
+            ob_end_clean();
+
+            return $this->replaceDefaultTexts($contents);
         }
 
         /**
@@ -310,8 +360,7 @@ if (!class_exists('TCB_Landing_Page')) {
          *
          * @return string
          */
-        public function removeJQuery($custom_script)
-        {
+		public function removeJQuery( $custom_script ) {
             if (!is_editor_page()) {
                 return $custom_script;
             }
@@ -319,6 +368,67 @@ if (!class_exists('TCB_Landing_Page')) {
             $js_search = '/src=(["\'])(.+?)((code.jquery.com\/jquery-|ajax.googleapis.com\/ajax\/libs\/jquery\/))(\d)(.+?)\1/si';
 
             return preg_replace($js_search, 'src=$1$1', $custom_script);
+        }
+
+        /**
+         * replace all occurences of custom texts we currently use for generating server-specifing data
+         *
+         * {tcb_timezone}
+         *
+         * @param string $post_content if null it will take by default this contents of this landing page
+         */
+        public function replaceDefaultTexts($post_content = null)
+        {
+            if (null === $post_content) {
+                $update_post_meta = true;
+                $post_content = tve_get_post_meta($this->id, 'tve_updated_post');
+            }
+
+            if (empty($post_content)) {
+                return '';
+            }
+
+            $save_it = false;
+
+            /**
+             * {tcb_timezone}
+             */
+            if (strpos($post_content, 'data-timezone="{tcb_timezone}"') !== false) {
+                $timezone_offset = get_option('gmt_offset');
+                $sign = ($timezone_offset < 0 ? '-' : '+');
+                $min = abs($timezone_offset) * 60;
+                $hour = floor($min / 60);
+                $tzd = $sign . str_pad($hour, 2, '0', STR_PAD_LEFT) . ':' . str_pad($min % 60, 2, '0', STR_PAD_LEFT);
+                $post_content = str_replace('data-timezone="{tcb_timezone}"', 'data-timezone="' . $tzd . '"', $post_content);
+                $save_it = true;
+            }
+
+            if (strpos($post_content, '{tcb_lp_base_url}') !== false) {
+                $replacement = $this->isCloudTemplate ? trailingslashit($this->cloudTemplateData['base_url']) . 'templates' : TVE_LANDING_PAGE_TEMPLATE;
+                $post_content = str_replace('{tcb_lp_base_url}', untrailingslashit($replacement), $post_content);
+                $save_it = true;
+            }
+
+            if (isset($update_post_meta) && $save_it) {
+                tve_update_post_meta($this->id, 'tve_updated_post', $post_content);
+                tve_update_post_meta($this->id, 'tve_save_post', $post_content);
+            }
+
+            return $post_content;
+        }
+
+        /**
+         * enqueue the CSS file needed for this template
+         */
+        public function enqueueCss()
+        {
+            $handle = 'tve_landing_page_' . $this->template;
+
+            if ($this->isCloudTemplate) {
+                tve_enqueue_style($handle, trailingslashit($this->config['base_url']) . 'templates/css/' . $this->template . '.css', 100);
+            } else {
+                tve_enqueue_style($handle, TVE_LANDING_PAGE_TEMPLATE . '/css/' . $this->template . '.css', 100);
+            }
         }
 
     }

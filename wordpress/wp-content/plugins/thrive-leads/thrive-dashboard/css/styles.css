@@ -3841,7 +3841,7 @@ html body #wpbody, html body #TB_window {
   #wpbody a.tvd-waves-effect .tvd-waves-ripple, #TB_window a.tvd-waves-effect .tvd-waves-ripple {
     z-index: -1; }
 
-#wpbody .tvd-modal, #TB_window .tvd-modal {
+#wpbody .tvd-modal, #TB_window .tvd-modal, body .tvd-modal {
   box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.22);
   display: none;
   position: fixed;
@@ -3857,33 +3857,57 @@ html body #wpbody, html body #TB_window {
   border-radius: 2px;
   will-change: top, opacity; }
   @media only screen and (max-width: 992px) {
-    #wpbody .tvd-modal, #TB_window .tvd-modal {
+    #wpbody .tvd-modal, #TB_window .tvd-modal, body .tvd-modal {
       width: 80%; } }
-  #wpbody .tvd-modal h1, #wpbody .tvd-modal h2, #wpbody .tvd-modal h3, #wpbody .tvd-modal h4, #TB_window .tvd-modal h1, #TB_window .tvd-modal h2, #TB_window .tvd-modal h3, #TB_window .tvd-modal h4 {
+  #wpbody .tvd-modal h1, #wpbody .tvd-modal h2, #wpbody .tvd-modal h3, #wpbody .tvd-modal h4, #TB_window .tvd-modal h1, #TB_window .tvd-modal h2, #TB_window .tvd-modal h3, #TB_window .tvd-modal h4, body .tvd-modal h1, body .tvd-modal h2, body .tvd-modal h3, body .tvd-modal h4 {
     margin-top: 0; }
-  #wpbody .tvd-modal .tvd-modal-content, #TB_window .tvd-modal .tvd-modal-content {
+  #wpbody .tvd-modal .tvd-modal-content, #TB_window .tvd-modal .tvd-modal-content, body .tvd-modal .tvd-modal-content {
     padding: 40px;
     position: relative;
     z-index: 0; }
-    #wpbody .tvd-modal .tvd-modal-content .tvd-icon-big, #TB_window .tvd-modal .tvd-modal-content .tvd-icon-big {
+    #wpbody .tvd-modal .tvd-modal-content .tvd-icon-big, #TB_window .tvd-modal .tvd-modal-content .tvd-icon-big, body .tvd-modal .tvd-modal-content .tvd-icon-big {
       margin-bottom: 2rem; }
-  #wpbody .tvd-modal .tvd-modal-close, #TB_window .tvd-modal .tvd-modal-close {
+  #wpbody .tvd-modal .tvd-modal-close, #TB_window .tvd-modal .tvd-modal-close, body .tvd-modal .tvd-modal-close {
     cursor: pointer; }
-  #wpbody .tvd-modal .tvd-modal-footer, #TB_window .tvd-modal .tvd-modal-footer {
+  #wpbody .tvd-modal .tvd-modal-footer, #TB_window .tvd-modal .tvd-modal-footer, body .tvd-modal .tvd-modal-footer {
     padding: 20px;
     width: 100%; }
-    #wpbody .tvd-modal .tvd-modal-footer .tvd-row, #TB_window .tvd-modal .tvd-modal-footer .tvd-row {
+    #wpbody .tvd-modal .tvd-modal-footer .tvd-row, #TB_window .tvd-modal .tvd-modal-footer .tvd-row, body .tvd-modal .tvd-modal-footer .tvd-row {
       margin: 0; }
-    #wpbody .tvd-modal .tvd-modal-footer .tvd-btn-flat, #TB_window .tvd-modal .tvd-modal-footer .tvd-btn-flat {
+    #wpbody .tvd-modal .tvd-modal-footer .tvd-btn-flat, #TB_window .tvd-modal .tvd-modal-footer .tvd-btn-flat, body .tvd-modal .tvd-modal-footer .tvd-btn-flat {
       padding: 0 .5rem; }
-  #wpbody .tvd-modal p a, #TB_window .tvd-modal p a {
+  #wpbody .tvd-modal p a, #TB_window .tvd-modal p a, body .tvd-modal p a {
     color: inherit;
     text-decoration: underline; }
 
-#wpbody .tvd-modal-title, #TB_window .tvd-modal-title {
+#wpbody .tvd-modal-title, #TB_window .tvd-modal-title, body .tvd-modal-title {
   margin-bottom: 2rem; }
 
-#wpbody .tvd-lean-overlay, #TB_window .tvd-lean-overlay {
+#wpbody .tvd-modal-close-x, #TB_window .tvd-modal-close-x, body .tvd-modal-close-x {
+  color: #373737;
+  position: absolute;
+  top: 10px;
+  right: 10px; }
+  #wpbody .tvd-modal-close-x:hover, #TB_window .tvd-modal-close-x:hover, body .tvd-modal-close-x:hover {
+    color: #373737; }
+
+#wpbody .tvd-modal-disable .tvd-modal-content:before, #wpbody .tvd-modal-disable .tvd-modal-footer:before, #TB_window .tvd-modal-disable .tvd-modal-content:before, #TB_window .tvd-modal-disable .tvd-modal-footer:before, body .tvd-modal-disable .tvd-modal-content:before, body .tvd-modal-disable .tvd-modal-footer:before {
+  background: rgba(215, 215, 215, 0.8);
+  content: '';
+  display: block;
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  z-index: 1; }
+
+#wpbody .tvd-modal.tvd-green, #wpbody .tvd-modal.tvd-orange, #wpbody .tvd-modal.tvd-red, #TB_window .tvd-modal.tvd-green, #TB_window .tvd-modal.tvd-orange, #TB_window .tvd-modal.tvd-red, body .tvd-modal.tvd-green, body .tvd-modal.tvd-orange, body .tvd-modal.tvd-red {
+  color: #fff; }
+  #wpbody .tvd-modal.tvd-green h1, #wpbody .tvd-modal.tvd-green h2, #wpbody .tvd-modal.tvd-green h3, #wpbody .tvd-modal.tvd-green h4, #wpbody .tvd-modal.tvd-green h5, #wpbody .tvd-modal.tvd-green h6, #wpbody .tvd-modal.tvd-orange h1, #wpbody .tvd-modal.tvd-orange h2, #wpbody .tvd-modal.tvd-orange h3, #wpbody .tvd-modal.tvd-orange h4, #wpbody .tvd-modal.tvd-orange h5, #wpbody .tvd-modal.tvd-orange h6, #wpbody .tvd-modal.tvd-red h1, #wpbody .tvd-modal.tvd-red h2, #wpbody .tvd-modal.tvd-red h3, #wpbody .tvd-modal.tvd-red h4, #wpbody .tvd-modal.tvd-red h5, #wpbody .tvd-modal.tvd-red h6, #TB_window .tvd-modal.tvd-green h1, #TB_window .tvd-modal.tvd-green h2, #TB_window .tvd-modal.tvd-green h3, #TB_window .tvd-modal.tvd-green h4, #TB_window .tvd-modal.tvd-green h5, #TB_window .tvd-modal.tvd-green h6, #TB_window .tvd-modal.tvd-orange h1, #TB_window .tvd-modal.tvd-orange h2, #TB_window .tvd-modal.tvd-orange h3, #TB_window .tvd-modal.tvd-orange h4, #TB_window .tvd-modal.tvd-orange h5, #TB_window .tvd-modal.tvd-orange h6, #TB_window .tvd-modal.tvd-red h1, #TB_window .tvd-modal.tvd-red h2, #TB_window .tvd-modal.tvd-red h3, #TB_window .tvd-modal.tvd-red h4, #TB_window .tvd-modal.tvd-red h5, #TB_window .tvd-modal.tvd-red h6, body .tvd-modal.tvd-green h1, body .tvd-modal.tvd-green h2, body .tvd-modal.tvd-green h3, body .tvd-modal.tvd-green h4, body .tvd-modal.tvd-green h5, body .tvd-modal.tvd-green h6, body .tvd-modal.tvd-orange h1, body .tvd-modal.tvd-orange h2, body .tvd-modal.tvd-orange h3, body .tvd-modal.tvd-orange h4, body .tvd-modal.tvd-orange h5, body .tvd-modal.tvd-orange h6, body .tvd-modal.tvd-red h1, body .tvd-modal.tvd-red h2, body .tvd-modal.tvd-red h3, body .tvd-modal.tvd-red h4, body .tvd-modal.tvd-red h5, body .tvd-modal.tvd-red h6 {
+    color: inherit; }
+
+.tvd-lean-overlay {
   position: fixed;
   z-index: 999;
   top: -100px;
@@ -3895,30 +3919,6 @@ html body #wpbody, html body #TB_window {
   background: #000;
   display: none;
   will-change: opacity; }
-
-#wpbody .tvd-modal-close-x, #TB_window .tvd-modal-close-x {
-  color: #373737;
-  position: absolute;
-  top: 10px;
-  right: 10px; }
-  #wpbody .tvd-modal-close-x:hover, #TB_window .tvd-modal-close-x:hover {
-    color: #373737; }
-
-#wpbody .tvd-modal-disable:before, #TB_window .tvd-modal-disable:before {
-  background: rgba(215, 215, 215, 0.8);
-  content: '';
-  display: block;
-  position: absolute;
-  top: 0;
-  right: 0;
-  bottom: 0;
-  left: 0;
-  z-index: 1; }
-
-#wpbody .tvd-modal.tvd-green, #wpbody .tvd-modal.tvd-orange, #wpbody .tvd-modal.tvd-red, #TB_window .tvd-modal.tvd-green, #TB_window .tvd-modal.tvd-orange, #TB_window .tvd-modal.tvd-red {
-  color: #fff; }
-  #wpbody .tvd-modal.tvd-green h1, #wpbody .tvd-modal.tvd-green h2, #wpbody .tvd-modal.tvd-green h3, #wpbody .tvd-modal.tvd-green h4, #wpbody .tvd-modal.tvd-green h5, #wpbody .tvd-modal.tvd-green h6, #wpbody .tvd-modal.tvd-orange h1, #wpbody .tvd-modal.tvd-orange h2, #wpbody .tvd-modal.tvd-orange h3, #wpbody .tvd-modal.tvd-orange h4, #wpbody .tvd-modal.tvd-orange h5, #wpbody .tvd-modal.tvd-orange h6, #wpbody .tvd-modal.tvd-red h1, #wpbody .tvd-modal.tvd-red h2, #wpbody .tvd-modal.tvd-red h3, #wpbody .tvd-modal.tvd-red h4, #wpbody .tvd-modal.tvd-red h5, #wpbody .tvd-modal.tvd-red h6, #TB_window .tvd-modal.tvd-green h1, #TB_window .tvd-modal.tvd-green h2, #TB_window .tvd-modal.tvd-green h3, #TB_window .tvd-modal.tvd-green h4, #TB_window .tvd-modal.tvd-green h5, #TB_window .tvd-modal.tvd-green h6, #TB_window .tvd-modal.tvd-orange h1, #TB_window .tvd-modal.tvd-orange h2, #TB_window .tvd-modal.tvd-orange h3, #TB_window .tvd-modal.tvd-orange h4, #TB_window .tvd-modal.tvd-orange h5, #TB_window .tvd-modal.tvd-orange h6, #TB_window .tvd-modal.tvd-red h1, #TB_window .tvd-modal.tvd-red h2, #TB_window .tvd-modal.tvd-red h3, #TB_window .tvd-modal.tvd-red h4, #TB_window .tvd-modal.tvd-red h5, #TB_window .tvd-modal.tvd-red h6 {
-    color: inherit; }
 
 #wpbody .tvd-chip {
   border-radius: 2px;
@@ -3937,476 +3937,450 @@ html body #wpbody, html body #TB_window {
       color: #ef3131; }
 
 /* Remove Focus Boxes */
-#wpbody, #TB_window {
-  /***************************
-     Text Inputs + Textarea
-  ****************************/
-  /***************
-    Radio Buttons
-  ***************/
-  /* Remove default Radio Buttons */
-  /* Unchecked styles */
-  /* Checked styles */
-  /* Disabled Radio */
-  /* Disabled style */
-  /***************
-     Checkboxes
-  ***************/
-  /* CUSTOM CSS CHECKBOXES */
-  /* Remove default checkbox */
-  /* Indeterminate checkbox */
-  /***************
-       Switch
-  ***************/
-  /***************
-    Select Field
-  ***************/
-  /*********************
-        File Input
-  **********************/
-  /***************
-        Range
-  ***************/
-  /***************************
-     Text Inputs + Textarea
-  ****************************/ }
-  #wpbody select:focus, #TB_window select:focus {
-    outline: 1px solid #d5ebf5; }
-  #wpbody button:focus, #TB_window button:focus {
-    outline: none;
-    background-color: #2f91bf; }
-  #wpbody label, #TB_window label {
-    font-size: 0.625rem;
-    color: #a3a3a3; }
-  #wpbody ::-webkit-input-placeholder, #TB_window ::-webkit-input-placeholder {
-    color: #d6d6d6; }
-  #wpbody :-moz-placeholder, #TB_window :-moz-placeholder {
-    /* Firefox 18- */
-    color: #d6d6d6; }
-  #wpbody ::-moz-placeholder, #TB_window ::-moz-placeholder {
-    /* Firefox 19+ */
-    color: #d6d6d6; }
-  #wpbody :-ms-input-placeholder, #TB_window :-ms-input-placeholder {
-    color: #d6d6d6; }
-  #wpbody input[type=text],
-  #wpbody input[type=password],
-  #wpbody input[type=email],
-  #wpbody input[type=url],
-  #wpbody input[type=time],
-  #wpbody input[type=date],
-  #wpbody input[type=datetime-local],
-  #wpbody input[type=tel],
-  #wpbody input[type=number],
-  #wpbody input[type=search],
-  #wpbody textarea.tvd-materialize-textarea, #TB_window input[type=text],
-  #TB_window input[type=password],
-  #TB_window input[type=email],
-  #TB_window input[type=url],
-  #TB_window input[type=time],
-  #TB_window input[type=date],
-  #TB_window input[type=datetime-local],
-  #TB_window input[type=tel],
-  #TB_window input[type=number],
-  #TB_window input[type=search],
-  #TB_window textarea.tvd-materialize-textarea {
-    -webkit-box-sizing: content-box;
-    -moz-box-sizing: content-box;
-    box-sizing: content-box;
-    background-color: transparent;
-    border: none;
-    border-bottom: 1px solid #a3a3a3;
-    border-radius: 0;
-    box-shadow: none;
-    color: #393939;
-    font-size: 1rem;
-    height: 2rem;
-    margin: 0 0 15px 0;
-    outline: none;
-    padding: 0;
-    transition: all .3s;
-    width: 100%; }
-    #wpbody input[type=text]:disabled, #wpbody input[type=text][readonly="readonly"],
-    #wpbody input[type=password]:disabled,
-    #wpbody input[type=password][readonly="readonly"],
-    #wpbody input[type=email]:disabled,
-    #wpbody input[type=email][readonly="readonly"],
-    #wpbody input[type=url]:disabled,
-    #wpbody input[type=url][readonly="readonly"],
-    #wpbody input[type=time]:disabled,
-    #wpbody input[type=time][readonly="readonly"],
-    #wpbody input[type=date]:disabled,
-    #wpbody input[type=date][readonly="readonly"],
-    #wpbody input[type=datetime-local]:disabled,
-    #wpbody input[type=datetime-local][readonly="readonly"],
-    #wpbody input[type=tel]:disabled,
-    #wpbody input[type=tel][readonly="readonly"],
-    #wpbody input[type=number]:disabled,
-    #wpbody input[type=number][readonly="readonly"],
-    #wpbody input[type=search]:disabled,
-    #wpbody input[type=search][readonly="readonly"],
-    #wpbody textarea.tvd-materialize-textarea:disabled,
-    #wpbody textarea.tvd-materialize-textarea[readonly="readonly"], #TB_window input[type=text]:disabled, #TB_window input[type=text][readonly="readonly"],
-    #TB_window input[type=password]:disabled,
-    #TB_window input[type=password][readonly="readonly"],
-    #TB_window input[type=email]:disabled,
-    #TB_window input[type=email][readonly="readonly"],
-    #TB_window input[type=url]:disabled,
-    #TB_window input[type=url][readonly="readonly"],
-    #TB_window input[type=time]:disabled,
-    #TB_window input[type=time][readonly="readonly"],
-    #TB_window input[type=date]:disabled,
-    #TB_window input[type=date][readonly="readonly"],
-    #TB_window input[type=datetime-local]:disabled,
-    #TB_window input[type=datetime-local][readonly="readonly"],
-    #TB_window input[type=tel]:disabled,
-    #TB_window input[type=tel][readonly="readonly"],
-    #TB_window input[type=number]:disabled,
-    #TB_window input[type=number][readonly="readonly"],
-    #TB_window input[type=search]:disabled,
-    #TB_window input[type=search][readonly="readonly"],
-    #TB_window textarea.tvd-materialize-textarea:disabled,
-    #TB_window textarea.tvd-materialize-textarea[readonly="readonly"] {
-      color: #cfcfcf;
-      border-bottom: 1px dotted #cfcfcf;
-      box-shadow: none; }
-    #wpbody input[type=text]:disabled + label, #wpbody input[type=text][readonly="readonly"] + label,
-    #wpbody input[type=password]:disabled + label,
-    #wpbody input[type=password][readonly="readonly"] + label,
-    #wpbody input[type=email]:disabled + label,
-    #wpbody input[type=email][readonly="readonly"] + label,
-    #wpbody input[type=url]:disabled + label,
-    #wpbody input[type=url][readonly="readonly"] + label,
-    #wpbody input[type=time]:disabled + label,
-    #wpbody input[type=time][readonly="readonly"] + label,
-    #wpbody input[type=date]:disabled + label,
-    #wpbody input[type=date][readonly="readonly"] + label,
-    #wpbody input[type=datetime-local]:disabled + label,
-    #wpbody input[type=datetime-local][readonly="readonly"] + label,
-    #wpbody input[type=tel]:disabled + label,
-    #wpbody input[type=tel][readonly="readonly"] + label,
-    #wpbody input[type=number]:disabled + label,
-    #wpbody input[type=number][readonly="readonly"] + label,
-    #wpbody input[type=search]:disabled + label,
-    #wpbody input[type=search][readonly="readonly"] + label,
-    #wpbody textarea.tvd-materialize-textarea:disabled + label,
-    #wpbody textarea.tvd-materialize-textarea[readonly="readonly"] + label, #TB_window input[type=text]:disabled + label, #TB_window input[type=text][readonly="readonly"] + label,
-    #TB_window input[type=password]:disabled + label,
-    #TB_window input[type=password][readonly="readonly"] + label,
-    #TB_window input[type=email]:disabled + label,
-    #TB_window input[type=email][readonly="readonly"] + label,
-    #TB_window input[type=url]:disabled + label,
-    #TB_window input[type=url][readonly="readonly"] + label,
-    #TB_window input[type=time]:disabled + label,
-    #TB_window input[type=time][readonly="readonly"] + label,
-    #TB_window input[type=date]:disabled + label,
-    #TB_window input[type=date][readonly="readonly"] + label,
-    #TB_window input[type=datetime-local]:disabled + label,
-    #TB_window input[type=datetime-local][readonly="readonly"] + label,
-    #TB_window input[type=tel]:disabled + label,
-    #TB_window input[type=tel][readonly="readonly"] + label,
-    #TB_window input[type=number]:disabled + label,
-    #TB_window input[type=number][readonly="readonly"] + label,
-    #TB_window input[type=search]:disabled + label,
-    #TB_window input[type=search][readonly="readonly"] + label,
-    #TB_window textarea.tvd-materialize-textarea:disabled + label,
-    #TB_window textarea.tvd-materialize-textarea[readonly="readonly"] + label {
-      color: #cfcfcf; }
-    #wpbody input[type=text]:focus:not([readonly]),
-    #wpbody input[type=password]:focus:not([readonly]),
-    #wpbody input[type=email]:focus:not([readonly]),
-    #wpbody input[type=url]:focus:not([readonly]),
-    #wpbody input[type=time]:focus:not([readonly]),
-    #wpbody input[type=date]:focus:not([readonly]),
-    #wpbody input[type=datetime-local]:focus:not([readonly]),
-    #wpbody input[type=tel]:focus:not([readonly]),
-    #wpbody input[type=number]:focus:not([readonly]),
-    #wpbody input[type=search]:focus:not([readonly]),
-    #wpbody textarea.tvd-materialize-textarea:focus:not([readonly]), #TB_window input[type=text]:focus:not([readonly]),
-    #TB_window input[type=password]:focus:not([readonly]),
-    #TB_window input[type=email]:focus:not([readonly]),
-    #TB_window input[type=url]:focus:not([readonly]),
-    #TB_window input[type=time]:focus:not([readonly]),
-    #TB_window input[type=date]:focus:not([readonly]),
-    #TB_window input[type=datetime-local]:focus:not([readonly]),
-    #TB_window input[type=tel]:focus:not([readonly]),
-    #TB_window input[type=number]:focus:not([readonly]),
-    #TB_window input[type=search]:focus:not([readonly]),
-    #TB_window textarea.tvd-materialize-textarea:focus:not([readonly]) {
-      border-bottom: 1px solid #2b85af;
-      box-shadow: 0 1px 0 0 #2b85af; }
-    #wpbody input[type=text]:focus:not([readonly]) + label,
-    #wpbody input[type=password]:focus:not([readonly]) + label,
-    #wpbody input[type=email]:focus:not([readonly]) + label,
-    #wpbody input[type=url]:focus:not([readonly]) + label,
-    #wpbody input[type=time]:focus:not([readonly]) + label,
-    #wpbody input[type=date]:focus:not([readonly]) + label,
-    #wpbody input[type=datetime-local]:focus:not([readonly]) + label,
-    #wpbody input[type=tel]:focus:not([readonly]) + label,
-    #wpbody input[type=number]:focus:not([readonly]) + label,
-    #wpbody input[type=search]:focus:not([readonly]) + label,
-    #wpbody textarea.tvd-materialize-textarea:focus:not([readonly]) + label, #TB_window input[type=text]:focus:not([readonly]) + label,
-    #TB_window input[type=password]:focus:not([readonly]) + label,
-    #TB_window input[type=email]:focus:not([readonly]) + label,
-    #TB_window input[type=url]:focus:not([readonly]) + label,
-    #TB_window input[type=time]:focus:not([readonly]) + label,
-    #TB_window input[type=date]:focus:not([readonly]) + label,
-    #TB_window input[type=datetime-local]:focus:not([readonly]) + label,
-    #TB_window input[type=tel]:focus:not([readonly]) + label,
-    #TB_window input[type=number]:focus:not([readonly]) + label,
-    #TB_window input[type=search]:focus:not([readonly]) + label,
-    #TB_window textarea.tvd-materialize-textarea:focus:not([readonly]) + label {
-      color: #2b85af; }
-    #wpbody input[type=text].tvd-valid, #wpbody input[type=text]:focus.tvd-valid,
-    #wpbody input[type=password].tvd-valid,
-    #wpbody input[type=password]:focus.tvd-valid,
-    #wpbody input[type=email].tvd-valid,
-    #wpbody input[type=email]:focus.tvd-valid,
-    #wpbody input[type=url].tvd-valid,
-    #wpbody input[type=url]:focus.tvd-valid,
-    #wpbody input[type=time].tvd-valid,
-    #wpbody input[type=time]:focus.tvd-valid,
-    #wpbody input[type=date].tvd-valid,
-    #wpbody input[type=date]:focus.tvd-valid,
-    #wpbody input[type=datetime-local].tvd-valid,
-    #wpbody input[type=datetime-local]:focus.tvd-valid,
-    #wpbody input[type=tel].tvd-valid,
-    #wpbody input[type=tel]:focus.tvd-valid,
-    #wpbody input[type=number].tvd-valid,
-    #wpbody input[type=number]:focus.tvd-valid,
-    #wpbody input[type=search].tvd-valid,
-    #wpbody input[type=search]:focus.tvd-valid,
-    #wpbody textarea.tvd-materialize-textarea.tvd-valid,
-    #wpbody textarea.tvd-materialize-textarea:focus.tvd-valid, #TB_window input[type=text].tvd-valid, #TB_window input[type=text]:focus.tvd-valid,
-    #TB_window input[type=password].tvd-valid,
-    #TB_window input[type=password]:focus.tvd-valid,
-    #TB_window input[type=email].tvd-valid,
-    #TB_window input[type=email]:focus.tvd-valid,
-    #TB_window input[type=url].tvd-valid,
-    #TB_window input[type=url]:focus.tvd-valid,
-    #TB_window input[type=time].tvd-valid,
-    #TB_window input[type=time]:focus.tvd-valid,
-    #TB_window input[type=date].tvd-valid,
-    #TB_window input[type=date]:focus.tvd-valid,
-    #TB_window input[type=datetime-local].tvd-valid,
-    #TB_window input[type=datetime-local]:focus.tvd-valid,
-    #TB_window input[type=tel].tvd-valid,
-    #TB_window input[type=tel]:focus.tvd-valid,
-    #TB_window input[type=number].tvd-valid,
-    #TB_window input[type=number]:focus.tvd-valid,
-    #TB_window input[type=search].tvd-valid,
-    #TB_window input[type=search]:focus.tvd-valid,
-    #TB_window textarea.tvd-materialize-textarea.tvd-valid,
-    #TB_window textarea.tvd-materialize-textarea:focus.tvd-valid {
-      border-bottom: 1px solid #4bb35e;
-      box-shadow: 0 1px 0 0 #4bb35e; }
-    #wpbody input[type=text].tvd-valid + label:after,
-    #wpbody input[type=text]:focus.tvd-valid + label:after,
-    #wpbody input[type=password].tvd-valid + label:after,
-    #wpbody input[type=password]:focus.tvd-valid + label:after,
-    #wpbody input[type=email].tvd-valid + label:after,
-    #wpbody input[type=email]:focus.tvd-valid + label:after,
-    #wpbody input[type=url].tvd-valid + label:after,
-    #wpbody input[type=url]:focus.tvd-valid + label:after,
-    #wpbody input[type=time].tvd-valid + label:after,
-    #wpbody input[type=time]:focus.tvd-valid + label:after,
-    #wpbody input[type=date].tvd-valid + label:after,
-    #wpbody input[type=date]:focus.tvd-valid + label:after,
-    #wpbody input[type=datetime-local].tvd-valid + label:after,
-    #wpbody input[type=datetime-local]:focus.tvd-valid + label:after,
-    #wpbody input[type=tel].tvd-valid + label:after,
-    #wpbody input[type=tel]:focus.tvd-valid + label:after,
-    #wpbody input[type=number].tvd-valid + label:after,
-    #wpbody input[type=number]:focus.tvd-valid + label:after,
-    #wpbody input[type=search].tvd-valid + label:after,
-    #wpbody input[type=search]:focus.tvd-valid + label:after,
-    #wpbody textarea.tvd-materialize-textarea.tvd-valid + label:after,
-    #wpbody textarea.tvd-materialize-textarea:focus.tvd-valid + label:after, #TB_window input[type=text].tvd-valid + label:after,
-    #TB_window input[type=text]:focus.tvd-valid + label:after,
-    #TB_window input[type=password].tvd-valid + label:after,
-    #TB_window input[type=password]:focus.tvd-valid + label:after,
-    #TB_window input[type=email].tvd-valid + label:after,
-    #TB_window input[type=email]:focus.tvd-valid + label:after,
-    #TB_window input[type=url].tvd-valid + label:after,
-    #TB_window input[type=url]:focus.tvd-valid + label:after,
-    #TB_window input[type=time].tvd-valid + label:after,
-    #TB_window input[type=time]:focus.tvd-valid + label:after,
-    #TB_window input[type=date].tvd-valid + label:after,
-    #TB_window input[type=date]:focus.tvd-valid + label:after,
-    #TB_window input[type=datetime-local].tvd-valid + label:after,
-    #TB_window input[type=datetime-local]:focus.tvd-valid + label:after,
-    #TB_window input[type=tel].tvd-valid + label:after,
-    #TB_window input[type=tel]:focus.tvd-valid + label:after,
-    #TB_window input[type=number].tvd-valid + label:after,
-    #TB_window input[type=number]:focus.tvd-valid + label:after,
-    #TB_window input[type=search].tvd-valid + label:after,
-    #TB_window input[type=search]:focus.tvd-valid + label:after,
-    #TB_window textarea.tvd-materialize-textarea.tvd-valid + label:after,
-    #TB_window textarea.tvd-materialize-textarea:focus.tvd-valid + label:after {
-      content: attr(data-success);
-      color: #4bb35e;
-      min-width: 150px;
-      opacity: 1; }
-    #wpbody input[type=text].tvd-invalid, #wpbody input[type=text]:focus.tvd-invalid,
-    #wpbody input[type=password].tvd-invalid,
-    #wpbody input[type=password]:focus.tvd-invalid,
-    #wpbody input[type=email].tvd-invalid,
-    #wpbody input[type=email]:focus.tvd-invalid,
-    #wpbody input[type=url].tvd-invalid,
-    #wpbody input[type=url]:focus.tvd-invalid,
-    #wpbody input[type=time].tvd-invalid,
-    #wpbody input[type=time]:focus.tvd-invalid,
-    #wpbody input[type=date].tvd-invalid,
-    #wpbody input[type=date]:focus.tvd-invalid,
-    #wpbody input[type=datetime-local].tvd-invalid,
-    #wpbody input[type=datetime-local]:focus.tvd-invalid,
-    #wpbody input[type=tel].tvd-invalid,
-    #wpbody input[type=tel]:focus.tvd-invalid,
-    #wpbody input[type=number].tvd-invalid,
-    #wpbody input[type=number]:focus.tvd-invalid,
-    #wpbody input[type=search].tvd-invalid,
-    #wpbody input[type=search]:focus.tvd-invalid,
-    #wpbody textarea.tvd-materialize-textarea.tvd-invalid,
-    #wpbody textarea.tvd-materialize-textarea:focus.tvd-invalid, #TB_window input[type=text].tvd-invalid, #TB_window input[type=text]:focus.tvd-invalid,
-    #TB_window input[type=password].tvd-invalid,
-    #TB_window input[type=password]:focus.tvd-invalid,
-    #TB_window input[type=email].tvd-invalid,
-    #TB_window input[type=email]:focus.tvd-invalid,
-    #TB_window input[type=url].tvd-invalid,
-    #TB_window input[type=url]:focus.tvd-invalid,
-    #TB_window input[type=time].tvd-invalid,
-    #TB_window input[type=time]:focus.tvd-invalid,
-    #TB_window input[type=date].tvd-invalid,
-    #TB_window input[type=date]:focus.tvd-invalid,
-    #TB_window input[type=datetime-local].tvd-invalid,
-    #TB_window input[type=datetime-local]:focus.tvd-invalid,
-    #TB_window input[type=tel].tvd-invalid,
-    #TB_window input[type=tel]:focus.tvd-invalid,
-    #TB_window input[type=number].tvd-invalid,
-    #TB_window input[type=number]:focus.tvd-invalid,
-    #TB_window input[type=search].tvd-invalid,
-    #TB_window input[type=search]:focus.tvd-invalid,
-    #TB_window textarea.tvd-materialize-textarea.tvd-invalid,
-    #TB_window textarea.tvd-materialize-textarea:focus.tvd-invalid {
-      border-bottom: 1px solid #ef3131;
-      box-shadow: 0 1px 0 0 #ef3131; }
-    #wpbody input[type=text].tvd-invalid + label:after,
-    #wpbody input[type=text]:focus.tvd-invalid + label:after,
-    #wpbody input[type=password].tvd-invalid + label:after,
-    #wpbody input[type=password]:focus.tvd-invalid + label:after,
-    #wpbody input[type=email].tvd-invalid + label:after,
-    #wpbody input[type=email]:focus.tvd-invalid + label:after,
-    #wpbody input[type=url].tvd-invalid + label:after,
-    #wpbody input[type=url]:focus.tvd-invalid + label:after,
-    #wpbody input[type=time].tvd-invalid + label:after,
-    #wpbody input[type=time]:focus.tvd-invalid + label:after,
-    #wpbody input[type=date].tvd-invalid + label:after,
-    #wpbody input[type=date]:focus.tvd-invalid + label:after,
-    #wpbody input[type=datetime-local].tvd-invalid + label:after,
-    #wpbody input[type=datetime-local]:focus.tvd-invalid + label:after,
-    #wpbody input[type=tel].tvd-invalid + label:after,
-    #wpbody input[type=tel]:focus.tvd-invalid + label:after,
-    #wpbody input[type=number].tvd-invalid + label:after,
-    #wpbody input[type=number]:focus.tvd-invalid + label:after,
-    #wpbody input[type=search].tvd-invalid + label:after,
-    #wpbody input[type=search]:focus.tvd-invalid + label:after,
-    #wpbody textarea.tvd-materialize-textarea.tvd-invalid + label:after,
-    #wpbody textarea.tvd-materialize-textarea:focus.tvd-invalid + label:after, #TB_window input[type=text].tvd-invalid + label:after,
-    #TB_window input[type=text]:focus.tvd-invalid + label:after,
-    #TB_window input[type=password].tvd-invalid + label:after,
-    #TB_window input[type=password]:focus.tvd-invalid + label:after,
-    #TB_window input[type=email].tvd-invalid + label:after,
-    #TB_window input[type=email]:focus.tvd-invalid + label:after,
-    #TB_window input[type=url].tvd-invalid + label:after,
-    #TB_window input[type=url]:focus.tvd-invalid + label:after,
-    #TB_window input[type=time].tvd-invalid + label:after,
-    #TB_window input[type=time]:focus.tvd-invalid + label:after,
-    #TB_window input[type=date].tvd-invalid + label:after,
-    #TB_window input[type=date]:focus.tvd-invalid + label:after,
-    #TB_window input[type=datetime-local].tvd-invalid + label:after,
-    #TB_window input[type=datetime-local]:focus.tvd-invalid + label:after,
-    #TB_window input[type=tel].tvd-invalid + label:after,
-    #TB_window input[type=tel]:focus.tvd-invalid + label:after,
-    #TB_window input[type=number].tvd-invalid + label:after,
-    #TB_window input[type=number]:focus.tvd-invalid + label:after,
-    #TB_window input[type=search].tvd-invalid + label:after,
-    #TB_window input[type=search]:focus.tvd-invalid + label:after,
-    #TB_window textarea.tvd-materialize-textarea.tvd-invalid + label:after,
-    #TB_window textarea.tvd-materialize-textarea:focus.tvd-invalid + label:after {
-      content: attr(data-error);
-      color: #ef3131;
-      min-width: 150px;
-      opacity: 1; }
-    #wpbody input[type=text] + label:after,
-    #wpbody input[type=password] + label:after,
-    #wpbody input[type=email] + label:after,
-    #wpbody input[type=url] + label:after,
-    #wpbody input[type=time] + label:after,
-    #wpbody input[type=date] + label:after,
-    #wpbody input[type=datetime-local] + label:after,
-    #wpbody input[type=tel] + label:after,
-    #wpbody input[type=number] + label:after,
-    #wpbody input[type=search] + label:after,
-    #wpbody textarea.tvd-materialize-textarea + label:after, #TB_window input[type=text] + label:after,
-    #TB_window input[type=password] + label:after,
-    #TB_window input[type=email] + label:after,
-    #TB_window input[type=url] + label:after,
-    #TB_window input[type=time] + label:after,
-    #TB_window input[type=date] + label:after,
-    #TB_window input[type=datetime-local] + label:after,
-    #TB_window input[type=tel] + label:after,
-    #TB_window input[type=number] + label:after,
-    #TB_window input[type=search] + label:after,
-    #TB_window textarea.tvd-materialize-textarea + label:after {
-      display: block;
-      content: "";
-      position: absolute;
-      top: 55px;
-      opacity: 0;
-      transition: .2s opacity ease-out, .2s color ease-out; }
-  #wpbody .tvd-input-field, #TB_window .tvd-input-field {
-    position: relative; }
-    #wpbody .tvd-input-field.tvd-col label, #TB_window .tvd-input-field.tvd-col label {
-      left: 0.75rem; }
-    #wpbody .tvd-input-field label, #TB_window .tvd-input-field label {
-      -webkit-transition: 0.2s ease-out;
-      -moz-transition: 0.2s ease-out;
-      -o-transition: 0.2s ease-out;
-      -ms-transition: 0.2s ease-out;
-      transition: 0.2s ease-out;
-      color: #a7a7a7;
-      cursor: text;
-      font-size: 1rem;
-      font-weight: 300;
-      position: absolute;
-      top: 0.2rem;
-      left: 0; }
-    #wpbody .tvd-input-field label.tvd-active, #TB_window .tvd-input-field label.tvd-active {
-      -webkit-transform: translateY(-110%);
-      -moz-transform: translateY(-110%);
-      -ms-transform: translateY(-110%);
-      -o-transform: translateY(-110%);
-      transform: translateY(-110%);
-      font-size: 0.625rem; }
-  #wpbody [type="radio"]:not(:checked),
-  #wpbody [type="radio"]:checked, #TB_window [type="radio"]:not(:checked),
-  #TB_window [type="radio"]:checked {
+select:focus {
+  outline: 1px solid #d5ebf5; }
+
+button:focus {
+  outline: none;
+  background-color: #2f91bf; }
+
+label {
+  font-size: 0.625rem;
+  color: #a3a3a3; }
+
+/***************************
+   Text Inputs + Textarea
+****************************/
+::-webkit-input-placeholder {
+  color: #d6d6d6; }
+
+:-moz-placeholder {
+  /* Firefox 18- */
+  color: #d6d6d6; }
+
+::-moz-placeholder {
+  /* Firefox 19+ */
+  color: #d6d6d6; }
+
+:-ms-input-placeholder {
+  color: #d6d6d6; }
+
+input[type=text],
+input[type=password],
+input[type=email],
+input[type=url],
+input[type=time],
+input[type=date],
+input[type=datetime-local],
+input[type=tel],
+input[type=number],
+input[type=search],
+textarea.tvd-materialize-textarea {
+  -webkit-box-sizing: content-box;
+  -moz-box-sizing: content-box;
+  box-sizing: content-box;
+  background-color: transparent;
+  border: none;
+  border-bottom: 1px solid #a3a3a3;
+  border-radius: 0;
+  box-shadow: none;
+  color: #393939;
+  font-size: 1rem;
+  height: 2rem;
+  margin: 0 0 15px 0;
+  outline: none;
+  padding: 0;
+  transition: all .3s;
+  width: 100%; }
+  input[type=text]:disabled, input[type=text][readonly="readonly"],
+  input[type=password]:disabled,
+  input[type=password][readonly="readonly"],
+  input[type=email]:disabled,
+  input[type=email][readonly="readonly"],
+  input[type=url]:disabled,
+  input[type=url][readonly="readonly"],
+  input[type=time]:disabled,
+  input[type=time][readonly="readonly"],
+  input[type=date]:disabled,
+  input[type=date][readonly="readonly"],
+  input[type=datetime-local]:disabled,
+  input[type=datetime-local][readonly="readonly"],
+  input[type=tel]:disabled,
+  input[type=tel][readonly="readonly"],
+  input[type=number]:disabled,
+  input[type=number][readonly="readonly"],
+  input[type=search]:disabled,
+  input[type=search][readonly="readonly"],
+  textarea.tvd-materialize-textarea:disabled,
+  textarea.tvd-materialize-textarea[readonly="readonly"] {
+    color: #cfcfcf;
+    border-bottom: 1px dotted #cfcfcf;
+    box-shadow: none; }
+  input[type=text]:disabled + label, input[type=text][readonly="readonly"] + label,
+  input[type=password]:disabled + label,
+  input[type=password][readonly="readonly"] + label,
+  input[type=email]:disabled + label,
+  input[type=email][readonly="readonly"] + label,
+  input[type=url]:disabled + label,
+  input[type=url][readonly="readonly"] + label,
+  input[type=time]:disabled + label,
+  input[type=time][readonly="readonly"] + label,
+  input[type=date]:disabled + label,
+  input[type=date][readonly="readonly"] + label,
+  input[type=datetime-local]:disabled + label,
+  input[type=datetime-local][readonly="readonly"] + label,
+  input[type=tel]:disabled + label,
+  input[type=tel][readonly="readonly"] + label,
+  input[type=number]:disabled + label,
+  input[type=number][readonly="readonly"] + label,
+  input[type=search]:disabled + label,
+  input[type=search][readonly="readonly"] + label,
+  textarea.tvd-materialize-textarea:disabled + label,
+  textarea.tvd-materialize-textarea[readonly="readonly"] + label {
+    color: #cfcfcf; }
+  input[type=text]:focus:not([readonly]),
+  input[type=password]:focus:not([readonly]),
+  input[type=email]:focus:not([readonly]),
+  input[type=url]:focus:not([readonly]),
+  input[type=time]:focus:not([readonly]),
+  input[type=date]:focus:not([readonly]),
+  input[type=datetime-local]:focus:not([readonly]),
+  input[type=tel]:focus:not([readonly]),
+  input[type=number]:focus:not([readonly]),
+  input[type=search]:focus:not([readonly]),
+  textarea.tvd-materialize-textarea:focus:not([readonly]) {
+    border-bottom: 1px solid #2b85af;
+    box-shadow: 0 1px 0 0 #2b85af; }
+  input[type=text]:focus:not([readonly]) + label,
+  input[type=password]:focus:not([readonly]) + label,
+  input[type=email]:focus:not([readonly]) + label,
+  input[type=url]:focus:not([readonly]) + label,
+  input[type=time]:focus:not([readonly]) + label,
+  input[type=date]:focus:not([readonly]) + label,
+  input[type=datetime-local]:focus:not([readonly]) + label,
+  input[type=tel]:focus:not([readonly]) + label,
+  input[type=number]:focus:not([readonly]) + label,
+  input[type=search]:focus:not([readonly]) + label,
+  textarea.tvd-materialize-textarea:focus:not([readonly]) + label {
+    color: #2b85af; }
+  input[type=text].tvd-valid, input[type=text]:focus.tvd-valid,
+  input[type=password].tvd-valid,
+  input[type=password]:focus.tvd-valid,
+  input[type=email].tvd-valid,
+  input[type=email]:focus.tvd-valid,
+  input[type=url].tvd-valid,
+  input[type=url]:focus.tvd-valid,
+  input[type=time].tvd-valid,
+  input[type=time]:focus.tvd-valid,
+  input[type=date].tvd-valid,
+  input[type=date]:focus.tvd-valid,
+  input[type=datetime-local].tvd-valid,
+  input[type=datetime-local]:focus.tvd-valid,
+  input[type=tel].tvd-valid,
+  input[type=tel]:focus.tvd-valid,
+  input[type=number].tvd-valid,
+  input[type=number]:focus.tvd-valid,
+  input[type=search].tvd-valid,
+  input[type=search]:focus.tvd-valid,
+  textarea.tvd-materialize-textarea.tvd-valid,
+  textarea.tvd-materialize-textarea:focus.tvd-valid {
+    border-bottom: 1px solid #4bb35e;
+    box-shadow: 0 1px 0 0 #4bb35e; }
+  input[type=text].tvd-valid + label:after,
+  input[type=text]:focus.tvd-valid + label:after,
+  input[type=password].tvd-valid + label:after,
+  input[type=password]:focus.tvd-valid + label:after,
+  input[type=email].tvd-valid + label:after,
+  input[type=email]:focus.tvd-valid + label:after,
+  input[type=url].tvd-valid + label:after,
+  input[type=url]:focus.tvd-valid + label:after,
+  input[type=time].tvd-valid + label:after,
+  input[type=time]:focus.tvd-valid + label:after,
+  input[type=date].tvd-valid + label:after,
+  input[type=date]:focus.tvd-valid + label:after,
+  input[type=datetime-local].tvd-valid + label:after,
+  input[type=datetime-local]:focus.tvd-valid + label:after,
+  input[type=tel].tvd-valid + label:after,
+  input[type=tel]:focus.tvd-valid + label:after,
+  input[type=number].tvd-valid + label:after,
+  input[type=number]:focus.tvd-valid + label:after,
+  input[type=search].tvd-valid + label:after,
+  input[type=search]:focus.tvd-valid + label:after,
+  textarea.tvd-materialize-textarea.tvd-valid + label:after,
+  textarea.tvd-materialize-textarea:focus.tvd-valid + label:after {
+    content: attr(data-success);
+    color: #4bb35e;
+    min-width: 150px;
+    opacity: 1; }
+  input[type=text].tvd-invalid, input[type=text]:focus.tvd-invalid,
+  input[type=password].tvd-invalid,
+  input[type=password]:focus.tvd-invalid,
+  input[type=email].tvd-invalid,
+  input[type=email]:focus.tvd-invalid,
+  input[type=url].tvd-invalid,
+  input[type=url]:focus.tvd-invalid,
+  input[type=time].tvd-invalid,
+  input[type=time]:focus.tvd-invalid,
+  input[type=date].tvd-invalid,
+  input[type=date]:focus.tvd-invalid,
+  input[type=datetime-local].tvd-invalid,
+  input[type=datetime-local]:focus.tvd-invalid,
+  input[type=tel].tvd-invalid,
+  input[type=tel]:focus.tvd-invalid,
+  input[type=number].tvd-invalid,
+  input[type=number]:focus.tvd-invalid,
+  input[type=search].tvd-invalid,
+  input[type=search]:focus.tvd-invalid,
+  textarea.tvd-materialize-textarea.tvd-invalid,
+  textarea.tvd-materialize-textarea:focus.tvd-invalid {
+    border-bottom: 1px solid #ef3131;
+    box-shadow: 0 1px 0 0 #ef3131; }
+  input[type=text].tvd-invalid + label:after,
+  input[type=text]:focus.tvd-invalid + label:after,
+  input[type=password].tvd-invalid + label:after,
+  input[type=password]:focus.tvd-invalid + label:after,
+  input[type=email].tvd-invalid + label:after,
+  input[type=email]:focus.tvd-invalid + label:after,
+  input[type=url].tvd-invalid + label:after,
+  input[type=url]:focus.tvd-invalid + label:after,
+  input[type=time].tvd-invalid + label:after,
+  input[type=time]:focus.tvd-invalid + label:after,
+  input[type=date].tvd-invalid + label:after,
+  input[type=date]:focus.tvd-invalid + label:after,
+  input[type=datetime-local].tvd-invalid + label:after,
+  input[type=datetime-local]:focus.tvd-invalid + label:after,
+  input[type=tel].tvd-invalid + label:after,
+  input[type=tel]:focus.tvd-invalid + label:after,
+  input[type=number].tvd-invalid + label:after,
+  input[type=number]:focus.tvd-invalid + label:after,
+  input[type=search].tvd-invalid + label:after,
+  input[type=search]:focus.tvd-invalid + label:after,
+  textarea.tvd-materialize-textarea.tvd-invalid + label:after,
+  textarea.tvd-materialize-textarea:focus.tvd-invalid + label:after {
+    content: attr(data-error);
+    color: #ef3131;
+    min-width: 150px;
+    opacity: 1; }
+  input[type=text].tvd-invalid + label:empty:after,
+  input[type=text]:focus.tvd-invalid + label:empty:after,
+  input[type=text].tvd-valid + label:empty:after,
+  input[type=text]:focus.tvd-valid + label:empty:after,
+  input[type=password].tvd-invalid + label:empty:after,
+  input[type=password]:focus.tvd-invalid + label:empty:after,
+  input[type=password].tvd-valid + label:empty:after,
+  input[type=password]:focus.tvd-valid + label:empty:after,
+  input[type=email].tvd-invalid + label:empty:after,
+  input[type=email]:focus.tvd-invalid + label:empty:after,
+  input[type=email].tvd-valid + label:empty:after,
+  input[type=email]:focus.tvd-valid + label:empty:after,
+  input[type=url].tvd-invalid + label:empty:after,
+  input[type=url]:focus.tvd-invalid + label:empty:after,
+  input[type=url].tvd-valid + label:empty:after,
+  input[type=url]:focus.tvd-valid + label:empty:after,
+  input[type=time].tvd-invalid + label:empty:after,
+  input[type=time]:focus.tvd-invalid + label:empty:after,
+  input[type=time].tvd-valid + label:empty:after,
+  input[type=time]:focus.tvd-valid + label:empty:after,
+  input[type=date].tvd-invalid + label:empty:after,
+  input[type=date]:focus.tvd-invalid + label:empty:after,
+  input[type=date].tvd-valid + label:empty:after,
+  input[type=date]:focus.tvd-valid + label:empty:after,
+  input[type=datetime-local].tvd-invalid + label:empty:after,
+  input[type=datetime-local]:focus.tvd-invalid + label:empty:after,
+  input[type=datetime-local].tvd-valid + label:empty:after,
+  input[type=datetime-local]:focus.tvd-valid + label:empty:after,
+  input[type=tel].tvd-invalid + label:empty:after,
+  input[type=tel]:focus.tvd-invalid + label:empty:after,
+  input[type=tel].tvd-valid + label:empty:after,
+  input[type=tel]:focus.tvd-valid + label:empty:after,
+  input[type=number].tvd-invalid + label:empty:after,
+  input[type=number]:focus.tvd-invalid + label:empty:after,
+  input[type=number].tvd-valid + label:empty:after,
+  input[type=number]:focus.tvd-valid + label:empty:after,
+  input[type=search].tvd-invalid + label:empty:after,
+  input[type=search]:focus.tvd-invalid + label:empty:after,
+  input[type=search].tvd-valid + label:empty:after,
+  input[type=search]:focus.tvd-valid + label:empty:after,
+  textarea.tvd-materialize-textarea.tvd-invalid + label:empty:after,
+  textarea.tvd-materialize-textarea:focus.tvd-invalid + label:empty:after,
+  textarea.tvd-materialize-textarea.tvd-valid + label:empty:after,
+  textarea.tvd-materialize-textarea:focus.tvd-valid + label:empty:after {
+    top: 35px; }
+  input[type=text] + label:after,
+  input[type=password] + label:after,
+  input[type=email] + label:after,
+  input[type=url] + label:after,
+  input[type=time] + label:after,
+  input[type=date] + label:after,
+  input[type=datetime-local] + label:after,
+  input[type=tel] + label:after,
+  input[type=number] + label:after,
+  input[type=search] + label:after,
+  textarea.tvd-materialize-textarea + label:after {
+    display: block;
+    content: "";
     position: absolute;
-    left: -9999px;
-    visibility: hidden; }
-  #wpbody [type="radio"]:not(:checked) + label,
-  #wpbody [type="radio"]:checked + label, #TB_window [type="radio"]:not(:checked) + label,
-  #TB_window [type="radio"]:checked + label {
-    -webkit-transition: 0.28s ease;
-    -moz-transition: 0.28s ease;
-    -o-transition: 0.28s ease;
-    -ms-transition: 0.28s ease;
-    transition: 0.28s ease;
+    top: 55px;
+    opacity: 0;
+    transition: .2s opacity ease-out, .2s color ease-out; }
+
+.tvd-input-field {
+  position: relative; }
+  .tvd-input-field.tvd-col label {
+    left: 0.75rem; }
+  .tvd-input-field label {
+    -webkit-transition: 0.2s ease-out;
+    -moz-transition: 0.2s ease-out;
+    -o-transition: 0.2s ease-out;
+    -ms-transition: 0.2s ease-out;
+    transition: 0.2s ease-out;
+    color: #a7a7a7;
+    cursor: text;
+    font-size: 1rem;
+    font-weight: 300;
+    position: absolute;
+    top: 0.2rem;
+    left: 0; }
+  .tvd-input-field label.tvd-active {
+    -webkit-transform: translateY(-110%);
+    -moz-transform: translateY(-110%);
+    -ms-transform: translateY(-110%);
+    -o-transform: translateY(-110%);
+    transform: translateY(-110%);
+    font-size: 0.625rem; }
+
+/***************
+  Radio Buttons
+***************/
+/* Remove default Radio Buttons */
+[type="radio"]:not(:checked),
+[type="radio"]:checked {
+  position: absolute;
+  left: -9999px;
+  visibility: hidden; }
+
+[type="radio"]:not(:checked) + label,
+[type="radio"]:checked + label {
+  -webkit-transition: 0.28s ease;
+  -moz-transition: 0.28s ease;
+  -o-transition: 0.28s ease;
+  -ms-transition: 0.28s ease;
+  transition: 0.28s ease;
+  color: #393939;
+  cursor: pointer;
+  display: inline-block;
+  font-size: 1rem;
+  line-height: 25px;
+  height: 25px;
+  position: relative;
+  padding-left: 35px;
+  -webkit-user-select: none;
+  /* webkit (safari, chrome) browsers */
+  -moz-user-select: none;
+  /* mozilla browsers */
+  -khtml-user-select: none;
+  /* webkit (konqueror) browsers */
+  -ms-user-select: none;
+  /* IE10+ */ }
+
+[type="radio"] + label:before,
+[type="radio"] + label:after {
+  -webkit-transition: 0.28s ease;
+  -moz-transition: 0.28s ease;
+  -o-transition: 0.28s ease;
+  -ms-transition: 0.28s ease;
+  transition: 0.28s ease;
+  content: '';
+  height: 18px;
+  margin: 4px;
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 18px;
+  z-index: 0; }
+
+/* Unchecked styles */
+[type="radio"]:not(:checked) + label:before {
+  border-radius: 50%;
+  border: 2px solid #8a8a8a; }
+
+[type="radio"]:not(:checked) + label:after {
+  -webkit-transform: scale(0);
+  -moz-transform: scale(0);
+  -ms-transform: scale(0);
+  -o-transform: scale(0);
+  transform: scale(0);
+  border-radius: 50%;
+  border: 2px solid #8a8a8a;
+  z-index: -1; }
+
+/* Checked styles */
+[type="radio"]:checked + label:before {
+  border-radius: 50%;
+  border: 2px solid #2b85af; }
+
+[type="radio"]:checked + label:after {
+  -webkit-transform: scale(0.5);
+  -moz-transform: scale(0.5);
+  -ms-transform: scale(0.5);
+  -o-transform: scale(0.5);
+  transform: scale(0.5);
+  border-radius: 50%;
+  border: 2px solid #2b85af;
+  background-color: #2b85af;
+  z-index: 0; }
+
+/* Disabled Radio */
+[type="radio"]:disabled:checked + label:before {
+  border: 2px solid #cfcfcf; }
+
+[type="radio"]:disabled:checked + label:after {
+  border: none;
+  background-color: #cfcfcf; }
+
+/* Disabled style */
+[type="radio"]:disabled:not(:checked) + label:before,
+[type="radio"]:disabled:checked + label:before {
+  background-color: transparent;
+  border-color: #cfcfcf; }
+
+[type="radio"]:disabled + label {
+  color: #cfcfcf; }
+
+[type="radio"]:disabled:not(:checked) + label:before {
+  border-color: #cfcfcf; }
+
+[type="radio"]:disabled:checked + label:after {
+  background-color: #cfcfcf;
+  border-color: #cfcfcf; }
+
+/***************
+   Checkboxes
+***************/
+/* CUSTOM CSS CHECKBOXES */
+form p {
+  margin-bottom: 10px;
+  text-align: left; }
+
+form p:last-child {
+  margin-bottom: 0; }
+
+/* Remove default checkbox */
+[type="checkbox"]:not(:checked),
+[type="checkbox"]:checked {
+  position: absolute;
+  left: -9999px;
+  visibility: hidden; }
+
+[type="checkbox"] {
+  /* checkbox aspect */ }
+  [type="checkbox"] + label {
     color: #393939;
     cursor: pointer;
     display: inline-block;
     font-size: 1rem;
-    line-height: 25px;
     height: 25px;
+    line-height: 25px;
     position: relative;
     padding-left: 35px;
     -webkit-user-select: none;
@@ -4417,281 +4391,232 @@ html body #wpbody, html body #TB_window {
     /* webkit (konqueror) browsers */
     -ms-user-select: none;
     /* IE10+ */ }
-  #wpbody [type="radio"] + label:before,
-  #wpbody [type="radio"] + label:after, #TB_window [type="radio"] + label:before,
-  #TB_window [type="radio"] + label:after {
-    -webkit-transition: 0.28s ease;
-    -moz-transition: 0.28s ease;
-    -o-transition: 0.28s ease;
-    -ms-transition: 0.28s ease;
-    transition: 0.28s ease;
+  [type="checkbox"] + label:before {
+    -webkit-transition: 0.2s;
+    -moz-transition: 0.2s;
+    -o-transition: 0.2s;
+    -ms-transition: 0.2s;
+    transition: 0.2s;
+    border-radius: 1px;
     content: '';
-    height: 18px;
-    margin: 4px;
+    margin-top: 2px;
     position: absolute;
-    left: 0;
-    top: 0;
-    width: 18px;
     z-index: 0; }
-  #wpbody [type="radio"]:not(:checked) + label:before, #TB_window [type="radio"]:not(:checked) + label:before {
-    border-radius: 50%;
-    border: 2px solid #8a8a8a; }
-  #wpbody [type="radio"]:not(:checked) + label:after, #TB_window [type="radio"]:not(:checked) + label:after {
-    -webkit-transform: scale(0);
-    -moz-transform: scale(0);
-    -ms-transform: scale(0);
-    -o-transform: scale(0);
-    transform: scale(0);
-    border-radius: 50%;
-    border: 2px solid #8a8a8a;
-    z-index: -1; }
-  #wpbody [type="radio"]:checked + label:before, #TB_window [type="radio"]:checked + label:before {
-    border-radius: 50%;
-    border: 2px solid #2b85af; }
-  #wpbody [type="radio"]:checked + label:after, #TB_window [type="radio"]:checked + label:after {
-    -webkit-transform: scale(0.5);
-    -moz-transform: scale(0.5);
-    -ms-transform: scale(0.5);
-    -o-transform: scale(0.5);
-    transform: scale(0.5);
-    border-radius: 50%;
-    border: 2px solid #2b85af;
-    background-color: #2b85af;
-    z-index: 0; }
-  #wpbody [type="radio"]:disabled:checked + label:before, #TB_window [type="radio"]:disabled:checked + label:before {
-    border: 2px solid #cfcfcf; }
-  #wpbody [type="radio"]:disabled:checked + label:after, #TB_window [type="radio"]:disabled:checked + label:after {
+  [type="checkbox"]:not(:checked):disabled + label:before {
     border: none;
     background-color: #cfcfcf; }
-  #wpbody [type="radio"]:disabled:not(:checked) + label:before,
-  #wpbody [type="radio"]:disabled:checked + label:before, #TB_window [type="radio"]:disabled:not(:checked) + label:before,
-  #TB_window [type="radio"]:disabled:checked + label:before {
+
+[type="checkbox"]:checked + label:before {
+  -webkit-backface-visibility: hidden; }
+
+[type="checkbox"]:checked:disabled + label:before {
+  border-right: 2px solid #cfcfcf;
+  border-bottom: 2px solid #cfcfcf; }
+
+/* Indeterminate checkbox */
+[type="checkbox"]:indeterminate + label:before {
+  -webkit-transform: rotate(90deg);
+  -moz-transform: rotate(90deg);
+  -ms-transform: rotate(90deg);
+  -o-transform: rotate(90deg);
+  transform: rotate(90deg);
+  -webkit-transform-origin: 100% 100%;
+  -moz-transform-origin: 100% 100%;
+  -ms-transform-origin: 100% 100%;
+  -o-transform-origin: 100% 100%;
+  transform-origin: 100% 100%;
+  border-top: none;
+  border-left: none;
+  border-right: 2px solid #2b85af;
+  border-bottom: none;
+  height: 22px;
+  left: -10px;
+  top: -11px;
+  width: 10px;
+  -webkit-backface-visibility: hidden; }
+
+[type="checkbox"]:indeterminate:disabled + label:before {
+  border-right: 2px solid #cfcfcf;
+  background-color: transparent; }
+
+[type="checkbox"] + label:after {
+  border-radius: 2px; }
+
+[type="checkbox"] + label:before,
+[type="checkbox"] + label:after {
+  content: '';
+  left: 0;
+  position: absolute;
+  /* .1s delay is for check animation */
+  transition: border .25s, background-color .25s, width .20s .1s, height .20s .1s, top .20s .1s, left .20s .1s;
+  z-index: 1; }
+
+[type="checkbox"]:not(:checked) + label:before {
+  -webkit-transform: rotateZ(37deg);
+  transform: rotateZ(37deg);
+  -webkit-transform-origin: 20% 40%;
+  transform-origin: 100% 100%;
+  border: 3px solid transparent;
+  height: 0;
+  left: 6px;
+  top: 10px;
+  width: 0; }
+
+[type="checkbox"]:not(:checked) + label:after {
+  background-color: transparent;
+  border: 2px solid #8a8a8a;
+  height: 18px;
+  top: 4px;
+  width: 18px;
+  z-index: 0; }
+
+[type="checkbox"]:checked + label:before {
+  -webkit-transform: rotateZ(37deg);
+  transform: rotateZ(37deg);
+  -webkit-transform-origin: 100% 100%;
+  transform-origin: 100% 100%;
+  border-top: 2px solid transparent;
+  border-left: 2px solid transparent;
+  border-right: 2px solid #fff;
+  border-bottom: 2px solid #fff;
+  height: 10px;
+  top: 5px;
+  left: 2px;
+  width: 7px; }
+
+[type="checkbox"]:checked + label:after {
+  border: 2px solid #2b85af;
+  background-color: #2b85af;
+  height: 18px;
+  top: 4px;
+  width: 18px;
+  z-index: 0; }
+
+[type="checkbox"]:disabled:not(:checked) + label:before {
+  background-color: transparent;
+  border: 2px solid transparent; }
+
+[type="checkbox"]:disabled:not(:checked) + label:after {
+  border: 2px solid #cfcfcf;
+  background-color: transparent; }
+
+[type="checkbox"]:disabled:checked + label:before {
+  background-color: transparent;
+  border-right-color: rgba(255, 255, 255, 0.5);
+  border-bottom-color: rgba(255, 255, 255, 0.5); }
+
+[type="checkbox"]:disabled:checked + label:after {
+  background-color: #cfcfcf;
+  border-color: #cfcfcf; }
+
+/***************
+     Switch
+***************/
+/***************
+  Select Field
+***************/
+.tvd-select-label {
+  position: absolute; }
+
+.tvd-select-wrapper {
+  position: relative; }
+  .tvd-select-wrapper input.tvd-select-dropdown {
+    box-shadow: none;
     background-color: transparent;
-    border-color: #cfcfcf; }
-  #wpbody [type="radio"]:disabled + label, #TB_window [type="radio"]:disabled + label {
-    color: #cfcfcf; }
-  #wpbody [type="radio"]:disabled:not(:checked) + label:before, #TB_window [type="radio"]:disabled:not(:checked) + label:before {
-    border-color: #cfcfcf; }
-  #wpbody [type="radio"]:disabled:checked + label:after, #TB_window [type="radio"]:disabled:checked + label:after {
-    background-color: #cfcfcf;
-    border-color: #cfcfcf; }
-  #wpbody form p, #TB_window form p {
-    margin-bottom: 10px;
-    text-align: left; }
-  #wpbody form p:last-child, #TB_window form p:last-child {
-    margin-bottom: 0; }
-  #wpbody [type="checkbox"]:not(:checked),
-  #wpbody [type="checkbox"]:checked, #TB_window [type="checkbox"]:not(:checked),
-  #TB_window [type="checkbox"]:checked {
+    border: none;
+    border-bottom: 1px solid #a3a3a3;
+    color: #a7a7a7;
+    cursor: pointer;
+    display: block;
+    font-size: 1rem;
+    font-weight: 300;
+    height: 2rem;
+    line-height: 2rem;
+    margin: 0 0 15px 0;
+    outline: none;
+    padding: 0;
+    position: relative;
+    width: 100%; }
+    .tvd-select-wrapper input.tvd-select-dropdown:hover {
+      color: #8a8a8a; }
+  .tvd-select-wrapper span.tvd-caret {
+    color: initial;
     position: absolute;
-    left: -9999px;
-    visibility: hidden; }
-  #wpbody [type="checkbox"], #TB_window [type="checkbox"] {
-    /* checkbox aspect */ }
-    #wpbody [type="checkbox"] + label, #TB_window [type="checkbox"] + label {
-      color: #393939;
-      cursor: pointer;
-      display: inline-block;
-      font-size: 1rem;
-      height: 25px;
-      line-height: 25px;
-      position: relative;
-      padding-left: 35px;
-      -webkit-user-select: none;
-      /* webkit (safari, chrome) browsers */
-      -moz-user-select: none;
-      /* mozilla browsers */
-      -khtml-user-select: none;
-      /* webkit (konqueror) browsers */
-      -ms-user-select: none;
-      /* IE10+ */ }
-    #wpbody [type="checkbox"] + label:before, #TB_window [type="checkbox"] + label:before {
-      -webkit-transition: 0.2s;
-      -moz-transition: 0.2s;
-      -o-transition: 0.2s;
-      -ms-transition: 0.2s;
-      transition: 0.2s;
-      border-radius: 1px;
-      content: '';
-      margin-top: 2px;
-      position: absolute;
-      z-index: 0; }
-    #wpbody [type="checkbox"]:not(:checked):disabled + label:before, #TB_window [type="checkbox"]:not(:checked):disabled + label:before {
-      border: none;
-      background-color: #cfcfcf; }
-  #wpbody [type="checkbox"]:checked + label:before, #TB_window [type="checkbox"]:checked + label:before {
-    -webkit-backface-visibility: hidden; }
-  #wpbody [type="checkbox"]:checked:disabled + label:before, #TB_window [type="checkbox"]:checked:disabled + label:before {
-    border-right: 2px solid #cfcfcf;
-    border-bottom: 2px solid #cfcfcf; }
-  #wpbody [type="checkbox"]:indeterminate + label:before, #TB_window [type="checkbox"]:indeterminate + label:before {
-    -webkit-transform: rotate(90deg);
-    -moz-transform: rotate(90deg);
-    -ms-transform: rotate(90deg);
-    -o-transform: rotate(90deg);
-    transform: rotate(90deg);
-    -webkit-transform-origin: 100% 100%;
-    -moz-transform-origin: 100% 100%;
-    -ms-transform-origin: 100% 100%;
-    -o-transform-origin: 100% 100%;
-    transform-origin: 100% 100%;
-    border-top: none;
-    border-left: none;
-    border-right: 2px solid #2b85af;
-    border-bottom: none;
-    height: 22px;
-    left: -10px;
-    top: -11px;
-    width: 10px;
-    -webkit-backface-visibility: hidden; }
-  #wpbody [type="checkbox"]:indeterminate:disabled + label:before, #TB_window [type="checkbox"]:indeterminate:disabled + label:before {
-    border-right: 2px solid #cfcfcf;
-    background-color: transparent; }
-  #wpbody [type="checkbox"] + label:after, #TB_window [type="checkbox"] + label:after {
-    border-radius: 2px; }
-  #wpbody [type="checkbox"] + label:before,
-  #wpbody [type="checkbox"] + label:after, #TB_window [type="checkbox"] + label:before,
-  #TB_window [type="checkbox"] + label:after {
-    content: '';
-    left: 0;
-    position: absolute;
-    /* .1s delay is for check animation */
-    transition: border .25s, background-color .25s, width .20s .1s, height .20s .1s, top .20s .1s, left .20s .1s;
-    z-index: 1; }
-  #wpbody [type="checkbox"]:not(:checked) + label:before, #TB_window [type="checkbox"]:not(:checked) + label:before {
-    -webkit-transform: rotateZ(37deg);
-    transform: rotateZ(37deg);
-    -webkit-transform-origin: 20% 40%;
-    transform-origin: 100% 100%;
-    border: 3px solid transparent;
-    height: 0;
-    left: 6px;
+    right: 0;
     top: 10px;
-    width: 0; }
-  #wpbody [type="checkbox"]:not(:checked) + label:after, #TB_window [type="checkbox"]:not(:checked) + label:after {
-    background-color: transparent;
-    border: 2px solid #8a8a8a;
-    height: 18px;
-    top: 4px;
-    width: 18px;
-    z-index: 0; }
-  #wpbody [type="checkbox"]:checked + label:before, #TB_window [type="checkbox"]:checked + label:before {
-    -webkit-transform: rotateZ(37deg);
-    transform: rotateZ(37deg);
-    -webkit-transform-origin: 100% 100%;
-    transform-origin: 100% 100%;
-    border-top: 2px solid transparent;
-    border-left: 2px solid transparent;
-    border-right: 2px solid #fff;
-    border-bottom: 2px solid #fff;
-    height: 10px;
-    top: 5px;
-    left: 2px;
-    width: 7px; }
-  #wpbody [type="checkbox"]:checked + label:after, #TB_window [type="checkbox"]:checked + label:after {
-    border: 2px solid #2b85af;
-    background-color: #2b85af;
-    height: 18px;
-    top: 4px;
-    width: 18px;
-    z-index: 0; }
-  #wpbody [type="checkbox"]:disabled:not(:checked) + label:before, #TB_window [type="checkbox"]:disabled:not(:checked) + label:before {
-    background-color: transparent;
-    border: 2px solid transparent; }
-  #wpbody [type="checkbox"]:disabled:not(:checked) + label:after, #TB_window [type="checkbox"]:disabled:not(:checked) + label:after {
-    border: 2px solid #cfcfcf;
-    background-color: transparent; }
-  #wpbody [type="checkbox"]:disabled:checked + label:before, #TB_window [type="checkbox"]:disabled:checked + label:before {
-    background-color: transparent;
-    border-right-color: rgba(255, 255, 255, 0.5);
-    border-bottom-color: rgba(255, 255, 255, 0.5); }
-  #wpbody [type="checkbox"]:disabled:checked + label:after, #TB_window [type="checkbox"]:disabled:checked + label:after {
-    background-color: #cfcfcf;
-    border-color: #cfcfcf; }
-  #wpbody .tvd-select-label, #TB_window .tvd-select-label {
-    position: absolute; }
-  #wpbody .tvd-select-wrapper, #TB_window .tvd-select-wrapper {
-    position: relative; }
-    #wpbody .tvd-select-wrapper input.tvd-select-dropdown, #TB_window .tvd-select-wrapper input.tvd-select-dropdown {
-      box-shadow: none;
-      background-color: transparent;
-      border: none;
-      border-bottom: 1px solid #a3a3a3;
-      color: #a7a7a7;
-      cursor: pointer;
-      display: block;
-      font-size: 1rem;
-      font-weight: 300;
-      height: 2rem;
-      line-height: 2rem;
-      margin: 0 0 15px 0;
-      outline: none;
-      padding: 0;
-      position: relative;
-      width: 100%; }
-      #wpbody .tvd-select-wrapper input.tvd-select-dropdown:hover, #TB_window .tvd-select-wrapper input.tvd-select-dropdown:hover {
-        color: #8a8a8a; }
-    #wpbody .tvd-select-wrapper span.tvd-caret, #TB_window .tvd-select-wrapper span.tvd-caret {
-      color: initial;
-      position: absolute;
-      right: 0;
-      top: 10px;
-      font-size: 10px; }
-      #wpbody .tvd-select-wrapper span.tvd-caret.tvd-disabled, #TB_window .tvd-select-wrapper span.tvd-caret.tvd-disabled {
-        color: rgba(255, 255, 255, 0.5); }
-    #wpbody .tvd-select-wrapper + label, #TB_window .tvd-select-wrapper + label {
-      position: absolute;
-      top: -14px;
-      font-size: 0.625rem; }
-  #wpbody select, #TB_window select {
-    display: none; }
-  #wpbody select.tvd-browser-default, #TB_window select.tvd-browser-default {
-    display: block; }
-  #wpbody select:disabled, #TB_window select:disabled {
-    color: rgba(0, 0, 0, 0.3); }
-  #wpbody .tvd-select-wrapper input.tvd-select-dropdown:disabled, #TB_window .tvd-select-wrapper input.tvd-select-dropdown:disabled {
-    color: rgba(0, 0, 0, 0.3);
-    cursor: default;
-    -webkit-user-select: none;
-    /* webkit (safari, chrome) browsers */
-    -moz-user-select: none;
-    /* mozilla browsers */
-    -ms-user-select: none;
-    /* IE10+ */
-    border-bottom: 1px solid rgba(0, 0, 0, 0.3); }
-  #wpbody .tvd-select-wrapper i, #TB_window .tvd-select-wrapper i {
-    color: rgba(0, 0, 0, 0.3); }
-  #wpbody .tvd-select-dropdown li.tvd-disabled,
-  #wpbody .tvd-select-dropdown li.tvd-disabled > span, #TB_window .tvd-select-dropdown li.tvd-disabled,
-  #TB_window .tvd-select-dropdown li.tvd-disabled > span {
-    color: rgba(0, 0, 0, 0.3);
-    background-color: transparent; }
-  #wpbody .tvd-select-dropdown li img, #TB_window .tvd-select-dropdown li img {
-    height: 30px;
-    width: 30px;
-    margin: 5px 15px;
-    float: right; }
-  #wpbody .tvd-select-dropdown li.tvd-optgroup, #TB_window .tvd-select-dropdown li.tvd-optgroup {
-    background: transparent;
+    font-size: 10px; }
+    .tvd-select-wrapper span.tvd-caret.tvd-disabled {
+      color: rgba(255, 255, 255, 0.5); }
+  .tvd-select-wrapper + label {
+    position: absolute;
+    top: -14px;
+    font-size: 0.625rem; }
+
+select {
+  display: none; }
+
+select.tvd-browser-default {
+  display: block; }
+
+select:disabled {
+  color: rgba(0, 0, 0, 0.3); }
+
+.tvd-select-wrapper input.tvd-select-dropdown:disabled {
+  color: rgba(0, 0, 0, 0.3);
+  cursor: default;
+  -webkit-user-select: none;
+  /* webkit (safari, chrome) browsers */
+  -moz-user-select: none;
+  /* mozilla browsers */
+  -ms-user-select: none;
+  /* IE10+ */
+  border-bottom: 1px solid rgba(0, 0, 0, 0.3); }
+
+.tvd-select-wrapper i {
+  color: rgba(0, 0, 0, 0.3); }
+
+.tvd-select-dropdown li.tvd-disabled,
+.tvd-select-dropdown li.tvd-disabled > span {
+  color: rgba(0, 0, 0, 0.3);
+  background-color: transparent; }
+
+.tvd-select-dropdown li img {
+  height: 30px;
+  width: 30px;
+  margin: 5px 15px;
+  float: right; }
+
+.tvd-select-dropdown li.tvd-optgroup {
+  background: transparent;
+  color: #393939; }
+  .tvd-select-dropdown li.tvd-optgroup:hover {
+    background: transparent; }
+  .tvd-select-dropdown li.tvd-optgroup.tvd-selected > span {
     color: #393939; }
-    #wpbody .tvd-select-dropdown li.tvd-optgroup:hover, #TB_window .tvd-select-dropdown li.tvd-optgroup:hover {
-      background: transparent; }
-    #wpbody .tvd-select-dropdown li.tvd-optgroup.tvd-selected > span, #TB_window .tvd-select-dropdown li.tvd-optgroup.tvd-selected > span {
-      color: #393939; }
-    #wpbody .tvd-select-dropdown li.tvd-optgroup > span, #TB_window .tvd-select-dropdown li.tvd-optgroup > span {
-      color: #393939;
-      font-size: .75rem;
-      font-weight: 500;
-      text-transform: uppercase; }
-    #wpbody .tvd-select-dropdown li.tvd-optgroup ~ li:not(.tvd-optgroup), #TB_window .tvd-select-dropdown li.tvd-optgroup ~ li:not(.tvd-optgroup) {
-      padding-left: 1rem; }
-  #wpbody select, #TB_window select {
-    background-color: rgba(255, 255, 255, 0.9);
-    width: 100%;
-    padding: 5px;
-    border: 1px solid #f2f2f2;
-    border-radius: 2px;
-    height: 3rem; }
+  .tvd-select-dropdown li.tvd-optgroup > span {
+    color: #393939;
+    font-size: .75rem;
+    font-weight: 500;
+    text-transform: uppercase; }
+  .tvd-select-dropdown li.tvd-optgroup ~ li:not(.tvd-optgroup) {
+    padding-left: 1rem; }
+
+/*********************
+      File Input
+**********************/
+/***************
+      Range
+***************/
+/***************************
+   Text Inputs + Textarea
+****************************/
+select {
+  background-color: rgba(255, 255, 255, 0.9);
+  width: 100%;
+  padding: 5px;
+  border: 1px solid #f2f2f2;
+  border-radius: 2px;
+  height: 3rem; }
 
 /*
     @license
@@ -5089,7 +5014,7 @@ html body #wpbody, html body #TB_window {
   top: 0;
   left: 160px;
   right: 0;
-  z-index: 200; }
+  z-index: 1004; }
   .tvd-page-preloader:before {
     background: rgba(255, 255, 255, 0.9); }
   body.folded .tvd-page-preloader {

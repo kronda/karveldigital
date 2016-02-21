@@ -1,5 +1,5 @@
 <div class="tve_lp_content_bg thrv_wrapper tve_no_drag tve_lp_content" style="margin: 0">
-    <div class="tve_editor_main_content tve_empty_dropzone tve_content_width">
+	<div class="tve_editor_main_content tve_empty_dropzone tve_content_width">
 		<div class="thrv_wrapper thrv_columns" style="margin: 60px 0 20px 0; padding: 0">
 			<div class="tve_colm tve_oth">
 				<div style="width: 380px;" class="thrv_wrapper tve_image_caption aligncenter">
@@ -22,7 +22,7 @@
                             <span class="tve_left tve_btn_im">
                                 <i></i>
                             </span>
-                            <span class="tve_btn_txt">Download Now</span>
+							<span class="tve_btn_txt">Download Now</span>
 						</a>
 					</div>
 				</div>
@@ -35,10 +35,10 @@
 						<p class="tve_p_center" style="color: #cccccc; margin-top: 20px; font-size: 18px;margin-bottom: 0;">If you have any questions about the report or would like to share your thoughts about it, you
 							can always get in touch with us here:</p>
 						<p class="tve_p_center" style="color: #cccccc; font-size: 18px;">
-                            <font color="cccccc">
-                                <span class="underline_text bold_text">link to contact page.</span>
-                            </font>
-                        </p>
+							<font color="cccccc">
+								<span class="underline_text bold_text">link to contact page.</span>
+							</font>
+						</p>
 					</div>
 				</div>
 			</div>

@@ -1,4 +1,5 @@
 <?php
+
 /**
  * OAuthServiceProvider
  *
@@ -20,13 +21,16 @@
  * @package
  * @version $id$
  */
+interface Thrive_Dash_Api_AWeber_Oauth_ServiceProvider {
+	public function getAccessTokenUrl();
 
-interface Thrive_Dash_Api_AWeber_Oauth_ServiceProvider
-{
-    public function getAccessTokenUrl();
-    public function getAuthorizeUrl();
-    public function getRequestTokenUrl();
-    public function getAuthTokenFromUrl();
-    public function getBaseUri();
-    public function getUserData();
+	public function getAuthorizeUrl();
+
+	public function getRequestTokenUrl();
+
+	public function getAuthTokenFromUrl();
+
+	public function getBaseUri();
+
+	public function getUserData();
 } 

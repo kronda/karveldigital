@@ -28,30 +28,35 @@ function tve_leads_get_default_form_types($include_extra = false)
             'post_title' => __('Ribbon', 'thrive-leads'),
             'tve_form_type' => 'ribbon',
             'edit_selector' => '.thrv-ribbon', // selector for the element settings in editing mode
-            'wp_hook' => 'wp_footer'
+            'wp_hook' => 'wp_footer',
+            'video_link' => '//fast.wistia.net/embed/iframe/p8a5uowels?popover=true'
         ),
         'lightbox' => array(
             'post_title' => __('Lightbox', 'thrive-leads'),
             'tve_form_type' => 'lightbox',
             'edit_selector' => '.tve_p_lb_control', // selector for the element settings in editing mode
             'wp_hook' => 'wp_footer',
+            'video_link' => '//fast.wistia.net/embed/iframe/eodv48v1qz?popover=true'
         ),
         'widget' => array(
             'post_title' => __('Widget', 'thrive-leads'),
             'edit_selector' => '.thrv-leads-widget', // selector for the element settings in editing mode
             'tve_form_type' => 'widget',
+            'video_link' => '//fast.wistia.net/embed/iframe/3luamnx1va?popover=true'
         ),
         'post_footer' => array(
             'post_title' => __('Post Footer', 'thrive-leads'),
             'tve_form_type' => 'post_footer',
             'edit_selector' => '.thrv-leads-form-box', // selector for the element settings in editing mode
             'wp_hook' => 'the_content',
+            'video_link' => '//fast.wistia.net/embed/iframe/nizwf1uccw?popover=true'
         ),
         'slide_in' => array(
             'post_title' => __('Slide in', 'thrive-leads'),
             'tve_form_type' => 'slide_in',
             'edit_selector' => '.thrv-leads-slide-in', // selector for the element settings in editing mode
-            'wp_hook' => 'wp_footer'
+            'wp_hook' => 'wp_footer',
+            'video_link' => '//fast.wistia.net/embed/iframe/1p5u2b9rmd?popover=true'
         ),
         'in_content' => array(
             'post_title' => __('In content', 'thrive-leads'),
@@ -59,12 +64,14 @@ function tve_leads_get_default_form_types($include_extra = false)
             'edit_selector' => '.thrv-leads-in-content', // selector for the element settings in editing mode
             'wp_hook' => 'the_content',
             'priority' => 20,
+            'video_link' => '//fast.wistia.net/embed/iframe/vp8pi64ss2?popover=true'
         ),
         'screen_filler' => array(
             'post_title' => __('Screen filler Lightbox', 'thrive-leads'),
             'tve_form_type' => 'screen_filler',
             'edit_selector' => '.thrv-leads-screen-filler', // selector for the element settings in editing mode
             'wp_hook' => 'wp_footer',
+            'video_link' => '//fast.wistia.net/embed/iframe/abpv5so4uq?popover=true'
         ),
         /**
          * no wp_hook for php_inserts, these are to be added by the (advanced) user - as pieces of PHP code that can be directly inserted into
@@ -73,13 +80,14 @@ function tve_leads_get_default_form_types($include_extra = false)
         'php_insert' => array(
             'post_title' => __('PHP Insert', 'thrive-leads'),
             'tve_form_type' => 'php_insert',
-            'edit_selector' => '.thrv-leads-form-box'
+            'edit_selector' => '.thrv-leads-form-box',
         ),
         'greedy_ribbon' => array(
             'post_title' => __('Scroll Mat', 'thrive-leads'),
             'tve_form_type' => 'greedy_ribbon',
             'edit_selector' => '.thrv-greedy-ribbon', // selector for the element settings in editing mode
             'wp_hook' => 'wp_footer',
+            'video_link' => '//fast.wistia.net/embed/iframe/2vg13bctud?popover=true'
         )
     );
 

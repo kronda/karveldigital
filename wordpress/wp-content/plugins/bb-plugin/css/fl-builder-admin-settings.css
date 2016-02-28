@@ -63,6 +63,47 @@
 	margin: 30px 0 5px;
 }
 
+/* Welcome Page
+----------------------------------------------------------- */
+
+#fl-welcome-form {
+	max-width: none;
+}
+.fl-welcome-page-content {
+	max-width: 880px;
+}
+.fl-welcome-page-content ul {
+	list-style-type: disc;
+	margin: 15px 0 20px 35px;
+}
+.fl-welcome-page-content hr {
+	clear: both;
+	margin: 20px 0 5px;
+}
+.fl-welcome-page-content .fl-welcome-col-wrap {
+	clear:both;
+}
+.fl-welcome-page-content .fl-welcome-col {
+	box-sizing: border-box;
+	display: inline-block;
+	width: 49.7%;
+	vertical-align: text-top;
+}
+.fl-welcome-page-content .fl-welcome-col:first-child {
+	padding-right: 30px;
+}
+.fl-welcome-page-content .fl-welcome-col:last-child {
+	padding-left: 30px;
+}
+.fl-welcome-page-content .fl-welcome-big-link {
+	font-weight: 600;
+	font-size: 14px;
+}
+.fl-welcome-page-content .fl-welcome-img {
+	max-width: 100%;
+	display: inline-block;
+}
+
 /* Settings Forms
 ----------------------------------------------------------- */
 
@@ -125,7 +166,7 @@
 
 	/* Nav
 	----------------------------------------------------------- */
-	
+
 	.fl-settings-nav {
 		float: none;
 		margin: 15px 0 0 0;
@@ -134,7 +175,7 @@
 
 	/* Content
 	----------------------------------------------------------- */
-	
+
 	.fl-settings-content {
 		float: none;
 		margin-top: 15px;
@@ -153,10 +194,10 @@
 ----------------------------------------------------------- */
 
 @media (max-width: 782px) {
-	
+
 	/* Settings Forms
 	----------------------------------------------------------- */
-	
+
 	.fl-settings-form th,
 	.fl-settings-form td {
 		padding: 5px 17px;

@@ -87,7 +87,7 @@ class FLContentSliderModule extends FLBuilderModule {
 				echo '<a href="' . $slide->link . '" target="' . $slide->link_target. '">';
 			}
 			
-			echo '<img class="fl-slide-photo-img" src="' . $slide->fg_photo_src . '" alt="' . esc_attr( $alt ) . '" />';
+			echo '<img class="fl-slide-photo-img wp-image-' . $slide->fg_photo . '" src="' . $slide->fg_photo_src . '" alt="' . esc_attr( $alt ) . '" />';
 			
 			if(!empty($slide->link)) {
 				echo '</a>';
@@ -120,17 +120,19 @@ class FLContentSliderModule extends FLBuilderModule {
 			$alt = '';
 
 			if($slide->r_photo_type == 'main' && !empty($slide->fg_photo_src)) {
+				$id  = $slide->fg_photo;
 				$src = $slide->fg_photo_src;
 				$alt = get_post_meta($slide->bg_photo, '_wp_attachment_image_alt', true);
 			}
 			else if($slide->r_photo_type == 'another' && !empty($slide->r_photo_src)) {
+				$id  = $slide->r_photo;
 				$src = $slide->r_photo_src;
 				$alt = get_post_meta($slide->r_photo, '_wp_attachment_image_alt', true);
 			}
 
 			if(!empty($src)) {
 				echo '<div class="fl-slide-mobile-photo">';
-				echo '<img class="fl-slide-mobile-photo-img" src="' . $src . '" alt="' . esc_attr( $alt ) . '" />';
+				echo '<img class="fl-slide-mobile-photo-img wp-image-' . $id . '" src="' . $src . '" alt="' . esc_attr( $alt ) . '" />';
 				echo '</div>';
 			}
 		}
@@ -145,17 +147,19 @@ class FLContentSliderModule extends FLBuilderModule {
 			$alt = '';
 
 			if($slide->r_photo_type == 'main' && !empty($slide->bg_photo_src)) {
+				$id  = $slide->bg_photo;
 				$src = $slide->bg_photo_src;
 				$alt = get_post_meta($slide->bg_photo, '_wp_attachment_image_alt', true);
 			}
 			else if($slide->r_photo_type == 'another' && !empty($slide->r_photo_src)) {
+				$id  = $slide->r_photo;
 				$src = $slide->r_photo_src;
 				$alt = get_post_meta($slide->r_photo, '_wp_attachment_image_alt', true);
 			}
 
 			if(!empty($src)) {
 				echo '<div class="fl-slide-mobile-photo">';
-				echo '<img class="fl-slide-mobile-photo-img" src="' . $src . '" alt="' . esc_attr( $alt ) . '" />';
+				echo '<img class="fl-slide-mobile-photo-img wp-image-' . $id . '" src="' . $src . '" alt="' . esc_attr( $alt ) . '" />';
 				echo '</div>';
 			}
 		}

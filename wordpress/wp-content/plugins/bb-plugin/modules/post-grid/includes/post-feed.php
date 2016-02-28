@@ -1,4 +1,6 @@
-<div class="fl-post-feed-post<?php if($settings->image_position == 'beside') echo ' fl-post-feed-image-beside'; if(has_post_thumbnail() && $settings->show_image) echo ' fl-post-feed-has-image'; ?>" itemscope="itemscope" itemtype="http://schema.org/BlogPosting">
+<div class="fl-post-feed-post<?php if($settings->image_position == 'beside') echo ' fl-post-feed-image-beside'; if(has_post_thumbnail() && $settings->show_image) echo ' fl-post-feed-has-image'; ?>" itemscope itemtype="<?php FLPostGridModule::schema_itemtype(); ?>">
+
+	<?php FLPostGridModule::schema_meta(); ?>
 
 	<div class="fl-post-feed-header">
 		<h2 class="fl-post-feed-title" itemprop="headline">
@@ -7,12 +9,12 @@
 		<?php if($settings->show_author || $settings->show_date || $settings->show_comments) : ?>
 		<div class="fl-post-feed-meta">
 			<?php if($settings->show_author) : ?>
-				<span class="fl-post-feed-author" itemprop="author" itemscope="itemscope" itemtype="http://schema.org/Person">
+				<span class="fl-post-feed-author">
 					<?php
 
 					printf(
 						_x( 'By %s', '%s stands for author name.', 'fl-builder' ),
-						'<a href="' . get_author_posts_url( get_the_author_meta( 'ID' ) ) . '" itemprop="url"><span itemprop="name">' . get_the_author_meta( 'display_name', get_the_author_meta( 'ID' ) ) . '</span></a>'
+						'<a href="' . get_author_posts_url( get_the_author_meta( 'ID' ) ) . '"><span>' . get_the_author_meta( 'display_name', get_the_author_meta( 'ID' ) ) . '</span></a>'
 					);
 
 					?>
@@ -22,7 +24,7 @@
 				<?php if($settings->show_author) : ?>
 					<span class="fl-sep"> | </span>
 				<?php endif; ?>
-				<span class="fl-post-feed-date" itemprop="datePublished" datetime="<?php echo the_time('Y-m-d'); ?>">
+				<span class="fl-post-feed-date">
 					<?php FLBuilderLoop::post_date($settings->date_format); ?>
 				</span>
 			<?php endif; ?>
@@ -41,7 +43,7 @@
 	<?php if(has_post_thumbnail() && $settings->show_image) : ?>
 	<div class="fl-post-feed-image">
 		<a href="<?php the_permalink(); ?>" rel="bookmark" title="<?php the_title_attribute(); ?>">
-			<?php the_post_thumbnail($settings->image_size, array('itemprop' => 'image')); ?>
+			<?php the_post_thumbnail($settings->image_size); ?>
 		</a>
 	</div>
 	<?php endif; ?>

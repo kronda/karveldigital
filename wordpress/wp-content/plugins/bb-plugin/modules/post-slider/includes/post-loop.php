@@ -1,12 +1,10 @@
-<?php 
+<?php $post_id = get_the_id(); ?>
 
-	$post_id = get_the_id();
-
- ?>
-
-<div class="fl-post-slider-post fl-post-slider-<?php echo $module->get_slider_class( $post_id ) ?><?php if( isset( $settings->show_thumb ) && $settings->show_thumb == 'show' ) echo ' fl-post-slider-has-image'; ?> swiper-slide" itemscope="itemscope" itemtype="http://schema.org/BlogPosting">
+<div class="fl-post-slider-post fl-post-slider-<?php echo $module->get_slider_class( $post_id ) ?><?php if( isset( $settings->show_thumb ) && $settings->show_thumb == 'show' ) echo ' fl-post-slider-has-image'; ?> swiper-slide" itemscope="itemscope" itemtype="<?php FLPostGridModule::schema_itemtype(); ?>">
 
 	<?php 
+		
+		FLPostGridModule::schema_meta();
 
 		// render featured images
 		if( isset( $settings->show_thumb ) && $settings->show_thumb == 'show'){
@@ -22,12 +20,12 @@
 		<?php if( $settings->show_author || $settings->show_date || $settings->show_comments ) : ?>
 		<div class="fl-post-slider-feed-meta">
 			<?php if( $settings->show_author ) : ?>
-				<span class="fl-post-slider-feed-author" itemprop="author" itemscope="itemscope" itemtype="http://schema.org/Person">
+				<span class="fl-post-slider-feed-author">
 					<?php
 
 					printf(
 						_x( 'By %s', '%s stands for author name.', 'fl-builder' ),
-						'<a href="' . get_author_posts_url( get_the_author_meta( 'ID' ) ) . '" itemprop="url"><span itemprop="name">' . get_the_author_meta( 'display_name', get_the_author_meta( 'ID' ) ) . '</span></a>'
+						'<a href="' . get_author_posts_url( get_the_author_meta( 'ID' ) ) . '"><span>' . get_the_author_meta( 'display_name', get_the_author_meta( 'ID' ) ) . '</span></a>'
 					);
 
 					?>
@@ -37,7 +35,7 @@
 				<?php if( $settings->show_author == 1 ) : ?>
 					<span class="fl-sep"> | </span>
 				<?php endif; ?>
-				<span class="fl-post-slider-feed-date" itemprop="datePublished" datetime="<?php echo the_time('Y-m-d'); ?>">
+				<span class="fl-post-slider-feed-date">
 					<?php FLBuilderLoop::post_date($settings->date_format); ?>
 				</span>
 			<?php endif; ?>

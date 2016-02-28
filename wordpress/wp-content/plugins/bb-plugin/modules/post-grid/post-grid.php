@@ -34,6 +34,78 @@ class FLPostGridModule extends FLBuilderModule {
 			$this->add_js('jquery-infinitescroll');
 		}
 	}
+
+	/**
+	 * Renders the schema structured data for the current
+	 * post in the loop.
+	 *
+	 * @since 1.7.4
+	 * @return void
+	 */
+	static public function schema_meta()
+	{
+		// General Schema Meta
+		echo '<meta itemscope itemprop="mainEntityOfPage" itemid="' . get_permalink() . '" />';
+		echo '<meta itemprop="datePublished" content="' . get_the_time('Y-m-d') . '" />';
+		echo '<meta itemprop="dateModified" content="' . get_the_modified_date('Y-m-d') . '" />';
+		
+		// Publisher Schema Meta
+		echo '<div itemprop="publisher" itemscope itemtype="https://schema.org/Organization">';
+		echo '<meta itemprop="name" content="' . get_bloginfo( 'name' ) . '">';
+		
+		if ( class_exists( 'FLTheme' ) && 'image' == FLTheme::get_setting( 'fl-logo-type' ) ) {
+			echo '<div itemprop="logo" itemscope itemtype="https://schema.org/ImageObject">';
+			echo '<meta itemprop="url" content="' . FLTheme::get_setting( 'fl-logo-image' ) . '">';
+			echo '</div>';
+		}
+		
+		echo '</div>';
+		
+		// Author Schema Meta
+		echo '<div itemscope itemprop="author" itemtype="http://schema.org/Person">';
+		echo '<meta itemprop="url" content="' . get_author_posts_url( get_the_author_meta( 'ID' ) ) . '" />';
+		echo '<meta itemprop="name" content="' . get_the_author_meta( 'display_name', get_the_author_meta( 'ID' ) ) . '" />';
+		echo '</div>';
+		
+		// Image Schema Meta
+		if(has_post_thumbnail()) {
+			
+			$image = wp_get_attachment_image_src(get_post_thumbnail_id(get_the_ID()), 'full');
+			
+			if ( is_array( $image ) ) {
+				echo '<div itemscope itemprop="image" itemtype="http://schema.org/ImageObject">';
+				echo '<meta itemprop="url" content="' . $image[0] . '" />';
+				echo '<meta itemprop="width" content="' . $image[1] . '" />';
+				echo '<meta itemprop="height" content="' . $image[2] . '" />';
+				echo '</div>';
+			}
+		}
+		
+		// Comment Schema Meta
+		echo '<div itemprop="interactionStatistic" itemscope itemtype="http://schema.org/InteractionCounter">';
+		echo '<meta itemprop="interactionType" content="http://schema.org/CommentAction" />';
+		echo '<meta itemprop="userInteractionCount" content="' . wp_count_comments(get_the_ID())->approved . '" />';
+		echo '</div>';
+	}
+
+	/**
+	 * Renders the schema itemtype for the current
+	 * post in the loop.
+	 *
+	 * @since 1.7.4
+	 * @return void
+	 */
+	static public function schema_itemtype()
+	{
+		global $post;
+		
+		if ( ! is_object( $post ) || ! isset( $post->post_type ) || 'post' != $post->post_type ) {
+			echo 'http://schema.org/CreativeWork';
+		}
+		else {
+			echo 'http://schema.org/BlogPosting';
+		}
+	}
 }
 
 /**

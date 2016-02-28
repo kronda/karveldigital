@@ -143,6 +143,10 @@ final class FLBuilderAdminSettings {
 	static public function render_nav_items()
 	{
 		$item_data = array(
+			'welcome' => array(
+				'title' => __( 'Welcome', 'fl-builder' ),
+				'show'	=> FLBuilderModel::get_branding() == __( 'Page Builder', 'fl-builder' ) && ( is_network_admin() || ! self::multisite_support() )
+			),
 			'license' => array(
 				'title' => __( 'License', 'fl-builder' ),
 				'show'	=> FL_BUILDER_LITE !== true && ( is_network_admin() || ! self::multisite_support() )
@@ -204,6 +208,11 @@ final class FLBuilderAdminSettings {
 	 */	   
 	static public function render_forms()
 	{
+		// Welcome
+		if ( FLBuilderModel::get_branding() == __( 'Page Builder', 'fl-builder' ) && ( is_network_admin() || ! self::multisite_support() ) ) {
+			self::render_form( 'welcome' );
+		}
+		
 		// License
 		if ( is_network_admin() || ! self::multisite_support() )  {
 			self::render_form( 'license' );

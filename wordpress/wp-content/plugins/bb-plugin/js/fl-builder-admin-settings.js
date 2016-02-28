@@ -27,8 +27,10 @@
 		init: function()
 		{
 			this._bind();
+			this._maybeShowWelcome();
 			this._initNav();
 			this._initOverrides();
+			this._initLicenseSettings();
 			this._templatesOverrideChange();
 			this._initHelpButtonSettings();
 		},
@@ -54,6 +56,24 @@
 			$('input[name=fl-knowledge-base-enabled]').on('click', FLBuilderAdminSettings._initHelpButtonSettings);
 			$('input[name=fl-forums-enabled]').on('click', FLBuilderAdminSettings._initHelpButtonSettings);
 			$('#uninstall-form').on('submit', FLBuilderAdminSettings._uninstallFormSubmit);
+		},
+		
+		/**
+		 * Show the welcome page after the license has been saved.
+		 *
+		 * @since 1.7.4
+		 * @access private
+		 * @method _maybeShowWelcome
+		 */
+		_maybeShowWelcome: function()
+		{
+			var onLicense    = 'license' == window.location.hash.replace( '#', '' ),
+				isUpdated    = $( '.wrap .updated' ).length,
+				licenseError = $( '.fl-license-error' ).length;
+			
+			if ( onLicense && isUpdated && ! licenseError ) {
+				window.location.hash = 'welcome';
+			}
 		},
 		
 		/**
@@ -189,6 +209,27 @@
 			else {
 				$('.fl-module-all-cb').prop('checked', false);
 			}
+		},
+		
+		/**
+		 * @since 1.7.4
+		 * @access private
+		 * @method _initLicenseSettings
+		 */
+		_initLicenseSettings: function()
+		{
+			$( '.fl-new-license-form .button' ).on( 'click', FLBuilderAdminSettings._newLicenseButtonClick );
+		},
+		
+		/**
+		 * @since 1.7.4
+		 * @access private
+		 * @method _newLicenseButtonClick
+		 */
+		_newLicenseButtonClick: function()
+		{
+			$( '.fl-new-license-form' ).hide();
+			$( '.fl-license-form' ).show();
 		},
 		
 		/**

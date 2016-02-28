@@ -8,15 +8,6 @@
 final class FLUpdater {
 
 	/**
-	 * The API URL for the Beaver Builder store. 
-	 *
-	 * @since 1.0
-	 * @access private
-	 * @var string $_store_api_url
-	 */
-	static private $_store_api_url = 'https://www.wpbeaverbuilder.com/';
-
-	/**
 	 * The API URL for the Beaver Builder update server. 
 	 *
 	 * @since 1.0
@@ -79,14 +70,14 @@ final class FLUpdater {
 
 		$response = FLUpdater::api_request(self::$_updates_api_url, array(
 			'fl-api-method' => 'update_check',
-			'email'         => FLUpdater::get_subscription_email(),
+			'license'       => FLUpdater::get_subscription_license(),
 			'domain'        => network_home_url(),
 			'product'       => $this->settings['name'],
 			'slug'          => $this->settings['slug'],
 			'version'       => $this->settings['version']
 		));
 
-		if(isset($response) && $response !== false && is_object($response) && !isset($response->errors)) {
+		if( ! isset( $response->error ) ) {
 
 			if($this->settings['type'] == 'plugin') {
 
@@ -152,14 +143,14 @@ final class FLUpdater {
 
 		$response = FLUpdater::api_request(self::$_updates_api_url, array(
 			'fl-api-method' => 'plugin_info',
-			'email'         => FLUpdater::get_subscription_email(),
+			'license'       => FLUpdater::get_subscription_license(),
 			'domain'        => network_home_url(),
 			'product'       => $this->settings['name'],
 			'slug'          => $this->settings['slug'],
 			'version'       => $this->settings['version']
 		));
 
-		if(isset($response) && is_object($response) && $response !== false) {
+		if( ! isset( $response->error ) ) {
 			$response->name     = $this->settings['name'];
 			$response->sections = (array)$response->sections;
 			return $response;
@@ -224,23 +215,24 @@ final class FLUpdater {
 		// Activate a subscription?
 		if(isset($_POST['fl-updater-nonce'])) {
 			if(wp_verify_nonce($_POST['fl-updater-nonce'], 'updater-nonce')) {
-				self::save_subscription_email($_POST['email']);
+				self::save_subscription_license($_POST['license']);
 			}
 		}
 
-		$status = self::get_subscription_status();
+		$license 	  = self::get_subscription_license();
+		$subscription = self::get_subscription_info();
 
 		// Include the form ui.
 		include FL_UPDATER_DIR . 'includes/form.php';
 	}
 
 	/**
-	 * Static method for getting the subscription email or license key.
+	 * Static method for getting the subscription license key.
 	 *
 	 * @since 1.0
 	 * @return string
 	 */
-	static public function get_subscription_email()
+	static public function get_subscription_license()
 	{
 		$value = get_site_option('fl_themes_subscription_email');
 
@@ -248,35 +240,37 @@ final class FLUpdater {
 	}
 
 	/**
-	 * Static method for updating the subscription email.
+	 * Static method for updating the subscription license.
 	 *
 	 * @since 1.0
-	 * @param string $email The new email address or license key.
+	 * @param string $license The new license key.
 	 * @return void
 	 */
-	static public function save_subscription_email($email)
+	static public function save_subscription_license($license)
 	{
-		update_site_option('fl_themes_subscription_email', $email);
+		FLUpdater::api_request(self::$_updates_api_url, array(
+			'fl-api-method' => 'activate_domain',
+			'license'       => $license,
+			'domain'        => network_home_url(),
+			'products'		=> json_encode( self::$_products )
+		));
+		
+		update_site_option('fl_themes_subscription_email', $license);
 	}
 
 	/**
-	 * Static method for retrieving the subscription status.
+	 * Static method for retrieving the subscription info.
 	 *
 	 * @since 1.0
 	 * @return bool
 	 */
-	static public function get_subscription_status()
+	static public function get_subscription_info()
 	{
-		$status = self::api_request(self::$_store_api_url, array(
-			'fl-api-method' => 'subscription_status',
-			'email'         => FLUpdater::get_subscription_email()
+		return self::api_request(self::$_updates_api_url, array(
+			'fl-api-method' => 'subscription_info',
+			'domain'        => network_home_url(),
+			'license'       => FLUpdater::get_subscription_license()
 		));
-
-		if(isset($status->active) && $status->active) {
-			return $status;
-		}
-
-		return false;
 	}
 
 	/**
@@ -363,21 +357,29 @@ final class FLUpdater {
 	 */
 	static private function remote_get($url)
 	{
-		$request = wp_remote_get($url);
+		$request      = wp_remote_get($url);
+		$error        = new stdClass();
+		$error->error = true;
 
 		if(is_wp_error($request)) {
-			return false;
+			return $error;
 		}
 		if(wp_remote_retrieve_response_code($request) != 200) {
-			return false;
+			return $error;
+		}
+		
+		$body = wp_remote_retrieve_body($request);
+		
+		if(is_wp_error($body)) {
+			return $error;
 		}
 
-		$response = json_decode(wp_remote_retrieve_body($request));
-
-		if(isset($response->error)) {
-			return false;
+		$body_decoded = json_decode($body);
+		
+		if(!is_object($body_decoded)) {
+			return $error;
 		}
 
-		return $response;
+		return $body_decoded;
 	}
 }

@@ -28,7 +28,7 @@
 			<div class="fl-block-overlay-actions">
 				<?php if ( ! $simple_ui ) : ?>
 				<span class="fl-builder-has-submenu">
-					<i class="fl-block-settings fa fa-wrench fl-tip" title="<?php _e( 'Edit Column', 'fl-builder' ); ?>"></i>
+					<i class="fl-block-settings fa fa-columns fl-tip" title="<?php _e( 'Edit Column', 'fl-builder' ); ?>"></i>
 					<ul class="fl-builder-submenu fl-block-col-submenu">
 						<li><a class="fl-block-col-edit" href="javascript:void(0);"><?php _e( 'Column Settings', 'fl-builder' ); ?></a></li>
 						<# if ( data.numCols < 12 ) { #>

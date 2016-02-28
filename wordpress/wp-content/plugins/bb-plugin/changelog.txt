@@ -1,3 +1,43 @@
+<h4>1.7.5 - 02/24/2016</h4>
+<p><strong>Bug Fixes</strong></p>
+<ul>
+	<li>Fixed a CSS bug with row background color overlays preventing module access in 1.7.4.</li>
+	<li>Fixed a bug where setting a blank default page heading selector in the global settings would hide the entire page.</li>
+	<li>Fixed an IE11 bug with full height rows that have fixed width content.</li>
+	<li>Fixed a bug with the read more link not showing in the Posts Carousel module when the content is hidden.</li>
+</ul>
+
+<h4>1.7.4 - 02/22/2016</h4>
+<p><strong>Enhancements</strong></p>
+<ul>
+	<li>Added a welcome page to the admin settings.</li>
+	<li>Added updater enhancements to support the new domain manager.</li>
+	<li>Pagination in the Gallery module's lightbox is now sequential instead of top to bottom.</li>
+	<li>Changed the column settings icon from a wrench icon to columns icon for consistency with the module overlay.</li>
+	<li>The Content Slider module now adds the srcset attribute to images when it can.</li>
+	<li>The URL is now updated when a smooth scroll link has finished scrolling.</li>
+	<li>Args can now be passed to auto suggest fields for modifying any of the auto suggest settings.</li>
+	<li>Misc translation updates.</li>
+</ul>
+<p><strong>Bug Fixes</strong></p>
+<ul>
+	<li>Fixed a bug with flashing slides in the Content Slider module.</li>
+	<li>Fixed a bug with column display settings when equal heights are enabled.</li>
+	<li>Fixed a bug with shortcodes not rendering on bbPress pages.</li>
+	<li>Fixed a bug with the Gallery module not working in the tabs module when added via a shortcode.</li>
+	<li>Fixed a bug with the fl-builder class being added to archive pages.</li>
+	<li>Fixed a bug with the number showing in the Number Counter module before it has animated.</li>
+	<li>Fixed a bug with duplicate videos showing in Video modules when using the browser's back button.</li>
+	<li>Fixed issues with bad Layout Settings JavaScript breaking the builder.</li>
+	<li>Fixed module CSS bugs with empty values.</li>
+	<li>Fixed a translation bug in the Posts module with translating the comments string.</li>
+	<li>Fixed issues with schema structured data in all post modules.</li>
+	<li>Fixed a JavaScript bug with the Accordion module.</li>
+	<li>Fixes edge case issues with widget/shortcode scripts firing before they should. Specifically fixes issues with Hero Slider.</li>
+	<li>Fixed CSS issues with post titles being hidden when loading builder content via a shortcode.</li>
+	<li>Fixed Thai translation.</li>
+</ul>
+
 <h4>1.7.3 - 02/01/2016</h4>
 <p><strong>Enhancements</strong></p>
 <ul>

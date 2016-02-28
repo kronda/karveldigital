@@ -11,7 +11,7 @@ if($settings->three_d && !empty($settings->bg_hover_color)) {
 
 ?>
 <?php // Alignment ?>
-<?php if(!isset($settings->exclude_wrapper)) : ?>
+<?php if(!isset($settings->exclude_wrapper) && !empty($settings->align)) : ?>
 .fl-node-<?php echo $id; ?>.fl-module-icon {
 	text-align: <?php echo $settings->align; ?>
 }

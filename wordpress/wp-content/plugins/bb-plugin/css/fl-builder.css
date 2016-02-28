@@ -52,7 +52,7 @@ html.fl-builder-edit {
 .fl-visible-medium,
 .fl-visible-medium-mobile,
 .fl-visible-mobile {
-	display: block;
+	display: block !important;
 }
 
 /* Builder Buttons
@@ -639,7 +639,7 @@ span.fl-builder-block-no-node-templates:hover {
 }
 .fl-block-overlay-active .fl-row-content {
 	position: relative;
-	z-index: 100007;
+	z-index: 100007 !important;
 }
 
 /* Column Overlays */
@@ -1421,21 +1421,21 @@ form.fl-builder-settings {
 }
 
 /* Editor Link Modal */
-.fl-builder form#wp-link {
+.fl-builder-edit form#wp-link {
 	color: #000;
 	font-family: Helvetica, Verdana, sans-serif;
 	font-size: 13px;
 }
-.fl-builder form#wp-link #link-options label {
+.fl-builder-edit form#wp-link #link-options label {
 	display: block;
 	margin-bottom: 2px;
 }
-.fl-builder form#wp-link #link-options label span {
+.fl-builder-edit form#wp-link #link-options label span {
 	padding-right: 10px;
 	width: 60px;
 	vertical-align: middle;
 }
-.fl-builder form#wp-link #link-options input[type="text"] {
+.fl-builder-edit form#wp-link #link-options input[type="text"] {
 	display: inline-block;
 	height: auto;
 	margin: 5px 0 0;

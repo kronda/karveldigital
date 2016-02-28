@@ -255,35 +255,16 @@ final class FLBuilder {
 	}
 
 	/**
-	 * Include a jQuery fallback script when the builder is
-	 * enabled for a page.
+	 * Register the styles and scripts for builder layouts.
 	 *
-	 * @since 1.0
+	 * @since 1.7.4
 	 * @return void
 	 */
-	static public function include_jquery()
+	static public function register_layout_styles_scripts()
 	{
-		if(FLBuilderModel::is_builder_enabled()) {
-			include FL_BUILDER_DIR . 'includes/jquery.php';
-		}
-	}
-
-	/**
-	 * Register and enqueue the styles and scripts for all builder 
-	 * layouts in the main WordPress query.
-	 *
-	 * @since 1.0
-	 * @return void
-	 */
-	static public function layout_styles_scripts()
-	{
-		global $wp_query;
-		global $post;
-
-		$original_post  = $post;
-		$ver            = FL_BUILDER_VERSION;
-		$css_url 		= plugins_url('/css/', FL_BUILDER_FILE);
-		$js_url  		= plugins_url('/js/', FL_BUILDER_FILE);
+		$ver     = FL_BUILDER_VERSION;
+		$css_url = plugins_url('/css/', FL_BUILDER_FILE);
+		$js_url  = plugins_url('/js/', FL_BUILDER_FILE);
 
 		// Register additional CSS
 		wp_register_style('font-awesome',           $css_url . 'font-awesome.min.css', array(), $ver);
@@ -304,7 +285,7 @@ final class FLBuilder {
 		wp_register_script('jquery-mosaicflow',     $js_url . 'jquery.mosaicflow.min.js', array('jquery'), $ver, true);
 		wp_register_script('jquery-waypoints',      $js_url . 'jquery.waypoints.min.js', array('jquery'), $ver, true);
 		wp_register_script('jquery-wookmark',       $js_url . 'jquery.wookmark.min.js', array('jquery'), $ver, true);
-
+		
 		// YUI 3 (Needed for the slideshow)
 		if(FLBuilderModel::is_ssl()) {
 			wp_register_script('yui3', 'https://yui-s.yahooapis.com/3.5.1/build/yui/yui-min.js', array(), '3.5.1', false);
@@ -312,6 +293,21 @@ final class FLBuilder {
 		else {
 			wp_register_script('yui3', 'http://yui.yahooapis.com/3.5.1/build/yui/yui-min.js', array(), '3.5.1', false);
 		}
+	}
+
+	/**
+	 * Enqueue the styles and scripts for all builder layouts 
+	 * in the main WordPress query.
+	 *
+	 * @since 1.7.4
+	 * @return void
+	 */
+	static public function enqueue_all_layouts_styles_scripts()
+	{
+		global $wp_query;
+		global $post;
+
+		$original_post = $post;
 
 		// Enqueue assets for posts in the main query.
 		if ( isset( $wp_query->posts ) ) {
@@ -408,12 +404,12 @@ final class FLBuilder {
 	}
 
 	/**
-	 * Enqueue the styles and scripts for the builder interface.
+	 * Register and enqueue the styles and scripts for the builder UI.
 	 *
-	 * @since 1.0
+	 * @since 1.7.4
 	 * @return void
 	 */
-	static public function styles_scripts()
+	static public function enqueue_ui_styles_scripts()
 	{
 		if(FLBuilderModel::is_builder_active()) {
 
@@ -513,6 +509,20 @@ final class FLBuilder {
 	}
 
 	/**
+	 * Include a jQuery fallback script when the builder is
+	 * enabled for a page.
+	 *
+	 * @since 1.0
+	 * @return void
+	 */
+	static public function include_jquery()
+	{
+		if(FLBuilderModel::is_builder_enabled()) {
+			include FL_BUILDER_DIR . 'includes/jquery.php';
+		}
+	}
+
+	/**
 	 * Adds builder classes to the body class.
 	 *
 	 * @since 1.0
@@ -521,7 +531,7 @@ final class FLBuilder {
 	 */
 	static public function body_class($classes)
 	{
-		if(FLBuilderModel::is_builder_enabled()) {
+		if(FLBuilderModel::is_builder_enabled() && !is_archive()) {
 			$classes[] = 'fl-builder';
 		}
 		if(FLBuilderModel::is_builder_active() && !FLBuilderModel::current_user_has_editing_capability()) {
@@ -743,6 +753,9 @@ final class FLBuilder {
 		$original_post 	= $post;
 		$wp_query  		= new WP_Query( $args );
 		$post_data 		= FLBuilderModel::get_post_data();
+		
+		// Make sure the builder's render content filter is present.
+		add_filter( 'the_content', 'FLBuilder::render_content' );
 		
 		// Unset the builder's post_data post ID so the global $post is used.
 		FLBuilderModel::update_post_data( 'post_id', null );
@@ -1987,8 +2000,13 @@ final class FLBuilder {
 		}
 
 		// Default page heading
-		if($post && !$global_settings->show_default_heading && ($post->post_type == 'page' || $post->post_type == 'fl-builder-template')) {
-			$css .= $global_settings->default_heading_selector . ' { display:none; }';
+		if($post && !$global_settings->show_default_heading && !empty($global_settings->default_heading_selector)) {
+			if ( $post->post_type == 'page' ) {
+				$css .= '.page ' . $global_settings->default_heading_selector . ' { display:none; }';
+			}
+			else if ( $post->post_type == 'fl-builder-template' ) {
+				$css .= '.single-fl-builder-template ' . $global_settings->default_heading_selector . ' { display:none; }';	
+			}
 		}
 		
 		// Custom Global CSS
@@ -2441,5 +2459,27 @@ final class FLBuilder {
 			print_r( $arg );
 			error_log( ob_get_clean() );
 		}
+	}
+
+	/**
+	 * @since 1.0
+	 * @deprecated 1.7.4
+	 */
+	static public function layout_styles_scripts( $post_id )
+	{
+		_deprecated_function( __METHOD__, '1.7.4', __CLASS__ . '::enqueue_layout_styles_scripts()' );
+		
+		self::enqueue_layout_styles_scripts( $post_id );
+	}
+
+	/**
+	 * @since 1.0
+	 * @deprecated 1.7.4
+	 */
+	static public function styles_scripts()
+	{
+		_deprecated_function( __METHOD__, '1.7.4', __CLASS__ . '::enqueue_ui_styles_scripts()' );
+		
+		self::enqueue_ui_styles_scripts();
 	}
 }

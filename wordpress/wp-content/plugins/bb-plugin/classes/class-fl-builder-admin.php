@@ -56,9 +56,7 @@ final class FLBuilderAdmin {
 		}
 
 		// Success! Trigger the activation notice.
-		if(FL_BUILDER_LITE !== true) {
-			update_site_option('_fl_builder_activation_admin_notice', true);
-		}
+		update_site_option('_fl_builder_activation_admin_notice', true);
 	}
 
 	/**
@@ -102,14 +100,23 @@ final class FLBuilderAdmin {
 	static public function activate_notice()
 	{
 		if ( class_exists('FLBuilderMultisiteSettings') && is_multisite() && current_user_can( 'manage_network_plugins' ) ) {
-			$href = esc_url( network_admin_url( '/settings.php?page=fl-builder-multisite-settings#license' ) );
+			$href = esc_url( network_admin_url( '/settings.php?page=fl-builder-multisite-settings' ) );
 		}
 		else {
-			$href = esc_url( admin_url( '/options-general.php?page=fl-builder-settings#license' ) );
+			$href = esc_url( admin_url( '/options-general.php?page=fl-builder-settings' ) );
+		}
+		
+		if ( FL_BUILDER_LITE !== true ) {
+			$href .= '#license';
+			$message = __( 'Page Builder activated! <a%s>Click here</a> to enable remote updates.', 'fl-builder' );
+		}
+		else {
+			$href .= '#welcome';
+			$message = __( 'Page Builder activated! <a%s>Click here</a> to get started.', 'fl-builder' );
 		}
 		
 		echo '<div class="updated" style="background: #d3ebc1;">';
-		echo '<p><strong>' . sprintf( __( 'Page Builder activated! <a%s>Click here</a> to enable remote updates.', 'fl-builder' ), ' href="' . esc_url( $href ) . '"' ) . '</strong></p>';
+		echo '<p><strong>' . sprintf( $message, ' href="' . esc_url( $href ) . '"' ) . '</strong></p>';
 		echo '</div>';
 	}
 

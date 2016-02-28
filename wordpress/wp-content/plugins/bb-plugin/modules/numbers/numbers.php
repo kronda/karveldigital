@@ -26,10 +26,10 @@ class FLNumbersModule extends FLBuilderModule {
 		$type   = $this->settings->number_type ? $this->settings->number_type : 'percent';
 		$prefix = $type == 'percent' ? '' : $this->settings->number_prefix;
 		$suffix = $type == 'percent' ? '%' : $this->settings->number_suffix;
-
-		$html = '<div class="fl-number-string">' . $prefix . '<span class="fl-number-int">'. number_format( $number ) .'</span>' . $suffix . '</div>';
-
-		echo $html;
+		$start  = '<script>jQuery( ".fl-node-' . $this->node . ' .fl-number-int" ).html( "0" );</script>';
+		$noJs   = '<noscript>' . number_format( $number ) . '</noscript>';
+		
+		echo '<div class="fl-number-string">' . $prefix . '<span class="fl-number-int">' . $start . $noJs . '</span>' . $suffix . '</div>';
 	}
 
 	public function render_circle_bar(){

@@ -47,6 +47,36 @@
 		},
 		
 		/**
+		 * Public method for refreshing Wookmark or MosaicFlow galleries
+		 * within an element.
+		 *
+		 * @since 1.7.4
+		 * @method refreshGalleries
+		 */ 
+		refreshGalleries: function( element )
+		{
+			var $element  = 'undefined' == typeof element ? $( 'body' ) : $( element ),
+				mfContent = $element.find( '.fl-mosaicflow-content' ),
+				wmContent = $element.find( '.fl-gallery' ),
+				mfObject  = null;
+			
+			if ( mfContent ) {
+				
+				mfObject = mfContent.data( 'mosaicflow' );
+				
+				if ( mfObject ) {
+					mfObject.columns = $( [] );
+					mfObject.columnsHeights = [];
+					mfContent.data( 'mosaicflow', mfObject );
+					mfContent.mosaicflow( 'refill' );
+				}
+			}
+			if ( wmContent ) {
+				wmContent.trigger( 'refreshWookmark' );
+			}
+		},
+		
+		/**
 		 * Unbinds builder layout events.
 		 *
 		 * @since 1.0
@@ -100,17 +130,24 @@
 		 */ 
 		_initClasses: function()
 		{
+			var body = $( 'body' );
+			
+			// Don't add to archive pages.
+			if ( body.hasClass( 'archive' ) ) {
+				return;
+			}
+			
 			// Add the builder body class.
-			$('body').addClass('fl-builder');
+			body.addClass('fl-builder');
 			
 			// Add the builder touch body class.
 			if(FLBuilderLayout._isTouch()) {
-				$('body').addClass('fl-builder-touch');
+				body.addClass('fl-builder-touch');
 			}
 			
 			// Add the builder mobile body class.
 			if(FLBuilderLayout._isMobile()) {
-				$('body').addClass('fl-builder-mobile');
+				body.addClass('fl-builder-mobile');
 			}
 		},
 		
@@ -582,7 +619,14 @@
 					dest = element.offset().top - config.offset;
 				}
 	
-				$( 'html, body' ).animate( { scrollTop: dest }, config.duration, config.easing, callback );
+				$( 'html, body' ).animate( { scrollTop: dest }, config.duration, config.easing, function() {
+					
+					if ( 'undefined' != typeof callback ) {
+						callback();
+					}
+					
+					window.location.hash = element.attr( 'id' );
+				} );
 			}
 		},
 		

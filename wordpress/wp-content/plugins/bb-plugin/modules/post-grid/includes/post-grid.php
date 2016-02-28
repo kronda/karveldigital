@@ -1,4 +1,6 @@
-<div class="fl-post-grid-post" itemscope="itemscope" itemtype="http://schema.org/BlogPosting">
+<div class="fl-post-grid-post" itemscope itemtype="<?php FLPostGridModule::schema_itemtype(); ?>">
+	
+	<?php FLPostGridModule::schema_meta(); ?>
 
 	<?php if(has_post_thumbnail() && $settings->show_image) : ?>
 	<div class="fl-post-grid-image">
@@ -17,12 +19,12 @@
 		<?php if($settings->show_author || $settings->show_date) : ?>
 		<div class="fl-post-grid-meta">
 			<?php if($settings->show_author) : ?>
-				<span class="fl-post-grid-author" itemprop="author" itemscope="itemscope" itemtype="http://schema.org/Person">
+				<span class="fl-post-grid-author">
 				<?php
 
 				printf(
 					_x( 'By %s', '%s stands for author name.', 'fl-builder' ),
-					'<a href="' . get_author_posts_url( get_the_author_meta( 'ID' ) ) . '" itemprop="url"><span itemprop="name">' . get_the_author_meta( 'display_name', get_the_author_meta( 'ID' ) ) . '</span></a>'
+					'<a href="' . get_author_posts_url( get_the_author_meta( 'ID' ) ) . '"><span>' . get_the_author_meta( 'display_name', get_the_author_meta( 'ID' ) ) . '</span></a>'
 				);
 
 				?>
@@ -32,7 +34,7 @@
 				<?php if($settings->show_author) : ?>
 					<span> | </span>
 				<?php endif; ?>
-				<span class="fl-post-feed-date" itemprop="datePublished" datetime="<?php echo the_time('Y-m-d'); ?>">
+				<span class="fl-post-feed-date">
 					<?php FLBuilderLoop::post_date($settings->date_format); ?>
 				</span>
 			<?php endif; ?>

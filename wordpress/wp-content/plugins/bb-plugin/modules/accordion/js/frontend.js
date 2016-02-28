@@ -42,7 +42,7 @@
 			}
 			else {
 				item.removeClass( 'fl-accordion-item-active' );
-				content.slideUp('normal', FLAccordion._slideUpComplete);
+				content.slideUp('normal', this._slideUpComplete);
 				icon.addClass('fa-plus');
 				icon.removeClass('fa-minus');
 			}
@@ -62,6 +62,8 @@
 				accordion 	= content.closest( '.fl-accordion' ),
 				item 		= content.parent(),
 				win  		= $( window );
+			
+			FLBuilderLayout.refreshGalleries( content );
 			
 			if ( item.offset().top < win.scrollTop() + 100 ) {
 				$( 'html, body' ).animate({ 

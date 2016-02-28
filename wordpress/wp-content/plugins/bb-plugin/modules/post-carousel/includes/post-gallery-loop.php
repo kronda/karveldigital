@@ -4,7 +4,9 @@
 	$post_icon_position = isset( $settings->post_icon_position ) ? $settings->post_icon_position : 'above';
 
 ?>
-<div class="fl-post-carousel-post<?php echo $no_thumb ?>" itemscope="itemscope" itemtype="http://schema.org/BlogPosting">
+<div class="fl-post-carousel-post<?php echo $no_thumb ?>" itemscope="itemscope" itemtype="<?php FLPostGridModule::schema_itemtype(); ?>">
+	
+	<?php FLPostGridModule::schema_meta(); ?>
 
 	<a class="fl-post-carousel-link" href="<?php the_permalink(); ?>" alt="<?php the_title_attribute(); ?>">
 	
@@ -28,12 +30,12 @@
 				<?php if($settings->show_author || $settings->show_date) : ?>
 				<div class="fl-post-carousel-meta">
 					<?php if( $settings->show_author ) : ?>
-						<span class="fl-post-carousel-author" itemprop="author" itemscope="itemscope" itemtype="http://schema.org/Person">
+						<span class="fl-post-carousel-author">
 						<?php
 
 							printf(
 								_x( 'By %s', '%s stands for author name.', 'fl-builder' ),
-								'<span itemprop="name">' . get_the_author_meta( 'display_name', get_the_author_meta( 'ID' ) ) . '</span>'
+								'<span>' . get_the_author_meta( 'display_name', get_the_author_meta( 'ID' ) ) . '</span>'
 							);
 
 						?>
@@ -43,7 +45,7 @@
 						<?php if( $settings->show_author ) : ?>
 							<span> | </span>
 						<?php endif; ?>
-						<time class="fl-post-carousel-date" itemprop="datePublished" datetime="<?php echo the_time('Y-m-d'); ?>">
+						<time class="fl-post-carousel-date">
 							<?php FLBuilderLoop::post_date($settings->date_format); ?>
 						</time>
 					<?php endif; ?>

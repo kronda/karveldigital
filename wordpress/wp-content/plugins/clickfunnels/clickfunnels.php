@@ -3,7 +3,7 @@
     * Plugin Name: ClickFunnels
     * Plugin URI: https://www.clickfunnels.com
     * Description: Connect to your ClickFunnels account with simple authorization key and show any ClickFunnels page as your homepage or as 404 error pages or simply choose any of your pages and make clean URLs to your ClickFunnels pages. Don't have an account? <a target="_blank" href="https://www.clickfunnels.com">Sign up for your 2 week <em>free</em> trial now.</a>
-    * Version: 2.0.9
+    * Version: 2.0.10
     * Author: Etison, LLC
     * Author URI: https://www.clickfunnels.com
 */
@@ -32,7 +32,83 @@ class ClickFunnels {
         if ( get_option( 'permalink_structure' ) == '' ) {
             $this->add_notice( 'ClickFunnels needs <a href="options-permalink.php">permalinks</a> enabled!', 0 );
         }
+        
+        add_action( 'init',         array( $this, 'remove_cookie' ) );
+        add_action( 'do_feed_rss',  array($this, 'do_feed_rss'), 1);
+        add_action( 'do_feed_rss2', array($this, 'do_feed_rss'), 1);
+        add_action( 'wp_footer',    array($this, 'add_custom_close_script'));
     }
+    
+    function add_custom_close_script(){
+        
+        $cf_options = get_option( "cf_options" );
+        if ( $cf_options['clickgate']['page_id']):
+            $page = $this->get_clickgate();
+            if ( !empty( $page['post_id'] ) ):
+                $thepage = explode( "{#}", $page['page_id'] );
+                print_r($thepage);
+                echo '<script>
+                    
+                    var timerId = setTimeout(function tick() {
+                        var $iframe = jQuery(\'iframe[src^="' . $thepage[7] . '"]\');   //[src]
+                        
+                        if( $iframe.length == 0 ){
+                            
+                            var query = window.location.search.substring(1);
+                            var vars = query.split("&");
+                            for (var i=0; i < vars.length; i++) {
+                                var pair = vars[i].split("=");
+                                if(pair[0] == "redirect_to"){
+                                    window.location.replace( pair[1] );
+                                }
+                            }
+                        }
+                        timerId = setTimeout(tick, 2000);
+                    }, 5000);
+                    
+                </script>';
+                
+            endif;
+        endif;
+    }
+    
+    public function remove_cookie(){
+        if(isset($_GET['remcook']) and $_GET['remcook'] == 1):
+            $cf_options = get_option( "cf_options" );
+            if ( $cf_options['clickgate']['page_id']):
+                $page = $this->get_clickgate();
+                if ( !empty( $page['post_id'] ) ):
+                    $thepage = explode( "{#}", $page['page_id'] );
+                    setcookie("clickgate_shown_$thepage[1]", "", -3600);
+                    unset($_COOKIE["clickgate_shown_$thepage[1]"]);
+                endif;
+            endif;
+        endif;
+    }
+    
+    public function do_feed_rss(){
+        $cf_options = get_option( "cf_options" );
+        if ( $cf_options['clickgate']['page_id']):
+            $page = $this->get_clickgate();
+            if ( !empty( $page['post_id'] ) ):
+                $thepage = explode( "{#}", $page['page_id'] );
+                
+                if(!isset($_COOKIE["clickgate_shown_$thepage[1]"])):
+                    header( 'Location: ' . add_query_arg(
+                                                         array('redirect_to' => add_query_arg( null, null),
+                                                                'remcook' => '1'),
+                                                         home_url()
+                                                         )
+                           );
+                    exit();
+                endif;
+                
+            endif;
+        endif;
+        
+        return;
+    }
+    
     public function updated_message( $messages ) {
         $post_id = get_the_ID();
         // make sure this is one of our pages
@@ -64,7 +140,7 @@ class ClickFunnels {
     }
     public function do_redirects() {
         global $page;
-        header('Content-Type: text/html; charset=utf-8');
+        //header('Content-Type: text/html; charset=utf-8');
         $current = ( is_ssl() ? 'https://' : 'http://' ) . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'];
         // remove parameters
         $current = explode( "?", $current );
@@ -105,9 +181,16 @@ class ClickFunnels {
                         $page = $this->get_clickgate();
                         $cookiename = "_cf_clickgate_now";
                         if ( !empty( $page['post_id'] ) ) {
-                            if (!$_COOKIE["clickgate_shown_$thepage[1]"]) {
+                            if(is_feed()){
+                                
+                                setcookie("clickgate_shown_$thepage[1]","seen",-2147483647);
+                                unset($_COOKIE["clickgate_shown_$thepage[1]"]);
+                                
+                            } elseif (!$_COOKIE["clickgate_shown_$thepage[1]"]) {
+                                
                                 setcookie("clickgate_shown_$thepage[1]","seen",2147483647); // php cookies cannot go past year 2038
                                 echo do_shortcode("[clickfunnels_clickgate url='$thepage[7]']");
+                                
                             }
                         }
                     }
@@ -115,15 +198,27 @@ class ClickFunnels {
             }
 
         else if ( $cf_options['clickgate']['page_id']) {
-                $page = $this->get_clickgate();
-                $cookiename = "_cf_clickgate_now";
-                if ( !empty( $page['post_id'] ) ) {
-                    $thepage = explode( "{#}", $page['page_id'] );
-                    if (!$_COOKIE["clickgate_shown_$thepage[1]"]) {
-                        setcookie("clickgate_shown_$thepage[1]","seen",2147483647);
-                        echo do_shortcode("[clickfunnels_clickgate url='$thepage[7]']");
+            
+                if(!is_feed()):
+                
+                    $page = $this->get_clickgate();
+                    $cookiename = "_cf_clickgate_now";
+                    if ( !empty( $page['post_id'] ) ) {
+                        $thepage = explode( "{#}", $page['page_id'] );
+                        if(is_feed()){
+                            
+                            setcookie("clickgate_shown_$thepage[1]","seen",-2147483647);
+                            unset($_COOKIE["clickgate_shown_$thepage[1]"]);
+                            
+                        } elseif (!$_COOKIE["clickgate_shown_$thepage[1]"]) {
+                            
+                            setcookie("clickgate_shown_$thepage[1]","seen",2147483647);
+                            echo do_shortcode("[clickfunnels_clickgate url='$thepage[7]']");
+                            
+                        }
                     }
-                }
+                
+                endif;
             }
 
     }

@@ -43,6 +43,9 @@
 			wrap.find('.fl-tabs-label[data-index="' + index + '"]').addClass('fl-tab-active');
 			wrap.find('.fl-tabs-panel-content[data-index="' + index + '"]').addClass('fl-tab-active');
 			wrap.find('.fl-tabs-panel-content').css('display', '');
+			
+			// Gallery module support.
+			FLBuilderLayout.refreshGalleries( wrap.find('.fl-tabs-panel-content[data-index="' + index + '"]') );
 		},
 		
 		_responsiveLabelClick: function(e)
@@ -78,6 +81,9 @@
 				wrap.find('.fl-tabs-label[data-index="' + index + '"]').addClass('fl-tab-active');
 				content.addClass('fl-tab-active');
 				wrap.removeClass('fl-tabs-animation');
+				
+				// Gallery module support.
+				FLBuilderLayout.refreshGalleries( content );
 				
 				if(label.offset().top < $(window).scrollTop() + 100) {
 					$('html, body').animate({ scrollTop: label.offset().top - 100 }, 500, 'swing');

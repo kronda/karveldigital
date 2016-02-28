@@ -336,7 +336,7 @@
 			}
 			
 			// Remove elements that shouldn't be in data.html.
-			html.find( '> *' ).each( function() {
+			html.find( '> *, script' ).each( function() {
 				if ( ! $( this ).hasClass( nodeClass ) ) {
 					removed 	   = $( this ).remove();
 					scriptsStyles += removed[0].outerHTML;

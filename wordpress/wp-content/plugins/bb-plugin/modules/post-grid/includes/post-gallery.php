@@ -1,4 +1,6 @@
-<div class="fl-post-gallery-post" itemscope="itemscope" itemtype="http://schema.org/BlogPosting">
+<div class="fl-post-gallery-post" itemscope="itemscope" itemtype="<?php FLPostGridModule::schema_itemtype(); ?>">
+
+	<?php FLPostGridModule::schema_meta(); ?>
 
 	<a class="fl-post-gallery-link" href="<?php the_permalink(); ?>" alt="<?php the_title_attribute(); ?>">
 	
@@ -32,7 +34,7 @@
 				<h2 class="fl-post-gallery-title" itemprop="headline"><?php the_title(); ?></h2>
 			
 				<?php if ( $settings->show_date ) : ?>
-				<span class="fl-post-gallery-date" itemprop="datePublished" datetime="<?php echo the_time('Y-m-d'); ?>">
+				<span class="fl-post-gallery-date">
 					<?php FLBuilderLoop::post_date($settings->date_format); ?>
 				</span>
 				<?php endif; ?>

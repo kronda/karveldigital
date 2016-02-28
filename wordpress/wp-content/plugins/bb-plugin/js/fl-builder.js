@@ -4676,13 +4676,13 @@
 		_initAutoSuggestField: function()
 		{
 			var field = $(this);
-				
+			
 			field.autoSuggest(FLBuilder._ajaxUrl({ 
 				'fl_action'         : 'fl_builder_autosuggest',
 				'fl_as_action'      : field.data('action'),
 				'fl_as_action_data' : field.data('action-data'),
 				'_wpnonce'			: FLBuilderConfig.ajaxNonce
-			}), {
+			}), $.extend({}, {
 				asHtmlID                    : field.attr('name'),
 				selectedItemProp            : 'name',
 				searchObjProps              : 'name',
@@ -4697,7 +4697,7 @@
 				afterSelectionAdd           : FLBuilder._updateAutoSuggestField,
 				afterSelectionRemove        : FLBuilder._updateAutoSuggestField,
 				selectionLimit				: field.data('limit')
-			});
+			}, field.data( 'args' )));
 		},
 		
 		/**

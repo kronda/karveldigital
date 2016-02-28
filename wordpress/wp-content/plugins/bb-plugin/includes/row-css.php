@@ -100,11 +100,13 @@
 <?php if(!empty($row->settings->border_type)) : // Border ?>
 .fl-node-<?php echo $row->node; ?> .fl-row-content-wrap {
 	border-style: <?php echo $row->settings->border_type; ?>;
-	border-color: #<?php echo $row->settings->border_color; ?>;
-	border-color: rgba(<?php echo implode(',', FLBuilderColor::hex_to_rgb($row->settings->border_color)) ?>, <?php echo $row->settings->border_opacity/100; ?>);
 	border-top-width: <?php echo is_numeric($row->settings->border_top) ? $row->settings->border_top : '0'; ?>px;
 	border-bottom-width: <?php echo is_numeric($row->settings->border_bottom) ? $row->settings->border_bottom : '0'; ?>px;
 	border-left-width: <?php echo is_numeric($row->settings->border_left) ? $row->settings->border_left : '0'; ?>px;
 	border-right-width: <?php echo is_numeric($row->settings->border_right) ? $row->settings->border_right : '0'; ?>px;
+	<?php if(!empty($row->settings->border_color)) : ?>
+	border-color: #<?php echo $row->settings->border_color; ?>;
+	border-color: rgba(<?php echo implode(',', FLBuilderColor::hex_to_rgb($row->settings->border_color)) ?>, <?php echo $row->settings->border_opacity/100; ?>);
+	<?php endif; ?>
 }
 <?php endif; ?>
